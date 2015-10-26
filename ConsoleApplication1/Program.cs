@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,9 +25,16 @@ namespace ConsoleApplication1
                 };
                 UserData data = new UserData() {FirstName = "Mateusz", LastName = "Bąkała", CompanyName = "company", Address = address};
                 LoggedUser loggedUser = new LoggedUser() {UserData = data, User = user};
+                Offer offer = new Offer()
+                {
+                    Address = address,
+                    OfferStartTime = new DateTime(2015, 10, 10),
+                    OfferEndTime = new DateTime(2015, 10, 11),
+                    Description = "Oferta",
+                    Price = new SqlMoney(1245.55),
+                    AvailableVacanciesNumber = 3
+                };
                 db.LoggedUsers.Add(loggedUser);
-                db.UserDatas.Add(data);
-                db.Users.Add(user);
                 db.SaveChanges();
             }
         }
