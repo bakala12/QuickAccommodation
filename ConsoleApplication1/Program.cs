@@ -15,7 +15,14 @@ namespace ConsoleApplication1
             using (var db = new AccommodationContext())
             {
                 User user = new User() {Login = "bakala12", Password = "****"};
-                UserData data = new UserData() {FirstName = "Mateusz", LastName = "Bąkała", CompanyName = "company"};
+                Address address = new Address()
+                {
+                    City = "Gołąb",
+                    Street = "Piaskowa",
+                    LocalNumber = "20",
+                    PostalCode = "24-100"
+                };
+                UserData data = new UserData() {FirstName = "Mateusz", LastName = "Bąkała", CompanyName = "company", Address = address};
                 LoggedUser loggedUser = new LoggedUser() {UserData = data, User = user};
                 db.LoggedUsers.Add(loggedUser);
                 db.UserDatas.Add(data);
