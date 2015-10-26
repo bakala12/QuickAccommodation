@@ -18,11 +18,11 @@ namespace AccommodationDataAccess.Model
         public int AvailableVacanciesNumber { get; set; }
         public SqlMoney Price { get; set; }
         //obrazek???
-        //public int VendorId { get; set; }
-        //[ForeignKey("")]
-        //public virtual LoggedUser Vendor { get; set; }
-        //public int? CutomerId { get; set; }
-        //[ForeignKey("")]
-        //public virtual LoggedUser Customer { get; set; }
+        public int VendorId { get; set; }
+        [InverseProperty("PurchasedOffers")]
+        public virtual LoggedUser Vendor { get; set; }
+        public int? CutomerId { get; set; }
+        [InverseProperty("AvailableOffers")]
+        public virtual LoggedUser Customer { get; set; }
     }
 }

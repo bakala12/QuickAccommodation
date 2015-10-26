@@ -10,10 +10,6 @@ namespace AccommodationDataAccess.Domain
 {
     public class AccommodationContext : DbContext
     {
-        static AccommodationContext()
-        {
-            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<AccommodationContext>());
-        }
         public IDbSet<User> Users { get; set; } 
         public IDbSet<LoggedUser> LoggedUsers { get; set; }
         public IDbSet<Offer> Offers { get; set; }

@@ -32,7 +32,9 @@ namespace ConsoleApplication1
                     OfferEndTime = new DateTime(2015, 10, 11),
                     Description = "Oferta",
                     Price = new SqlMoney(1245.55),
-                    AvailableVacanciesNumber = 3
+                    AvailableVacanciesNumber = 3,
+                    Vendor = loggedUser,
+                    Customer = null
                 };
                 db.LoggedUsers.Add(loggedUser);
                 db.SaveChanges();
