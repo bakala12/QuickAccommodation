@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace AccommodationApplication.LoginWindow
+namespace AccommodationApplication.Login
 {
     /// <summary>
     /// Interaction logic for LoginWindow.xaml
