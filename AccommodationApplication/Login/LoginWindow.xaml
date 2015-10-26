@@ -4,8 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:AccommodationApplication.ViewModels"
+        xmlns:controls="clr-namespace:AccommodationApplication.Controls"
         mc:Ignorable="d"
-        Title="LoginWindow" Height="300" Width="300" ResizeMode="NoResize"
+        Title="LoginWindow" Height="170" Width="250" ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen" WindowStyle="None">
     <Window.Resources>
         <ResourceDictionary>
@@ -29,7 +30,7 @@
         </DockPanel>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="0.8*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
@@ -38,8 +39,10 @@
             </Grid.RowDefinitions>
             <TextBlock Text="Login"/>
             <TextBlock Text="Password" Grid.Row="1" Grid.Column="0"/>
+            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Login, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <controls:SimplePasswordBox Grid.Row="1" Grid.Column="1" Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
         <Button Grid.Row="2" Style="{StaticResource LoginButtonStyle}" Content="Zaloguj"
-                />
+                Command="{Binding LoginCommand}"/>
     </Grid>
 </Window>
