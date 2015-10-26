@@ -13,11 +13,7 @@ namespace AccommodationDataAccess.Model
         public string LastName { get; set; }
         public string CompanyName { get; set; }
 
-        public int AdrressId { get; set; }
-        public virtual Address Address { get; set; }
-
-        public int UserId { get; set; }
-        [ForeignKey("LoggedUser")]
-        public virtual LoggedUser User { get; set; }
+        //public int AdrressId { get; set; }
+        //public virtual Address Address { get; set; }
     }
 }

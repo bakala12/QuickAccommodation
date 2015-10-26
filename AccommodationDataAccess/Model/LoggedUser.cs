@@ -13,7 +13,7 @@ namespace AccommodationDataAccess.Model
 
         public int UserId { get; set; }
         public virtual User User { get; set; }
-        public virtual IList<Offer> AvailableOffers { get; set; }
-        public virtual IList<Offer> PurchasedOffers { get; set; }
+        //public virtual IList<Offer> AvailableOffers { get; set; }
+        //public virtual IList<Offer> PurchasedOffers { get; set; }
     }
 }
