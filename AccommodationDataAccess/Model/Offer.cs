@@ -17,6 +17,7 @@ namespace AccommodationDataAccess.Model
         public string Description { get; set; }
         public int AvailableVacanciesNumber { get; set; }
         public double Price { get; set; }
+        public DateTime OfferPublishTime { get; set; }
         //obrazek???
         public int VendorId { get; set; }
         [InverseProperty("PurchasedOffers")]
