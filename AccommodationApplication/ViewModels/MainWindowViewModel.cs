@@ -14,10 +14,12 @@ namespace AccommodationApplication.ViewModels
     {
         public MainWindowViewModel()
         {
-            LoginCommad = new DelegateCommand(x => Login());
+            LoginCommand = new DelegateCommand(x => Login());
+            RegisterCommand = new DelegateCommand(x=>Register());
         }
 
-        public ICommand LoginCommad { get; set; }
+        public ICommand LoginCommand { get; set; }
+        public ICommand RegisterCommand { get; set; }
 
         protected virtual void Login()
         {
@@ -26,6 +28,15 @@ namespace AccommodationApplication.ViewModels
             vm.RequestClose += (x, e) => CloseWindow(login);
             login.DataContext = vm;
             login.Show();
+        }
+
+        protected virtual void Register()
+        {
+            var register=new RegisterWindow();
+            RegiserNewUserViewModel vm=new RegiserNewUserViewModel();
+            vm.RequestClose += (x, e) => CloseWindow(register);
+            register.DataContext = vm;
+            register.ShowDialog();
         }
 
         private static void CloseWindow(Window window)

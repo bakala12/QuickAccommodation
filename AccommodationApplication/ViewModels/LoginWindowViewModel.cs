@@ -37,6 +37,7 @@ namespace AccommodationApplication.ViewModels
 
         protected virtual void LogIn()
         {
+            //Login logic here
             Close();
         }
 
