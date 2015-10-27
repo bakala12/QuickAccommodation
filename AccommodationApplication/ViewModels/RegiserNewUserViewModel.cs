@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Automation.Peers;
 using AccommodationApplication.Commands;
 
 namespace AccommodationApplication.ViewModels
@@ -38,7 +40,18 @@ namespace AccommodationApplication.ViewModels
             {
                 switch (columnName)
                 {
-                    default:
+                    case "Login":
+
+                        break;
+                    case "Password":
+
+                        break;
+                    case "Password2":
+
+                        break;
+                    case "Email":
+                        if (Email==null || !Regex.IsMatch(Email, @"^[a-zA-Z][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$"))
+                            return "Niepoprawny adres email";
                         break;
                 }
                 return string.Empty;

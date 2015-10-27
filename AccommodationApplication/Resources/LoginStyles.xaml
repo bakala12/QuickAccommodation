@@ -103,14 +103,55 @@
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Padding" Value="10,5,10,5"/>
         <Setter Property="BorderBrush" Value="DeepSkyBlue"/>
-        <Setter Property="Margin" Value="10,5,10,5"/>
+        <Setter Property="Margin" Value="10,5,20,5"/>
+        <Setter Property="Validation.ErrorTemplate">
+            <Setter.Value>
+                <ControlTemplate>
+                    <DockPanel Dock="Right">
+                        <AdornedElementPlaceholder>
+                            <Border BorderBrush="Red" BorderThickness="2"/>
+                        </AdornedElementPlaceholder>
+                        <TextBlock Margin="3" Text="!" Foreground="Red"
+                                   FontSize="14"
+                                   ToolTip="{Binding Path=AdornedElement.ToolTip,
+                            RelativeSource={RelativeSource AncestorType={x:Type Adorner}}}"/>
+                    </DockPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="Validation.HasError" Value="True">
+                <Setter Property="ToolTip" 
+                        Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
     
     <Style TargetType="{x:Type controls:SimplePasswordBox}">
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="BorderBrush" Value="DeepSkyBlue"/>
-        <Setter Property="Padding" Value="10,5,10,5"/>
+        <Setter Property="Padding" Value="10,5,20,5"/>
+        <Setter Property="Validation.ErrorTemplate">
+            <Setter.Value>
+                <ControlTemplate>
+                    <DockPanel Dock="Right">
+                        <AdornedElementPlaceholder>
+                            <Border BorderBrush="Red" BorderThickness="2"/>
+                        </AdornedElementPlaceholder>
+                        <TextBlock Margin="3" Text="!" Foreground="Red"
+                                   FontSize="14"
+                                   ToolTip="{Binding Path=AdornedElement.ToolTip, RelativeSource={RelativeSource AncestorType={x:Type Adorner}}}"/>
+                    </DockPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="Validation.HasError" Value="True">
+                <Setter Property="ToolTip" 
+                        Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
     
     <Style TargetType="Label" x:Key="TitleLabel">
