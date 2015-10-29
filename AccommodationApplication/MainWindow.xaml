@@ -4,9 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AccommodationApplication"
+        xmlns:vm="clr-namespace:AccommodationApplication.ViewModels"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+    <Window.DataContext>
+        <vm:MainWindowViewModel/>
+    </Window.DataContext>
+    <StackPanel>
+        <Button Content="Zaloguj" Command="{Binding LoginCommand}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Button Content="Zarejestruj" Command="{Binding RegisterCommand}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+    </StackPanel>
 </Window>

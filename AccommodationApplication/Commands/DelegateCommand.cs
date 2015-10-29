@@ -36,7 +36,7 @@ namespace AccommodationApplication.Commands
 
         public event EventHandler CanExecuteChanged;
 
-        protected virtual void RaiseCanExecuteChangedEvent()
+        public virtual void RaiseCanExecuteChangedEvent()
         {
             CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
