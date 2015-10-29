@@ -15,7 +15,7 @@ namespace ConsoleApplication1
         {
             using (var db = new AccommodationContext())
             {
-                User user = new User() {Login = "bakala12", Password = "****"};
+                User user = new User() {Username = "bakala12", Password = "****"};
                 Address address = new Address()
                 {
                     City = "Gołąb",
