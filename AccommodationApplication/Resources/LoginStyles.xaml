@@ -98,7 +98,7 @@
         <Setter Property="VerticalAlignment" Value="Center"/>
     </Style>
     
-    <Style TargetType="TextBox">
+    <Style TargetType="TextBox" x:Key="TextBoxStyle">
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Padding" Value="10,5,10,5"/>
@@ -127,7 +127,13 @@
         </Style.Triggers>
     </Style>
     
-    <Style TargetType="{x:Type controls:SimplePasswordBox}">
+    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource TextBoxStyle}"/>
+    
+    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource TextBoxStyle}" x:Key="GreenTextBox">
+        <Setter Property="BorderBrush" Value="LightGreen"/>
+    </Style>
+    
+    <Style TargetType="{x:Type controls:SimplePasswordBox}" x:Key="PasswordBoxStyle">
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="BorderBrush" Value="DeepSkyBlue"/>
@@ -152,6 +158,12 @@
                         Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}"/>
             </Trigger>
         </Style.Triggers>
+    </Style>
+    
+    <Style TargetType="{x:Type controls:SimplePasswordBox}" BasedOn="{StaticResource PasswordBoxStyle}"/>
+    
+    <Style TargetType="{x:Type controls:SimplePasswordBox}" x:Key="GreenPasswordBox" BasedOn="{StaticResource PasswordBoxStyle}">
+        <Setter Property="BorderBrush" Value="LightGreen"/>  
     </Style>
     
     <Style TargetType="Label" x:Key="TitleLabel">

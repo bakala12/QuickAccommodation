@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Automation.Peers;
 using System.Windows.Media.TextFormatting;
 using AccommodationApplication.Commands;
+using UserAuthorizationSystem.Validation;
 
 namespace AccommodationApplication.ViewModels
 {
@@ -15,10 +16,12 @@ namespace AccommodationApplication.ViewModels
     {
         private string _password2;
         private string _email;
+        private readonly INewUserDataValidator _validator;
 
-        public RegiserNewUserViewModel()
+        public RegiserNewUserViewModel(INewUserDataValidator validator)
         {
-            RegisterCommand=new DelegateCommand(x=>Register());
+            _validator = validator;
+            RegisterCommand = new DelegateCommand(x=>Register());
         }
 
         public string Password2
@@ -42,30 +45,16 @@ namespace AccommodationApplication.ViewModels
                 switch (columnName)
                 {
                     case "Login":
-                        if (string.IsNullOrEmpty(Login) || Login.Length < 6)
-                            return "Login musi zawierać przynajmniej 6 znaków";
-                        //Weryfikacja czy login jest już zajęty
-                        break;
+                        return _validator.ValidateUserLogin(Login).AdditionalInfo;
                     case "Password":
-                        if (string.IsNullOrEmpty(Password))
-                            return "Hasło nie może być puste";
-                        if (Password.Length < 8)
-                            return "Hasło musi zawierać przynajmniej 8 znaków";
-                        if (Password.Count(char.IsDigit) < 2)
-                            return "Hasło musi zawierać przynajmniej 2 cyfry";
-                        break;
+                        return _validator.ValidateUserPassword(Password).AdditionalInfo;
                     case "Password2":
-                        if (string.IsNullOrEmpty(Password2) || !Password2.Equals(Password))
-                            return "Hasła nie są zgodne";
-                        break;
+                        return _validator.ValidateUserPasswordConfirmed(Password, Password2).AdditionalInfo;
                     case "Email":
-                        if (Email==null || !Regex.IsMatch(Email, @"^[a-zA-Z][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$"))
-                            return "Niepoprawny adres email";
-                        break;
+                        return _validator.ValidateUserEmail(Email) ? string.Empty : "Email is not valid";
                     default:
-                        break;
+                        return string.Empty;
                 }
-                return string.Empty;
             }
         }
 

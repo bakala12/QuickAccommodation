@@ -7,6 +7,8 @@ using System.Windows;
 using System.Windows.Input;
 using AccommodationApplication.Commands;
 using AccommodationApplication.Login;
+using AccommodationDataAccess.Domain;
+using UserAuthorizationSystem.Validation;
 
 namespace AccommodationApplication.ViewModels
 {
@@ -33,7 +35,7 @@ namespace AccommodationApplication.ViewModels
         protected virtual void Register()
         {
             var register=new RegisterWindow();
-            RegiserNewUserViewModel vm=new RegiserNewUserViewModel();
+            RegiserNewUserViewModel vm = new RegiserNewUserViewModel(new NewUserDataValidator<AccommodationContext>());
             vm.RequestClose += (x, e) => CloseWindow(register);
             register.DataContext = vm;
             register.ShowDialog();
