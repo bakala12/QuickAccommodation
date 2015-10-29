@@ -13,6 +13,7 @@ namespace AccommodationDataAccess.Domain
         IDbSet<User> Users { get; }
     }
 
+
     public class AccommodationContext : DbContext, IUsersContext
     {
         public IDbSet<User> Users { get; set; } 
