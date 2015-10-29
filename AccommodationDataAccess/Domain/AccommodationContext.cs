@@ -8,7 +8,12 @@ using AccommodationDataAccess.Model;
 
 namespace AccommodationDataAccess.Domain
 {
-    public class AccommodationContext : DbContext
+    public interface IUsersContext : IDisposable
+    {
+        IDbSet<User> Users { get; } 
+    }
+
+    public class AccommodationContext : DbContext, IUsersContext
     {
         public IDbSet<User> Users { get; set; } 
         public IDbSet<LoggedUser> LoggedUsers { get; set; }
