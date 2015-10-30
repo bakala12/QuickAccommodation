@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Windows.Automation.Peers;
-using System.Windows.Media.TextFormatting;
 using AccommodationApplication.Commands;
 using UserAuthorizationSystem.Validation;
 
@@ -45,7 +39,8 @@ namespace AccommodationApplication.ViewModels
                 switch (columnName)
                 {
                     case "Login":
-                        return _validator.ValidateUserLogin(Login).AdditionalInfo;
+                        return
+                            Task.Run(async () => await _validator.ValidateUserLoginAsync(Login)).Result.AdditionalInfo;
                     case "Password":
                         return _validator.ValidateUserPassword(Password).AdditionalInfo;
                     case "Password2":

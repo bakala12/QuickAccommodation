@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using AccommodationDataAccess.Domain;
 using AccommodationDataAccess.Model;
 
@@ -15,8 +17,8 @@ namespace UserAuthorizationSystem.Validation
                 return new LoginValidationStatus(LoginValidationStatusEnumeration.TooShort, "Username must contain at least 6 characters");
             using (var db=new T())
             {
-                User user = db.Users.FirstOrDefault(x => login.Equals(x.Username));
-                if(user!=null) return new LoginValidationStatus(LoginValidationStatusEnumeration.AlreadyUsed, "This username is already used by another user");
+                bool b = db.Users.Any(x => login.Equals(x.Username));
+                if(b) return new LoginValidationStatus(LoginValidationStatusEnumeration.AlreadyUsed, "This username is already used by another user");
             }
             return new LoginValidationStatus(LoginValidationStatusEnumeration.Correct, string.Empty);
         }
@@ -44,6 +46,18 @@ namespace UserAuthorizationSystem.Validation
             return email != null &&
                    Regex.IsMatch(email,
                        @"^[a-zA-Z][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$");
+        }
+
+        public virtual async Task<LoginValidationStatus> ValidateUserLoginAsync(string login)
+        {
+            if (string.IsNullOrEmpty(login) || login.Length < 6)
+                return new LoginValidationStatus(LoginValidationStatusEnumeration.TooShort, "Username must contain at least 6 characters");
+            using (var db = new T())
+            {
+                bool b = await db.Users.AnyAsync(x => login.Equals(x.Username));
+                if (b) return new LoginValidationStatus(LoginValidationStatusEnumeration.AlreadyUsed, "This username is already used by another user");
+            }
+            return new LoginValidationStatus(LoginValidationStatusEnumeration.Correct, string.Empty);
         }
     }
 }
