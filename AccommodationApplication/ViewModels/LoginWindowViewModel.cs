@@ -4,53 +4,53 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Input;
 using AccommodationApplication.Commands;
+using UserAuthorizationSystem.Validation;
 
 namespace AccommodationApplication.ViewModels
 {
     public class LoginWindowViewModel : CloseableViewModel
     {
-        private string _login;
-        private string _password;
+        private string _username;
+        private string _errorText;
+        private readonly string _errorMessage = "Nieprawidłowa nazwa użytkownika lub hasło!";
 
         public LoginWindowViewModel()
         {
-            CloseCommand = new DelegateCommand(x=>Close());
-            LoginCommand = new DelegateCommand(x=>LogIn(), x=>CanLogIn());
+            LoginCommand = new DelegateCommand(Login);
         }
 
-        public ICommand CloseCommand { get; set; }
-        public DelegateCommand LoginCommand { get; set; }
-
-        public string Login
+        public string Username
         {
-            get { return _login; }
-            set { _login = value; OnPropertyChanged(); }
+            get { return _username; }
+            set
+            {
+                _username = value;
+                OnPropertyChanged();
+            }
         }
 
-        public string Password
+        public string ErrorText
         {
-            get { return _password; }
-            set { _password = value; OnPropertyChanged(); }
+            get { return _errorText; }
+            set
+            {
+                _errorText = value;
+                OnPropertyChanged();
+            }
         }
 
-        protected virtual void LogIn()
-        {
-            //Login logic here
-            Close();
-        }
+        public ICommand LoginCommand { get; }
 
-        protected virtual bool CanLogIn()
+        public virtual void Login(object parameter)
         {
-            return !string.IsNullOrEmpty(Login) && !string.IsNullOrEmpty(Password);
-        }
-
-        protected override void OnPropertyChanged(string propertyName = null)
-        {
-            if(propertyName==null || propertyName.Equals(nameof(Login)) || propertyName.Equals(nameof(Password)))
-                LoginCommand.RaiseCanExecuteChangedEvent();
-            base.OnPropertyChanged(propertyName);
+            PasswordBox passwordBox = parameter as PasswordBox;
+            if(passwordBox==null)
+                throw new InvalidOperationException();
+            //Login operation here
+            ErrorText = _errorMessage;
         }
     }
 }
