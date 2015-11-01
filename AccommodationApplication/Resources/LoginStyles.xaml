@@ -133,39 +133,6 @@
         <Setter Property="BorderBrush" Value="LightGreen"/>
     </Style>
     
-    <Style TargetType="{x:Type controls:SimplePasswordBox}" x:Key="PasswordBoxStyle">
-        <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="BorderBrush" Value="DeepSkyBlue"/>
-        <Setter Property="Padding" Value="10,5,20,5"/>
-        <Setter Property="Validation.ErrorTemplate">
-            <Setter.Value>
-                <ControlTemplate>
-                    <DockPanel Dock="Right">
-                        <AdornedElementPlaceholder>
-                            <Border BorderBrush="Red" BorderThickness="2" Margin="10,5,20,5"/>
-                        </AdornedElementPlaceholder>
-                        <TextBlock Margin="-17,9,0,0" Text="!" Foreground="Red"
-                                   FontSize="14"
-                                   ToolTip="{Binding Path=AdornedElement.ToolTip, RelativeSource={RelativeSource AncestorType={x:Type Adorner}}}"/>
-                    </DockPanel>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-        <Style.Triggers>
-            <Trigger Property="Validation.HasError" Value="True">
-                <Setter Property="ToolTip" 
-                        Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}"/>
-            </Trigger>
-        </Style.Triggers>
-    </Style>
-    
-    <Style TargetType="{x:Type controls:SimplePasswordBox}" BasedOn="{StaticResource PasswordBoxStyle}"/>
-    
-    <Style TargetType="{x:Type controls:SimplePasswordBox}" x:Key="GreenPasswordBox" BasedOn="{StaticResource PasswordBoxStyle}">
-        <Setter Property="BorderBrush" Value="LightGreen"/>  
-    </Style>
-    
     <Style TargetType="Label" x:Key="TitleLabel">
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="HorizontalAlignment" Value="Left"/>

@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using AccommodationApplication.Commands;
-using AccommodationApplication.Login;
 using AccommodationDataAccess.Domain;
 using UserAuthorizationSystem.Validation;
 
@@ -25,20 +24,10 @@ namespace AccommodationApplication.ViewModels
 
         protected virtual void Login()
         {
-            var login = new LoginWindow();
-            LoginWindowViewModel vm = new LoginWindowViewModel();
-            vm.RequestClose += (x, e) => CloseWindow(login);
-            login.DataContext = vm;
-            login.Show();
         }
 
         protected virtual void Register()
         {
-            var register=new RegisterWindow();
-            RegiserNewUserViewModel vm = new RegiserNewUserViewModel(new NewUserDataValidator<AccommodationContext>());
-            vm.RequestClose += (x, e) => CloseWindow(register);
-            register.DataContext = vm;
-            register.ShowDialog();
         }
 
         private static void CloseWindow(Window window)
