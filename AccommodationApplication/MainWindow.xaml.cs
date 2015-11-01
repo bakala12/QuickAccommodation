@@ -23,6 +23,9 @@ namespace AccommodationApplication
         public MainWindow()
         {
             InitializeComponent();
+            new SplashScreen().ShowDialog();
         }
+
+      
     }
 }

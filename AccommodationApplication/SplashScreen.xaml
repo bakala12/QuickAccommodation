@@ -1,0 +1,49 @@
+﻿<Window x:Class="AccommodationApplication.SplashScreen"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AccommodationApplication"
+        mc:Ignorable="d"
+        Title="SplashScreen" Height="310" Width="459" WindowStyle="None" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded"
+	    ResizeMode="NoResize" ShowInTaskbar="False" Topmost="True">
+
+    <Window.Resources>
+        <Storyboard x:Key="showStoryBoard">
+            <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="txtLoading">
+                <EasingThicknessKeyFrame KeyTime="0:0:0" Value="0,0,0,0"/>
+                <EasingThicknessKeyFrame KeyTime="0:0:1" Value="0,0,0,70"/>
+            </ThicknessAnimationUsingKeyFrames>
+        </Storyboard>
+
+        <Storyboard x:Key="HideStoryBoard">
+            <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="txtLoading">
+                <EasingThicknessKeyFrame KeyTime="0:0:0" Value="0,0,0,70"/>
+                <EasingThicknessKeyFrame KeyTime="0:0:1" Value="0,0,0,150"/>
+            </ThicknessAnimationUsingKeyFrames>
+        </Storyboard>
+    </Window.Resources>
+    <Grid>
+        <Grid.Background>
+            <SolidColorBrush Color="White"/>
+        </Grid.Background>
+        <Grid VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="150" Background="#00FFFFFF">
+            <Grid.OpacityMask>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#00000000" Offset="0.283"/>
+                    <GradientStop Color="#00000000" Offset="0.778"/>
+                    <GradientStop Color="White" Offset="0.491"/>
+                </LinearGradientBrush>
+            </Grid.OpacityMask>
+            <TextBlock x:Name="txtLoading" TextAlignment="Center" FontSize="20" FontWeight="Normal"  Foreground="#FF052045"  Text="Beta 0.9"  TextWrapping="NoWrap" VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="421" >
+            </TextBlock>
+
+        </Grid>
+
+        <TextBlock TextAlignment="Center" HorizontalAlignment="Center" Margin="0,100,0,0" TextWrapping="NoWrap" Text="QuickAccomodation" VerticalAlignment="Top" Foreground="Black" FontWeight="Light" Width="600" FontSize="40" Height="49">
+        </TextBlock>
+      
+       
+    </Grid>
+
+</Window>
