@@ -15,7 +15,7 @@ namespace ConsoleApplication1
         {
             using (var db = new AccommodationContext())
             {
-                User user = new User() {Username = "bakala12", Password = "****"};
+                User user = new User() {Username = "bakala12", HashedPassword = "****"};
                 Address address = new Address()
                 {
                     City = "Gołąb",
@@ -24,8 +24,8 @@ namespace ConsoleApplication1
                     PostalCode = "24-100"
                 };
                 UserData data = new UserData() {FirstName = "Mateusz", LastName = "Bąkała", CompanyName = "company", Address = address};
-                LoggedUser loggedUser = new LoggedUser() {UserData = data, User = user};
-                Offer offer = new Offer()
+                user.UserData = data;
+                OfferInfo offer = new OfferInfo()
                 {
                     Address = address,
                     OfferStartTime = new DateTime(2015, 10, 10),
@@ -33,10 +33,13 @@ namespace ConsoleApplication1
                     Description = "Oferta",
                     Price = 1245.55,
                     AvailableVacanciesNumber = 3,
-                    Vendor = loggedUser,
-                    Customer = null
                 };
-                db.LoggedUsers.Add(loggedUser);
+                Offer off=new Offer()
+                {
+                    Vendor = user,
+                    Customer=null
+                };
+                db.Users.Add(user);
                 db.SaveChanges();
             }
         }
