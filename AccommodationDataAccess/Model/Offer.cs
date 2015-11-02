@@ -10,20 +10,13 @@ namespace AccommodationDataAccess.Model
 {
     public class Offer : Entity
     {
-        public DateTime OfferStartTime { get; set; }
-        public DateTime OfferEndTime { get; set; }
-        public int AddressId { get; set; }
-        public virtual Address Address { get; set; }
-        public string Description { get; set; }
-        public int AvailableVacanciesNumber { get; set; }
-        public double Price { get; set; }
-        public DateTime OfferPublishTime { get; set; }
-        //obrazek???
+        public OfferInfo OfferInfo { get; set; }
+        public int OfferInfoId { get; set; }
         public int VendorId { get; set; }
         [InverseProperty("PurchasedOffers")]
-        public virtual LoggedUser Vendor { get; set; }
+        public virtual User Vendor { get; set; }
         public int? CutomerId { get; set; }
         [InverseProperty("AvailableOffers")]
-        public virtual LoggedUser Customer { get; set; }
+        public virtual User Customer { get; set; }
     }
 }
