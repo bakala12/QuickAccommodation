@@ -1,0 +1,88 @@
+﻿<Window x:Class="AccommodationApplication.Login.RegisterWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AccommodationApplication.Login"
+        mc:Ignorable="d"
+        Title="RegisterWindow" Height="530" Width="450">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Resources/LoginStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <StackPanel>
+            <GroupBox Header="Dane logowania">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="4*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Nazwa użytkownika" Grid.Row="0" Grid.Column="0" Style="{StaticResource CenterTextBlock}"/>
+                    <TextBlock Text="Adres email" Grid.Row="1" Grid.Column="0" Style="{StaticResource CenterTextBlock}"/>
+                    <TextBlock Text="Hasło" Grid.Row="2" Grid.Column="0" Style="{StaticResource CenterTextBlock}"/>
+                    <TextBlock Text="Potwierdź hasło" Grid.Row="3" Grid.Column="0" Style="{StaticResource CenterTextBlock}"/>
+                    <TextBox Grid.Column="1" Grid.Row="0" Style="{StaticResource TextBoxStyle}" Text="{Binding Username}"/>
+                    <TextBox Grid.Column="1" Grid.Row="1" Style="{StaticResource TextBoxStyle}" Text="{Binding Email}"/>
+                    <PasswordBox Grid.Column="1" Grid.Row="2" Style="{StaticResource PasswordBoxStyle}" Name="password"/>
+                    <PasswordBox Grid.Column="1" Grid.Row="3" Style="{StaticResource PasswordBoxStyle}" Name="confirmPassword"/>
+                </Grid>
+            </GroupBox>
+            <GroupBox Header="Dane użytkownika">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="4*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Imię" Grid.Row="0" Grid.Column="0" Style="{StaticResource CenterTextBlock}"/>
+                    <TextBlock Text="Nazwisko" Grid.Row="1" Grid.Column="0" Style="{StaticResource CenterTextBlock}"/>
+                    <TextBlock Text="Nazwa firmy" Grid.Row="2" Grid.Column="0" Style="{StaticResource CenterTextBlock}"/>
+                    <TextBox Grid.Column="1" Grid.Row="0" Style="{StaticResource TextBoxStyle}" Text="{Binding FirstName}"/>
+                    <TextBox Grid.Column="1" Grid.Row="1" Style="{StaticResource TextBoxStyle}" Text="{Binding LastName}"/>
+                    <TextBox Grid.Column="1" Grid.Row="2" Style="{StaticResource TextBoxStyle}" Text="{Binding CompanyName}"/>
+                </Grid>
+            </GroupBox>
+            <GroupBox Header="Dane adresowe (nieobowiązkowe)" >
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="4*"/>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="4*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Ulica" Grid.Row="0" Grid.Column="0" Style="{StaticResource CenterTextBlock}"/>
+                    <TextBlock Text="Numer domu" Grid.Row="0" Grid.Column="2" Style="{StaticResource CenterTextBlock}"/>
+                    <TextBlock Text="Kod pocztowy" Grid.Row="1" Grid.Column="0" Style="{StaticResource CenterTextBlock}"/>
+                    <TextBlock Text="Miejscowosć" Grid.Row="1" Grid.Column="2" Style="{StaticResource CenterTextBlock}"/>
+                    <TextBox Grid.Column="1" Grid.Row="0" Style="{StaticResource TextBoxStyle}" Text="{Binding Street}"/>
+                    <TextBox Grid.Column="3" Grid.Row="0" Style="{StaticResource TextBoxStyle}" Text="{Binding LocaleNumber}"/>
+                    <TextBox Grid.Column="1" Grid.Row="1" Style="{StaticResource TextBoxStyle}" Text="{Binding PostalCode}"/>
+                    <TextBox Grid.Column="3" Grid.Row="1" Style="{StaticResource TextBoxStyle}" Text="{Binding City}"/>
+                </Grid>
+            </GroupBox>
+            <TextBlock Style="{StaticResource ErrorTextBlockStyle}" Text="{Binding Error}" Margin="0,5,0,5"/>
+            <DockPanel>
+                <Button Content="Zarejestruj" Style="{StaticResource LoginButtonStyle}" HorizontalAlignment="Center" 
+                        Margin="0,10,0,10" Command="{Binding RegisterCommand}"/>
+            </DockPanel>
+        </StackPanel>
+    </Grid>
+</Window>
