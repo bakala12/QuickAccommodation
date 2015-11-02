@@ -5,7 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-//using AccommodationApplication.Annotations;
+using AccommodationApplication.Annotations;
 
 namespace AccommodationApplication.ViewModels
 {
@@ -13,7 +13,7 @@ namespace AccommodationApplication.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-       // [NotifyPropertyChangedInvocator]
+        [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Linq;
 using System.Text;
@@ -17,7 +18,7 @@ namespace AccommodationDataAccess.Domain
     {
         public IDbSet<User> Users { get; set; } 
         public IDbSet<Offer> Offers { get; set; }
-        public IDbSet<OfferInfo> OfferInfos { get; set; } 
+        public IDbSet<OfferInfo> OfferInfo { get; set; } 
         public IDbSet<Address> Addresses { get; set; }
         public IDbSet<UserData> UserData { get; set; }
     }
