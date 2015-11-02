@@ -5,7 +5,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using AccommodationApplication.Commands;
 using AccommodationApplication.Converter;
-using UserAuthorizationSystem.Validation;
 
 namespace AccommodationApplication.ViewModels
 {
@@ -24,17 +23,17 @@ namespace AccommodationApplication.ViewModels
 
         public RegiserNewUserViewModel()
         {
-            RegisterCommand = new DelegateCommand(Register);
+            RegisterCommand = new DelegateCommand(x=>Register(x as PasswordBox[]));
         }
 
         public ICommand RegisterCommand { get; }
 
-        public virtual void Register(object parameter)
+        public virtual void Register(PasswordBox[] passwords)
         {
-            PasswordBox[] passwords=parameter as PasswordBox[];
             if(passwords==null)
                 throw new InvalidOperationException();
             //Register logic here
+            Close();
         }
 
         public string Username

@@ -8,7 +8,6 @@ using System.Windows.Input;
 using AccommodationApplication.Commands;
 using AccommodationApplication.Login;
 using AccommodationDataAccess.Domain;
-using UserAuthorizationSystem.Validation;
 
 namespace AccommodationApplication.ViewModels
 {
