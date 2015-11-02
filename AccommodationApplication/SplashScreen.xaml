@@ -40,7 +40,7 @@
 
         </Grid>
 
-        <TextBlock TextAlignment="Center" HorizontalAlignment="Center" Margin="0,100,0,0" TextWrapping="NoWrap" Text="QuickAccomodation" VerticalAlignment="Top" Foreground="Black" FontWeight="Light" Width="600" FontSize="40" Height="49">
+        <TextBlock TextAlignment="Center" HorizontalAlignment="Center" Margin="0,100,0,0" TextWrapping="NoWrap" Text="QuickAccommodation" VerticalAlignment="Top" Foreground="Black" FontWeight="Light" Width="600" FontSize="40" Height="49">
         </TextBlock>
       
        
