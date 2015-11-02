@@ -1,8 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Input;
 using AccommodationApplication.Commands;
+using AccommodationApplication.Converter;
 using UserAuthorizationSystem.Validation;
 
 namespace AccommodationApplication.ViewModels
@@ -18,26 +20,26 @@ namespace AccommodationApplication.ViewModels
         private string _localeNumber;
         private string _postalCode;
         private string _city;
+        private string _error;
 
         public RegiserNewUserViewModel()
         {
-            RegisterCommand = new DelegateCommand(x => Register());
+            RegisterCommand = new DelegateCommand(Register);
         }
 
         public ICommand RegisterCommand { get; }
 
-        public virtual void Register()
+        public virtual void Register(object parameter)
         {
-            
+            PasswordBox[] passwords=parameter as PasswordBox[];
+            if(passwords==null)
+                throw new InvalidOperationException();
+            //Register logic here
         }
 
         public string Username
         {
-            get
-            {
-                return _username;
-            }
-
+            get { return _username; }
             set
             {
                 _username = value;
@@ -47,11 +49,7 @@ namespace AccommodationApplication.ViewModels
 
         public string Email
         {
-            get
-            {
-                return _email;
-            }
-
+            get { return _email; }
             set
             {
                 _email = value;
@@ -61,11 +59,7 @@ namespace AccommodationApplication.ViewModels
 
         public string FirstName
         {
-            get
-            {
-                return _firstName;
-            }
-
+            get { return _firstName; }
             set
             {
                 _firstName = value;
@@ -75,11 +69,7 @@ namespace AccommodationApplication.ViewModels
 
         public string LastName
         {
-            get
-            {
-                return _lastName;
-            }
-
+            get { return _lastName; }
             set
             {
                 _lastName = value;
@@ -89,11 +79,7 @@ namespace AccommodationApplication.ViewModels
 
         public string CompanyName
         {
-            get
-            {
-                return _companyName;
-            }
-
+            get { return _companyName; }
             set
             {
                 _companyName = value;
@@ -103,11 +89,7 @@ namespace AccommodationApplication.ViewModels
 
         public string Street
         {
-            get
-            {
-                return _street;
-            }
-
+            get { return _street; }
             set
             {
                 _street = value;
@@ -117,11 +99,7 @@ namespace AccommodationApplication.ViewModels
 
         public string LocaleNumber
         {
-            get
-            {
-                return _localeNumber;
-            }
-
+            get { return _localeNumber; }
             set
             {
                 _localeNumber = value;
@@ -131,11 +109,7 @@ namespace AccommodationApplication.ViewModels
 
         public string PostalCode
         {
-            get
-            {
-                return _postalCode;
-            }
-
+            get { return _postalCode; }
             set
             {
                 _postalCode = value;
@@ -145,14 +119,20 @@ namespace AccommodationApplication.ViewModels
 
         public string City
         {
-            get
-            {
-                return _city;
-            }
-
+            get { return _city; }
             set
             {
                 _city = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string Error
+        {
+            get { return _error; }
+            set
+            {
+                _error = value;
                 OnPropertyChanged();
             }
         }

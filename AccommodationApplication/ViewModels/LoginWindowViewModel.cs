@@ -50,7 +50,7 @@ namespace AccommodationApplication.ViewModels
             if(passwordBox==null)
                 throw new InvalidOperationException();
             //Login operation here
-            ErrorText = _errorMessage;
+            ErrorText = passwordBox.Password;
         }
     }
 }

@@ -29,11 +29,16 @@ namespace AccommodationApplication.ViewModels
             LoginWindowViewModel vm=new LoginWindowViewModel();
             vm.RequestClose += (x,e)=>CloseWindow(login);
             login.DataContext = vm;
-            login.Show();
+            login.ShowDialog();
         }
 
         protected virtual void Register()
         {
+            RegisterWindow registerWindow = new RegisterWindow();
+            RegiserNewUserViewModel vm = new RegiserNewUserViewModel();
+            vm.RequestClose += (x, e) => CloseWindow(registerWindow);
+            registerWindow.DataContext = vm;
+            registerWindow.ShowDialog();
         }
 
         private static void CloseWindow(Window window)

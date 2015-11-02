@@ -1,7 +1,10 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converters="clr-namespace:AccommodationApplication.Converter"
                     >
-    
+
+    <converters:PasswordsConverter x:Key="PasswordsConverter"/>
+
     <Style TargetType="{x:Type Button}" x:Key="LoginButtonStyle">
         <Setter Property="Template">
             <Setter.Value>
