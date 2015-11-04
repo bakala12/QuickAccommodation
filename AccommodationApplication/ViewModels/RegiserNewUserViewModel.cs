@@ -47,6 +47,10 @@ namespace AccommodationApplication.ViewModels
             //Validation
             Error = string.Empty;
             string reason;
+            if (string.IsNullOrEmpty(Username))
+            {
+                Error = "Login nie może być pusty";
+            }
             if (!_validator.ValidateEmail(Email))
             {
                 Error = "Nieprawidłowy adres email";
