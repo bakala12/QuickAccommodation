@@ -11,6 +11,7 @@ namespace AccommodationDataAccess.Model
     {
         public string Username { get; set; }
         public string HashedPassword { get; set; }
+        public string Salt { get; set; }
 
         public int UserDataId { get; set; }
         public virtual UserData UserData { get; set; }
