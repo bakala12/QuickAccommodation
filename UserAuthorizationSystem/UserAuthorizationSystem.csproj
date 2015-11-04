@@ -41,6 +41,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -53,6 +54,12 @@
     <Compile Include="Identities\CustomIdentity.cs" />
     <Compile Include="Identities\CustomPrincipal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Registration\IRegisterUser.cs" />
+    <Compile Include="Registration\PasswordHashHelper.cs" />
+    <Compile Include="Registration\UserRegister.cs" />
+    <Compile Include="Validation\IUserDataValidator.cs" />
+    <Compile Include="Validation\BasicUserDataValidator.cs" />
+    <Compile Include="Validation\UserCredentialsValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AccommodationDataAccess\AccommodationDataAccess.csproj">
@@ -66,7 +73,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Authentication\" />
-    <Folder Include="Validation\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
