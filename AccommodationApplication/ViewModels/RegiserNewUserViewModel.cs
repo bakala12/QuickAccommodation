@@ -50,6 +50,7 @@ namespace AccommodationApplication.ViewModels
             if (string.IsNullOrEmpty(Username))
             {
                 Error = "Login nie może być pusty";
+                return;
             }
             if (!_validator.ValidateEmail(Email))
             {

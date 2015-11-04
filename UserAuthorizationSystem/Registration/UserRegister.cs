@@ -30,9 +30,9 @@ namespace UserAuthorizationSystem.Registration
                     user.UserData = userdata;
                     user.UserData.Address = address;
                     context.Users.Add(user);
+                    context.SaveChanges();
                     scope.Complete();
                 }
-                context.SaveChanges();
             }
         }
 
