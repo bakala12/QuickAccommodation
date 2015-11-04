@@ -11,6 +11,8 @@ using AccommodationApplication.Login;
 using AccommodationDataAccess.Domain;
 using AccommodationDataAccess.Model;
 using MahApps.Metro.Controls.Dialogs;
+using UserAuthorizationSystem.Registration;
+using UserAuthorizationSystem.Validation;
 
 namespace AccommodationApplication.ViewModels
 {
@@ -37,7 +39,7 @@ namespace AccommodationApplication.ViewModels
         protected virtual void Register()
         {
             RegisterWindow registerWindow = new RegisterWindow();
-            RegiserNewUserViewModel vm = new RegiserNewUserViewModel();
+            RegiserNewUserViewModel vm = new RegiserNewUserViewModel(new UserCredentialsValidator(), new UserRegister());
             vm.RequestClose += (x, e) => CloseWindow(registerWindow);
             registerWindow.DataContext = vm;
             registerWindow.ShowDialog();
