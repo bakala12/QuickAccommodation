@@ -11,7 +11,8 @@ namespace AccommodationDataAccess.Domain
 {
     public interface IUsersContext : IDisposable
     {
-        IDbSet<User> Users { get; } 
+        IDbSet<User> Users { get; }
+        int SaveChanges();
     }
 
     public class AccommodationContext : DbContext, IUsersContext

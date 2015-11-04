@@ -11,7 +11,6 @@ namespace UserAuthorizationSystem.Validation
     {
         public bool ValidateUsername<T>(string username) where T:IUsersContext, IDisposable, new()
         {
-            if (string.IsNullOrEmpty(username)) return false;
             using (var context=new T())
             {
                 return !context.Users.Any(u => u.Username == username);
