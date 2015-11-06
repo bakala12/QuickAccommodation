@@ -11,6 +11,7 @@ using AccommodationApplication.Login;
 using AccommodationDataAccess.Domain;
 using AccommodationDataAccess.Model;
 using MahApps.Metro.Controls.Dialogs;
+using AccommodationApplication.Interfaces;
 
 namespace AccommodationApplication.ViewModels
 {
@@ -19,17 +20,81 @@ namespace AccommodationApplication.ViewModels
         public MainWindowViewModel()
         {
             LoginCommand = new DelegateCommand(x => Login());
-            RegisterCommand = new DelegateCommand(x=>Register());
+            RegisterCommand = new DelegateCommand(x => Register());
+
+
+            PageViewModels.Add(new OffersViewModel());
+            PageViewModels.Add(new SearchingViewModel());
+
+            CurrentPageViewModel = PageViewModels[0];
         }
 
         public ICommand LoginCommand { get; set; }
         public ICommand RegisterCommand { get; set; }
 
+        private ICommand _changePageCommand;
+
+        private IPageViewModel _currentPageViewModel;
+        private List<IPageViewModel> _pageViewModels;
+
+
+        public ICommand ChangePageCommand
+        {
+            get
+            {
+                if (_changePageCommand == null)
+                {
+                    _changePageCommand = new DelegateCommand(
+                        p => ChangeViewModel((IPageViewModel)p),
+                        p => p is IPageViewModel);
+                }
+
+                return _changePageCommand;
+            }
+        }
+
+        public List<IPageViewModel> PageViewModels
+        {
+            get
+            {
+                if (_pageViewModels == null)
+                    _pageViewModels = new List<IPageViewModel>();
+
+                return _pageViewModels;
+            }
+        }
+
+        public IPageViewModel CurrentPageViewModel
+        {
+            get
+            {
+                return _currentPageViewModel;
+            }
+            set
+            {
+                if (_currentPageViewModel != value)
+                {
+                    _currentPageViewModel = value;
+                    OnPropertyChanged("CurrentPageViewModel");
+                }
+            }
+        }
+
+
+        private void ChangeViewModel(IPageViewModel viewModel)
+        {
+            if (!PageViewModels.Contains(viewModel))
+                PageViewModels.Add(viewModel);
+
+            CurrentPageViewModel = PageViewModels
+                .FirstOrDefault(vm => vm == viewModel);
+        }
+
         protected virtual void Login()
         {
-            LoginWindow login=new LoginWindow();
-            LoginWindowViewModel vm=new LoginWindowViewModel();
-            vm.RequestClose += (x,e)=>CloseWindow(login);
+            LoginWindow login = new LoginWindow();
+            LoginWindowViewModel vm = new LoginWindowViewModel();
+            vm.RequestClose += (x, e) => CloseWindow(login);
             login.DataContext = vm;
             login.ShowDialog();
         }
