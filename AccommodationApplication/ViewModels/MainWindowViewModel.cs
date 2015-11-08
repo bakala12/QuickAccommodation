@@ -37,7 +37,6 @@ namespace AccommodationApplication.ViewModels
         private IPageViewModel _currentPageViewModel;
         private List<IPageViewModel> _pageViewModels;
 
-
         public ICommand ChangePageCommand
         {
             get
@@ -129,6 +128,42 @@ namespace AccommodationApplication.ViewModels
             }
         }
 
+        public ObservableCollection<DisplayableOffer> offersList = new ObservableCollection<DisplayableOffer>();
+
+
+
+        public ObservableCollection<DisplayableOffer> OffersList
+        {
+            get
+            {
+                var ret = new ObservableCollection<DisplayableOffer>();
+
+                Address address = new Address()
+                {
+                    City = "Gołąb",
+                    Street = "Piaskowa",
+                    LocalNumber = "20",
+                    PostalCode = "24-100"
+                };
+                OfferInfo offer = new OfferInfo()
+                {
+                    Address = address,
+                    OfferStartTime = new DateTime(2015, 10, 10),
+                    OfferEndTime = new DateTime(2015, 10, 11),
+                    Description = "Oferta",
+                    Price = 1245.55,
+                    AvailableVacanciesNumber = 3,
+                };
+                DisplayableOffer u = new DisplayableOffer(offer);
+               
+                ret.Add(u);
+                ret.Add(u);
+                ret.Add(u);
+                return ret;
+            }
+        }
+
+
         public class DisplayableUser
         {
             public DisplayableUser(User user, UserData data)
@@ -144,5 +179,25 @@ namespace AccommodationApplication.ViewModels
             public string FirstName { get; set; }
             public string CompanyName { get; set; }
         }
+
+        public class DisplayableOffer
+        {
+            public DisplayableOffer(OfferInfo offerInfo)
+            {
+                OfferStartTime = offerInfo.OfferStartTime;
+                OfferEndTime = offerInfo.OfferEndTime;
+                Address = offerInfo.Address;
+                AvailableVacanciesNumber = offerInfo.AvailableVacanciesNumber;
+                Price = offerInfo.Price;
+            }
+            public DateTime OfferStartTime { get; set; }
+            public DateTime OfferEndTime { get; set; }
+            public virtual Address Address { get; set; }
+            public int AvailableVacanciesNumber { get; set; }
+            public double Price { get; set; }
+        }
+    
+
+
     }
 }

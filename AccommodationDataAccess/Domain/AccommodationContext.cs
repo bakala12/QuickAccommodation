@@ -16,6 +16,12 @@ namespace AccommodationDataAccess.Domain
 
     public class AccommodationContext : DbContext, IUsersContext
     {
+
+        public AccommodationContext()
+        {
+            Database.SetInitializer<AccommodationContext>(new CreateDatabaseIfNotExists<AccommodationContext>());
+        }
+
         public IDbSet<User> Users { get; set; } 
         public IDbSet<Offer> Offers { get; set; }
         public IDbSet<OfferInfo> OfferInfo { get; set; } 

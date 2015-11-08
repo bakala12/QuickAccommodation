@@ -36,10 +36,12 @@ namespace ConsoleApplication1
                 };
                 Offer off=new Offer()
                 {
+                    OfferInfo = offer,
                     Vendor = user,
                     Customer=null
                 };
                 db.Users.Add(user);
+                db.Offers.Add(off);
                 db.SaveChanges();
             }
         }

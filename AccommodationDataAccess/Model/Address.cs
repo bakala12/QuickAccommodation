@@ -13,5 +13,18 @@ namespace AccommodationDataAccess.Model
         public string LocalNumber { get; set; }
         public string PostalCode { get; set; }
         public string City { get; set; }
+
+        public override string ToString()
+        {
+            StringBuilder s = new StringBuilder();
+            s.Append(Street);
+            s.Append(" ");
+            s.Append(LocalNumber);
+            s.Append(" ");
+            s.Append(PostalCode);
+            s.Append(" ");
+            s.Append(City);
+            return s.ToString();
+        }
     }
 }

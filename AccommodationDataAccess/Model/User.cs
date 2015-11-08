@@ -17,5 +17,10 @@ namespace AccommodationDataAccess.Model
 
         public virtual IList<Offer> AvailableOffers { get; set; }
         public virtual IList<Offer> PurchasedOffers { get; set; }
+
+        public override string ToString()
+        {
+            return Username.ToString();
+        }
     }
 }
