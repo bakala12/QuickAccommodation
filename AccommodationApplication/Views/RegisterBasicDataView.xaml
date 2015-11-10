@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="AccommodationApplication.Views.RegisterBasicDataView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AccommodationApplication.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Styles/LoginStyles.xaml"/>
+                <ResourceDictionary Source="../Resources/Icons.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <GroupBox Header="Dane użytkownika">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="4*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Imię" Grid.Row="0" Grid.Column="0" Style="{StaticResource CenterTextBlock}"/>
+                <TextBlock Text="Nazwisko" Grid.Row="1" Grid.Column="0" Style="{StaticResource CenterTextBlock}"/>
+                <TextBlock Text="Nazwa firmy" Grid.Row="2" Grid.Column="0" Style="{StaticResource CenterTextBlock}"/>
+                <TextBox Grid.Column="1" Grid.Row="0" Style="{StaticResource TextBoxStyle}" Text="{Binding FirstName}"/>
+                <TextBox Grid.Column="1" Grid.Row="1" Style="{StaticResource TextBoxStyle}" Text="{Binding LastName}"/>
+                <TextBox Grid.Column="1" Grid.Row="2" Style="{StaticResource TextBoxStyle}" Text="{Binding CompanyName}"/>
+            </Grid>
+        </GroupBox>
+        <Button Grid.Row="1" Content="Dalej" Style="{StaticResource LoginButtonStyle}" 
+                Command="{Binding NextCommand}"/>
+    </Grid>
+</UserControl>

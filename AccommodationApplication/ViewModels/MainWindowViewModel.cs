@@ -39,7 +39,7 @@ namespace AccommodationApplication.ViewModels
         protected virtual void Register()
         {
             RegisterWindow registerWindow = new RegisterWindow();
-            RegiserNewUserViewModel vm = new RegiserNewUserViewModel(new UserCredentialsValidator(), new UserRegister());
+            RegisterUserViewModel vm = new RegisterUserViewModel();
             vm.RequestClose += (x, e) => CloseWindow(registerWindow);
             registerWindow.DataContext = vm;
             registerWindow.ShowDialog();
@@ -55,13 +55,13 @@ namespace AccommodationApplication.ViewModels
             get
             {
                 var ret = new ObservableCollection<DisplayableUser>();
-                using (var db = new AccommodationContext())
-                {
-                    foreach (var user in db.Users)
-                    {
-                        ret.Add(new DisplayableUser(user, user.UserData));
-                    }
-                }
+                //using (var db = new AccommodationContext())
+                //{
+                //    foreach (var user in db.Users)
+                //    {
+                //        ret.Add(new DisplayableUser(user, user.UserData));
+                //    }
+                //}
                 return ret;
             }
         }
