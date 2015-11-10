@@ -28,11 +28,28 @@ namespace UserAuthorizationSystem.Validation
                    && uint.TryParse(s[0], out fir) && uint.TryParse(s[1], out sec);
         }
 
-        public bool ValidateEmail(string value)
+        /// <summary>
+        /// Validates email address using regular expression.
+        /// </summary>
+        /// <param name="value">Email address to be validated.</param>
+        /// <param name="reason">Output parameter which contains the reason of incorrect validation.</param>
+        /// <returns>True if the given email address is valid, otherwise false. If method returns false,
+        /// the reason of validation error is stored in output reason parameter.</returns>
+        public bool ValidateEmail(string value, out string reason)
         {
-            return !string.IsNullOrEmpty(value) &&
-                   Regex.IsMatch(value,
-                       @"^[a-zA-Z][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$");
+            reason=string.Empty;
+            if (string.IsNullOrEmpty(value))
+            {
+                reason = "Należy podac adres email";
+                return false;
+            }
+            if (Regex.IsMatch(value,
+                       @"^[a-zA-Z][\w\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]$"))
+            {
+                reason = "Nieprawidłowy adres email";
+                return false;
+            }
+            return true;
         }
     }
 }

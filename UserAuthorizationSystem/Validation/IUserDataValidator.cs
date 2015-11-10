@@ -15,9 +15,19 @@ namespace UserAuthorizationSystem.Validation
         bool ValidatePostalCode(string value);
     }
 
+    /// <summary>
+    /// Provides a way to validate email addresses.
+    /// </summary>
     public interface IEmailValidator
     {
-        bool ValidateEmail(string value);
+        /// <summary>
+        /// Validates email address using regular expression.
+        /// </summary>
+        /// <param name="value">Email address to be validated.</param>
+        /// <param name="reason">Output parameter which contains the reason of incorrect validation.</param>
+        /// <returns>True if the given email address is valid, otherwise false. If method returns false,
+        /// the reason of validation error is stored in output reason parameter.</returns>
+        bool ValidateEmail(string value,out string reason);
     }
 
     public interface IPasswordValidator

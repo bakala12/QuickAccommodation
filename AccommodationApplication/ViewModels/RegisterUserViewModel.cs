@@ -1,10 +1,13 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using AccommodationApplication.Commands;
+using UserAuthorizationSystem.Validation;
 
 namespace AccommodationApplication.ViewModels
 {
@@ -13,7 +16,7 @@ namespace AccommodationApplication.ViewModels
         Credentials, BasicData, Address
     }
 
-    public class RegisterUserViewModel : CloseableViewModel
+    public class RegisterUserViewModel : CloseableViewModel, IDataErrorInfo
     {
         private string _username;
         private string _email;
@@ -29,9 +32,12 @@ namespace AccommodationApplication.ViewModels
 
         private string _error;
         private CurrentScreen _currentScreen;
+        private readonly IUserCredentialsValidator _validator;
 
-        public RegisterUserViewModel()
+        public RegisterUserViewModel(IUserCredentialsValidator validator)
         {
+            if(_validator == null) throw new ArgumentNullException();
+            _validator = validator;
             NextCommand = new DelegateCommand(x => NextScreen());
             RegisterCommand = new DelegateCommand(x => Register());
             CurrentScreen = CurrentScreen.Credentials;
@@ -55,6 +61,7 @@ namespace AccommodationApplication.ViewModels
             switch (CurrentScreen)
             {
                 case CurrentScreen.Credentials:
+                    //walidacja
                     CurrentScreen=CurrentScreen.BasicData;
                     break;
                 case CurrentScreen.BasicData:
@@ -68,7 +75,28 @@ namespace AccommodationApplication.ViewModels
 
         }
 
+        public string this[string columnName]
+        {
+            get
+            {
+                string message;
+                switch (CurrentScreen)
+                {
+                    case CurrentScreen.Credentials:
+                        _validator.ValidateEmail(Email, out message);
+                        return message;
+                    case CurrentScreen.BasicData:
+                        return string.Empty;
+                    case CurrentScreen.Address:
+                        return string.Empty;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+        }
+
         #region Properties
+
         public string Username
         {
             get { return _username; }
@@ -168,6 +196,7 @@ namespace AccommodationApplication.ViewModels
                 OnPropertyChanged();
             }
         }
+
         #endregion
     }
 }
