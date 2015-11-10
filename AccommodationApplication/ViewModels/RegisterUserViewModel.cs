@@ -36,7 +36,7 @@ namespace AccommodationApplication.ViewModels
 
         public RegisterUserViewModel(IUserCredentialsValidator validator)
         {
-            if(_validator == null) throw new ArgumentNullException();
+            if(validator == null) throw new ArgumentNullException();
             _validator = validator;
             NextCommand = new DelegateCommand(x => NextScreen());
             RegisterCommand = new DelegateCommand(x => Register());
@@ -80,18 +80,12 @@ namespace AccommodationApplication.ViewModels
             get
             {
                 string message;
-                switch (CurrentScreen)
+                switch (columnName)
                 {
-                    case CurrentScreen.Credentials:
-                        _validator.ValidateEmail(Email, out message);
-                        return message;
-                    case CurrentScreen.BasicData:
-                        return string.Empty;
-                    case CurrentScreen.Address:
-                        return string.Empty;
-                    default:
-                        throw new ArgumentOutOfRangeException();
+                    case "Email":
+                        return !_validator.ValidateEmail(Email, out message) ?message: string.Empty;
                 }
+                return string.Empty;
             }
         }
 

@@ -39,7 +39,7 @@ namespace AccommodationApplication.ViewModels
         protected virtual void Register()
         {
             RegisterWindow registerWindow = new RegisterWindow();
-            RegisterUserViewModel vm = new RegisterUserViewModel();
+            RegisterUserViewModel vm = new RegisterUserViewModel(new UserCredentialsValidator());
             vm.RequestClose += (x, e) => CloseWindow(registerWindow);
             registerWindow.DataContext = vm;
             registerWindow.ShowDialog();
