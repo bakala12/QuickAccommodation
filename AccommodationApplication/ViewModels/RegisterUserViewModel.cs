@@ -5,8 +5,12 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Input;
 using AccommodationApplication.Commands;
+using AccommodationDataAccess.Domain;
+using AccommodationDataAccess.Model;
+using UserAuthorizationSystem.Registration;
 using UserAuthorizationSystem.Validation;
 
 namespace AccommodationApplication.ViewModels
@@ -33,12 +37,14 @@ namespace AccommodationApplication.ViewModels
         private string _error;
         private CurrentScreen _currentScreen;
         private readonly IUserCredentialsValidator _validator;
+        private readonly IRegisterUser _register;
 
-        public RegisterUserViewModel(IUserCredentialsValidator validator)
+        public RegisterUserViewModel(IUserCredentialsValidator validator, IRegisterUser regiser)
         {
-            if(validator == null) throw new ArgumentNullException();
+            if(validator == null || regiser==null) throw new ArgumentNullException();
             _validator = validator;
-            NextCommand = new DelegateCommand(x => NextScreen());
+            _register = regiser;
+            NextCommand = new DelegateCommand(async x=> await NextScreenAsync(x));
             RegisterCommand = new DelegateCommand(x => Register());
             CurrentScreen = CurrentScreen.Credentials;
         }
@@ -56,12 +62,31 @@ namespace AccommodationApplication.ViewModels
             }
         }
 
-        private void NextScreen()
+        private async Task NextScreenAsync(object x)
         {
             switch (CurrentScreen)
             {
                 case CurrentScreen.Credentials:
-                    //walidacja
+                    PasswordBox[] passwords = x as PasswordBox[];
+                    if(passwords==null || passwords.Length!=2) throw new ArgumentException();
+                    string err;
+                    if (!_validator.ValidatePassword(passwords[0].Password, out err))
+                    {
+                        Error = err;
+                        return;
+                    }
+                    if (!_validator.ValidatePasswordConfirmation(passwords[0].Password, passwords[1].Password, out err))
+                    {
+                        Error = err;
+                        return;
+                    }
+                    bool b = await _validator.ValidateUsernameAsync<AccommodationContext>(Username);
+                    if (!b)
+                    {
+                        Error = "Nazwa użytkownika jest już zajęta";
+                        return;
+                    }
+                    User user = _register.GetNewUser(Username, passwords[0].Password);
                     CurrentScreen=CurrentScreen.BasicData;
                     break;
                 case CurrentScreen.BasicData:

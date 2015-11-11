@@ -43,11 +43,15 @@ namespace UserAuthorizationSystem.Validation
             return true;
         }
 
-        public virtual bool ValidatePasswordConfirmation(string password, string passwordConfirmed)
+        public virtual bool ValidatePasswordConfirmation(string password, string passwordConfirmed, out string reason)
         {
-            string reason;
-            return ValidatePassword(password, out reason) && ValidatePassword(passwordConfirmed, out reason) &&
-                   password.Equals(passwordConfirmed);
+            reason = string.Empty;
+            if (password == null || !password.Equals(passwordConfirmed))
+            {
+                reason = "Hasła nie są zgodne";
+                return false;
+            }
+            return true;
         }
     }
 }

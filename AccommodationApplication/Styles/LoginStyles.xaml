@@ -84,7 +84,8 @@
                         <AdornedElementPlaceholder>
                             <Border BorderBrush="Red" BorderThickness="2"/>
                         </AdornedElementPlaceholder>
-                        <TextBlock Text="{Binding AdornedElement.ToolTip, RelativeSource={RelativeSource AncestorType={x:Type Adorner}}}"
+                        <TextBlock Text="{Binding AdornedElement.ToolTip, 
+                            RelativeSource={RelativeSource AncestorType={x:Type Adorner}}}"
                                    Foreground="Red" Padding="1"/>
                     </StackPanel>
                 </ControlTemplate>

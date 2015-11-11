@@ -8,6 +8,9 @@ using AccommodationDataAccess.Domain;
 
 namespace UserAuthorizationSystem.Validation
 {
+    /// <summary>
+    /// Provides a way to validate basic user data.
+    /// </summary>
     public interface IUserDataValidator
     {
         bool ValidateName(string value);
@@ -30,10 +33,13 @@ namespace UserAuthorizationSystem.Validation
         bool ValidateEmail(string value,out string reason);
     }
 
+    /// <summary>
+    /// Provides a way to validate passwords.
+    /// </summary>
     public interface IPasswordValidator
     {
         bool ValidatePassword(string password, out string reason);
-        bool ValidatePasswordConfirmation(string password, string passwordConfirmed);
+        bool ValidatePasswordConfirmation(string password, string passwordConfirmed, out string reason);
     }
 
     public interface IUserCredentialsValidator : IEmailValidator, IUserDataValidator, IPasswordValidator
