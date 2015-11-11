@@ -8,12 +8,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using AccommodationApplication.Annotations;
 using AccommodationApplication.Commands;
 using AccommodationApplication.Login;
 using AccommodationDataAccess.Domain;
 using AccommodationDataAccess.Model;
 using MahApps.Metro.Controls.Dialogs;
 using UserAuthorizationSystem.Authentication;
+using UserAuthorizationSystem.Identities;
 using UserAuthorizationSystem.Registration;
 using UserAuthorizationSystem.Validation;
 
@@ -21,14 +23,19 @@ namespace AccommodationApplication.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
+        private string _authenticatedUser;
+
         public MainWindowViewModel()
         {
             LoginCommand = new DelegateCommand(x => Login());
             RegisterCommand = new DelegateCommand(x=>Register());
+            LogoutCommand = new DelegateCommand(x=>Logout());
+            AuthenticatedUser = null;
         }
 
-        public ICommand LoginCommand { get; set; }
-        public ICommand RegisterCommand { get; set; }
+        public ICommand LoginCommand { get; private set; }
+        public ICommand RegisterCommand { get;private set; }
+        public ICommand LogoutCommand { get; private set; }
 
         protected virtual void Login()
         {
@@ -37,6 +44,7 @@ namespace AccommodationApplication.ViewModels
             vm.RequestClose += (x,e)=>CloseWindow(login);
             login.DataContext = vm;
             login.ShowDialog();
+            AuthenticatedUser = Thread.CurrentPrincipal.Identity is AnonymousIdentity?null:Thread.CurrentPrincipal.Identity.Name;
         }
 
         protected virtual void Register()
@@ -48,41 +56,30 @@ namespace AccommodationApplication.ViewModels
             registerWindow.ShowDialog();
         }
 
+        private void Logout()
+        {
+            CustomPrincipal principal = Thread.CurrentPrincipal as CustomPrincipal;
+            if(principal==null) throw new InvalidOperationException();
+            principal.Identity=new AnonymousIdentity();
+            AuthenticatedUser = null;
+        }
+
         private static void CloseWindow(Window window)
         {
             window?.Close();
         }
 
-        public ObservableCollection<DisplayableUser> Users
-        {
-            get
-            {
-                var ret = new ObservableCollection<DisplayableUser>();
-                //using (var db = new AccommodationContext())
-                //{
-                //    foreach (var user in db.Users)
-                //    {
-                //        ret.Add(new DisplayableUser(user, user.UserData));
-                //    }
-                //}
-                return ret;
-            }
-        }
+        public bool IsAuthenticated => AuthenticatedUser != null;
 
-        public class DisplayableUser
+        public string AuthenticatedUser
         {
-            public DisplayableUser(User user, UserData data)
+            get { return _authenticatedUser; }
+            set
             {
-                Id = user.Id;
-                Login = user.Username;
-                FirstName = data.FirstName;
-                CompanyName = data.CompanyName;
+                _authenticatedUser = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(IsAuthenticated));
             }
-
-            public int Id { get; set; }
-            public string Login { get; set; }
-            public string FirstName { get; set; }
-            public string CompanyName { get; set; }
         }
     }
 }

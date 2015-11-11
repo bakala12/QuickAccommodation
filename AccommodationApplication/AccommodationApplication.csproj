@@ -73,6 +73,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\DelegateCommand.cs" />
+    <Compile Include="Converter\BoolToVisibilityConverter.cs" />
     <Compile Include="Converter\PasswordsConverter.cs" />
     <Compile Include="Converter\RegisterViewsVisibilityConverter.cs" />
     <Compile Include="Login\LoginWindow.xaml.cs">

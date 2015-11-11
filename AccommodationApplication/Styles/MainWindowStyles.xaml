@@ -1,40 +1,43 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:AccommodationApplication">
+                    xmlns:converters="clr-namespace:AccommodationApplication.Converter"
+                    xmlns:s="clr-namespace:System;assembly=mscorlib">
+
+    <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+    <s:Boolean x:Key="True">True</s:Boolean>
+    <s:Boolean x:Key="False">False</s:Boolean>
+    <VisualBrush x:Key="LoginIcon" Visual="{StaticResource appbar_thumbs_up}" Stretch="Fill"/>
+    <VisualBrush x:Key="AddUserIcon" Visual="{StaticResource appbar_user_add}" Stretch="Fill"/>
+    <VisualBrush x:Key="LogoutIcon" Visual="{StaticResource appbar_thumbs_down}" Stretch="Fill"/>
 
     <Style TargetType="{x:Type Button}" x:Key="FancyLoginButtonStyle">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Button Name="button" Command="{TemplateBinding Command}"
-                            Background="{TemplateBinding Background}">
-                        <StackPanel Orientation="Horizontal">
-                            <Rectangle Width="20" Height="20" Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
-                                <Rectangle.OpacityMask>
-                                    <VisualBrush Stretch="Fill"  Visual="{StaticResource appbar_thumbs_up}" />
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
+                    <Border BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}"
+                            Background="{TemplateBinding Background}" CornerRadius="5" Name="Border">
+                        <StackPanel Orientation="Horizontal" Margin="5"
+                                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <Rectangle Width="15" Height="15" Fill="{TemplateBinding Foreground}" OpacityMask="{TemplateBinding Tag}"/>
                             <TextBlock Margin="4 0 0 0" TextAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Text="zaloguj się" />
+                                   VerticalAlignment="Center"
+                                   Text="{TemplateBinding Content}" />
                         </StackPanel>
-                    </Button>
+                    </Border>
                     <ControlTemplate.Triggers>
-                        <EventTrigger RoutedEvent="MouseEnter" SourceName="button">
+                        <EventTrigger RoutedEvent="MouseEnter" SourceName="Border">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <ColorAnimation Storyboard.TargetProperty="(Background).(SolidColorBrush.Color)"
-                                                    From="{Binding ElementName=button, Path=Background}"
-                                                    To="LightGray" Duration="0:0:0.5"/>
+                                    <ColorAnimation Duration="0:0:0.5" Storyboard.TargetProperty="(Background).(SolidColorBrush.Color)"
+                                                From="LightGray" To="LightBlue"/>
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
-                        <EventTrigger RoutedEvent="MouseLeave" SourceName="button">
+                        <EventTrigger RoutedEvent="MouseLeave" SourceName="Border">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <ColorAnimation Storyboard.TargetProperty="(Background).(SolidColorBrush.Color)"
-                                                    To="{Binding ElementName=button, Path=Background}"
-                                                    From="LightGray" Duration="0:0:0.5"/>
+                                    <ColorAnimation Duration="0:0:0.5" Storyboard.TargetProperty="(Background).(SolidColorBrush.Color)"
+                                                From="LightBlue" To="LightGray"/>
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
@@ -42,7 +45,6 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Setter Property="Padding" Value="5"/>
-        <Setter Property="Background" Value="AliceBlue"/>
     </Style>
+
 </ResourceDictionary>

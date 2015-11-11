@@ -14,53 +14,44 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles/MainWindowStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            </ResourceDictionary>
+        </ResourceDictionary>
     </Window.Resources>
     <Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.2*"/>
-            <ColumnDefinition Width="1*"/>
-        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <DockPanel Grid.ColumnSpan="2" Grid.Row="0" HorizontalAlignment="Right">
-            <StackPanel Orientation="Horizontal">
-                <Button Margin="10 5 0 0" Command="{Binding LoginCommand}">
-                    <StackPanel Orientation="Horizontal" Margin="5">
-                        <Rectangle Width="20" Height="20" Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
-                            <Rectangle.OpacityMask>
-                                <VisualBrush Stretch="Fill"  Visual="{StaticResource appbar_thumbs_up}" />
-                            </Rectangle.OpacityMask>
-                        </Rectangle>
-                        <TextBlock Margin="4 0 0 0" TextAlignment="Center"
-                   VerticalAlignment="Center"
-                   Text="zaloguj się" />
-                    </StackPanel>
-                </Button>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="10 5 10 5" HorizontalAlignment="Right">
-                <Label VerticalAlignment="Center">Nie masz jeszcze konta ? Zarejestruj się:</Label>
-                <Button Command="{Binding RegisterCommand}">
-                    <StackPanel Orientation="Horizontal">
-                        <Rectangle Width="20" Height="20"
-                   Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
-                            <Rectangle.OpacityMask>
-                                <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_user_add}" />
-                            </Rectangle.OpacityMask>
-                        </Rectangle>
-                    </StackPanel>
-                </Button>
-            </StackPanel>
+        <DockPanel Visibility="{Binding IsAuthenticated, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter={StaticResource True}}"
+                   Grid.Row="0" HorizontalAlignment="Right" Margin="4">
+            <Label Content="Jesteś zalogowany jako:" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,5,0"/>
+            <TextBlock Text="{Binding AuthenticatedUser}" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"
+                       Margin="0,0,10,0"/>
+            <Button Content="Wyloguj" Command="{Binding LogoutCommand}" HorizontalAlignment="Right"
+                    Style="{StaticResource FancyLoginButtonStyle}" Tag="{StaticResource LogoutIcon}"/>
         </DockPanel>
-        <StackPanel Grid.Column="0" Grid.Row="1">
-            <Button Content="Przegląd ofert"/>
-            <Button Content="Wyszukaj ofertę"/>
-        </StackPanel>
-        <DataGrid Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Users}"/>
+        <DockPanel Visibility="{Binding IsAuthenticated, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter={StaticResource False}}"
+                   Grid.Row="0" HorizontalAlignment="Right" Margin="4">
+            <Button Style="{StaticResource FancyLoginButtonStyle}" Command="{Binding LoginCommand}" 
+                    HorizontalAlignment="Right" Content="Zaloguj się" Tag="{StaticResource LoginIcon}"/>
+            <TextBlock Text="Nie masz jeszcze konta?" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0,10,0"/>
+            <Button Style="{StaticResource FancyLoginButtonStyle}" Content="Zarejestruj się" Tag="{StaticResource AddUserIcon}"
+                    HorizontalAlignment="Left" Command="{Binding RegisterCommand}"/>
+        </DockPanel>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.2*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Column="0">
+                <Button Content="Przegląd ofert"/>
+                <Button Content="Wyszukaj ofertę"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Controls:MetroWindow>
