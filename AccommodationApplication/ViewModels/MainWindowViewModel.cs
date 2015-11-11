@@ -33,6 +33,7 @@ namespace AccommodationApplication.ViewModels
             AuthenticatedUser = null;
             PageViewModels.Add(new OffersViewModel());
             PageViewModels.Add(new SearchingViewModel());
+            PageViewModels.Add(new AddNewOfferViewModel());
 
             CurrentPageViewModel = PageViewModels[0];
         }
@@ -142,11 +143,11 @@ namespace AccommodationApplication.ViewModels
                 OnPropertyChanged(nameof(IsAuthenticated));
             }
         }
-        public ObservableCollection<DisplayableOffer> offersList = new ObservableCollection<DisplayableOffer>();
+        public ObservableCollection<DisplayableOffer> currentOffersList = new ObservableCollection<DisplayableOffer>();
 
 
 
-        public ObservableCollection<DisplayableOffer> OffersList
+        public ObservableCollection<DisplayableOffer> CurrentOffersList
         {
             get
             {

@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace AccommodationApplication.ViewModels
 {
-    public class OffersViewModel : IPageViewModel
+    public class AddNewOfferViewModel : IPageViewModel
     {
         public string Name
         {
             get
             {
-                return "My offers";
+                return "Add new offer";
             }
         }
     }

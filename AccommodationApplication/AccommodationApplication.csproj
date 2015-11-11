@@ -83,6 +83,9 @@
     <Compile Include="Login\RegisterWindow.xaml.cs">
       <DependentUpon>RegisterWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\AddNewOfferView.xaml.cs">
+      <DependentUpon>AddNewOfferView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\OffersView.xaml.cs">
       <DependentUpon>OffersView.xaml</DependentUpon>
     </Compile>
@@ -93,6 +96,7 @@
     <Compile Include="ViewModels\CloseableViewModel.cs" />
     <Compile Include="ViewModels\LoginWindowViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\AddNewOfferViewModel.cs" />
     <Compile Include="ViewModels\SearchingViewModel.cs" />
     <Compile Include="ViewModels\OffersViewModel.cs" />
     <Compile Include="SplashScreen.xaml.cs">
@@ -129,6 +133,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Pages\AddNewOfferView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Pages\OffersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
