@@ -18,6 +18,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <GroupBox Header="Dane użytkownika">
             <Grid>
@@ -33,12 +34,13 @@
                 <TextBlock Text="Imię" Grid.Row="0" Grid.Column="0" Style="{StaticResource CenterTextBlock}"/>
                 <TextBlock Text="Nazwisko" Grid.Row="1" Grid.Column="0" Style="{StaticResource CenterTextBlock}"/>
                 <TextBlock Text="Nazwa firmy" Grid.Row="2" Grid.Column="0" Style="{StaticResource CenterTextBlock}"/>
-                <TextBox Grid.Column="1" Grid.Row="0" Style="{StaticResource TextBoxStyle}" Text="{Binding FirstName}"/>
-                <TextBox Grid.Column="1" Grid.Row="1" Style="{StaticResource TextBoxStyle}" Text="{Binding LastName}"/>
+                <TextBox Name="First"  Grid.Column="1" Grid.Row="0" Style="{StaticResource TextBoxStyle}" Text="{Binding FirstName}"/>
+                <TextBox Name="Last" Grid.Column="1" Grid.Row="1" Style="{StaticResource TextBoxStyle}" Text="{Binding LastName}"/>
                 <TextBox Grid.Column="1" Grid.Row="2" Style="{StaticResource TextBoxStyle}" Text="{Binding CompanyName}"/>
             </Grid>
         </GroupBox>
-        <Button Grid.Row="1" Content="Dalej" Style="{StaticResource LoginButtonStyle}" 
+        <TextBlock Grid.Row="1" Foreground="Red" HorizontalAlignment="Center" Text="{Binding Error}"/>
+        <Button Grid.Row="2" Content="Dalej" Style="{StaticResource LoginButtonStyle}" 
                 Command="{Binding NextCommand}"/>
     </Grid>
 </UserControl>

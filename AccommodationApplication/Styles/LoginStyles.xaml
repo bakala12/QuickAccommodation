@@ -75,27 +75,4 @@
     <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource CenterTextBlock}" x:Key="ErrorTextBlockStyle">
         <Setter Property="Foreground" Value="Red"/>
     </Style>
-    
-    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource TextBoxStyle}" x:Key="ValidateTextBoxStyle">
-        <Setter Property="Validation.ErrorTemplate">
-            <Setter.Value>
-                <ControlTemplate>
-                    <StackPanel>
-                        <AdornedElementPlaceholder>
-                            <Border BorderBrush="Red" BorderThickness="2"/>
-                        </AdornedElementPlaceholder>
-                        <TextBlock Text="{Binding AdornedElement.ToolTip, 
-                            RelativeSource={RelativeSource AncestorType={x:Type Adorner}}}"
-                                   Foreground="Red" Padding="1"/>
-                    </StackPanel>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-        <Style.Triggers>
-            <Trigger Property="Validation.HasError" Value="True">
-                <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self},
-                    Path=(Validation.Errors)[0].ErrorContent}"/>
-            </Trigger>
-        </Style.Triggers>
-    </Style>
 </ResourceDictionary>

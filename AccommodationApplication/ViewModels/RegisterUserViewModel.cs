@@ -20,7 +20,7 @@ namespace AccommodationApplication.ViewModels
         Credentials, BasicData, Address
     }
 
-    public class RegisterUserViewModel : CloseableViewModel, IDataErrorInfo
+    public class RegisterUserViewModel : CloseableViewModel
     {
         private string _username;
         private string _email;
@@ -38,6 +38,9 @@ namespace AccommodationApplication.ViewModels
         private CurrentScreen _currentScreen;
         private readonly IUserCredentialsValidator _validator;
         private readonly IRegisterUser _register;
+        private User _user;
+        private UserData _userData;
+        private Address _address;
 
         public RegisterUserViewModel(IUserCredentialsValidator validator, IRegisterUser regiser)
         {
@@ -45,7 +48,7 @@ namespace AccommodationApplication.ViewModels
             _validator = validator;
             _register = regiser;
             NextCommand = new DelegateCommand(async x=> await NextScreenAsync(x));
-            RegisterCommand = new DelegateCommand(x => Register());
+            RegisterCommand = new DelegateCommand(async x =>await RegisterAsync());
             CurrentScreen = CurrentScreen.Credentials;
         }
 
@@ -62,7 +65,7 @@ namespace AccommodationApplication.ViewModels
             }
         }
 
-        private async Task NextScreenAsync(object x)
+        public async Task NextScreenAsync(object x)
         {
             switch (CurrentScreen)
             {
@@ -70,14 +73,9 @@ namespace AccommodationApplication.ViewModels
                     PasswordBox[] passwords = x as PasswordBox[];
                     if(passwords==null || passwords.Length!=2) throw new ArgumentException();
                     string err;
-                    if (!_validator.ValidatePassword(passwords[0].Password, out err))
+                    if (string.IsNullOrEmpty(Username))
                     {
-                        Error = err;
-                        return;
-                    }
-                    if (!_validator.ValidatePasswordConfirmation(passwords[0].Password, passwords[1].Password, out err))
-                    {
-                        Error = err;
+                        Error = "Podaj nazwę użytkownika";
                         return;
                     }
                     bool b = await _validator.ValidateUsernameAsync<AccommodationContext>(Username);
@@ -86,32 +84,41 @@ namespace AccommodationApplication.ViewModels
                         Error = "Nazwa użytkownika jest już zajęta";
                         return;
                     }
-                    User user = _register.GetNewUser(Username, passwords[0].Password);
+                    if (!_validator.ValidateEmail(Email, out err) || 
+                        !_validator.ValidatePassword(passwords[0].Password, out err) || 
+                        !_validator.ValidatePasswordConfirmation(passwords[0].Password, passwords[1].Password, out err))
+                    {
+                        Error = err;
+                        return;
+                    }
+                    _user = _register.GetNewUser(Username, passwords[0].Password);
+                    _userData = new UserData() {Email = Email};
                     CurrentScreen=CurrentScreen.BasicData;
                     break;
                 case CurrentScreen.BasicData:
+                    if (!_validator.ValidateName(FirstName))
+                    {
+                        Error = "Należy podać imię";
+                        return;
+                    }
+                    if (!_validator.ValidateName(LastName))
+                    {
+                        Error = "Należy podać nazwisko";
+                        return;
+                    }
+                    _userData.FirstName = FirstName;
+                    _userData.LastName = LastName;
+                    _userData.CompanyName = CompanyName ?? string.Empty;
                     CurrentScreen=CurrentScreen.Address;
                     break;
             }
         }
 
-        protected virtual void Register()
+        public async virtual Task RegisterAsync()
         {
-
-        }
-
-        public string this[string columnName]
-        {
-            get
-            {
-                string message;
-                switch (columnName)
-                {
-                    case "Email":
-                        return !_validator.ValidateEmail(Email, out message) ?message: string.Empty;
-                }
-                return string.Empty;
-            }
+            _address = new Address() {City = City, Street = Street, PostalCode = PostalCode, LocalNumber = LocaleNumber};
+            await _register.SaveUserAsync<AccommodationContext>(_user, _userData, _address);
+            Close();
         }
 
         #region Properties

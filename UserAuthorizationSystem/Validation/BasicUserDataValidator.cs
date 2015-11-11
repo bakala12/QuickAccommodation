@@ -11,7 +11,7 @@ namespace UserAuthorizationSystem.Validation
     {
         public bool ValidateName(string value)
         {
-            return !string.IsNullOrEmpty(value) && char.IsLower(value[0]);
+            return !string.IsNullOrEmpty(value);
         }
 
         public bool ValidateLocalNumber(string value)
