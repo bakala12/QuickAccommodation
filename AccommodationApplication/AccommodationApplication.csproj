@@ -76,16 +76,25 @@
     <Compile Include="Converter\BoolToVisibilityConverter.cs" />
     <Compile Include="Converter\PasswordsConverter.cs" />
     <Compile Include="Converter\RegisterViewsVisibilityConverter.cs" />
+    <Compile Include="Interfaces\IPageViewModel.cs" />
     <Compile Include="Login\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Login\RegisterWindow.xaml.cs">
       <DependentUpon>RegisterWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\OffersView.xaml.cs">
+      <DependentUpon>OffersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Searching.xaml.cs">
+      <DependentUpon>Searching.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ViewModels\CloseableViewModel.cs" />
     <Compile Include="ViewModels\LoginWindowViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\SearchingViewModel.cs" />
+    <Compile Include="ViewModels\OffersViewModel.cs" />
     <Compile Include="SplashScreen.xaml.cs">
       <DependentUpon>SplashScreen.xaml</DependentUpon>
     </Compile>
@@ -120,6 +129,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Pages\OffersView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Searching.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Styles\LoginStyles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

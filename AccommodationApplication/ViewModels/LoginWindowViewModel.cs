@@ -18,7 +18,6 @@ namespace AccommodationApplication.ViewModels
     {
         private string _username;
         private string _errorText;
-        private readonly string _errorMessage = "Nieprawidłowa nazwa użytkownika lub hasło!";
         private readonly IUserAuthenticationService _authenticationService;
 
         public LoginWindowViewModel(IUserAuthenticationService authenticationService)

@@ -1,0 +1,57 @@
+﻿<UserControl x:Class="AccommodationApplication.Pages.OffersView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AccommodationApplication.Pages"
+             xmlns:vm="clr-namespace:AccommodationApplication.ViewModels"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+
+    <UserControl.DataContext>
+        <vm:MainWindowViewModel/>
+    </UserControl.DataContext>
+
+    <Grid>
+        <ListView  Name="currentOffers" ItemsSource="{Binding OffersList}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <WrapPanel >
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Grid.Row="0">
+                                <Label Content="{Binding Address}" FontWeight="Bold"  />
+                            </StackPanel>
+
+
+                            <StackPanel Grid.Row="1" Orientation="Horizontal">
+                                <Label  Content="Od: "/>
+                                <Label  Content="{Binding OfferStartTime, StringFormat=d}" />
+                                <Label  Content="Do: "/>
+                                <Label  Content="{Binding OfferEndTime, StringFormat=d}"  />
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="2" Orientation="Horizontal">
+                          
+                                <Label   Content="Liczba wolnych miejsc: "  />
+                                <Label  Content="{Binding AvailableVacanciesNumber}"  />
+                                <Label  Content="Cena: "  />
+                                <Label Content="{Binding Price}"  />
+                            </StackPanel>
+
+
+                     
+                        </Grid>
+                    </WrapPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
+
+        </ListView>
+    </Grid>
+</UserControl>

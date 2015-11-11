@@ -6,11 +6,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AccommodationApplication"
         xmlns:vm="clr-namespace:AccommodationApplication.ViewModels"
+        xmlns:pg="clr-namespace:AccommodationApplication.Pages"
         mc:Ignorable="d"
         Title="QuickAccommodation" Height="600" Width="800" WindowStartupLocation="CenterScreen"
         GlowBrush="{DynamicResource AccentColorBrush}" TitleCaps="False">
     <Window.Resources>
         <ResourceDictionary>
+
+            <DataTemplate DataType="{x:Type vm:OffersViewModel}">
+                <pg:OffersView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:SearchingViewModel}">
+                <pg:Searching />
+            </DataTemplate>
+
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles/MainWindowStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
@@ -53,5 +62,18 @@
                 <Button Content="Wyszukaj ofertę"/>
             </StackPanel>
         </Grid>
+        <StackPanel Grid.Column="0" Grid.Row="1">
+            <ItemsControl ItemsSource="{Binding PageViewModels}">
+                <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Button Content="{Binding Name}"
+                                Command="{Binding DataContext.ChangePageCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                                CommandParameter="{Binding }"
+                                Margin="2,5"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+        <ContentControl  Grid.Column="1" Grid.Row="1" Content="{Binding CurrentPageViewModel}" />
     </Grid>
 </Controls:MetroWindow>
