@@ -13,7 +13,6 @@ using AccommodationApplication.Commands;
 using AccommodationApplication.Login;
 using AccommodationDataAccess.Domain;
 using AccommodationDataAccess.Model;
-using MahApps.Metro.Controls.Dialogs;
 using UserAuthorizationSystem.Authentication;
 using UserAuthorizationSystem.Identities;
 using UserAuthorizationSystem.Registration;
