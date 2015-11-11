@@ -9,14 +9,14 @@ namespace UserAuthorizationSystem.Identities
 {
     public class CustomIdentity : IIdentity
     {
-        public CustomIdentity(string username, string email, string[] roles)
+        public CustomIdentity(string username, string email=null, string[] roles=null)
         {
             Username = username;
             Email = email;
-            Roles = roles;
+            Roles = roles ?? new string[]{};
         }
 
-        public string Username { get; private set; }
+        public string Username { get; }
         public string Email { get; private set; }
         public string[] Roles { get; private set; }
 

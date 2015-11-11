@@ -50,6 +50,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Authentication\IUserAuthenticationService.cs" />
+    <Compile Include="Authentication\UserAuthenticationService.cs" />
     <Compile Include="Identities\AnonymousIdentity.cs" />
     <Compile Include="Identities\CustomIdentity.cs" />
     <Compile Include="Identities\CustomPrincipal.cs" />
@@ -71,9 +73,7 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Authentication\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

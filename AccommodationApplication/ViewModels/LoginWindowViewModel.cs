@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
 using AccommodationApplication.Commands;
+using AccommodationDataAccess.Domain;
+using UserAuthorizationSystem.Authentication;
+using UserAuthorizationSystem.Identities;
 
 namespace AccommodationApplication.ViewModels
 {
@@ -15,10 +19,13 @@ namespace AccommodationApplication.ViewModels
         private string _username;
         private string _errorText;
         private readonly string _errorMessage = "Nieprawidłowa nazwa użytkownika lub hasło!";
+        private readonly IUserAuthenticationService _authenticationService;
 
-        public LoginWindowViewModel()
+        public LoginWindowViewModel(IUserAuthenticationService authenticationService)
         {
-            LoginCommand = new DelegateCommand(Login);
+            if(authenticationService==null) throw new ArgumentNullException();
+            _authenticationService = authenticationService;
+            LoginCommand = new DelegateCommand(async x => await LoginAsync(x));
         }
 
         public string Username
@@ -43,13 +50,24 @@ namespace AccommodationApplication.ViewModels
 
         public ICommand LoginCommand { get; }
 
-        public virtual void Login(object parameter)
+        public virtual async Task LoginAsync(object parameter)
         {
             PasswordBox passwordBox = parameter as PasswordBox;
             if(passwordBox==null)
                 throw new InvalidOperationException();
             //Login operation here
-            ErrorText = passwordBox.Password;
+            CustomPrincipal principal=Thread.CurrentPrincipal as CustomPrincipal;
+            if(principal==null)
+                throw new InvalidOperationException();
+            CustomIdentity identity =
+                await _authenticationService.AuthenticateUserAsync<AccommodationContext>(Username, passwordBox.Password);
+            if (identity == null)
+            {
+                ErrorText = "Nieprawidłowa nazwa użytkownika lub hasło";
+                return;
+            }
+            principal.Identity = identity;
+            Close();
         }
     }
 }

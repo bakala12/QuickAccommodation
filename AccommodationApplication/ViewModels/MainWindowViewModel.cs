@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Security.Principal;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -11,6 +13,7 @@ using AccommodationApplication.Login;
 using AccommodationDataAccess.Domain;
 using AccommodationDataAccess.Model;
 using MahApps.Metro.Controls.Dialogs;
+using UserAuthorizationSystem.Authentication;
 using UserAuthorizationSystem.Registration;
 using UserAuthorizationSystem.Validation;
 
@@ -30,7 +33,7 @@ namespace AccommodationApplication.ViewModels
         protected virtual void Login()
         {
             LoginWindow login=new LoginWindow();
-            LoginWindowViewModel vm=new LoginWindowViewModel();
+            LoginWindowViewModel vm=new LoginWindowViewModel(new UserAuthenticationService());
             vm.RequestClose += (x,e)=>CloseWindow(login);
             login.DataContext = vm;
             login.ShowDialog();
