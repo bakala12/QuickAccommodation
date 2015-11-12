@@ -14,7 +14,7 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
@@ -87,7 +87,7 @@
             </Grid>
         </GroupBox>
 
-        <Button Content="Dodaj ofertę!" Grid.Row="3" Grid.ColumnSpan="2" Width="60" Height="40"
+        <Button Content="Dodaj ofertę!" Grid.Row="3" Grid.ColumnSpan="2" Width="100" Height="40"
                 Command="{Binding AddCommand}" CommandParameter=""/>
     </Grid>
 </UserControl>

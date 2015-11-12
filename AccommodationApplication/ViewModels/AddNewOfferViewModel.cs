@@ -32,13 +32,19 @@ namespace AccommodationApplication.ViewModels
             _startDate = DateTime.Now;
             _endDate = DateTime.Now;
 
-            AddCommand = new DelegateCommand((o) => Add());
+            AddCommand = new DelegateCommand(async x => await AddAsync());
             
         }
 
+        public async virtual Task AddAsync()
+        {
+            await Task.Run(() => Add());
+        }
 
         public ICommand AddCommand { get; set; }
+        
 
+     
         public void Add()
         {
             OfferValidator ov = new OfferValidator();
