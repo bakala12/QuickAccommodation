@@ -18,6 +18,10 @@
             <DataTemplate DataType="{x:Type vm:SearchingViewModel}">
                 <pg:Searching />
             </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:AddNewOfferViewModel}">
+                <pg:AddNewOfferView />
+            </DataTemplate>
+
 
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles/MainWindowStyles.xaml"/>

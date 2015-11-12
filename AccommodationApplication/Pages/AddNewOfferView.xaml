@@ -9,10 +9,85 @@
              d:DesignHeight="300" d:DesignWidth="300">
 
     <UserControl.DataContext>
-        <vm:MainWindowViewModel/>
+        <vm:AddNewOfferViewModel/>
     </UserControl.DataContext>
 
     <Grid>
-    
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <GroupBox Header="NAZWA I ADRES: " Grid.Row="0">
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Nazwa" Grid.Row="0" Grid.Column="0" />
+                <TextBlock Text="Ulica" Grid.Row="1" Grid.Column="0" />
+                <TextBlock Text="Numer domu" Grid.Row="2" Grid.Column="0" />
+                <TextBlock Text="Kod pocztowy" Grid.Row="3" Grid.Column="0" />
+                <TextBlock Text="Miejscowosć" Grid.Row="4" Grid.Column="0" />
+                <TextBox Grid.Column="1" Grid.Row="0"  Text="{Binding AccomodationName}"/>
+                <TextBox Grid.Column="1" Grid.Row="1"  Text="{Binding Street}"/>
+                <TextBox Grid.Column="1" Grid.Row="2"  Text="{Binding LocalNumber}"/>
+                <TextBox Grid.Column="1" Grid.Row="3"  Text="{Binding PostalCode}"/>
+                <TextBox Grid.Column="1" Grid.Row="4"  Text="{Binding City}"/>
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Header="TERMIN: " Grid.Row="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.6*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Od:" Grid.Row="0" Grid.Column="0" />
+                <TextBlock Text="Do: " Grid.Row="0" Grid.Column="1" />
+                <DatePicker Grid.Column="0" Grid.Row="1" SelectedDate="{Binding StartDate}"/>
+                <DatePicker Grid.Column="1" Grid.Row="1" SelectedDate="{Binding EndDate}"/>
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Header="DODATKOWE INFORMACJE: " Grid.Row="2">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Liczba wolnych miejsc: " Grid.Row="0" Grid.Column="0" />
+                <TextBox Grid.Column="1" Grid.Row="0"  Text="{Binding AvailiableVacanciesNumber}"/>
+                <TextBlock Text="Cena: " Grid.Row="1" Grid.Column="0" />
+                <TextBox  Grid.Row="1" Grid.Column="1"  Text="{Binding Price}"/>
+                <TextBlock Text="Opis: " Grid.Row="2" Grid.Column="0" />
+                <TextBox Grid.Column="1" Grid.Row="2"  Text="{Binding Description}"/>
+
+            </Grid>
+        </GroupBox>
+
+        <Button Content="Dodaj ofertę!" Grid.Row="3" Grid.ColumnSpan="2" Width="60" Height="40"
+                Command="{Binding AddCommand}" CommandParameter=""/>
     </Grid>
 </UserControl>
