@@ -34,14 +34,8 @@ namespace ConsoleApplication1
                     Price = 1245.55,
                     AvailableVacanciesNumber = 3,
                 };
-                Offer off=new Offer()
-                {
-                    OfferInfo = offer,
-                    Vendor = user,
-                    Customer=null
-                };
+        
                 db.Users.Add(user);
-                db.Offers.Add(off);
                 db.SaveChanges();
             }
         }

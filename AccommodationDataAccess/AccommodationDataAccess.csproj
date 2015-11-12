@@ -52,9 +52,10 @@
     <Compile Include="Domain\AccommodationContext.cs" />
     <Compile Include="Model\Address.cs" />
     <Compile Include="Model\Entity.cs" />
+    <Compile Include="Model\PurchasedOffer.cs" />
     <Compile Include="Model\OfferInfo.cs" />
     <Compile Include="Model\User.cs" />
-    <Compile Include="Model\Offer.cs" />
+    <Compile Include="Model\AvailableOffer.cs" />
     <Compile Include="Model\UserData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

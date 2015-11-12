@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Transactions;
+using System.Threading;
 
 namespace AccommodationApplication.ViewModels
 {
@@ -44,7 +45,6 @@ namespace AccommodationApplication.ViewModels
             if (ov.ValidateDate(this.StartDate, this.EndDate) || ov.ValidateLocalNumber(this.LocalNumber) ||
                  ov.ValidateName(this.AccommodationName) || ov.ValidatePostalCode(this.PostalCode) || ov.ValidatePrice(this.Price))
             {
-                Offer newoffer = new Offer();
                 Address address = new Address()
                 {
                     Name = this.AccommodationName,
@@ -56,38 +56,36 @@ namespace AccommodationApplication.ViewModels
                 OfferInfo offer = new OfferInfo()
                 {
                     Address = address,
-                    OfferStartTime = DateTime.UtcNow, //tymczasowo, bo DateTime nie jest do końca zgodny z  typem bazy
-                    OfferEndTime = DateTime.UtcNow,
+                    OfferStartTime = TimeZoneInfo.ConvertTimeToUtc(this.StartDate),
+                    OfferEndTime = TimeZoneInfo.ConvertTimeToUtc(this.EndDate),
                     Description = this.Description,
                     Price = double.Parse(this.Price),
                     AvailableVacanciesNumber = this.AvailiableVacanciesNumber,
                     OfferPublishTime = DateTime.UtcNow
                 };
 
-                User user1 = new User();
-                user1.Username = "mateusz";
-                string salt = "dupaaaa";
-                user1.Salt = salt;
-                user1.HashedPassword = "dusadsa";
+                AvailableOffer ao = new AvailableOffer();
+              
 
-                User user2 = new User();
-                user1.Username = "mateusz";
-                string salt2 = "dupaaaa";
-                user2.Salt = salt2;
-                user2.HashedPassword = "dusadsa";
+                string currentUser = Thread.CurrentPrincipal.Identity.Name;
 
                 using (var context = new AccommodationContext())
                 {
                     using (var scope = new TransactionScope())
                     {
-                        newoffer.OfferInfo = offer;
-                        newoffer.Customer = user1;
-                        newoffer.Vendor = user1;
-                        context.Offers.Add(newoffer);
+                        User user = context.Users.FirstOrDefault(x => x.Username.Equals(currentUser));
+                        ao.OfferInfo = offer;
+                        ao.Vendor = user;
+                        user.MyOffers.Add(ao);
+                        context.AvailableOffers.Add(ao);
                         context.SaveChanges();
                         scope.Complete();
                     }
                 }
+
+
+
+
             }
         }
 

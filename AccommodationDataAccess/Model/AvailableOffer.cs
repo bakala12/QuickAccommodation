@@ -8,15 +8,15 @@ using System.Threading.Tasks;
 
 namespace AccommodationDataAccess.Model
 {
-    public class Offer : Entity
+    public class AvailableOffer : Entity
     {
         public OfferInfo OfferInfo { get; set; }
         public int OfferInfoId { get; set; }
-        public int VendorId { get; set; }
-        [InverseProperty("PurchasedOffers")]
+
+        [InverseProperty("MyOffers")]
         public virtual User Vendor { get; set; }
-        public int? CutomerId { get; set; }
-        [InverseProperty("AvailableOffers")]
-        public virtual User Customer { get; set; }
+        public int VendorId { get; set; }
+
     }
+
 }
