@@ -16,7 +16,7 @@
                 <pg:OffersView />
             </DataTemplate>
             <DataTemplate DataType="{x:Type vm:SearchingViewModel}">
-                <pg:Searching />
+                <pg:SearchingView />
             </DataTemplate>
             <DataTemplate DataType="{x:Type vm:AddNewOfferViewModel}">
                 <pg:AddNewOfferView />

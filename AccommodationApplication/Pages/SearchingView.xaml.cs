@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace AccommodationApplication.Pages
 {
     /// <summary>
-    /// Interaction logic for Searching.xaml
+    /// Interaction logic for SearchingView.xaml
     /// </summary>
-    public partial class Searching : UserControl
+    public partial class SearchingView : UserControl
     {
-        public Searching()
+        public SearchingView()
         {
             InitializeComponent();
         }

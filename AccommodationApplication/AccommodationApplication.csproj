@@ -91,8 +91,8 @@
     <Compile Include="Pages\OffersView.xaml.cs">
       <DependentUpon>OffersView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Searching.xaml.cs">
-      <DependentUpon>Searching.xaml</DependentUpon>
+    <Compile Include="Pages\SearchingView.xaml.cs">
+      <DependentUpon>SearchingView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ViewModels\CloseableViewModel.cs" />
@@ -143,7 +143,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\Searching.xaml">
+    <Page Include="Pages\SearchingView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

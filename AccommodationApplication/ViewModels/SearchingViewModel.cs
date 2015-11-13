@@ -1,19 +1,66 @@
 ﻿using AccommodationApplication.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using AccommodationApplication.Commands;
+using AccommodationDataAccess.Domain;
+using AccommodationDataAccess.Model;
+using AccommodationDataAccess.Searching;
 
 namespace AccommodationApplication.ViewModels
 {
-    public class SearchingViewModel : IPageViewModel
+    public class SearchingViewModel : ViewModelBase, IPageViewModel
     {
-        public string Name
+        public string Name => "Wyszukiwanie";
+
+        public SearchingViewModel()
         {
-            get
+            SearchCommand = new DelegateCommand(async x => await SearchAsync());
+        }
+
+        private string _placeName;
+        private ObservableCollection<AvailableOffer> _searchResults;
+
+        public ObservableCollection<AvailableOffer> SearchResults
+        {
+            get { return _searchResults; }
+            private set
             {
-                return "Searching";
+                _searchResults = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ICommand SearchCommand { get; }
+
+        public string PlaceName
+        {
+            get { return _placeName; }
+            set
+            {
+                _placeName = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public async Task SearchAsync()
+        {
+            await Task.Run(() => Search());
+        }
+
+        private void Search()
+        {
+            //use abstract factory instead...
+            ISearchingCriterion<AvailableOffer> criterion = new OffersByPlaceSearchingCriterion(null,PlaceName);
+            using (var context = new AccommodationContext())
+            {
+                var col = context.AvailableOffers.Where(criterion.SelectableExpression);
+                SearchResults = new ObservableCollection<AvailableOffer>(col);
             }
         }
     }

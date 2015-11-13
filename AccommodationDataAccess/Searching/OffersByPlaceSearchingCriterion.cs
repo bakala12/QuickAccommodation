@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Runtime.InteropServices;
 using System.Security.Authentication.ExtendedProtection.Configuration;
 using System.Text;
@@ -22,7 +23,7 @@ namespace AccommodationDataAccess.Searching
             PlaceName = name;
         }
 
-        public override bool IsGood(AvailableOffer parameter)
+        public bool IsGood(AvailableOffer parameter)
         {
             if(parameter?.OfferInfo?.Address == null) throw new ArgumentException("Niepełna informacja o ofercie");
             return !CheckCity(parameter.OfferInfo.Address) || string.IsNullOrEmpty(PlaceName) || CheckPlaceName(parameter.OfferInfo.Address);
@@ -38,6 +39,16 @@ namespace AccommodationDataAccess.Searching
         {
             if (string.IsNullOrEmpty(address?.Name)) return false;
             return address.Name.Equals(PlaceName);
+        }
+
+        public override Expression<Func<AvailableOffer, bool>> SelectableExpression
+        {
+            get
+            {
+                return parameter =>
+                    (string.IsNullOrEmpty(PlaceName) || parameter.OfferInfo.Address.Name.Equals(PlaceName)) &&
+                    (string.IsNullOrEmpty(City) || parameter.OfferInfo.Address.City.Equals(City));
+            }
         }
     }
 }

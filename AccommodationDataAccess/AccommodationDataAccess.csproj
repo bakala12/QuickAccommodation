@@ -58,13 +58,11 @@
     <Compile Include="Model\AvailableOffer.cs" />
     <Compile Include="Model\UserData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Searching\IOfferSearcher.cs" />
     <Compile Include="Searching\ISearchingCriterion.cs" />
     <Compile Include="Searching\OffersByDateSearchingCriterion.cs" />
     <Compile Include="Searching\OffersByPlaceSearchingCriterion.cs" />
     <Compile Include="Searching\OffersByPriceSearchingCriterion.cs" />
     <Compile Include="Searching\OfferSearchingCriterion.cs" />
-    <Compile Include="Searching\OffersSearcher.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

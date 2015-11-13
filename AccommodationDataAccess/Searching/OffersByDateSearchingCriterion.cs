@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using AccommodationDataAccess.Model;
@@ -30,12 +31,16 @@ namespace AccommodationDataAccess.Searching
             ShowPartiallyMatchingResults = showPartiallyMatchingResults;
         }
 
-        public override bool IsGood(AvailableOffer parameter)
+        public override Expression<Func<AvailableOffer, bool>> SelectableExpression
         {
-            if(parameter?.OfferInfo==null) throw new InvalidOperationException("Niepełna informacja o ofercie");
-            bool min = !MinimalDate.HasValue || MinimalDate.Value <= parameter.OfferInfo.OfferStartTime;
-            bool max = !MaximalDate.HasValue || MaximalDate.Value >= parameter.OfferInfo.OfferEndTime;
-            return ShowPartiallyMatchingResults ? min || max : min && max;
+            get
+            {
+                return parameter => 
+                ShowPartiallyMatchingResults ? !MinimalDate.HasValue || MinimalDate.Value <= parameter.OfferInfo.OfferStartTime
+                || !MaximalDate.HasValue || MaximalDate.Value >= parameter.OfferInfo.OfferEndTime 
+                : !MinimalDate.HasValue || MinimalDate.Value <= parameter.OfferInfo.OfferStartTime
+                && !MaximalDate.HasValue || MaximalDate.Value >= parameter.OfferInfo.OfferEndTime;
+            } 
         }
     }
 }
