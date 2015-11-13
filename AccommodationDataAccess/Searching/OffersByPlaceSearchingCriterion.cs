@@ -14,7 +14,7 @@ namespace AccommodationDataAccess.Searching
         public string City { get; }
         public string PlaceName { get; }
 
-        private OffersByPlaceSearchingCriterion() : base(SearchingCriterionType.Place, ResultSortType.Ascending) { }
+        private OffersByPlaceSearchingCriterion() : base(SearchingCriterionType.Place) { }
 
         public OffersByPlaceSearchingCriterion(string city, string name =null) : this()
         {

@@ -15,7 +15,14 @@ namespace AccommodationDataAccess.Domain
         int SaveChanges();
     }
 
-    public class AccommodationContext : DbContext, IUsersContext
+    public interface IOffersContext : IDisposable
+    {
+        IDbSet<AvailableOffer> AvailableOffers { get; }
+        IDbSet<OfferInfo> OfferInfo { get; }
+        IDbSet<Address> Addresses { get; }   
+    }
+
+    public class AccommodationContext : DbContext, IUsersContext, IOffersContext
     {
 
         public AccommodationContext()

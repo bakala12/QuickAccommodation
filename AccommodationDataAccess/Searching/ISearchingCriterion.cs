@@ -20,7 +20,6 @@ namespace AccommodationDataAccess.Searching
     public interface ISearchingCriterion<in T> where T : Entity
     {
         SearchingCriterionType CriterionType { get; }
-        ResultSortType SortType { get; }
         bool IsGood(T parameter);
     }
 }
