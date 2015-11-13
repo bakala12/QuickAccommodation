@@ -8,7 +8,7 @@ using AccommodationDataAccess.Model;
 
 namespace AccommodationDataAccess.Searching
 {
-    public class OffersByPriceSearchingCriterion : OfferSearchingCriterion
+    internal class OffersByPriceSearchingCriterion : OfferSearchingCriterion
     {
         public double? MinimalPrice { get; set; }
         public double? MaximalPrice { get; set; }

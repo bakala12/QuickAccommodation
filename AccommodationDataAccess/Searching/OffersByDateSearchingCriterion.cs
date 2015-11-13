@@ -8,7 +8,7 @@ using AccommodationDataAccess.Model;
 
 namespace AccommodationDataAccess.Searching
 {
-    public class OffersByDateSearchingCriterion : OfferSearchingCriterion
+    internal class OffersByDateSearchingCriterion : OfferSearchingCriterion
     {
         public DateTime? MinimalDate { get; set; }
         public DateTime? MaximalDate { get; set; }

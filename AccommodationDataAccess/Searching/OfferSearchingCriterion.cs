@@ -8,7 +8,7 @@ using AccommodationDataAccess.Model;
 
 namespace AccommodationDataAccess.Searching
 {
-    public abstract class OfferSearchingCriterion : ISearchingCriterion<AvailableOffer>
+    internal abstract class OfferSearchingCriterion : ISearchingCriterion<AvailableOffer>
     {
         protected OfferSearchingCriterion(SearchingCriterionType criterionType)
         {

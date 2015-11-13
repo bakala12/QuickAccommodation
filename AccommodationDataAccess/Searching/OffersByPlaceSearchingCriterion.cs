@@ -10,7 +10,7 @@ using AccommodationDataAccess.Model;
 
 namespace AccommodationDataAccess.Searching
 {
-    public class OffersByPlaceSearchingCriterion : OfferSearchingCriterion
+    internal class OffersByPlaceSearchingCriterion : OfferSearchingCriterion
     {
         public string City { get; }
         public string PlaceName { get; }

@@ -55,8 +55,8 @@ namespace AccommodationApplication.ViewModels
 
         private void Search()
         {
-            //use abstract factory instead...
-            ISearchingCriterion<AvailableOffer> criterion = new OffersByPlaceSearchingCriterion(null,PlaceName);
+            ISearchingCriterion<AvailableOffer> criterion =
+                OffersSearchingCriteriaFactory.CreatePlaceSearchingCriterion(PlaceName);
             using (var context = new AccommodationContext())
             {
                 var col = context.AvailableOffers.Where(criterion.SelectableExpression);
