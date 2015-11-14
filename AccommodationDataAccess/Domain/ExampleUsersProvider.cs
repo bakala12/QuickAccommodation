@@ -45,7 +45,13 @@ namespace AccommodationDataAccess.Domain
                 Street = "Piaskowa",
                 LocalNumber = "20"
             };
-            Address a2 =new Address();
+            Address a2 = new Address()
+            {
+                City = "Piotrków Trybunalski",
+                Street = "",
+                LocalNumber = "",
+                PostalCode = ""
+            };
             ud.Address = a;
             ud2.Address = a2;
             u.UserData = ud;

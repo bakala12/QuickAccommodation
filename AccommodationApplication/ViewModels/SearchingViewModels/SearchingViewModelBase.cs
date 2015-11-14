@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,7 +44,7 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
         {
             using (var context=new AccommodationContext())
             {
-                SearchingResults = context.Offers.Where(Criterion.SelectableExpression);
+                SearchingResults = new List<Offer>(context.Offers.Where(Criterion.SelectableExpression));
             }
         } 
     }
