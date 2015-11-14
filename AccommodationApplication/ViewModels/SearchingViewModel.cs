@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using AccommodationApplication.Commands;
+using AccommodationApplication.ViewModels.SearchingViewModels;
 using AccommodationDataAccess.Domain;
 using AccommodationDataAccess.Model;
 using AccommodationDataAccess.Searching;
@@ -20,48 +21,13 @@ namespace AccommodationApplication.ViewModels
 
         public SearchingViewModel()
         {
-            SearchCommand = new DelegateCommand(async x => await SearchAsync());
+            PlaceSearchingViewModel = new PlaceSearchingViewModel();
+            DateSearchingViewModel = new DateSearchingViewModel();
+            PriceSearchingViewModel = new PriceSearchingViewModel();
         }
 
-        private string _placeName;
-        private ObservableCollection<AvailableOffer> _searchResults;
-
-        public ObservableCollection<AvailableOffer> SearchResults
-        {
-            get { return _searchResults; }
-            private set
-            {
-                _searchResults = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public ICommand SearchCommand { get; }
-
-        public string PlaceName
-        {
-            get { return _placeName; }
-            set
-            {
-                _placeName = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public async Task SearchAsync()
-        {
-            await Task.Run(() => Search());
-        }
-
-        private void Search()
-        {
-            ISearchingCriterion<AvailableOffer> criterion =
-                OffersSearchingCriteriaFactory.CreatePlaceSearchingCriterion(PlaceName);
-            using (var context = new AccommodationContext())
-            {
-                var col = context.AvailableOffers.Where(criterion.SelectableExpression);
-                SearchResults = new ObservableCollection<AvailableOffer>(col);
-            }
-        }
+        public PlaceSearchingViewModel PlaceSearchingViewModel { get; }
+        public DateSearchingViewModel DateSearchingViewModel { get; }
+        public PriceSearchingViewModel PriceSearchingViewModel { get; }
     }
 }

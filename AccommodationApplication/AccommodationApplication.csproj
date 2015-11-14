@@ -105,6 +105,10 @@
       <DependentUpon>SplashScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\RegisterUserViewModel.cs" />
+    <Compile Include="ViewModels\SearchingViewModels\DateSearchingViewModel.cs" />
+    <Compile Include="ViewModels\SearchingViewModels\PlaceSearchingViewModel.cs" />
+    <Compile Include="ViewModels\SearchingViewModels\PriceSearchingViewModel.cs" />
+    <Compile Include="ViewModels\SearchingViewModels\SearchingViewModelBase.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\RegisterAddressView.xaml.cs">
       <DependentUpon>RegisterAddressView.xaml</DependentUpon>

@@ -22,7 +22,7 @@ namespace AccommodationDataAccess.Searching
         }
 
         public static ISearchingCriterion<AvailableOffer> CreatePriceSearchingCriterion(double? minimalPrice,
-            double maximalPrice)
+            double? maximalPrice)
         {
             return new OffersByPriceSearchingCriterion(minimalPrice, maximalPrice);
         } 

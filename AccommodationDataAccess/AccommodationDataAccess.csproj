@@ -63,6 +63,7 @@
     <Compile Include="Searching\OffersByPlaceSearchingCriterion.cs" />
     <Compile Include="Searching\OffersByPriceSearchingCriterion.cs" />
     <Compile Include="Searching\OfferSearchingCriterion.cs" />
+    <Compile Include="Searching\OffersSearchingCriteriaFactory.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
