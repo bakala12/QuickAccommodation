@@ -84,6 +84,7 @@
     <Compile Include="Login\RegisterWindow.xaml.cs">
       <DependentUpon>RegisterWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model\DisplayableOffer.cs" />
     <Compile Include="OfferValidator\OfferValidator.cs" />
     <Compile Include="Pages\AddNewOfferView.xaml.cs">
       <DependentUpon>AddNewOfferView.xaml</DependentUpon>

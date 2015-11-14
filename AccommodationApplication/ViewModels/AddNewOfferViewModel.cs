@@ -73,7 +73,6 @@ namespace AccommodationApplication.ViewModels
 
             Offer ao = new Offer();
 
-
             string currentUser = Thread.CurrentPrincipal.Identity.Name;
 
             using (var context = new AccommodationContext())
@@ -90,7 +89,6 @@ namespace AccommodationApplication.ViewModels
                     scope.Complete();
                 }
             }
-
         }
 
         public string Description
