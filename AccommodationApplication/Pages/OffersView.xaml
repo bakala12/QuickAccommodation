@@ -9,7 +9,7 @@
              d:DesignHeight="300" d:DesignWidth="300">
 
     <UserControl.DataContext>
-        <vm:MainWindowViewModel/>
+        <vm:OffersViewModel/>
     </UserControl.DataContext>
 
     <Grid>
@@ -31,9 +31,9 @@
 
                             <StackPanel Grid.Row="1" Orientation="Horizontal">
                                 <Label  Content="Od: "/>
-                                <Label  Content="{Binding OfferStartTime, StringFormat=d}" />
+                                <Label  Content="{Binding OfferStartTime, StringFormat='dd-mm-yyyy' }" />
                                 <Label  Content="Do: "/>
-                                <Label  Content="{Binding OfferEndTime, StringFormat=d}"  />
+                                <Label  Content="{Binding OfferEndTime, StringFormat='dd-mm-yyyy' }" />
                             </StackPanel>
 
                             <StackPanel Grid.Row="2" Orientation="Horizontal">
