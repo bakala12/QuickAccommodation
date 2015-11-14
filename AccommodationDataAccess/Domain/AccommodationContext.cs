@@ -27,5 +27,6 @@ namespace AccommodationDataAccess.Domain
         public IDbSet<OfferInfo> OfferInfo { get; set; } 
         public IDbSet<Address> Addresses { get; set; }
         public IDbSet<UserData> UserData { get; set; }
+        public IDbSet<Place> Places { get; set; } 
     }
 }

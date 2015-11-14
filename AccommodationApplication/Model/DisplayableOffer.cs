@@ -20,6 +20,18 @@ namespace AccommodationApplication.Model
             Description = offerInfo.Description;
             OfferPublishTime = offerInfo.OfferPublishTime;
         }
+
+        public DisplayableOffer(OfferInfo offerInfo, Address address)
+        {
+            OfferStartTime = offerInfo.OfferStartTime;
+            OfferEndTime = offerInfo.OfferEndTime;
+            Address = address;
+            AvailableVacanciesNumber = offerInfo.AvailableVacanciesNumber;
+            Price = offerInfo.Price;
+            Description = offerInfo.Description;
+            OfferPublishTime = offerInfo.OfferPublishTime;
+        }
+
         public DateTime OfferStartTime { get; set; }
         public DateTime OfferEndTime { get; set; }
         public virtual Address Address { get; set; }
