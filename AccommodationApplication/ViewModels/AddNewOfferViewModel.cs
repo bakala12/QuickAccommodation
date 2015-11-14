@@ -10,10 +10,11 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Transactions;
 using System.Threading;
+using System.ComponentModel;
 
 namespace AccommodationApplication.ViewModels
 {
-    public class AddNewOfferViewModel : ViewModelBase, IPageViewModel
+    public class AddNewOfferViewModel : ViewModelBase, IPageViewModel, IDataErrorInfo
     {
 
         private string _accommodationName;
@@ -24,7 +25,7 @@ namespace AccommodationApplication.ViewModels
         private DateTime _startDate;
         private DateTime _endDate;
         private string _price;
-        private int _availiableVacanciesNumber;
+        private string _availiableVacanciesNumber;
         private string _description;
 
         public AddNewOfferViewModel()
@@ -33,7 +34,6 @@ namespace AccommodationApplication.ViewModels
             _endDate = DateTime.Now;
 
             AddCommand = new DelegateCommand(async x => await AddAsync());
-            
         }
 
         public async virtual Task AddAsync()
@@ -41,58 +41,52 @@ namespace AccommodationApplication.ViewModels
             await Task.Run(() => Add());
         }
 
-        public ICommand AddCommand { get; set; }
-        
 
-     
+        public ICommand AddCommand { get; set; }
+
         public void Add()
         {
+
+
             OfferValidator ov = new OfferValidator();
-            if (ov.ValidateDate(this.StartDate, this.EndDate) || ov.ValidateLocalNumber(this.LocalNumber) ||
-                 ov.ValidateName(this.AccommodationName) || ov.ValidatePostalCode(this.PostalCode) || ov.ValidatePrice(this.Price))
+            Address address = new Address()
             {
-                Address address = new Address()
-                {
-                    Name = this.AccommodationName,
-                    City = this.City,
-                    Street = this.Street,
-                    LocalNumber = this.LocalNumber,
-                    PostalCode = this.PostalCode
-                };
-                OfferInfo offer = new OfferInfo()
-                {
-                    Address = address,
-                    OfferStartTime = TimeZoneInfo.ConvertTimeToUtc(this.StartDate),
-                    OfferEndTime = TimeZoneInfo.ConvertTimeToUtc(this.EndDate),
-                    Description = this.Description,
-                    Price = double.Parse(this.Price),
-                    AvailableVacanciesNumber = this.AvailiableVacanciesNumber,
-                    OfferPublishTime = DateTime.UtcNow
-                };
+                Name = this.AccommodationName,
+                City = this.City,
+                Street = this.Street,
+                LocalNumber = this.LocalNumber,
+                PostalCode = this.PostalCode
+            };
+            OfferInfo offer = new OfferInfo()
+            {
+                Address = address,
+                OfferStartTime = TimeZoneInfo.ConvertTimeToUtc(this.StartDate),
+                OfferEndTime = TimeZoneInfo.ConvertTimeToUtc(this.EndDate),
+                Description = this.Description,
+                Price = double.Parse(this.Price),
+                AvailableVacanciesNumber = int.Parse( this.AvailiableVacanciesNumber ),
+                OfferPublishTime = DateTime.UtcNow
+            };
 
-                AvailableOffer ao = new AvailableOffer();
-              
+            AvailableOffer ao = new AvailableOffer();
 
-                string currentUser = Thread.CurrentPrincipal.Identity.Name;
 
-                using (var context = new AccommodationContext())
+            string currentUser = Thread.CurrentPrincipal.Identity.Name;
+
+            using (var context = new AccommodationContext())
+            {
+                using (var scope = new TransactionScope())
                 {
-                    using (var scope = new TransactionScope())
-                    {
-                        User user = context.Users.FirstOrDefault(x => x.Username.Equals(currentUser));
-                        ao.OfferInfo = offer;
-                        ao.Vendor = user;
-                        user.MyOffers.Add(ao);
-                        context.AvailableOffers.Add(ao);
-                        context.SaveChanges();
-                        scope.Complete();
-                    }
+                    User user = context.Users.FirstOrDefault(x => x.Username.Equals(currentUser));
+                    ao.OfferInfo = offer;
+                    ao.Vendor = user;
+                    user.MyOffers.Add(ao);
+                    context.AvailableOffers.Add(ao);
+                    context.SaveChanges();
+                    scope.Complete();
                 }
-
-
-
-
             }
+
         }
 
         public string Description
@@ -109,7 +103,7 @@ namespace AccommodationApplication.ViewModels
         }
 
 
-        public int AvailiableVacanciesNumber
+        public string AvailiableVacanciesNumber
         {
             get
             {
@@ -223,5 +217,95 @@ namespace AccommodationApplication.ViewModels
             }
         }
 
+        public string Error
+        {
+            get
+            {
+                return String.Empty;
+            }
+        }
+
+
+
+        public string this[string columnName]
+        {
+            get
+            {
+                String errorMessage = String.Empty;
+                OfferValidator ov = new OfferValidator();
+                switch (columnName)
+                {
+                    case "AccommodationName":
+                        if (string.IsNullOrWhiteSpace(this.AccommodationName))
+                        {
+                            errorMessage = "Nazwa nie może być pusta";
+                        }
+                        break;
+                    case "Street":
+                        if (string.IsNullOrWhiteSpace(this.Street))
+                        {
+                            errorMessage = "Ulica nie może być pusta";
+                        }
+                        break;
+                    case "LocalNumber":
+                        if (string.IsNullOrWhiteSpace(this.LocalNumber))
+                        {
+                            errorMessage = "Numer Lokalu nie może być pusty";
+                        }
+                        if (!ov.ValidateLocalNumber(this.LocalNumber))
+                        {
+                            errorMessage = "Nieprawidłowy numer lokalu";
+                        }
+                        break;
+                    case "PostalCode":
+                        if (string.IsNullOrWhiteSpace(this.PostalCode))
+                        {
+                            errorMessage = "Kod pocztowy nie może być pusty";
+                        }
+                        if (!ov.ValidatePostalCode(this.PostalCode))
+                        {
+                            errorMessage = "Nieprawidłowy kod pocztowy";
+                        }
+                        break;
+                    case "City":
+                        if (string.IsNullOrEmpty(this.City))
+                        {
+                            errorMessage = "Nieprawidłowa nazwa miasta";
+                        }
+                        break;
+                    case "StartDate":
+                        if (ov.ValidateDate(this.StartDate, this.EndDate))
+                        {
+                            errorMessage = "Nieprawidłowe daty";
+                        }
+                        break;
+                    case "EndDate":
+                        if (ov.ValidateDate(this.StartDate, this.EndDate))
+                        {
+                            errorMessage = "Nieprawidłowe daty";
+                        }
+                        break;
+                    case "Price":
+                        if (!ov.ValidatePrice(this.Price))
+                        {
+                            errorMessage = "Nieprawidłowa cena";
+                        }
+                        break;
+                    case "AvailiableVacanciesNumber":
+                        if (!ov.ValidateNumber(this.AvailiableVacanciesNumber))
+                        {
+                            errorMessage = "Nieprawidłowa liczba wolnych miejsc";
+                        }
+                        break;
+                    case "Description":
+                        if (string.IsNullOrEmpty(this.Description))
+                        {
+                            errorMessage = "Dodaj opis";
+                        }
+                        break;
+                }
+                return errorMessage;
+            }
+        }
     }
 }
