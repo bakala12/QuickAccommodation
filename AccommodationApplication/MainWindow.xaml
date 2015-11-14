@@ -8,7 +8,8 @@
         xmlns:pg="clr-namespace:AccommodationApplication.Pages"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
-        Title="QuickAccommodation" Height="600" Width="800" WindowStartupLocation="CenterScreen">
+        Title="QuickAccommodation" Height="600" Width="800" WindowStartupLocation="CenterScreen"
+        TitleCaps="False">
     <Window.Resources>
         <ResourceDictionary>
 
