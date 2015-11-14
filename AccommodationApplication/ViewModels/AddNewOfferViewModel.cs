@@ -55,6 +55,7 @@ namespace AccommodationApplication.ViewModels
                 LocalNumber = this.LocalNumber,
                 PostalCode = this.PostalCode
             };
+
             OfferInfo offer = new OfferInfo()
             {
                 OfferStartTime = TimeZoneInfo.ConvertTimeToUtc(this.StartDate),

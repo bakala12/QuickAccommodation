@@ -152,13 +152,13 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <TextBlock Margin="4 4 4 4" Text="Liczba wolnych miejsc: " Grid.Row="0" Grid.Column="0" />
-                <TextBox Margin="4 4 4 4" Name="num" Grid.Column="1" Grid.Row="0"  Text="{Binding Path=AvailiableVacanciesNumber, UpdateSourceTrigger=PropertyChanged,
+                <TextBox Margin="4 4 4 4" Name="num" Grid.Column="1" Grid.Row="0" Text="{Binding Path=AvailiableVacanciesNumber, UpdateSourceTrigger=PropertyChanged,
                     ValidatesOnDataErrors=True}"/>
                 <TextBlock Margin="4 4 4 4" Text="Cena: " Grid.Row="1" Grid.Column="0" />
-                <TextBox Margin="4 4 4 4" Name="pri" Grid.Row="1" Grid.Column="1"  Text="{Binding Path=Price, UpdateSourceTrigger=PropertyChanged,
+                <TextBox Margin="4 4 4 4" Name="pri" Grid.Row="1" Grid.Column="1" Text="{Binding Path=Price, UpdateSourceTrigger=PropertyChanged,
                     ValidatesOnDataErrors=True}"/>
                 <TextBlock Margin="4 4 4 4" Text="Opis: " Grid.Row="2" Grid.Column="0" />
-                <TextBox Margin="4 4 4 4" Name="dis" Grid.Column="1" Grid.Row="2"  Text="{Binding Path=Description, UpdateSourceTrigger=PropertyChanged,
+                <TextBlock Margin="4 4 4 4" Name="dis" Grid.Column="1" Grid.Row="2" Text="{Binding Path=Description, UpdateSourceTrigger=PropertyChanged,
                     ValidatesOnDataErrors=True}"/>
             </Grid>
         </GroupBox>
