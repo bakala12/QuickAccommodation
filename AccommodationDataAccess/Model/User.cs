@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -16,8 +17,8 @@ namespace AccommodationDataAccess.Model
         public int UserDataId { get; set; }
         public virtual UserData UserData { get; set; }
 
-        public virtual IList<AvailableOffer> MyOffers { get; set; }
-        //public virtual IList<PurchasedOffer> PurchasedOffers { get; set; }
+        public virtual IList<Offer> MyOffers { get; set; }
+        public virtual IList<Offer> PurchasedOffers { get; set; }
 
         public override string ToString()
         {

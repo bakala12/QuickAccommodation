@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,7 @@ namespace AccommodationDataAccess.Model
         public string CompanyName { get; set; }
         public string Email { get; set; }
 
-        public int AdrressId { get; set; }
+        public int? AdrressId { get; set; }
         public virtual Address Address { get; set; }
     }
 }

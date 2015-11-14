@@ -9,19 +9,19 @@ namespace AccommodationDataAccess.Searching
 {
     public class OffersSearchingCriteriaFactory
     {
-        public static ISearchingCriterion<AvailableOffer> CreatePlaceSearchingCriterion(string placeName,
+        public static ISearchingCriterion<Offer> CreatePlaceSearchingCriterion(string placeName,
             string city = null)
         {
             return new OffersByPlaceSearchingCriterion(city, placeName);
         }
 
-        public static ISearchingCriterion<AvailableOffer> CreateDateSearchingCriterion(DateTime? minimalDate,
-            DateTime? maximalDate)
+        public static ISearchingCriterion<Offer> CreateDateSearchingCriterion(DateTime? minimalDate,
+            DateTime? maximalDate, bool showPartiallyMatchingResults = false)
         {
-            return new OffersByDateSearchingCriterion(minimalDate, maximalDate);
+            return new OffersByDateSearchingCriterion(minimalDate, maximalDate, showPartiallyMatchingResults);
         }
 
-        public static ISearchingCriterion<AvailableOffer> CreatePriceSearchingCriterion(double? minimalPrice,
+        public static ISearchingCriterion<Offer> CreatePriceSearchingCriterion(double? minimalPrice,
             double? maximalPrice)
         {
             return new OffersByPriceSearchingCriterion(minimalPrice, maximalPrice);

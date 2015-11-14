@@ -33,7 +33,7 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
             }
         }
 
-        public override ISearchingCriterion<AvailableOffer> Criterion
+        public override ISearchingCriterion<Offer> Criterion
             => OffersSearchingCriteriaFactory.CreatePriceSearchingCriterion(MinimalPrice, MaximalPrice);
     }
 }

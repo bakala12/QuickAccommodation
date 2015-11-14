@@ -31,7 +31,7 @@ namespace AccommodationDataAccess.Searching
             ShowPartiallyMatchingResults = showPartiallyMatchingResults;
         }
 
-        public override Expression<Func<AvailableOffer, bool>> SelectableExpression
+        public override Expression<Func<Offer, bool>> SelectableExpression
         {
             get
             {

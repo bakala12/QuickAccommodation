@@ -52,6 +52,29 @@ namespace AccommodationDataAccess.Domain
             u2.UserData = ud2;
             users.Add(u);
             users.Add(u2);
+            User admin = new User()
+            {
+                Username = "admin",
+                HashedPassword = @"HEsEsPd3IWOfCLXgPHXL4dA4zDPjOj/0Tltk5WOJ68A=",
+                Salt = @"MpneiNAMrJyPySqkJqpnB/qNib5FrMa7"
+            };
+            UserData adminData = new UserData()
+            {
+                FirstName = "Jarosław",
+                LastName = "Taboret",
+                CompanyName = "Hotel SPA & Wellness",
+                Email = @"admin@admin.pl"
+            };
+            Address add = new Address()
+            {
+                City = "Krajzegów",
+                Street = "Kropelkowa",
+                LocalNumber = "12a",
+                PostalCode = "12-345",
+            };
+            adminData.Address = add;
+            admin.UserData = adminData;
+            users.Add(admin);
             return users;
         } 
     }

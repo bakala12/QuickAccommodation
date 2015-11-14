@@ -8,7 +8,6 @@ namespace AccommodationDataAccess.Model
 {
     public class Address : Entity
     {
-        public string Name { get; set; }
         public string Street { get; set; }
         public string LocalNumber { get; set; }
         public string PostalCode { get; set; }

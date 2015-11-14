@@ -23,7 +23,7 @@ namespace AccommodationDataAccess.Searching
             MaximalPrice = maximalPrice;
         }
 
-        public override Expression<Func<AvailableOffer, bool>> SelectableExpression
+        public override Expression<Func<Offer, bool>> SelectableExpression
         {
             get
             {

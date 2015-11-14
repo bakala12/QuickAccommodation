@@ -27,6 +27,8 @@ namespace AccommodationApplication.ViewModels
         private string _price;
         private string _availiableVacanciesNumber;
         private string _description;
+        private OfferValidator ov = new OfferValidator();
+        
 
         public AddNewOfferViewModel()
         {
@@ -46,12 +48,8 @@ namespace AccommodationApplication.ViewModels
 
         public void Add()
         {
-
-
-            OfferValidator ov = new OfferValidator();
             Address address = new Address()
             {
-                Name = this.AccommodationName,
                 City = this.City,
                 Street = this.Street,
                 LocalNumber = this.LocalNumber,
@@ -59,7 +57,6 @@ namespace AccommodationApplication.ViewModels
             };
             OfferInfo offer = new OfferInfo()
             {
-                Address = address,
                 OfferStartTime = TimeZoneInfo.ConvertTimeToUtc(this.StartDate),
                 OfferEndTime = TimeZoneInfo.ConvertTimeToUtc(this.EndDate),
                 Description = this.Description,
@@ -67,8 +64,13 @@ namespace AccommodationApplication.ViewModels
                 AvailableVacanciesNumber = int.Parse( this.AvailiableVacanciesNumber ),
                 OfferPublishTime = DateTime.UtcNow
             };
+            Place place = new Place()
+            {
+                PlaceName = this.AccommodationName,
+                Address = address
+            };
 
-            AvailableOffer ao = new AvailableOffer();
+            Offer ao = new Offer();
 
 
             string currentUser = Thread.CurrentPrincipal.Identity.Name;
@@ -78,10 +80,11 @@ namespace AccommodationApplication.ViewModels
                 using (var scope = new TransactionScope())
                 {
                     User user = context.Users.FirstOrDefault(x => x.Username.Equals(currentUser));
+                    if(user==null) throw new InvalidOperationException();
                     ao.OfferInfo = offer;
                     ao.Vendor = user;
+                    ao.Place = place;
                     user.MyOffers.Add(ao);
-                    context.AvailableOffers.Add(ao);
                     context.SaveChanges();
                     scope.Complete();
                 }

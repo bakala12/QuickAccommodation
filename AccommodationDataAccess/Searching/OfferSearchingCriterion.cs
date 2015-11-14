@@ -8,7 +8,7 @@ using AccommodationDataAccess.Model;
 
 namespace AccommodationDataAccess.Searching
 {
-    internal abstract class OfferSearchingCriterion : ISearchingCriterion<AvailableOffer>
+    internal abstract class OfferSearchingCriterion : ISearchingCriterion<Offer>
     {
         protected OfferSearchingCriterion(SearchingCriterionType criterionType)
         {
@@ -16,6 +16,6 @@ namespace AccommodationDataAccess.Searching
         }
 
         public SearchingCriterionType CriterionType { get; }
-        public abstract Expression<Func<AvailableOffer, bool>> SelectableExpression { get; }
+        public abstract Expression<Func<Offer, bool>> SelectableExpression { get; }
     }
 }

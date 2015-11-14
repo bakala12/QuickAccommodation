@@ -22,9 +22,9 @@ namespace AccommodationApplication.ViewModels
             }
         }
 
-        public ObservableCollection<AvailableOffer> currentOffersList = new ObservableCollection<AvailableOffer>();
+        public ObservableCollection<Offer> currentOffersList = new ObservableCollection<Offer>();
 
-        public ObservableCollection<AvailableOffer> CurrentOffersList => currentOffersList;
+        public ObservableCollection<Offer> CurrentOffersList => currentOffersList;
 
 
 

@@ -19,9 +19,9 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
             SearchCommand = new DelegateCommand(async x=>await SearchAsync());
         }
 
-        private ObservableCollection<AvailableOffer> _searchingResults;
+        private IEnumerable<Offer> _searchingResults;
 
-        public ObservableCollection<AvailableOffer> SearchingResults
+        public IEnumerable<Offer> SearchingResults
         {
             get { return _searchingResults; }
             set
@@ -32,7 +32,7 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
         } 
 
         public ICommand SearchCommand { get; protected set; }
-        public abstract ISearchingCriterion<AvailableOffer> Criterion { get; } 
+        public abstract ISearchingCriterion<Offer> Criterion { get; } 
 
         public async Task SearchAsync()
         {
@@ -43,8 +43,7 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
         {
             using (var context=new AccommodationContext())
             {
-                IEnumerable<AvailableOffer> offers = context.AvailableOffers.Where(Criterion.SelectableExpression);
-                SearchingResults = new ObservableCollection<AvailableOffer>(offers);
+                SearchingResults = context.Offers.Where(Criterion.SelectableExpression);
             }
         } 
     }
