@@ -31,12 +31,17 @@ namespace AccommodationApplication.ViewModels
                 Address = offerInfo.Address;
                 AvailableVacanciesNumber = offerInfo.AvailableVacanciesNumber;
                 Price = offerInfo.Price;
+                Description = offerInfo.Description;
+                OfferPublishTime = offerInfo.OfferPublishTime;
+
             }
             public DateTime OfferStartTime { get; set; }
             public DateTime OfferEndTime { get; set; }
             public virtual Address Address { get; set; }
             public int AvailableVacanciesNumber { get; set; }
             public double Price { get; set; }
+            public string Description { get; set; }
+            public DateTime OfferPublishTime { get; set; }
         }
 
         public ObservableCollection<DisplayableOffer> currentOffersList = new ObservableCollection<DisplayableOffer>();
@@ -56,15 +61,11 @@ namespace AccommodationApplication.ViewModels
 
                     foreach (var item in list)
                     {
-                        ret.Add(new DisplayableOffer(context.OfferInfo.FirstOrDefault( x => x.Id == item.Id))); 
+                        ret.Add(new DisplayableOffer(context.OfferInfo.FirstOrDefault(x => x.Id == item.Id)));
                     }
                     return ret;
                 }
             }
         }
-
-
-
-
     }
 }

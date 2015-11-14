@@ -14,8 +14,9 @@
 
     <Grid>
         <ListView  Name="currentOffers" ItemsSource="{Binding CurrentOffersList}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
+
+            <ListView.Resources>
+                <DataTemplate x:Key="DefaultItemTemplate">
                     <WrapPanel >
                         <Grid>
                             <Grid.RowDefinitions>
@@ -23,33 +24,114 @@
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="0.2*"/>
+                            </Grid.ColumnDefinitions>
 
-                            <StackPanel Grid.Row="0">
+                            <StackPanel Grid.Row="0" Grid.Column="0">
                                 <Label Content="{Binding Address}" FontWeight="Bold"  />
                             </StackPanel>
 
-
-                            <StackPanel Grid.Row="1" Orientation="Horizontal">
+                            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
                                 <Label  Content="Od: "/>
                                 <Label  Content="{Binding OfferStartTime, StringFormat='dd-mm-yyyy' }" />
                                 <Label  Content="Do: "/>
                                 <Label  Content="{Binding OfferEndTime, StringFormat='dd-mm-yyyy' }" />
                             </StackPanel>
 
-                            <StackPanel Grid.Row="2" Orientation="Horizontal">
-                          
+                            <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
+                                <Label  Content="Liczba wolnych miejsc: "  />
+                                <Label  Content="{Binding AvailableVacanciesNumber}"  />
+                                <Label  Content="Cena: "  />
+                                <Label  Content="{Binding Price}"  />
+                            </StackPanel>
+                        </Grid>
+                    </WrapPanel>
+                </DataTemplate>
+
+                <DataTemplate x:Key="SelectedItemTemplate">
+                    <WrapPanel >
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="0.2*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Row="0" Grid.Column="0">
+                                <Label Content="{Binding Address}" FontWeight="Bold"  />
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
+                                <Label  Content="Od: "/>
+                                <Label  Content="{Binding OfferStartTime, StringFormat='dd-mm-yyyy' }" />
+                                <Label  Content="Do: "/>
+                                <Label  Content="{Binding OfferEndTime, StringFormat='dd-mm-yyyy' }" />
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
                                 <Label   Content="Liczba wolnych miejsc: "  />
                                 <Label  Content="{Binding AvailableVacanciesNumber}"  />
                                 <Label  Content="Cena: "  />
                                 <Label Content="{Binding Price}"  />
                             </StackPanel>
 
+                            <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal">
+                                <Label Content="Data wystawienia oferty:"/>
+                                <Label Content="{Binding OfferPublishTime}"/>
+                            </StackPanel>
 
-                     
+                            <StackPanel Grid.Row="4" Grid.Column="0" Orientation="Horizontal">
+                                <Label Content="Opis: "/>
+                                <Label Content="{Binding Description}"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="5" Grid.Column="0" Orientation="Horizontal">
+                                <Button Content="Usuń ofertę" />
+                                <Button Content="Edytuj ofertę" Margin="20 0 0 0" />
+                            </StackPanel>
                         </Grid>
                     </WrapPanel>
                 </DataTemplate>
-            </ListView.ItemTemplate>
+            </ListView.Resources>
+
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+
+                    <Setter Property="ContentTemplate" Value="{StaticResource DefaultItemTemplate}" />
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <!-- change what the selected item looks like -->
+                            <Setter Property="ContentTemplate" Value="{StaticResource SelectedItemTemplate}" />
+
+                            <!-- animate it as well -->
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="MinHeight" To="80" Duration="0:0:1" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="MinHeight" To="0" Duration="0:0:1" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.ItemContainerStyle>
 
 
         </ListView>

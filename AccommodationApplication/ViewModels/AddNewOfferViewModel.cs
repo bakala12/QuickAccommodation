@@ -46,8 +46,6 @@ namespace AccommodationApplication.ViewModels
 
         public void Add()
         {
-
-
             OfferValidator ov = new OfferValidator();
             Address address = new Address()
             {
@@ -57,6 +55,7 @@ namespace AccommodationApplication.ViewModels
                 LocalNumber = this.LocalNumber,
                 PostalCode = this.PostalCode
             };
+
             OfferInfo offer = new OfferInfo()
             {
                 Address = address,
