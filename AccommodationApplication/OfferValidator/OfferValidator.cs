@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AccommodationDataAccess.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -30,13 +31,18 @@ namespace AccommodationApplication
 
         public bool ValidateDate(DateTime start, DateTime end)
         {
-            return (start.Date < end.Date || start >= DateTime.Now || end >= DateTime.Now);
+            return (start.Date.Ticks < end.Date.Ticks || start >= DateTime.Now || end >= DateTime.Now);
         }
 
         public bool ValidatePrice(string price)
         {
             double p;
             return double.TryParse(price, out p);
+        }
+        public bool ValidateNumber(string vacancies)
+        {
+            int p;
+            return int.TryParse(vacancies, out p);
         }
 
     }

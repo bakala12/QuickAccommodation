@@ -19,7 +19,7 @@ namespace AccommodationDataAccess.Domain
     {
         static AccommodationContext()
         {
-            Database.SetInitializer<AccommodationContext>(new CreateDatabaseIfNotExists<AccommodationContext>());
+            Database.SetInitializer<AccommodationContext>(new AccommodationDatabaseInitializer());
         }
 
         public IDbSet<User> Users { get; set; } 

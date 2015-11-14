@@ -53,13 +53,19 @@ namespace AccommodationApplication.ViewModels
             {
                 if (_changePageCommand == null)
                 {
-                    _changePageCommand = new DelegateCommand(
-                        p => ChangeViewModel((IPageViewModel)p),
+                    _changePageCommand = new DelegateCommand( async
+                        p => await temp((IPageViewModel)p),
                         p => p is IPageViewModel);
                 }
 
                 return _changePageCommand;
             }
+        }
+
+
+        public async virtual Task temp(IPageViewModel p)
+        {
+            await Task.Run(() => ChangeViewModel(p));
         }
 
         public List<IPageViewModel> PageViewModels
