@@ -77,6 +77,8 @@
     <Compile Include="Converter\BoolToVisibilityConverter.cs" />
     <Compile Include="Converter\PasswordsConverter.cs" />
     <Compile Include="Converter\RegisterViewsVisibilityConverter.cs" />
+    <Compile Include="Converter\SortByValuesConverter.cs" />
+    <Compile Include="Converter\SortTypeToStringConverter.cs" />
     <Compile Include="Interfaces\IPageViewModel.cs" />
     <Compile Include="Login\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
@@ -85,6 +87,7 @@
       <DependentUpon>RegisterWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\DisplayableOffer.cs" />
+    <Compile Include="Model\DisplayableSearchResult.cs" />
     <Compile Include="OfferValidator\OfferValidator.cs" />
     <Compile Include="Pages\AddNewOfferView.xaml.cs">
       <DependentUpon>AddNewOfferView.xaml</DependentUpon>
@@ -111,6 +114,9 @@
     <Compile Include="ViewModels\SearchingViewModels\PriceSearchingViewModel.cs" />
     <Compile Include="ViewModels\SearchingViewModels\SearchingViewModelBase.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="Views\OffersListView.xaml.cs">
+      <DependentUpon>OffersListView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\RegisterAddressView.xaml.cs">
       <DependentUpon>RegisterAddressView.xaml</DependentUpon>
     </Compile>
@@ -165,6 +171,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SplashScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\SearchingStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\OffersListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

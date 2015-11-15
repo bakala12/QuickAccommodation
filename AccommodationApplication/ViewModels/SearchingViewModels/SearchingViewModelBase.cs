@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Data.Entity;
 using System.Linq;
 using System.Text;
@@ -21,9 +22,9 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
             SearchCommand = new DelegateCommand(async x=>await SearchAsync());
         }
 
-        private IEnumerable<DisplayableOffer> _searchingResults;
+        private IEnumerable<DisplayableSearchResult> _searchingResults;
 
-        public IEnumerable<DisplayableOffer> SearchingResults
+        public IEnumerable<DisplayableSearchResult> SearchingResults
         {
             get { return _searchingResults; }
             set
@@ -34,7 +35,34 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
         } 
 
         public ICommand SearchCommand { get; protected set; }
-        public abstract ISearchingCriterion<Offer> Criterion { get; } 
+        public abstract ISearchingCriterion<Offer> Criterion { get; }
+
+        public IEnumerable<SortType> SortTypes => (IEnumerable<SortType>)Enum.GetValues(typeof (SortType));
+        public IEnumerable<SortBy> SortByValues => (IEnumerable<SortBy>) Enum.GetValues(typeof (SortBy));
+
+        private SortType _selectedSortType;
+
+        public SortType SelectedSortType
+        {
+            get { return _selectedSortType; }
+            set
+            {
+                _selectedSortType = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private SortBy _selectedSortBy;
+
+        public SortBy SelectedSortBy
+        {
+            get { return _selectedSortBy; }
+            set
+            {
+                _selectedSortBy = value;
+                OnPropertyChanged();
+            }
+        }
 
         public async Task SearchAsync()
         {
@@ -45,9 +73,84 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
         {
             using (var context=new AccommodationContext())
             {
-                IEnumerable<Offer> offers=context.Offers.Where(Criterion.SelectableExpression).Include(o=>o.OfferInfo).Include(o=>o.Place.Address);
-                SearchingResults = offers.Select(offer => new DisplayableOffer(offer.OfferInfo, offer.Place.Address)).Take(20).ToList();
+                IQueryable<Offer> offers=context.Offers.Where(Criterion.SelectableExpression).Include(o=>o.OfferInfo).Include(o=>o.Place.Address);
+                IEnumerable<Offer> of = offers.Take(20).OrderBy(SelectedSortType, SelectedSortBy);
+                SearchingResults = of.Select(offer => new DisplayableSearchResult(offer)).ToList();
             }
         } 
+    }
+
+    public enum SortType
+    {
+        Ascending,
+        Descending,
+        NotSort
+    }
+
+    public enum SortBy
+    {
+        Place,
+        City,
+        Price,
+        StartDate,
+        EndDate,
+        VacanciesNumber,
+        PublishDate
+    }
+
+    internal static class Sorter
+    {
+        public static IQueryable<Offer> OrderBy(this IQueryable<Offer> o, SortType type, SortBy by)
+        {
+            if (type == SortType.Ascending) return o.OrderBy(by);
+            if (type == SortType.Descending) return o.OrderByDescending(by);
+            return o;
+        }
+
+        private static IQueryable<Offer> OrderBy(this IQueryable<Offer> o, SortBy by)
+        {
+            switch (by)
+            {
+                case SortBy.Place:
+                    return o.OrderBy(x => x.Place.PlaceName);
+                case SortBy.City:
+                    return o.OrderBy(x => x.Place.Address.City);
+                case SortBy.Price:
+                    return o.OrderBy(x => x.OfferInfo.Price);
+                case SortBy.StartDate:
+                    return o.OrderBy(x => x.OfferInfo.OfferStartTime);
+                case SortBy.EndDate:
+                    return o.OrderBy(x => x.OfferInfo.OfferEndTime);
+                case SortBy.VacanciesNumber:
+                    return o.OrderBy(x => x.OfferInfo.AvailableVacanciesNumber);
+                case SortBy.PublishDate:
+                    return o.OrderBy(x => x.OfferInfo.OfferPublishTime);
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(@by), @by, null);
+            }
+        }
+
+        private static IQueryable<Offer> OrderByDescending(this IQueryable<Offer> o, SortBy by)
+        {
+            switch (by)
+            {
+                case SortBy.Place:
+                    return o.OrderByDescending(x => x.Place.PlaceName);
+                case SortBy.City:
+                    return o.OrderByDescending(x => x.Place.Address.City);
+                case SortBy.Price:
+                    return o.OrderByDescending(x => x.OfferInfo.Price);
+                case SortBy.StartDate:
+                    return o.OrderByDescending(x => x.OfferInfo.OfferStartTime);
+                case SortBy.EndDate:
+                    return o.OrderByDescending(x => x.OfferInfo.OfferEndTime);
+                case SortBy.VacanciesNumber:
+                    return o.OrderByDescending(x => x.OfferInfo.AvailableVacanciesNumber);
+                case SortBy.PublishDate:
+                    return o.OrderByDescending(x => x.OfferInfo.OfferPublishTime);
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(@by), @by, null);
+            }
+        }
     }
 }

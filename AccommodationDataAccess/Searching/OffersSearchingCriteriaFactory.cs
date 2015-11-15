@@ -7,7 +7,7 @@ using AccommodationDataAccess.Model;
 
 namespace AccommodationDataAccess.Searching
 {
-    public class OffersSearchingCriteriaFactory
+    public static class OffersSearchingCriteriaFactory
     {
         public static ISearchingCriterion<Offer> CreatePlaceSearchingCriterion(string placeName,
             string city = null)

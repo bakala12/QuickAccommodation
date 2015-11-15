@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using AccommodationDataAccess.Domain;
 using AccommodationDataAccess.Model;
 using AccommodationDataAccess.Searching;
@@ -13,6 +14,7 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
     {
         private DateTime? _minimalDate;
         private DateTime? _maximalDate;
+        private bool _showPartiallyMatchingResults;
 
         public DateTime? MinimalDate
         {
@@ -34,7 +36,17 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
             }
         }
 
+        public bool ShowPartiallyMatchingResults
+        {
+            get { return _showPartiallyMatchingResults; }
+            set
+            {
+                _showPartiallyMatchingResults = value;
+                OnPropertyChanged();
+            }
+        }
+
         public override ISearchingCriterion<Offer> Criterion 
-            => OffersSearchingCriteriaFactory.CreateDateSearchingCriterion(MinimalDate, MaximalDate);
+            => OffersSearchingCriteriaFactory.CreateDateSearchingCriterion(MinimalDate, MaximalDate, ShowPartiallyMatchingResults);
     }
 }
