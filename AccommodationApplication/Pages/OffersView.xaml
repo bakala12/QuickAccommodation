@@ -5,13 +5,16 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:AccommodationApplication.Pages"
              xmlns:vm="clr-namespace:AccommodationApplication.ViewModels"
+             xmlns:converters="clr-namespace:AccommodationApplication.Converter"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
     <UserControl.DataContext>
         <vm:OffersViewModel/>
     </UserControl.DataContext>
-
+    <UserControl.Resources>
+        <converters:BookedOffersColorConverter x:Key="BookedOffersColorConverter"/>
+    </UserControl.Resources>
     <Grid>
 
         <ListView Name="currentOffers" ItemsSource="{Binding CurrentOffersList}" SelectedItem="{Binding 
@@ -24,7 +27,7 @@
             <ListView.Resources>
                 <DataTemplate x:Key="DefaultItemTemplate">
                     <WrapPanel >
-                        <Grid>
+                        <Grid >
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="*"/>
@@ -116,7 +119,7 @@
 
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
-
+                    <Setter Property="Background" Value="{Binding IsBooked, Converter={StaticResource BookedOffersColorConverter}}"/>
                     <Setter Property="ContentTemplate" Value="{StaticResource DefaultItemTemplate}" />
                     <Style.Triggers>
 
@@ -141,6 +144,7 @@
                             </Trigger.ExitActions>
 
                         </Trigger>
+                        
                     </Style.Triggers>
                 </Style>
             </ListView.ItemContainerStyle>
