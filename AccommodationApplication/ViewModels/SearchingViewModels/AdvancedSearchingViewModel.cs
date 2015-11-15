@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using AccommodationApplication.Model;
 using AccommodationDataAccess.Domain;
@@ -95,7 +96,12 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
         {
             using (var context = new AccommodationContext())
             {
-                IQueryable<Offer> offers = Criteria.Aggregate<ISearchingCriterion<Offer>, IQueryable<Offer>>(context.Offers, (current, searchingCriterion) => current.Where(searchingCriterion.SelectableExpression));
+                string userName = Thread.CurrentPrincipal.Identity.Name;
+                if (string.IsNullOrEmpty(userName)) throw new Exception();
+                User u = context.Users.FirstOrDefault(us => us.Username.Equals(userName));
+                if (u == null) throw new Exception();
+                IQueryable<Offer> offers = context.Offers.Where(o => o.VendorId != u.Id).Where(o => !o.IsBooked);
+                offers = Criteria.Aggregate(offers, (current, criterion) => current.Where(criterion.SelectableExpression));
                 offers=offers.Include(o => o.OfferInfo).Include(o => o.Place.Address);
                 IEnumerable<Offer> of = offers.Take(20).OrderBy(SelectedSortType, SelectedSortBy);
                 SearchingResults = of.Select(offer => new DisplayableSearchResult(offer)).ToList();

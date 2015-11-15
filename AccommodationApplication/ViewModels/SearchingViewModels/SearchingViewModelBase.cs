@@ -5,7 +5,9 @@ using System.ComponentModel;
 using System.Data.Entity;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using AccommodationApplication.Commands;
 using AccommodationApplication.Model;
@@ -20,6 +22,7 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
         protected SearchingViewModelBase()
         {
             SearchCommand = new DelegateCommand(async x=>await SearchAsync());
+            ReserveCommand = new DelegateCommand(x => { MessageBox.Show("ha"); });
         }
 
         private IEnumerable<DisplayableSearchResult> _searchingResults;
@@ -35,6 +38,8 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
         } 
 
         public ICommand SearchCommand { get; protected set; }
+        public ICommand ReserveCommand { get; protected set; }
+
         public abstract ISearchingCriterion<Offer> Criterion { get; }
 
         public IEnumerable<SortType> SortTypes => (IEnumerable<SortType>)Enum.GetValues(typeof (SortType));
@@ -73,7 +78,12 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
         {
             using (var context=new AccommodationContext())
             {
-                IQueryable<Offer> offers=context.Offers.Where(Criterion.SelectableExpression).Include(o=>o.OfferInfo).Include(o=>o.Place.Address);
+                string userName = Thread.CurrentPrincipal.Identity.Name;
+                if(string.IsNullOrEmpty(userName)) throw new Exception();
+                User u = context.Users.FirstOrDefault(us => us.Username.Equals(userName));
+                if(u==null) throw new Exception();
+                IQueryable<Offer> offers = context.Offers.Where(o => o.VendorId != u.Id).Where(o => !o.IsBooked);
+                offers=offers.Where(Criterion.SelectableExpression).Include(o=>o.OfferInfo).Include(o=>o.Place.Address);
                 IEnumerable<Offer> of = offers.Take(20).OrderBy(SelectedSortType, SelectedSortBy);
                 SearchingResults = of.Select(offer => new DisplayableSearchResult(offer)).ToList();
             }

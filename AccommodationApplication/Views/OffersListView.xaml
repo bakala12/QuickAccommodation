@@ -39,6 +39,8 @@
                             <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Price}" FontWeight="Bold"/>
                             <TextBlock Grid.Row="3" Grid.Column="3" Text="{Binding AvailableVacanciesNumber}" FontWeight="Bold"/>
                             <TextBlock Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Description}" FontWeight="Bold"/>
+                            <Button Content="Zarezerwuj" Grid.Row="5" Grid.Column="3" HorizontalAlignment="Center"
+                                    VerticalAlignment="Center" Command="{Binding ReserveCommand}" IsEnabled="{Binding IsBooked}"/>
                         </Grid>
                     </Border>
                 </DataTemplate>
