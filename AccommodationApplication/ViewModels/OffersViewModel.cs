@@ -19,10 +19,12 @@ namespace AccommodationApplication.ViewModels
     public class OffersViewModel : ViewModelBase, IPageViewModel
     {
         public ICommand RemoveCommand { get; set; }
+  
 
         public OffersViewModel()
         {
             RemoveCommand = new DelegateCommand(async x => await RemoveAsync());
+
         }
 
         public string Name

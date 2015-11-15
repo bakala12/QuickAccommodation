@@ -36,8 +36,8 @@ namespace AccommodationApplication
 
         public bool ValidatePrice(string price)
         {
-            int p1;
-            return int.TryParse(price, out p1) ;
+            double p1;
+            return double.TryParse(price, out p1) ;
         }
         public bool ValidateNumber(string vacancies)
         {
