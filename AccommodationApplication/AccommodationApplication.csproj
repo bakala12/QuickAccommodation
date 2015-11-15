@@ -78,6 +78,7 @@
     <Compile Include="Converter\BoolToVisibilityConverter.cs" />
     <Compile Include="Converter\PasswordsConverter.cs" />
     <Compile Include="Converter\RegisterViewsVisibilityConverter.cs" />
+    <Compile Include="Converter\ReverseBoolConverter.cs" />
     <Compile Include="Converter\SortByValuesConverter.cs" />
     <Compile Include="Converter\SortTypeToStringConverter.cs" />
     <Compile Include="Interfaces\IPageViewModel.cs" />
@@ -104,6 +105,7 @@
     <Compile Include="ViewModels\LoginWindowViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\AddNewOfferViewModel.cs" />
+    <Compile Include="ViewModels\DisplayableOfferViewModel.cs" />
     <Compile Include="ViewModels\SearchingViewModel.cs" />
     <Compile Include="ViewModels\OffersViewModel.cs" />
     <Compile Include="SplashScreen.xaml.cs">

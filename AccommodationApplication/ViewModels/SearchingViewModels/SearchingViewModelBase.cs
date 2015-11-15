@@ -22,12 +22,11 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
         protected SearchingViewModelBase()
         {
             SearchCommand = new DelegateCommand(async x=>await SearchAsync());
-            ReserveCommand = new DelegateCommand(x => { MessageBox.Show("ha"); });
         }
 
-        private IEnumerable<DisplayableSearchResult> _searchingResults;
+        private IEnumerable<DisplayableOfferViewModel> _searchingResults;
 
-        public IEnumerable<DisplayableSearchResult> SearchingResults
+        public IEnumerable<DisplayableOfferViewModel> SearchingResults
         {
             get { return _searchingResults; }
             set
@@ -38,7 +37,6 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
         } 
 
         public ICommand SearchCommand { get; protected set; }
-        public ICommand ReserveCommand { get; protected set; }
 
         public abstract ISearchingCriterion<Offer> Criterion { get; }
 
@@ -85,7 +83,7 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
                 IQueryable<Offer> offers = context.Offers.Where(o => o.VendorId != u.Id).Where(o => !o.IsBooked);
                 offers=offers.Where(Criterion.SelectableExpression).Include(o=>o.OfferInfo).Include(o=>o.Place.Address);
                 IEnumerable<Offer> of = offers.Take(20).OrderBy(SelectedSortType, SelectedSortBy);
-                SearchingResults = of.Select(offer => new DisplayableSearchResult(offer)).ToList();
+                SearchingResults = of.Select(offer => new DisplayableOfferViewModel(new DisplayableSearchResult(offer))).ToList();
             }
         } 
     }
