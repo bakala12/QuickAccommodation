@@ -1,0 +1,120 @@
+﻿<UserControl x:Class="AccommodationApplication.Pages.PurchasedOffersView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AccommodationApplication.Pages"
+             xmlns:vm="clr-namespace:AccommodationApplication.ViewModels"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.DataContext>
+        <vm:PurchasedOffersViewModel/>
+    </UserControl.DataContext>
+    <Grid>
+        <ListView ItemsSource="{Binding PurchasedOffers}">
+            <ListView.Resources>
+                <DataTemplate x:Key="DefaultItemTemplate">
+                    <WrapPanel >
+                        <Grid >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="0.2*"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Row="0" Grid.Column="0">
+                                <Label Content="{Binding Offer.Address}" FontWeight="Bold"  />
+                            </StackPanel>
+                            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
+                                <Label  Content="Od: "/>
+                                <Label  Content="{Binding Offer.OfferStartTime, StringFormat='dd-mm-yyyy' }" />
+                                <Label  Content="Do: "/>
+                                <Label  Content="{Binding Offer.OfferEndTime, StringFormat='dd-mm-yyyy' }" />
+                            </StackPanel>
+                            <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
+                                <Label  Content="Liczba wolnych miejsc: "  />
+                                <Label  Content="{Binding Offer.AvailableVacanciesNumber}"  />
+                                <Label  Content="Cena: "  />
+                                <Label  Content="{Binding Offer.Price}"  />
+                                <Label Content="zł"/>
+                            </StackPanel>
+                        </Grid>
+                    </WrapPanel>
+                </DataTemplate>
+                <DataTemplate x:Key="SelectedItemTemplate">
+                    <WrapPanel >
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="0.2*"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Row="0" Grid.Column="0">
+                                <Label Content="{Binding Offer.Address}" FontWeight="Bold"  />
+                            </StackPanel>
+                            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
+                                <Label  Content="Od: "/>
+                                <Label  Content="{Binding Offer.OfferStartTime }" />
+                                <Label  Content="Do: "/>
+                                <Label  Content="{Binding Offer.OfferEndTime }" />
+                            </StackPanel>
+                            <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
+                                <Label   Content="Liczba wolnych miejsc: "  />
+                                <Label  Content="{Binding Offer.AvailableVacanciesNumber}"  />
+                                <Label  Content="Cena: "  />
+                                <Label Content="{Binding Offer.Price}"  />
+                                <Label Content="zł"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal">
+                                <Label Content="Data wystawienia oferty:"/>
+                                <Label Content="{Binding Offer.OfferPublishTime}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="4" Grid.Column="0" Orientation="Horizontal">
+                                <Label Content="Opis: "/>
+                                <Label Content="{Binding Offer.Description}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="5" Grid.Column="0" Orientation="Horizontal">
+                                <Button Content="Rezygnuj" Command="{Binding ResignCommand}" CommandParameter="{Binding Offer}"/>
+                            </StackPanel>
+                        </Grid>
+                    </WrapPanel>
+                </DataTemplate>
+            </ListView.Resources>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="ContentTemplate" Value="{StaticResource DefaultItemTemplate}" />
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="ContentTemplate" Value="{StaticResource SelectedItemTemplate}" />
+                            <Setter Property="Background"  Value="LightGreen"/>
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="MinHeight" To="80" Duration="0:0:1" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="MinHeight" To="0" Duration="0:0:1" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
+    </Grid>
+</UserControl>

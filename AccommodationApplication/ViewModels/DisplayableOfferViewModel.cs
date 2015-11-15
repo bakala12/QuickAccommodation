@@ -22,6 +22,7 @@ namespace AccommodationApplication.ViewModels
         public DisplayableOfferViewModel(DisplayableSearchResult offer)
         {
             ReserveCommand = new DelegateCommand(async o=>await ReserveAsync(o));
+            ResignCommand =new DelegateCommand(async o=>await ResignAsync(o));
             Offer = offer;
         }
 
@@ -55,6 +56,35 @@ namespace AccommodationApplication.ViewModels
                 _offer = value;
                 OnPropertyChanged();
             }
+        }
+
+        public ICommand ResignCommand { get; private set; }
+
+        public void Resign(object x)
+        {
+            DisplayableOffer offer=x as DisplayableOffer;
+            if (offer == null) throw new Exception();
+            string username = Thread.CurrentPrincipal.Identity.Name;
+            if (string.IsNullOrEmpty(username)) throw new Exception();
+            using (var context = new AccommodationContext())
+            {
+                using (var transaction = context.Database.BeginTransaction())
+                {
+                    User u = context.Users.FirstOrDefault(us => us.Username.Equals(username));
+                    if (u == null) throw new Exception();
+                    Offer o = context.Offers.FirstOrDefault(of => of.Id == offer.Id);
+                    if (o == null) throw new Exception();
+                    o.Customer = null;
+                    o.IsBooked = false;
+                    context.SaveChanges();
+                    transaction.Commit();
+                }
+            }
+        }
+
+        public async Task ResignAsync(object x)
+        {
+            await Task.Run(() => Resign(x));
         }
     }
 }
