@@ -46,7 +46,7 @@
                             <TextBlock Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Offer.Description}" FontWeight="Bold"/>
                             <Button Content="Zarezerwuj" Grid.Row="5" Grid.Column="3" HorizontalAlignment="Center"
                                     VerticalAlignment="Center" IsEnabled="{Binding Offer.IsBooked, Converter={StaticResource ReverseBoolConverter}}"
-                                    CommandParameter="{Binding Offer.Id}" Command="{Binding ReserveCommand}"/>
+                                    CommandParameter="{Binding Offer}" Command="{Binding ReserveCommand}"/>
                         </Grid>
                     </Border>
                 </DataTemplate>

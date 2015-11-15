@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Transactions;
 using System.Windows;
 using System.Windows.Input;
 using AccommodationApplication.Commands;
 using AccommodationApplication.Model;
+using AccommodationDataAccess.Domain;
+using AccommodationDataAccess.Model;
 
 namespace AccommodationApplication.ViewModels
 {
@@ -16,13 +21,28 @@ namespace AccommodationApplication.ViewModels
 
         public DisplayableOfferViewModel(DisplayableSearchResult offer)
         {
-            ReserveCommand = new DelegateCommand(x=>Reserve(x));
+            ReserveCommand = new DelegateCommand(async o=>await ReserveAsync(o));
             Offer = offer;
         }
 
-        private void Reserve(object o)
+        public async Task ReserveAsync(object o)
         {
-            MessageBox.Show("ha");
+            DisplayableOffer off= o as DisplayableOffer;
+            int id = off.Id;
+            string username = Thread.CurrentPrincipal.Identity.Name;
+            using (var context = new AccommodationContext())
+            {
+                using (var transaction = context.Database.BeginTransaction())
+                {
+                    User u = await context.Users.FirstOrDefaultAsync(us => us.Username.Equals(username));
+                    Offer offer = await context.Offers.FirstOrDefaultAsync(of => of.Id == id);
+                    if (u == null || offer == null || offer.IsBooked) throw new Exception();
+                    offer.IsBooked = true;
+                    offer.Customer = u;
+                    await context.SaveChangesAsync();
+                    transaction.Commit();
+                }
+            }
         }
 
         private DisplayableSearchResult _offer;
