@@ -136,7 +136,7 @@ namespace AccommodationApplication.ViewModels
         {
             get
             {
-                return _startDate;
+                return _startDate.Date;
             }
             set
             {
@@ -149,7 +149,7 @@ namespace AccommodationApplication.ViewModels
         {
             get
             {
-                return _endDate;
+                return _endDate.Date;
             }
             set
             {
@@ -175,7 +175,7 @@ namespace AccommodationApplication.ViewModels
         {
             get
             {
-                return "Add new offer";
+                return "Dodaj nową ofertę ";
             }
         }
 
@@ -276,13 +276,13 @@ namespace AccommodationApplication.ViewModels
                         }
                         break;
                     case "StartDate":
-                        if (ov.ValidateDate(this.StartDate, this.EndDate))
+                        if (!ov.ValidateDate(this.StartDate, this.EndDate))
                         {
                             errorMessage = "Nieprawidłowe daty";
                         }
                         break;
                     case "EndDate":
-                        if (ov.ValidateDate(this.StartDate, this.EndDate))
+                        if (!ov.ValidateDate(this.StartDate, this.EndDate))
                         {
                             errorMessage = "Nieprawidłowe daty";
                         }

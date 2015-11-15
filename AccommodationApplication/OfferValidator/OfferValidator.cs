@@ -31,13 +31,13 @@ namespace AccommodationApplication
 
         public bool ValidateDate(DateTime start, DateTime end)
         {
-            return (start.Date.Ticks < end.Date.Ticks || start >= DateTime.Now || end >= DateTime.Now);
+            return (start.Date.CompareTo(end.Date) < 0);
         }
 
         public bool ValidatePrice(string price)
         {
-            double p;
-            return double.TryParse(price, out p);
+            int p1;
+            return int.TryParse(price, out p1) ;
         }
         public bool ValidateNumber(string vacancies)
         {

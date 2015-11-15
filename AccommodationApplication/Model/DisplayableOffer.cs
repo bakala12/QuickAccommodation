@@ -12,16 +12,18 @@ namespace AccommodationApplication.Model
         public DisplayableOffer(Offer offer)
         {
             OfferInfo offerInfo = offer.OfferInfo;
-            OfferStartTime = offerInfo.OfferStartTime;
-            OfferEndTime = offerInfo.OfferEndTime;
+            OfferStartTime = offerInfo.OfferStartTime.Date.ToString("dd/MM/yyyy");
+            OfferEndTime = offerInfo.OfferEndTime.Date.ToString("dd/MM/yyyy");
             Address = offer.Place.Address;
             AvailableVacanciesNumber = offerInfo.AvailableVacanciesNumber;
             Price = offerInfo.Price;
             Description = offerInfo.Description;
             OfferPublishTime = offerInfo.OfferPublishTime;
+            Id = offer.Id;
         }
-        public DateTime OfferStartTime { get; set; }
-        public DateTime OfferEndTime { get; set; }
+        public int Id;
+        public string OfferStartTime { get; set; }
+        public string OfferEndTime { get; set; }
         public virtual Address Address { get; set; }
         public int AvailableVacanciesNumber { get; set; }
         public double Price { get; set; }

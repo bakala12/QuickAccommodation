@@ -13,8 +13,14 @@
     </UserControl.DataContext>
 
     <Grid>
-        <ListView  Name="currentOffers" ItemsSource="{Binding CurrentOffersList}">
 
+        <ListView Name="currentOffers" ItemsSource="{Binding CurrentOffersList}" SelectedItem="{Binding 
+               RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
+               Path=DataContext.CurrentlySelectedOffer}" >
+
+            <ListView.DataContext>
+                <vm:OffersViewModel/>
+            </ListView.DataContext>
             <ListView.Resources>
                 <DataTemplate x:Key="DefaultItemTemplate">
                     <WrapPanel >
@@ -45,6 +51,7 @@
                                 <Label  Content="{Binding AvailableVacanciesNumber}"  />
                                 <Label  Content="Cena: "  />
                                 <Label  Content="{Binding Price}"  />
+                                <Label Content="zł"/>
                             </StackPanel>
                         </Grid>
                     </WrapPanel>
@@ -72,9 +79,9 @@
 
                             <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
                                 <Label  Content="Od: "/>
-                                <Label  Content="{Binding OfferStartTime, StringFormat='dd-mm-yyyy' }" />
+                                <Label  Content="{Binding OfferStartTime }" />
                                 <Label  Content="Do: "/>
-                                <Label  Content="{Binding OfferEndTime, StringFormat='dd-mm-yyyy' }" />
+                                <Label  Content="{Binding OfferEndTime }" />
                             </StackPanel>
 
                             <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
@@ -82,6 +89,7 @@
                                 <Label  Content="{Binding AvailableVacanciesNumber}"  />
                                 <Label  Content="Cena: "  />
                                 <Label Content="{Binding Price}"  />
+                                <Label Content="zł"/>
                             </StackPanel>
 
                             <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal">
@@ -95,8 +103,11 @@
                             </StackPanel>
 
                             <StackPanel Grid.Row="5" Grid.Column="0" Orientation="Horizontal">
-                                <Button Content="Usuń ofertę" />
-                                <Button Content="Edytuj ofertę" Margin="20 0 0 0" />
+
+                                <Button  Content="Usuń ofertę" Command="{Binding 
+               RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
+               Path=DataContext.RemoveCommand}" CommandParameter=""  />
+
                             </StackPanel>
                         </Grid>
                     </WrapPanel>
@@ -108,10 +119,11 @@
 
                     <Setter Property="ContentTemplate" Value="{StaticResource DefaultItemTemplate}" />
                     <Style.Triggers>
+
                         <Trigger Property="IsSelected" Value="True">
                             <!-- change what the selected item looks like -->
                             <Setter Property="ContentTemplate" Value="{StaticResource SelectedItemTemplate}" />
-
+                            <Setter Property="Background"  Value="LightGreen"/>
                             <!-- animate it as well -->
                             <Trigger.EnterActions>
                                 <BeginStoryboard>
