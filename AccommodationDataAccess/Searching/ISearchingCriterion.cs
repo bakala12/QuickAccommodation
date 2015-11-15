@@ -10,7 +10,7 @@ namespace AccommodationDataAccess.Searching
 {
     public enum SearchingCriterionType
     {
-        Price, Date, Place, VacanciesNumber
+        Price, Date, Place, Advanced
     }
 
     public enum ResultSortType
