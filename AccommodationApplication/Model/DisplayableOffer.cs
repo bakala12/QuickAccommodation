@@ -24,6 +24,7 @@ namespace AccommodationApplication.Model
         public int Id;
         public string OfferStartTime { get; set; }
         public string OfferEndTime { get; set; }
+
         public virtual Address Address { get; set; }
         public int AvailableVacanciesNumber { get; set; }
         public double Price { get; set; }

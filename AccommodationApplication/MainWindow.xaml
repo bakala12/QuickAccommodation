@@ -9,7 +9,7 @@
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
         Title="QuickAccommodation" Height="600" Width="800" WindowStartupLocation="CenterScreen"
-        TitleCaps="False">
+        TitleCaps="False" Icon="Resources/QuickAccommodationIcon.png">
     <Window.Resources>
         <ResourceDictionary>
 

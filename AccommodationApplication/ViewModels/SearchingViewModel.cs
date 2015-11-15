@@ -24,10 +24,12 @@ namespace AccommodationApplication.ViewModels
             PlaceSearchingViewModel = new PlaceSearchingViewModel();
             DateSearchingViewModel = new DateSearchingViewModel();
             PriceSearchingViewModel = new PriceSearchingViewModel();
+            AdvancedSearchingViewModel = new AdvancedSearchingViewModel();
         }
 
         public PlaceSearchingViewModel PlaceSearchingViewModel { get; }
         public DateSearchingViewModel DateSearchingViewModel { get; }
         public PriceSearchingViewModel PriceSearchingViewModel { get; }
+        public AdvancedSearchingViewModel AdvancedSearchingViewModel { get; }
     }
 }

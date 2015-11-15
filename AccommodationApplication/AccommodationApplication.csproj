@@ -50,6 +50,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Transactions" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.1.2.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
@@ -77,6 +78,8 @@
     <Compile Include="Converter\BoolToVisibilityConverter.cs" />
     <Compile Include="Converter\PasswordsConverter.cs" />
     <Compile Include="Converter\RegisterViewsVisibilityConverter.cs" />
+    <Compile Include="Converter\SortByValuesConverter.cs" />
+    <Compile Include="Converter\SortTypeToStringConverter.cs" />
     <Compile Include="Interfaces\IPageViewModel.cs" />
     <Compile Include="Login\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
@@ -85,6 +88,7 @@
       <DependentUpon>RegisterWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\DisplayableOffer.cs" />
+    <Compile Include="Model\DisplayableSearchResult.cs" />
     <Compile Include="OfferValidator\OfferValidator.cs" />
     <Compile Include="Pages\AddNewOfferView.xaml.cs">
       <DependentUpon>AddNewOfferView.xaml</DependentUpon>
@@ -106,11 +110,15 @@
       <DependentUpon>SplashScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\RegisterUserViewModel.cs" />
+    <Compile Include="ViewModels\SearchingViewModels\AdvancedSearchingViewModel.cs" />
     <Compile Include="ViewModels\SearchingViewModels\DateSearchingViewModel.cs" />
     <Compile Include="ViewModels\SearchingViewModels\PlaceSearchingViewModel.cs" />
     <Compile Include="ViewModels\SearchingViewModels\PriceSearchingViewModel.cs" />
     <Compile Include="ViewModels\SearchingViewModels\SearchingViewModelBase.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="Views\OffersListView.xaml.cs">
+      <DependentUpon>OffersListView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\RegisterAddressView.xaml.cs">
       <DependentUpon>RegisterAddressView.xaml</DependentUpon>
     </Compile>
@@ -168,6 +176,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Styles\SearchingStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\OffersListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\RegisterAddressView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -220,7 +236,11 @@
       <Name>UserAuthorizationSystem</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Resources\QuickAccommodationIcon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\WindowsIcons-license.txt" />
   </ItemGroup>

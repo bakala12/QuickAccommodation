@@ -19,7 +19,13 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <GroupBox Header="Dane adresowe (nieobowiązkowe)" >
+        <GroupBox Header="Dane adresowe (nieobowiązkowe)">
+            <GroupBox.HeaderTemplate>
+                <DataTemplate>
+                    <TextBlock Foreground="White" Text="Dane adresowe (nieobowiązkowe)"
+                               HorizontalAlignment="Center"/>
+                </DataTemplate>
+            </GroupBox.HeaderTemplate>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
