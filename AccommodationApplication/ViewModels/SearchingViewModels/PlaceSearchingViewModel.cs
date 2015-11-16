@@ -10,11 +10,17 @@ using AccommodationDataAccess.Searching;
 
 namespace AccommodationApplication.ViewModels.SearchingViewModels
 {
+    /// <summary>
+    /// ViewModel odpowiadający za wyszukiwanie ofert po miejscu
+    /// </summary>
     public class PlaceSearchingViewModel : SearchingViewModelBase
     {
         private string _placeName;
         private string _cityName;
 
+        /// <summary>
+        /// Pobiera lub ustawia nazwę miejsca
+        /// </summary>
         public string PlaceName
         {
             get { return _placeName; }
@@ -25,6 +31,9 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
             }
         }
 
+        /// <summary>
+        /// Pobiera lub ustawia nazwę miasta
+        /// </summary>
         public string CityName
         {
             get { return _cityName; }
@@ -35,6 +44,9 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
             }
         }
 
+        /// <summary>
+        /// Zwraca odpowiednie kryterium wyszukiwania
+        /// </summary>
         public override ISearchingCriterion<Offer> Criterion 
             => OffersSearchingCriteriaFactory.CreatePlaceSearchingCriterion(PlaceName, CityName);
     }

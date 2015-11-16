@@ -10,12 +10,18 @@ using AccommodationDataAccess.Searching;
 
 namespace AccommodationApplication.ViewModels.SearchingViewModels
 {
+    /// <summary>
+    /// ViewModel odpowiadający za wyszukiwanie ofert po dacie
+    /// </summary>
     public class DateSearchingViewModel :SearchingViewModelBase
     {
         private DateTime? _minimalDate;
         private DateTime? _maximalDate;
         private bool _showPartiallyMatchingResults;
 
+        /// <summary>
+        /// Pobiera lub ustawia minmalną datę
+        /// </summary>
         public DateTime? MinimalDate
         {
             get { return _minimalDate; }
@@ -26,6 +32,9 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
             }
         }
 
+        /// <summary>
+        /// Pobiera lub ustawia maksymalną datę
+        /// </summary>
         public DateTime? MaximalDate
         {
             get { return _maximalDate; }
@@ -36,6 +45,9 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
             }
         }
 
+        /// <summary>
+        /// Pobiera lub ustawia wartość odpowiadającą za pokazywanie częśćiowo pasujących wyników
+        /// </summary>
         public bool ShowPartiallyMatchingResults
         {
             get { return _showPartiallyMatchingResults; }
@@ -46,6 +58,9 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
             }
         }
 
+        /// <summary>
+        /// Zwraca odpowiednie kryterium wyszukiwania
+        /// </summary>
         public override ISearchingCriterion<Offer> Criterion 
             => OffersSearchingCriteriaFactory.CreateDateSearchingCriterion(MinimalDate, MaximalDate, ShowPartiallyMatchingResults);
     }

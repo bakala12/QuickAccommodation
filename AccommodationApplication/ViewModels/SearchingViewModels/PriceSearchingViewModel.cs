@@ -10,12 +10,17 @@ using AccommodationDataAccess.Searching;
 
 namespace AccommodationApplication.ViewModels.SearchingViewModels
 {
+    /// <summary>
+    /// ViewModel odpowiadający za wyszukiwanie ofert po cenie
+    /// </summary>
     public class PriceSearchingViewModel : SearchingViewModelBase
     {
         private double? _minimalPrice;
         private double? _maximalPrice;
-        private readonly Regex _moneyRegex = new Regex(@"^[1-9][0-9]*[.[0-9]{2}]?$");
 
+        /// <summary>
+        /// Pobiera lub ustawia cenę minimalną
+        /// </summary>
         public double? MinimalPrice
         {
             get { return _minimalPrice; }
@@ -26,6 +31,9 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
             }
         }
 
+        /// <summary>
+        /// Pobiera lub ustawia cenę maksymalną
+        /// </summary>
         public double? MaximalPrice
         {
             get { return _maximalPrice; }
@@ -36,6 +44,9 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
             }
         }
 
+        /// <summary>
+        /// Odpowiednie kryetrium wyszukiwania
+        /// </summary>
         public override ISearchingCriterion<Offer> Criterion
         {
             get

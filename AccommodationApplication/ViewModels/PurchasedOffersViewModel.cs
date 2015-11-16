@@ -15,10 +15,19 @@ using AccommodationDataAccess.Model;
 
 namespace AccommodationApplication.ViewModels
 {
+    /// <summary>
+    /// ViewModel odpowiedzialny za prezentację ofert użytkownika
+    /// </summary>
     public class PurchasedOffersViewModel : ViewModelBase, IPageViewModel
     {
+        /// <summary>
+        /// Nazwa ViewModelu, zaimplementowane z IPageViewModel
+        /// </summary>
         public string Name => "Zarezerwowane oferty";
 
+        /// <summary>
+        /// Inicjalizuje nową instancje ViewModelu
+        /// </summary>
         public PurchasedOffersViewModel()
         {
             _purchasedOffers=new ObservableCollection<DisplayableOfferViewModel>();
@@ -26,6 +35,9 @@ namespace AccommodationApplication.ViewModels
 
         private readonly ObservableCollection<DisplayableOfferViewModel> _purchasedOffers;
 
+        /// <summary>
+        /// Zwraca kolekcję ViewModeli zakupionych ofert
+        /// </summary>
         public ObservableCollection<DisplayableOfferViewModel> PurchasedOffers
         {
             get

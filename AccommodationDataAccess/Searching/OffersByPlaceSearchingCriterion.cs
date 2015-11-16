@@ -10,19 +10,38 @@ using AccommodationDataAccess.Model;
 
 namespace AccommodationDataAccess.Searching
 {
+    /// <summary>
+    /// Implementacja kryterium wyszukiwania oferty po miejscu
+    /// </summary>
     internal class OffersByPlaceSearchingCriterion : OfferSearchingCriterion
     {
+        /// <summary>
+        /// Nazwa miasta
+        /// </summary>
         public string City { get; }
+        /// <summary>
+        /// Nazwa miejsca
+        /// </summary>
         public string PlaceName { get; }
 
+        /// <summary>
+        /// Tworzy nową instancję kryterium wyszukiwania po miejscu
+        /// </summary>
         private OffersByPlaceSearchingCriterion() : base(SearchingCriterionType.Place) { }
 
+        /// <summary>
+        /// Tworzy nową instancję kryterium wyszukiwanie po miejscu
+        /// </summary>
+        /// <param name="city">Nazwa miasta</param>
+        /// <param name="name">Nazwa miejsca</param>
         public OffersByPlaceSearchingCriterion(string city, string name =null) : this()
         {
             City = city;
             PlaceName = name;
         }
-
+        /// <summary>
+        /// Wyrażenie podawane do LINQ realizujące odpowiednie wyszukiwanie.
+        /// </summary>
         public override Expression<Func<Offer, bool>> SelectableExpression
         {
             get
