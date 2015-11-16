@@ -26,9 +26,38 @@ namespace AccommodationApplication.ViewModels
         public OffersViewModel()
         {
             RemoveCommand = new DelegateCommand(async x => await RemoveAsync());
+            //RemoveCommand = new DelegateCommand(x => Remove());
             EditCommand = new DelegateCommand(x => Edit());
+           
         }
 
+        public void Load()
+        {
+            var ret = new ObservableCollection<DisplayableOffer>();
+
+            using (var context = new AccommodationContext())
+            {
+                string currentUser = Thread.CurrentPrincipal.Identity.Name;
+
+                User user = context.Users.FirstOrDefault(x => x.Username.Equals(currentUser));
+                var list = user.MyOffers;
+
+                foreach (var item in list)
+                {
+                    Offer offer = context.Offers.FirstOrDefault(x => item.Id == x.Id);
+                    OfferInfo offerInfo = context.OfferInfo.FirstOrDefault(x => x.Id == offer.OfferInfoId);
+                    Place place = context.Places.FirstOrDefault(x => offer.PlaceId == x.Id);
+                    Address address = context.Addresses.FirstOrDefault(x => place.AddressId == x.Id);
+
+                    place.Address = address;
+                    offer.OfferInfo = offerInfo;
+                    offer.Place = place;
+                    DisplayableOffer dof = new DisplayableOffer(offer);
+                    ret.Add(dof);
+                }
+            }
+            CurrentOffersList = ret;
+        }
 
         public string Name
         {
@@ -79,15 +108,15 @@ namespace AccommodationApplication.ViewModels
                     context.OfferInfo.Remove(offerInfo);
                     user.MyOffers.Remove(offer);
                     
-                    DisplayableOffer displayableOffer = CurrentOffersList.FirstOrDefault(x => x.Id == offer.Id);
+               //     DisplayableOffer displayableOffer = CurrentOffersList.FirstOrDefault(x => x.Id == offer.Id);
                     context.SaveChanges();
                     scope.Complete();
                 }
             }
-
+            Load();
         }
 
-        public ObservableCollection<DisplayableOffer> currentOffersList = new ObservableCollection<DisplayableOffer>();
+        public ObservableCollection<DisplayableOffer> currentOffersList;
 
         public ObservableCollection<DisplayableOffer> CurrentOffersList
         {
@@ -98,31 +127,8 @@ namespace AccommodationApplication.ViewModels
             }
             get
             {
-                var ret = new ObservableCollection<DisplayableOffer>();
-
-                using (var context = new AccommodationContext())
-                {
-                    string currentUser = Thread.CurrentPrincipal.Identity.Name;
-
-                    User user = context.Users.FirstOrDefault(x => x.Username.Equals(currentUser));
-                    var list = user.MyOffers;
-
-                    foreach (var item in list)
-                    {
-                        Offer offer = context.Offers.FirstOrDefault(x => item.Id == x.Id);
-                        OfferInfo offerInfo = context.OfferInfo.FirstOrDefault(x => x.Id == offer.OfferInfoId);
-                        Place place = context.Places.FirstOrDefault(x => offer.PlaceId == x.Id);
-                        Address address = context.Addresses.FirstOrDefault(x => place.AddressId == x.Id);
-
-                        place.Address = address;
-                        offer.OfferInfo = offerInfo;
-                        offer.Place = place;
-                        DisplayableOffer dof = new DisplayableOffer(offer);
-                        ret.Add(dof);
-                    }
-                }
-                return ret;
-
+                if (currentOffersList == null) Load();
+                return currentOffersList;
             }
         }
     }
