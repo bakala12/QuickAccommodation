@@ -15,10 +15,20 @@ using AccommodationDataAccess.Model;
 
 namespace AccommodationApplication.ViewModels
 {
+    /// <summary>
+    /// View model odpowiedzialny za wyświetlenie wyniku wyszukiwania oferty
+    /// </summary>
     public class DisplayableOfferViewModel : ViewModelBase
     {
+        /// <summary>
+        /// Komenda rezerwacji oferty
+        /// </summary>
         public ICommand ReserveCommand { get; }
 
+        /// <summary>
+        /// Inicjalizuje nową instancję klasy DisplayableOfferViewModel
+        /// </summary>
+        /// <param name="offer">Oferta stowarzyszona z bieżącą instancją</param>
         public DisplayableOfferViewModel(DisplayableSearchResult offer)
         {
             ReserveCommand = new DelegateCommand(async o=>await ReserveAsync(o));
@@ -26,6 +36,11 @@ namespace AccommodationApplication.ViewModels
             Offer = offer;
         }
 
+        /// <summary>
+        /// Asynchronicznie dokonuje rezerwacji oferty
+        /// </summary>
+        /// <param name="o">Parametr komendy</param>
+        /// <returns></returns>
         public async Task ReserveAsync(object o)
         {
             DisplayableOffer off= o as DisplayableOffer;
@@ -48,6 +63,9 @@ namespace AccommodationApplication.ViewModels
 
         private DisplayableSearchResult _offer;
 
+        /// <summary>
+        /// Pobiera lub ustawia ofertę stowarzyszoną z bieżącą instancją ViewModelu
+        /// </summary>
         public DisplayableSearchResult Offer
         {
             get { return _offer; }
@@ -58,8 +76,15 @@ namespace AccommodationApplication.ViewModels
             }
         }
 
+        /// <summary>
+        /// Komenda rezygnacji z oferty
+        /// </summary>
         public ICommand ResignCommand { get; private set; }
 
+        /// <summary>
+        /// Rezygnuje zi bieżącej oferty
+        /// </summary>
+        /// <param name="x">Parametr</param>
         public void Resign(object x)
         {
             DisplayableOffer offer=x as DisplayableOffer;
@@ -82,6 +107,11 @@ namespace AccommodationApplication.ViewModels
             }
         }
 
+        /// <summary>
+        /// Asynchronicznie rezygnuje z oferty
+        /// </summary>
+        /// <param name="x">Parametr</param>
+        /// <returns></returns>
         public async Task ResignAsync(object x)
         {
             await Task.Run(() => Resign(x));

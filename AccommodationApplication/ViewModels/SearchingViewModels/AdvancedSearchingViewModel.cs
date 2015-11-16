@@ -13,6 +13,9 @@ using AccommodationDataAccess.Searching;
 
 namespace AccommodationApplication.ViewModels.SearchingViewModels
 {
+    /// <summary>
+    /// ViewModel odpowiadający za zaawansowane wyszukiwanie ofert w bazie
+    /// </summary>
     public class AdvancedSearchingViewModel : SearchingViewModelBase
     {
         private string _placeName;
@@ -22,6 +25,9 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
         private double? _minimalPrice;
         private double? _maximalPrice;
 
+        /// <summary>
+        /// Pobiera lub ustawia nazwę miejsca
+        /// </summary>
         public string PlaceName
         {
             get { return _placeName; }
@@ -32,6 +38,9 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
             }
         }
 
+        /// <summary>
+        /// Pobiera lub ustawia nazwę miasta
+        /// </summary>
         public string CityName
         {
             get { return _cityName; }
@@ -42,6 +51,9 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
             }
         }
 
+        /// <summary>
+        /// Pobiera lub ustawia minimalną datę
+        /// </summary>
         public DateTime? MinimalDate
         {
             get { return _minimalTime; }
@@ -52,6 +64,9 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
             }
         }
 
+        /// <summary>
+        /// Pobiera lub ustawia maksymalną datę
+        /// </summary>
         public DateTime? MaximalDate
         {
             get { return _maximalTime; }
@@ -62,6 +77,9 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
             }
         }
 
+        /// <summary>
+        /// Pobiera lub ustawia minimalną cenę
+        /// </summary>
         public double? MinimalPrice
         {
             get { return _minimalPrice; }
@@ -72,6 +90,9 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
             }
         }
 
+        /// <summary>
+        /// Pobiera lub ustawia maksymalną cenę
+        /// </summary>
         public double? MaximalPrice
         {
             get { return _maximalPrice; }
@@ -82,8 +103,14 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
             }
         }
 
+        /// <summary>
+        /// Zwraca odpowiednie kryterium wyszukiwania (tutaj null)
+        /// </summary>
         public override ISearchingCriterion<Offer> Criterion => null;
 
+        /// <summary>
+        /// Zwraca kolekcje odpowiednich kryteriów wyszukiwania (wyszukiwanie oparte o wiele kryteriów)
+        /// </summary>
         public IEnumerable<ISearchingCriterion<Offer>> Criteria =>
             new ISearchingCriterion<Offer>[]
             {
@@ -92,6 +119,9 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
                 OffersSearchingCriteriaFactory.CreatePriceSearchingCriterion(MinimalPrice, MaximalPrice)
             };
 
+        /// <summary>
+        /// Nadpisuje metodę wyszukiwania dla wielu kryteriów
+        /// </summary>
         protected override void Search()
         {
             using (var context = new AccommodationContext())

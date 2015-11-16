@@ -7,18 +7,35 @@ using System.Threading.Tasks;
 
 namespace UserAuthorizationSystem.Validation
 {
+    /// <summary>
+    /// Provides a validation way for user data.
+    /// </summary>
     public class BasicUserDataValidator : IUserDataValidator, IEmailValidator
     {
+        /// <summary>
+        /// Validate the name of the user.
+        /// </summary>
+        /// <param name="value">The value to be validated</param>
+        /// <returns>True if the value is valid otherwise false</returns>
         public bool ValidateName(string value)
         {
             return !string.IsNullOrEmpty(value);
         }
 
+        /// <summary>
+        /// Validates user local number
+        /// </summary>
+        /// <param name="value">Local number to be validated</param>
+        /// <returns></returns>
         public bool ValidateLocalNumber(string value)
         {
             return string.IsNullOrEmpty(value) || char.IsDigit(value[0]);
         }
-
+        /// <summary>
+        /// Validates the postal code.
+        /// </summary>
+        /// <param name="value">Postal code to be validated</param>
+        /// <returns>True if the value is valid otherwise false</returns>
         public bool ValidatePostalCode(string value)
         {
             if (string.IsNullOrEmpty(value)) return true;

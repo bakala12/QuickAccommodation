@@ -7,8 +7,15 @@ using AccommodationDataAccess.Model;
 
 namespace AccommodationDataAccess.Domain
 {
+    /// <summary>
+    /// Zapewnia możliwośc dostarczenia kolekcji przykładowych użytkowników do bazy
+    /// </summary>
     internal static class ExampleUsersProvider
     {
+        /// <summary>
+        /// Zwraca kolekcję przykładowych użytkowników
+        /// </summary>
+        /// <returns>Koleckja przykładowych użytkowników</returns>
         public static IEnumerable<User> GetExampleUsers()
         {
             List<User> users=new List<User>();

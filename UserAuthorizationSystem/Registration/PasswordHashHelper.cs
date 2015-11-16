@@ -7,10 +7,17 @@ using System.Threading.Tasks;
 
 namespace UserAuthorizationSystem.Registration
 {
+    /// <summary>
+    /// Klasa pomocna przy haszowaniu haseł
+    /// </summary>
     internal static class PasswordHashHelper
     {
         private static readonly uint SaltByteSize=24;
 
+        /// <summary>
+        /// Tworzy losową kryptograficznie bezpieczną sól do hasła
+        /// </summary>
+        /// <returns>Kryptograficznie bezpieczna sól do hasła</returns>
         internal static string CreateSalt()
         {
             RNGCryptoServiceProvider provider = new RNGCryptoServiceProvider();
@@ -19,6 +26,12 @@ namespace UserAuthorizationSystem.Registration
             return Convert.ToBase64String(salt);
         }
 
+        /// <summary>
+        /// Wylicza hasz dla podanego hasła i soli.
+        /// </summary>
+        /// <param name="clearTextPassword">Hasło użytkownika jako zwykły tekst</param>
+        /// <param name="salt">Sól do hasła</param>
+        /// <returns>Zahaszowane i osolone hasło gotowe do zapisu w bazie danych</returns>
         public static string CalculateHash(string clearTextPassword, string salt)
         {
             byte[] bytes = Encoding.UTF8.GetBytes(clearTextPassword + salt);

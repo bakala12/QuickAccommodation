@@ -8,10 +8,33 @@ using AccommodationDataAccess.Model;
 
 namespace UserAuthorizationSystem.Registration
 {
+    /// <summary>
+    /// Wspomaga rejestrację nowego użytkownika.
+    /// </summary>
     public interface IRegisterUser
     {
+        /// <summary>
+        /// Tworzy nowego użytkownika w oparciu o podane dane.
+        /// </summary>
+        /// <param name="username">Nazwa uzytkownika</param>
+        /// <param name="clearTextPassword">Hasł użytkownika</param>
+        /// <returns>Nowa instancja użytkownika.</returns>
         User GetNewUser(string username, string clearTextPassword);
+        /// <summary>
+        /// Zapisuje użytkownika z jego danymi do bazy danych.
+        /// </summary>
+        /// <typeparam name="T">Typ contekstu bazy danych z użytkownikami.</typeparam>
+        /// <param name="user">Nazwa użytkownika</param>
+        /// <param name="userdata">Dane osobowe użytkownika</param>
+        /// <param name="address">Dane adresowe użytkownika</param>
         void SaveUser<T>(User user, UserData userdata, Address address) where T:IUsersContext, IDisposable, new();
+        /// <summary>
+        /// Asynchronicznie zapisuje użytkownika z jego danymi do bazy danych.
+        /// </summary>
+        /// <typeparam name="T">Typ contekstu bazy danych z użytkownikami.</typeparam>
+        /// <param name="user">Nazwa użytkownika</param>
+        /// <param name="userdata">Dane osobowe użytkownika</param>
+        /// <param name="address">Dane adresowe użytkownika</param>
         Task SaveUserAsync<T>(User user, UserData userdata, Address address) where T:IUsersContext, IDisposable, new();
     }
 }

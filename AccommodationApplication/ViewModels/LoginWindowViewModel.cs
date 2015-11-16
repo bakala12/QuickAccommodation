@@ -14,12 +14,19 @@ using UserAuthorizationSystem.Identities;
 
 namespace AccommodationApplication.ViewModels
 {
+    /// <summary>
+    /// Reprezentuję instancję ViewModelu odpowiedzialną za logowanie uzytkownika do aplikacji
+    /// </summary>
     public class LoginWindowViewModel : CloseableViewModel
     {
         private string _username;
         private string _errorText;
         private readonly IUserAuthenticationService _authenticationService;
 
+        /// <summary>
+        /// Inicjalizuje nowa instancję klasy LoginWindowViewModel
+        /// </summary>
+        /// <param name="authenticationService">Instancja odpowiedzialna za uwierzytelnienie uzytkownika</param>
         public LoginWindowViewModel(IUserAuthenticationService authenticationService)
         {
             if(authenticationService==null) throw new ArgumentNullException();
@@ -27,6 +34,9 @@ namespace AccommodationApplication.ViewModels
             LoginCommand = new DelegateCommand(async x => await LoginAsync(x));
         }
 
+        /// <summary>
+        /// Pobiera lub ustawia nazwę użytkownika
+        /// </summary>
         public string Username
         {
             get { return _username; }
@@ -37,6 +47,9 @@ namespace AccommodationApplication.ViewModels
             }
         }
 
+        /// <summary>
+        /// Pobiera lub ustawia tekst wiadmości z błędem
+        /// </summary>
         public string ErrorText
         {
             get { return _errorText; }
@@ -47,8 +60,16 @@ namespace AccommodationApplication.ViewModels
             }
         }
 
+        /// <summary>
+        /// Komenda reagująca na zlecenie zalogowania
+        /// </summary>
         public ICommand LoginCommand { get; }
 
+        /// <summary>
+        /// Asynchrincznie uwierzytelnia i loguje użytkownika do aplikacji 
+        /// </summary>
+        /// <param name="parameter">Parametr komendy</param>
+        /// <returns></returns>
         public virtual async Task LoginAsync(object parameter)
         {
             PasswordBox passwordBox = parameter as PasswordBox;

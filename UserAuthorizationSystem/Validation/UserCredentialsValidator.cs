@@ -7,8 +7,17 @@ using AccommodationDataAccess.Domain;
 
 namespace UserAuthorizationSystem.Validation
 {
+    /// <summary>
+    /// Provides a way to validate user logging data
+    /// </summary>
     public class UserCredentialsValidator : BasicUserDataValidator, IUserCredentialsValidator
     {
+        /// <summary>
+        /// Validates the username. 
+        /// </summary>
+        /// <typeparam name="T">The database type.</typeparam>
+        /// <param name="username">The username to be validated</param>
+        /// <returns>True if the value is valid otherwise false</returns>
         public bool ValidateUsername<T>(string username) where T:IUsersContext, IDisposable, new()
         {
             using (var context=new T())
@@ -17,11 +26,23 @@ namespace UserAuthorizationSystem.Validation
             }
         }
 
+        /// <summary>
+        /// Validates the username. 
+        /// </summary>
+        /// <typeparam name="T">The database type.</typeparam>
+        /// <param name="username">The username to be validated</param>
+        /// <returns>True if the value is valid otherwise false</returns>
         public async Task<bool> ValidateUsernameAsync<T>(string username) where T : IUsersContext, IDisposable, new()
         {
             return await Task.Run(() => ValidateUsername<T>(username));
         }
 
+        /// <summary>
+        /// Validates the password
+        /// </summary>
+        /// <param name="password">Password to be validated</param>
+        /// <param name="reason">Reason of error, may be empty</param>
+        /// <returns>True if the value is valid otherwise false</returns>
         public virtual bool ValidatePassword(string password, out string reason)
         {
             reason=string.Empty;
@@ -43,6 +64,13 @@ namespace UserAuthorizationSystem.Validation
             return true;
         }
 
+        /// <summary>
+        /// Validates the password and its confirmation
+        /// </summary>
+        /// <param name="password">Password to be validated</param>
+        /// <param name="passwordConfirmed">Password confirmation</param>
+        /// <param name="reason">Reason of error, may be empty</param>
+        /// <returns>True if the value is valid otherwise false</returns>
         public virtual bool ValidatePasswordConfirmation(string password, string passwordConfirmed, out string reason)
         {
             reason = string.Empty;

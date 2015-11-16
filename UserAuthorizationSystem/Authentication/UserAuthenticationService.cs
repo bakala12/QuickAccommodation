@@ -11,8 +11,20 @@ using UserAuthorizationSystem.Registration;
 
 namespace UserAuthorizationSystem.Authentication
 {
+    /// <summary>
+    /// Zapewnia możliwość autoryzacji użytkownika implementując IUserAuthorizatonService.
+    /// </summary>
     public class UserAuthenticationService: IUserAuthenticationService
     {
+        /// <summary>
+        /// Autoryzuje użytkownika o podanym loginie i haśle.
+        /// </summary>
+        /// <typeparam name="T">Parametr generyczny z bazą danych. Musi dać się utworzyć konstruktorem bezparametrowym 
+        /// i zawierać informacje o użytkownikach implementując interfejs IUserContext.
+        /// </typeparam>
+        /// <param name="username">Nazwa użytkownika do autoryzacji.</param>
+        /// <param name="password">Hasło użytkownika do autoryzacji (plain text).</param>
+        /// <returns>Obiekt CustomIdentity odpowiadający użytkownikowi lub null gdy autoryzacja przebiegła niepomyślnie.</returns>
         public CustomIdentity AuthenticateUser<T>(string username, string password) where T : IUsersContext, IDisposable, new()
         {
             using (var context = new T())
@@ -24,6 +36,15 @@ namespace UserAuthorizationSystem.Authentication
             }
         }
 
+        /// <summary>
+        /// Asynchroniczna wersja autoryzacji uzytkownika.
+        /// </summary>
+        /// <typeparam name="T">Parametr generyczny z bazą danych. Musi dać się utworzyć konstruktorem bezparametrowym 
+        /// i zawierać informacje o użytkownikach implementując interfejs IUserContext.
+        /// </typeparam>
+        /// <param name="username">Nazwa użytkownika do autoryzacji.</param>
+        /// <param name="password">Hasło użytkownika do autoryzacji (plain text).</param>
+        /// <returns>Obiekt CustomIdentity odpowiadający użytkownikowi lub null gdy autoryzacja przebiegła niepomyślnie.</returns>
         public async Task<CustomIdentity> AuthenticateUserAsync<T>(string username, string password)
             where T : IUsersContext, IDisposable, new()
         {

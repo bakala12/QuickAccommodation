@@ -17,8 +17,14 @@ using AccommodationDataAccess.Searching;
 
 namespace AccommodationApplication.ViewModels.SearchingViewModels
 {
+    /// <summary>
+    /// Bazowa klasa dla ViewModeli do szukania
+    /// </summary>
     public abstract class SearchingViewModelBase : ViewModelBase
     {
+        /// <summary>
+        /// Inicjalizuje początkowy stan obiektu
+        /// </summary>
         protected SearchingViewModelBase()
         {
             SearchCommand = new DelegateCommand(async x=>await SearchAsync());
@@ -26,6 +32,9 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
 
         private IEnumerable<DisplayableOfferViewModel> _searchingResults;
 
+        /// <summary>
+        /// Pobiera Pobiera lub ustawia kolekcję z wynikami wyszukiwania
+        /// </summary>
         public IEnumerable<DisplayableOfferViewModel> SearchingResults
         {
             get { return _searchingResults; }
@@ -36,15 +45,30 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
             }
         } 
 
+        /// <summary>
+        /// Komenda reagująca na szukanie
+        /// </summary>
         public ICommand SearchCommand { get; protected set; }
 
+        /// <summary>
+        /// Abstrakcyjna właściwość z kryterium wyszukiwania
+        /// </summary>
         public abstract ISearchingCriterion<Offer> Criterion { get; }
 
+        /// <summary>
+        /// Kolekcja dostępnych typów wyszukiwania
+        /// </summary>
         public IEnumerable<SortType> SortTypes => (IEnumerable<SortType>)Enum.GetValues(typeof (SortType));
+        /// <summary>
+        /// Kolekcja dostępnych wartości po których można wyszukiwać
+        /// </summary>
         public IEnumerable<SortBy> SortByValues => (IEnumerable<SortBy>) Enum.GetValues(typeof (SortBy));
 
         private SortType _selectedSortType;
 
+        /// <summary>
+        /// Pobiera lub ustawia aktualnie wybrany typ sortowania
+        /// </summary>
         public SortType SelectedSortType
         {
             get { return _selectedSortType; }
@@ -57,6 +81,9 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
 
         private SortBy _selectedSortBy;
 
+        /// <summary>
+        /// Pobiera lub ustawia aktualną wartość po której wyszukujemy
+        /// </summary>
         public SortBy SelectedSortBy
         {
             get { return _selectedSortBy; }
@@ -67,11 +94,18 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
             }
         }
 
+        /// <summary>
+        /// Asynchronicznie wyszukuje oferty w oparciu o kryterium wyszukiwania 
+        /// </summary>
+        /// <returns></returns>
         public async Task SearchAsync()
         {
             await Task.Run(() => Search());
         }
 
+        /// <summary>
+        /// Wyszukuje oferty w oparciu o kryterium wyszukiwania 
+        /// </summary>
         protected virtual void Search()
         {
             using (var context=new AccommodationContext())
@@ -88,6 +122,9 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
         } 
     }
 
+    /// <summary>
+    /// Typ sortownia 
+    /// </summary>
     public enum SortType
     {
         Ascending,
@@ -95,6 +132,9 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
         NotSort
     }
 
+    /// <summary>
+    /// Właściwość po której wyszukujemy
+    /// </summary>
     public enum SortBy
     {
         Place,

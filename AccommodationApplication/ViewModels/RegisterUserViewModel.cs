@@ -15,11 +15,17 @@ using UserAuthorizationSystem.Validation;
 
 namespace AccommodationApplication.ViewModels
 {
+    /// <summary>
+    /// Enum potrzebny do zmiany ekranów w oknie rejestracji
+    /// </summary>
     public enum CurrentScreen
     {
         Credentials, BasicData, Address
     }
 
+    /// <summary>
+    /// ViewModel odpowiedzialny za rejestrację nowego użytkownika
+    /// </summary>
     public class RegisterUserViewModel : CloseableViewModel
     {
         private string _username;
@@ -42,6 +48,11 @@ namespace AccommodationApplication.ViewModels
         private UserData _userData;
         private Address _address;
 
+        /// <summary>
+        /// Inicjalizuje nową instancję klasy RegisterUserViewModel
+        /// </summary>
+        /// <param name="validator">Validator danych wprowadzanych przez użytkownika</param>
+        /// <param name="regiser">Instancja odpowiadająca za zapisanie użytkownika do bazy danych</param>
         public RegisterUserViewModel(IUserCredentialsValidator validator, IRegisterUser regiser)
         {
             if(validator == null || regiser==null) throw new ArgumentNullException();
@@ -52,9 +63,18 @@ namespace AccommodationApplication.ViewModels
             CurrentScreen = CurrentScreen.Credentials;
         }
 
+        /// <summary>
+        /// Komenda odpowiadająca za przejście do następnego ekranu
+        /// </summary>
         public ICommand NextCommand { get; }
+        /// <summary>
+        /// Komenda odpowiadająca na zlecenie zarejestrowania użytkownika
+        /// </summary>
         public ICommand RegisterCommand { get; }
 
+        /// <summary>
+        /// Pobiera lub ustawia aktualnie wyświetlany ekran
+        /// </summary>
         public CurrentScreen CurrentScreen
         {
             get { return _currentScreen; }
@@ -65,6 +85,11 @@ namespace AccommodationApplication.ViewModels
             }
         }
 
+        /// <summary>
+        /// Asynchronicznie przechodzi do następnego ekranu
+        /// </summary>
+        /// <param name="x">Parametr komendy</param>
+        /// <returns></returns>
         public async Task NextScreenAsync(object x)
         {
             switch (CurrentScreen)
@@ -114,6 +139,10 @@ namespace AccommodationApplication.ViewModels
             }
         }
 
+        /// <summary>
+        /// Asynchronicznie dokonuje rejestracji użytkownika w bazie danych
+        /// </summary>
+        /// <returns></returns>
         public async virtual Task RegisterAsync()
         {
             _address = new Address() {City = City, Street = Street, PostalCode = PostalCode, LocalNumber = LocaleNumber};
@@ -122,7 +151,9 @@ namespace AccommodationApplication.ViewModels
         }
 
         #region Properties
-
+        /// <summary>
+        /// Pobiera lub ustawia nazwę użytkownika
+        /// </summary>
         public string Username
         {
             get { return _username; }
@@ -133,6 +164,9 @@ namespace AccommodationApplication.ViewModels
             }
         }
 
+        /// <summary>
+        /// Pobiera lub ustawia email użytkownika
+        /// </summary>
         public string Email
         {
             get { return _email; }
@@ -143,6 +177,9 @@ namespace AccommodationApplication.ViewModels
             }
         }
 
+        /// <summary>
+        /// Pobiera lub ustawia imię użytkownika
+        /// </summary>
         public string FirstName
         {
             get { return _firstName; }
@@ -153,6 +190,9 @@ namespace AccommodationApplication.ViewModels
             }
         }
 
+        /// <summary>
+        /// Pobiera lub ustawia nazwisko użytkownika
+        /// </summary>
         public string LastName
         {
             get { return _lastName; }
@@ -163,6 +203,9 @@ namespace AccommodationApplication.ViewModels
             }
         }
 
+        /// <summary>
+        /// Pobiera lub ustawia nazwę firmy użytkownika
+        /// </summary>
         public string CompanyName
         {
             get { return _companyName; }
@@ -173,6 +216,9 @@ namespace AccommodationApplication.ViewModels
             }
         }
 
+        /// <summary>
+        /// Pobiera lub ustawia ulicę z adresu użytkownika
+        /// </summary>
         public string Street
         {
             get { return _street; }
@@ -183,6 +229,9 @@ namespace AccommodationApplication.ViewModels
             }
         }
 
+        /// <summary>
+        /// Pobiera lub ustawia numer lokalu z adresu użytkownika
+        /// </summary>
         public string LocaleNumber
         {
             get { return _localeNumber; }
@@ -193,6 +242,9 @@ namespace AccommodationApplication.ViewModels
             }
         }
 
+        /// <summary>
+        /// Pobiera lub ustawia kod pocztowy miejscowości użytkownika
+        /// </summary>
         public string PostalCode
         {
             get { return _postalCode; }
@@ -203,6 +255,9 @@ namespace AccommodationApplication.ViewModels
             }
         }
 
+        /// <summary>
+        /// Pobiera lub ustawia miasto uzytkownika
+        /// </summary>
         public string City
         {
             get { return _city; }
@@ -213,6 +268,9 @@ namespace AccommodationApplication.ViewModels
             }
         }
 
+        /// <summary>
+        /// Pobiera lub ustawia wiadomość o przyczynie błędnej walidacji
+        /// </summary>
         public string Error
         {
             get { return _error; }
@@ -222,7 +280,6 @@ namespace AccommodationApplication.ViewModels
                 OnPropertyChanged();
             }
         }
-
         #endregion
     }
 }
