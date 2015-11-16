@@ -13,8 +13,23 @@ namespace UserAuthorizationSystem.Validation
     /// </summary>
     public interface IUserDataValidator
     {
+        /// <summary>
+        /// Validate the name of the user.
+        /// </summary>
+        /// <param name="value">The value to be validated</param>
+        /// <returns>True if the value is valid otherwise false</returns>
         bool ValidateName(string value);
+        /// <summary>
+        /// Validates user local number
+        /// </summary>
+        /// <param name="value">Local number to be validated</param>
+        /// <returns></returns>
         bool ValidateLocalNumber(string value);
+        /// <summary>
+        /// Validates the postal code.
+        /// </summary>
+        /// <param name="value">Postal code to be validated</param>
+        /// <returns>True if the value is valid otherwise false</returns>
         bool ValidatePostalCode(string value);
     }
 
@@ -38,13 +53,41 @@ namespace UserAuthorizationSystem.Validation
     /// </summary>
     public interface IPasswordValidator
     {
+        /// <summary>
+        /// Validates the password
+        /// </summary>
+        /// <param name="password">Password to be validated</param>
+        /// <param name="reason">Reason of error, may be empty</param>
+        /// <returns>True if the value is valid otherwise false</returns>
         bool ValidatePassword(string password, out string reason);
+        /// <summary>
+        /// Validates the password and its confirmation
+        /// </summary>
+        /// <param name="password">Password to be validated</param>
+        /// <param name="passwordConfirmed">Password confirmation</param>
+        /// <param name="reason">Reason of error, may be empty</param>
+        /// <returns>True if the value is valid otherwise false</returns>
         bool ValidatePasswordConfirmation(string password, string passwordConfirmed, out string reason);
     }
 
+    /// <summary>
+    /// Extends email validation and password validation with validation of advanced user data. 
+    /// </summary>
     public interface IUserCredentialsValidator : IEmailValidator, IUserDataValidator, IPasswordValidator
     {
+        /// <summary>
+        /// Validates the username. 
+        /// </summary>
+        /// <typeparam name="T">The database type.</typeparam>
+        /// <param name="username">The username to be validated</param>
+        /// <returns>True if the value is valid otherwise false</returns>
         bool ValidateUsername<T>(string username) where T : IUsersContext, IDisposable, new();
+        /// <summary>
+        /// Validates the username. 
+        /// </summary>
+        /// <typeparam name="T">The database type.</typeparam>
+        /// <param name="username">The username to be validated</param>
+        /// <returns>True if the value is valid otherwise false</returns>
         Task<bool> ValidateUsernameAsync<T>(string username) where T : IUsersContext, IDisposable, new();
     }
 }
