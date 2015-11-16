@@ -12,7 +12,7 @@
         <converters:ReverseBoolConverter x:Key="ReverseBoolConverter"/>
     </UserControl.Resources>
     <Grid>
-        <!--<ListView ItemsSource="{Binding}">
+        <ListView ItemsSource="{Binding}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Border BorderBrush="DeepSkyBlue" BorderThickness="1">
@@ -51,6 +51,6 @@
                     </Border>
                 </DataTemplate>
             </ListView.ItemTemplate>
-        </ListView>-->
+        </ListView>
     </Grid>
 </UserControl>

@@ -142,6 +142,11 @@ namespace AccommodationApplication.ViewModels
         {
             CustomPrincipal principal = Thread.CurrentPrincipal as CustomPrincipal;
             if (principal == null) throw new InvalidOperationException();
+            PageViewModels.Clear();
+            PageViewModels.Add(new OffersViewModel());
+            PageViewModels.Add(new SearchingViewModel());
+            PageViewModels.Add(new AddNewOfferViewModel());
+            PageViewModels.Add(new PurchasedOffersViewModel());
             principal.Identity = new AnonymousIdentity();
             AuthenticatedUser = null;
         }
