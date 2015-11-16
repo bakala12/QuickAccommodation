@@ -10,12 +10,34 @@ namespace AccommodationDataAccess.Model
 {
     public class OfferInfo : Entity
     {
+        /// <summary>
+        /// Data początkowa oferty
+        /// </summary>
         public DateTime OfferStartTime { get; set; }
+
+        /// <summary>
+        /// Data końcowa oferty
+        /// </summary>
         public DateTime OfferEndTime { get; set; }
+
+        /// <summary>
+        /// Opis oferty
+        /// </summary>
         public string Description { get; set; }
+
+        /// <summary>
+        /// Liczba wolnych miejsc
+        /// </summary>
         public int AvailableVacanciesNumber { get; set; }
+
+        /// <summary>
+        /// Cena
+        /// </summary>
         public double Price { get; set; }
+
+        /// <summary>
+        /// Data publikacji oferty
+        /// </summary>
         public DateTime OfferPublishTime { get; set; }
-        //obrazek
     }
 }

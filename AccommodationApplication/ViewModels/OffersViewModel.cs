@@ -18,30 +18,48 @@ using System.Windows.Input;
 
 namespace AccommodationApplication.ViewModels
 {
+    /// <summary>
+    /// ViewModel dla widoku dostępnych ofert
+    /// </summary>
     public class OffersViewModel : ViewModelBase, IPageViewModel
     {
+        /// <summary>
+        /// Komenda do usuwania oferty
+        /// </summary>
         public ICommand RemoveCommand { get; set; }
+        
+        /// <summary>
+        /// Komenda do edycji oferty
+        /// </summary>
         public ICommand EditCommand { get; set; }
 
         public OffersViewModel()
         {
             RemoveCommand = new DelegateCommand(async x => await RemoveAsync());
-            //RemoveCommand = new DelegateCommand(x => Remove());
             EditCommand = new DelegateCommand(x => Edit());
-           
+
+            CurrentOffersList = null;
         }
 
+        /// <summary>
+        /// Uaktualnia bieżącą listę ofert użytkownika
+        /// </summary>
         public void Load()
         {
             var ret = new ObservableCollection<DisplayableOffer>();
 
             using (var context = new AccommodationContext())
             {
+                //pobierz login aktualnego usera
                 string currentUser = Thread.CurrentPrincipal.Identity.Name;
 
+                //wyciągnij usera z bazy
                 User user = context.Users.FirstOrDefault(x => x.Username.Equals(currentUser));
+
+                //lista ofert aktualnego użytkownika
                 var list = user.MyOffers;
 
+                //dla każej oferty stwórz jest wersję do wyświetlenia i dodaj do listy ofert
                 foreach (var item in list)
                 {
                     Offer offer = context.Offers.FirstOrDefault(x => item.Id == x.Id);
@@ -56,6 +74,7 @@ namespace AccommodationApplication.ViewModels
                     ret.Add(dof);
                 }
             }
+
             CurrentOffersList = ret;
         }
 
@@ -64,58 +83,87 @@ namespace AccommodationApplication.ViewModels
             get
             {
                 return "Moje oferty";
-                
+
             }
         }
-
-
+        
+        /// <summary>
+        /// Aktualnie zaznaczona oferta (do edycji lub usunięcia)
+        /// </summary>
         public DisplayableOffer CurrentlySelectedOffer { get; set; }
 
-
-   
-
+        /// <summary>
+        /// Asynchroniczne usuwanie oferty
+        /// </summary>
+        /// <returns></returns>
         public async virtual Task RemoveAsync()
         {
             await Task.Run(() => Remove());
         }
 
+        /// <summary>
+        /// Funkcja do edytowania zaznaczonej oferty
+        /// </summary>
         public void Edit()
         {
             EditOfferViewModel eo = new EditOfferViewModel(CurrentlySelectedOffer, this);
             EditWindow e = new EditWindow();
+            eo.RequestClose += (x, ev) => CloseWindow(e);
             e.DataContext = eo;
+
+            //pokaż nowe okno dialogowe do edycji oferty
             e.ShowDialog();
         }
 
+        private static void CloseWindow(Window window)
+        {
+            window?.Close();
+        }
+
+        /// <summary>
+        /// Funkcja do usuwania zaznaczonej oferty
+        /// </summary>
         public void Remove()
         {
             using (var context = new AccommodationContext())
             {
-                using (var scope = new TransactionScope())
+                using (var transaction = context.Database.BeginTransaction())
                 {
+                    //pobierz login aktualnego usera
                     string currentUser = Thread.CurrentPrincipal.Identity.Name;
+
+                    //wyciągnij go z bazy
                     User user = context.Users.FirstOrDefault(x => x.Username.Equals(currentUser));
+
+                    //znajdź ofertę do usunięcia
                     Offer offer = context.Offers.FirstOrDefault(x => x.Id == CurrentlySelectedOffer.Id);
                     if (offer == null) return;
+
+                    //pobierz dodatkowe dane oferty do usunięcia
                     OfferInfo offerInfo = context.OfferInfo.FirstOrDefault(x => x.Id == offer.OfferInfoId);
                     Place place = context.Places.FirstOrDefault(x => x.Id == offer.PlaceId);
                     Address address = context.Addresses.FirstOrDefault(x => x.Id == place.AddressId);
 
+                    //usuń z bazy ofertę oraz jej dane
                     context.Offers.Remove(offer);
                     context.Places.Remove(place);
                     context.Addresses.Remove(address);
                     context.OfferInfo.Remove(offerInfo);
                     user.MyOffers.Remove(offer);
-                    
+
                     context.SaveChanges();
-                    scope.Complete();
+                    transaction.Commit();
                 }
             }
+            //uaktualnij bieżącą listę ofert
             Load();
         }
 
         public ObservableCollection<DisplayableOffer> currentOffersList;
 
+        /// <summary>
+        /// Lista ofert dodanych przez aktualnego usera
+        /// </summary>
         public ObservableCollection<DisplayableOffer> CurrentOffersList
         {
             set
@@ -125,6 +173,7 @@ namespace AccommodationApplication.ViewModels
             }
             get
             {
+                //przy pierwszej próbie wyświetlenia pobierz listę z bazy
                 if (currentOffersList == null) Load();
                 return currentOffersList;
             }

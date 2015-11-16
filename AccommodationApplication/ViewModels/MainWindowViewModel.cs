@@ -31,7 +31,6 @@ namespace AccommodationApplication.ViewModels
             LoginCommand = new DelegateCommand(x => Login());
             RegisterCommand = new DelegateCommand(x => Register());
             LogoutCommand = new DelegateCommand(x => Logout());
-
             AuthenticatedUser = null;
             PageViewModels.Add(new OffersViewModel());
             PageViewModels.Add(new SearchingViewModel());
@@ -48,8 +47,6 @@ namespace AccommodationApplication.ViewModels
 
         private IPageViewModel _currentPageViewModel;
         private List<IPageViewModel> _pageViewModels;
-
-  
 
     
         public ICommand ChangePageCommand
@@ -102,14 +99,6 @@ namespace AccommodationApplication.ViewModels
             }
         }
 
-        public IPageViewModel Edit
-        {
-            get
-            {
-                return PageViewModels.Last();
-            }
-
-        }
         private void ChangeViewModel(IPageViewModel viewModel)
         {
             if (!PageViewModels.Contains(viewModel))
@@ -127,6 +116,11 @@ namespace AccommodationApplication.ViewModels
             login.DataContext = vm;
             login.ShowDialog();
             AuthenticatedUser = Thread.CurrentPrincipal.Identity is AnonymousIdentity ? null : Thread.CurrentPrincipal.Identity.Name;
+            PageViewModels.Clear();
+            PageViewModels.Add(new OffersViewModel());
+            PageViewModels.Add(new SearchingViewModel());
+            PageViewModels.Add(new AddNewOfferViewModel());
+            PageViewModels.Add(new PurchasedOffersViewModel());
         }
 
         protected virtual void Register()
@@ -135,6 +129,7 @@ namespace AccommodationApplication.ViewModels
             RegisterUserViewModel vm = new RegisterUserViewModel(new UserCredentialsValidator(), new UserRegister());
             vm.RequestClose += (x, e) => CloseWindow(registerWindow);
             registerWindow.DataContext = vm;
+          
             registerWindow.ShowDialog();
         }
 
@@ -142,11 +137,7 @@ namespace AccommodationApplication.ViewModels
         {
             CustomPrincipal principal = Thread.CurrentPrincipal as CustomPrincipal;
             if (principal == null) throw new InvalidOperationException();
-            PageViewModels.Clear();
-            PageViewModels.Add(new OffersViewModel());
-            PageViewModels.Add(new SearchingViewModel());
-            PageViewModels.Add(new AddNewOfferViewModel());
-            PageViewModels.Add(new PurchasedOffersViewModel());
+       
             principal.Identity = new AnonymousIdentity();
             AuthenticatedUser = null;
         }

@@ -18,12 +18,13 @@
     </UserControl.Resources>
     <Grid>
 
-      
+        <!-- Lista wyników-->
         <ListView Name="currentOffers" ItemsSource="{Binding CurrentOffersList}" SelectedItem="{Binding 
                RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
                Path=DataContext.CurrentlySelectedOffer}" >
-            
+
             <ListView.Resources>
+                <!-- Widok oferty (nierozwiniętej)-->
                 <DataTemplate x:Key="DefaultItemTemplate">
                     <WrapPanel >
                         <Grid >
@@ -67,6 +68,7 @@
                     </WrapPanel>
                 </DataTemplate>
 
+                <!-- Widok oferty rozwiniętej-->
                 <DataTemplate x:Key="SelectedItemTemplate">
                     <WrapPanel >
                         <Grid>
@@ -128,7 +130,7 @@
                                 <Button Content="Edytuj ofertę" Command="{Binding 
                RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
                Path=DataContext.EditCommand}" CommandParameter=""/>
-                                    
+
 
                             </StackPanel>
 
@@ -144,9 +146,9 @@
                     <Style.Triggers>
 
                         <Trigger Property="IsSelected" Value="True">
-                            <!-- change what the selected item looks like -->
+                            <!-- zmien widok na widok dla rozwiniętych ofert -->
                             <Setter Property="ContentTemplate" Value="{StaticResource SelectedItemTemplate}" />
-                            <!-- animate it as well -->
+                            <!-- animacja rozwijania -->
                             <Trigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
@@ -163,7 +165,7 @@
                             </Trigger.ExitActions>
 
                         </Trigger>
-                        
+
                     </Style.Triggers>
                 </Style>
             </ListView.ItemContainerStyle>

@@ -14,6 +14,9 @@ using System.ComponentModel;
 
 namespace AccommodationApplication.ViewModels
 {
+    /// <summary>
+    /// ViewModel dla dodawania nowych ofert
+    /// </summary>
     public class AddNewOfferViewModel : ViewModelBase, IPageViewModel, IDataErrorInfo
     {
 
@@ -28,24 +31,34 @@ namespace AccommodationApplication.ViewModels
         private string _availiableVacanciesNumber;
         private string _description;
         private OfferValidator ov = new OfferValidator();
-        
+
 
         public AddNewOfferViewModel()
         {
+            //ustawianie początkowych wartości dla dat
             _startDate = DateTime.Now;
             _endDate = DateTime.Now;
 
             AddCommand = new DelegateCommand(async x => await AddAsync());
         }
 
+        /// <summary>
+        /// Asynchroniczne dodawanie ofert
+        /// </summary>
+        /// <returns></returns>
         public async virtual Task AddAsync()
         {
             await Task.Run(() => Add());
         }
 
-
+        /// <summary>
+        /// komenda do dodawania nowych ofert
+        /// </summary>
         public ICommand AddCommand { get; set; }
 
+        /// <summary>
+        /// Funkcja dodająca nową ofertę
+        /// </summary>
         public void Add()
         {
             Address address = new Address()
@@ -58,11 +71,13 @@ namespace AccommodationApplication.ViewModels
 
             OfferInfo offer = new OfferInfo()
             {
+                //przekształcanie dat do odpowiedniej postaci (zgodnej z bazą danych)
                 OfferStartTime = TimeZoneInfo.ConvertTimeToUtc(this.StartDate),
                 OfferEndTime = TimeZoneInfo.ConvertTimeToUtc(this.EndDate),
+
                 Description = this.Description,
                 Price = double.Parse(this.Price),
-                AvailableVacanciesNumber = int.Parse( this.AvailiableVacanciesNumber ),
+                AvailableVacanciesNumber = int.Parse(this.AvailiableVacanciesNumber),
                 OfferPublishTime = DateTime.UtcNow
             };
             Place place = new Place()
@@ -71,22 +86,29 @@ namespace AccommodationApplication.ViewModels
                 Address = address
             };
 
-            Offer ao = new Offer();
+            Offer offerToAdd = new Offer();
 
+            //pobierz login aktualnego usera
             string currentUser = Thread.CurrentPrincipal.Identity.Name;
 
             using (var context = new AccommodationContext())
             {
-                using (var scope = new TransactionScope())
+                using (var transaction = context.Database.BeginTransaction())
                 {
+                    //Wyciągnij z bazy aktualnego usera
                     User user = context.Users.FirstOrDefault(x => x.Username.Equals(currentUser));
-                    if(user==null) throw new InvalidOperationException();
-                    ao.OfferInfo = offer;
-                    ao.Vendor = user;
-                    ao.Place = place;
-                    user.MyOffers.Add(ao);
+                    if (user == null) throw new InvalidOperationException();
+
+                    offerToAdd.OfferInfo = offer;
+                    offerToAdd.Vendor = user;
+                    offerToAdd.Place = place;
+
+                    //dodaj do listy ofert nową ofertę
+                    user.MyOffers.Add(offerToAdd);
+
+
                     context.SaveChanges();
-                    scope.Complete();
+                    transaction.Commit();
                 }
             }
         }
@@ -230,7 +252,7 @@ namespace AccommodationApplication.ViewModels
         }
 
 
-
+        //indekser, potrzebny do walidacji
         public string this[string columnName]
         {
             get
@@ -308,6 +330,8 @@ namespace AccommodationApplication.ViewModels
                         }
                         break;
                 }
+
+                //zwracana jest przyczyna błędu walidacji wprowadzanych danych
                 return errorMessage;
             }
         }

@@ -15,6 +15,8 @@
     <Grid>
         <Grid.Resources>
 
+
+            <!--ustawianie dostępności przycisku do dodawania, jeśli nie ma żadnych błędów-->
             <Style TargetType="{x:Type Button}">
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding ElementName=acc, Path=(Validation.HasError)}" Value="True" >
@@ -59,6 +61,7 @@
             <Style TargetType="{x:Type TextBox}">
                 <Style.Triggers>
                     <Trigger Property="Validation.HasError" Value="True" >
+                        <!--ustawianie ToolTipa do pokazywania zawartośći błędu-->
                         <Setter Property="ToolTip" 
    Value="{Binding RelativeSource={x:Static RelativeSource.Self},Path=(Validation.Errors)[0].ErrorContent}"/>
                     </Trigger>
@@ -86,6 +89,7 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
+        <!-- Główny widok -->
         <GroupBox Header="NAZWA I ADRES: " Grid.Row="0">
 
             <Grid>
@@ -163,6 +167,8 @@
             </Grid>
         </GroupBox>
 
+
+        <!-- przyscisk do dodawania oferty, wiązanie z właściwością w MainWindowViewModel -->
         <Button Content="Dodaj ofertę!" Grid.Row="3" Grid.ColumnSpan="2" Width="100" Height="40" 
                 Command="{Binding AddCommand}" 
                 CommandParameter="" />

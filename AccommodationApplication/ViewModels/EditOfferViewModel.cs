@@ -16,9 +16,11 @@ using System.Collections.ObjectModel;
 
 namespace AccommodationApplication.ViewModels
 {
+    /// <summary>
+    /// ViewModel dla edycji ofert
+    /// </summary>
     public class EditOfferViewModel : CloseableViewModel, IDataErrorInfo
     {
-
         private string _accommodationName;
         private string _street;
         private string _localNumber;
@@ -43,20 +45,34 @@ namespace AccommodationApplication.ViewModels
             LocalNumber = displayableOffer.Address.LocalNumber;
             City = displayableOffer.Address.City;
             PostalCode = displayableOffer.Address.PostalCode;
-            UpDateCommand = new DelegateCommand(async x => await UpDateAsync());
             Id = displayableOffer.Id;
             Ovm = ovm;
+            //UpDateCommand = new DelegateCommand(async x => await UpDateAsync());
+            UpDateCommand = new DelegateCommand(x => UpDate());
         }
 
+        /// <summary>
+        /// Asychronicznie uaktualnia ofertę w bazie
+        /// </summary>
+        /// <returns></returns>
         public async virtual Task UpDateAsync()
         {
             await Task.Run(() => UpDate());
         }
 
+        /// <summary>
+        /// Komenda do uaktualniania ofert
+        /// </summary>
         public ICommand UpDateCommand { get; set; }
 
+        /// <summary>
+        /// Aktualny ViewModel dla ofert, służy do uaktualniania bieżącej listy ofert
+        /// </summary>
         OffersViewModel Ovm;
 
+        /// <summary>
+        /// Funkcja aktualizująca ofertę w bazie
+        /// </summary>
         public void UpDate()
         {
 
@@ -84,11 +100,11 @@ namespace AccommodationApplication.ViewModels
                 Address = address
             };
 
-            Offer ao = new Offer();
+            Offer offerToAdd = new Offer();
 
             using (var context = new AccommodationContext())
             {
-                using (var scope = new TransactionScope())
+                using (var transaction = context.Database.BeginTransaction())
                 {
 
                     string currentUser = Thread.CurrentPrincipal.Identity.Name;
@@ -104,12 +120,15 @@ namespace AccommodationApplication.ViewModels
 
 
                     context.SaveChanges();
-                    scope.Complete();
+                    transaction.Commit();
                 }
             }
 
-            Ovm.Load();
             Close();
+
+            //uaktualnij bieżące oferty
+            Ovm.Load();
+           
         }
 
         public string Description
@@ -251,11 +270,16 @@ namespace AccommodationApplication.ViewModels
         public int Id { get; set; }
 
 
-
+        /// <summary>
+        /// indekser potzrebny do walidacji
+        /// </summary>
+        /// <param name="columnName"></param>
+        /// <returns></returns>
         public string this[string columnName]
         {
             get
             {
+                ///przyczyna błędu walidacji
                 String errorMessage = String.Empty;
                 OfferValidator ov = new OfferValidator();
                 switch (columnName)

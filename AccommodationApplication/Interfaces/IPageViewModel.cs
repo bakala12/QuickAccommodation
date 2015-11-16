@@ -6,8 +6,15 @@ using System.Threading.Tasks;
 
 namespace AccommodationApplication.Interfaces
 {
-        public interface IPageViewModel
-        {
-            string Name { get; }
-        }
+
+    /// <summary>
+    /// Interfejs do identyfikacji widoków w głównym oknie
+    /// </summary>
+    public interface IPageViewModel
+    {
+        /// <summary>
+        /// Nazwa widoku
+        /// </summary>
+        string Name { get; }
+    }
 }
