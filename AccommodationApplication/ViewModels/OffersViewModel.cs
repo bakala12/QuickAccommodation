@@ -1,4 +1,5 @@
 ﻿using AccommodationApplication.Commands;
+using AccommodationApplication.Editing;
 using AccommodationApplication.Interfaces;
 using AccommodationApplication.Model;
 using AccommodationDataAccess.Domain;
@@ -11,6 +12,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Transactions;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 
@@ -19,28 +21,42 @@ namespace AccommodationApplication.ViewModels
     public class OffersViewModel : ViewModelBase, IPageViewModel
     {
         public ICommand RemoveCommand { get; set; }
-  
+        public ICommand EditCommand { get; set; }
 
         public OffersViewModel()
         {
             RemoveCommand = new DelegateCommand(async x => await RemoveAsync());
-
+            EditCommand = new DelegateCommand(x => Edit());
         }
+
 
         public string Name
         {
             get
             {
                 return "Moje oferty";
+                
             }
         }
 
 
         public DisplayableOffer CurrentlySelectedOffer { get; set; }
 
+
+   
+
         public async virtual Task RemoveAsync()
         {
             await Task.Run(() => Remove());
+        }
+
+        public void Edit()
+        {
+            
+            EditOfferViewModel eo = new EditOfferViewModel(CurrentlySelectedOffer);
+            EditWindow e = new EditWindow();
+            e.DataContext = eo;
+            e.ShowDialog();
         }
 
         public void Remove()
@@ -49,9 +65,20 @@ namespace AccommodationApplication.ViewModels
             {
                 using (var scope = new TransactionScope())
                 {
+                    string currentUser = Thread.CurrentPrincipal.Identity.Name;
+                    User user = context.Users.FirstOrDefault(x => x.Username.Equals(currentUser));
                     Offer offer = context.Offers.FirstOrDefault(x => x.Id == CurrentlySelectedOffer.Id);
                     if (offer == null) return;
+                    OfferInfo offerInfo = context.OfferInfo.FirstOrDefault(x => x.Id == offer.OfferInfoId);
+                    Place place = context.Places.FirstOrDefault(x => x.Id == offer.PlaceId);
+                    Address address = context.Addresses.FirstOrDefault(x => x.Id == place.AddressId);
+
                     context.Offers.Remove(offer);
+                    context.Places.Remove(place);
+                    context.Addresses.Remove(address);
+                    context.OfferInfo.Remove(offerInfo);
+                    user.MyOffers.Remove(offer);
+                    
                     DisplayableOffer displayableOffer = CurrentOffersList.FirstOrDefault(x => x.Id == offer.Id);
                     context.SaveChanges();
                     scope.Complete();
@@ -82,16 +109,16 @@ namespace AccommodationApplication.ViewModels
 
                     foreach (var item in list)
                     {
-
                         Offer offer = context.Offers.FirstOrDefault(x => item.Id == x.Id);
-                        OfferInfo offerInfo = context.OfferInfo.FirstOrDefault(x => item.Id == offer.Id);
+                        OfferInfo offerInfo = context.OfferInfo.FirstOrDefault(x => x.Id == offer.OfferInfoId);
                         Place place = context.Places.FirstOrDefault(x => offer.PlaceId == x.Id);
                         Address address = context.Addresses.FirstOrDefault(x => place.AddressId == x.Id);
 
                         place.Address = address;
                         offer.OfferInfo = offerInfo;
                         offer.Place = place;
-                        ret.Add(new DisplayableOffer(offer));
+                        DisplayableOffer dof = new DisplayableOffer(offer);
+                        ret.Add(dof);
                     }
                 }
                 return ret;

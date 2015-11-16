@@ -90,6 +90,9 @@
     <Compile Include="Model\DisplayableOffer.cs" />
     <Compile Include="Model\DisplayableSearchResult.cs" />
     <Compile Include="OfferValidator\OfferValidator.cs" />
+    <Compile Include="Editing\EditWindow.xaml.cs">
+      <DependentUpon>EditWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\AddNewOfferView.xaml.cs">
       <DependentUpon>AddNewOfferView.xaml</DependentUpon>
     </Compile>
@@ -100,6 +103,7 @@
       <DependentUpon>SearchingView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="ViewModels\EditOfferViewModel.cs" />
     <Compile Include="ViewModels\CloseableViewModel.cs" />
     <Compile Include="ViewModels\LoginWindowViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
@@ -148,6 +152,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Editing\EditWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Pages\AddNewOfferView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

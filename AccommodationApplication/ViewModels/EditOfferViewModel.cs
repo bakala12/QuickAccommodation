@@ -11,10 +11,11 @@ using System.Windows.Input;
 using System.Transactions;
 using System.Threading;
 using System.ComponentModel;
+using AccommodationApplication.Model;
 
 namespace AccommodationApplication.ViewModels
 {
-    public class AddNewOfferViewModel : ViewModelBase, IPageViewModel, IDataErrorInfo
+    public class EditOfferViewModel : CloseableViewModel, IDataErrorInfo
     {
 
         private string _accommodationName;
@@ -28,25 +29,33 @@ namespace AccommodationApplication.ViewModels
         private string _availiableVacanciesNumber;
         private string _description;
         private OfferValidator ov = new OfferValidator();
-        
 
-        public AddNewOfferViewModel()
+
+        public EditOfferViewModel(DisplayableOffer displayableOffer)
         {
-            _startDate = DateTime.Now;
-            _endDate = DateTime.Now;
-
-            AddCommand = new DelegateCommand(async x => await AddAsync());
+            Description = displayableOffer.Description;
+            AvailiableVacanciesNumber = displayableOffer.AvailableVacanciesNumber.ToString();
+            EndDate = displayableOffer.OfferEndTimeDate;
+            StartDate = displayableOffer.OfferStartTimeDate;
+            AccommodationName = displayableOffer.PlaceName;
+            Price = displayableOffer.Price.ToString();
+            Street = displayableOffer.Address.Street;
+            LocalNumber = displayableOffer.Address.LocalNumber;
+            City = displayableOffer.Address.City;
+            PostalCode = displayableOffer.Address.PostalCode;
+            UpDateCommand = new DelegateCommand(async x => await UpDateAsync());
+            Id = displayableOffer.Id;
         }
 
-        public async virtual Task AddAsync()
+        public ICommand UpDateCommand { get; set; }
+        public async virtual Task UpDateAsync()
         {
-            await Task.Run(() => Add());
+            await Task.Run(() => UpDate());
+            this.Close();
+
         }
 
-
-        public ICommand AddCommand { get; set; }
-
-        public void Add()
+        public void UpDate()
         {
             Address address = new Address()
             {
@@ -56,13 +65,13 @@ namespace AccommodationApplication.ViewModels
                 PostalCode = this.PostalCode
             };
 
-            OfferInfo offer = new OfferInfo()
+            OfferInfo offerInfo = new OfferInfo()
             {
                 OfferStartTime = TimeZoneInfo.ConvertTimeToUtc(this.StartDate),
                 OfferEndTime = TimeZoneInfo.ConvertTimeToUtc(this.EndDate),
                 Description = this.Description,
                 Price = double.Parse(this.Price),
-                AvailableVacanciesNumber = int.Parse( this.AvailiableVacanciesNumber ),
+                AvailableVacanciesNumber = int.Parse(this.AvailiableVacanciesNumber),
                 OfferPublishTime = DateTime.UtcNow
             };
             Place place = new Place()
@@ -73,22 +82,26 @@ namespace AccommodationApplication.ViewModels
 
             Offer ao = new Offer();
 
-            string currentUser = Thread.CurrentPrincipal.Identity.Name;
-
             using (var context = new AccommodationContext())
             {
                 using (var scope = new TransactionScope())
                 {
+
+                    string currentUser = Thread.CurrentPrincipal.Identity.Name;
+                    if (currentUser == null) return;
                     User user = context.Users.FirstOrDefault(x => x.Username.Equals(currentUser));
-                    if(user==null) throw new InvalidOperationException();
-                    ao.OfferInfo = offer;
-                    ao.Vendor = user;
-                    ao.Place = place;
-                    user.MyOffers.Add(ao);
+                    Offer offer = context.Offers.FirstOrDefault(x => x.Id == this.Id);
+                    if (offer == null) return;
+
+                    offer.OfferInfo = offerInfo;
+                    place.Address = address;
+                    offer.Place = place;
+
                     context.SaveChanges();
                     scope.Complete();
                 }
             }
+           
         }
 
         public string Description
@@ -175,7 +188,7 @@ namespace AccommodationApplication.ViewModels
         {
             get
             {
-                return "Dodaj nową ofertę";
+                return "Dodaj nową ofertę ";
             }
         }
 
@@ -226,6 +239,8 @@ namespace AccommodationApplication.ViewModels
                 return String.Empty;
             }
         }
+
+        public int Id { get; set; }
 
 
 

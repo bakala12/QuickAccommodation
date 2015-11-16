@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <ListView ItemsSource="{Binding}">
+        <!--<ListView ItemsSource="{Binding}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Border BorderBrush="DeepSkyBlue" BorderThickness="1">
@@ -43,6 +43,6 @@
                     </Border>
                 </DataTemplate>
             </ListView.ItemTemplate>
-        </ListView>
+        </ListView>-->
     </Grid>
 </UserControl>

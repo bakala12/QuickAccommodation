@@ -22,6 +22,7 @@
             <DataTemplate DataType="{x:Type vm:AddNewOfferViewModel}">
                 <pg:AddNewOfferView />
             </DataTemplate>
+        
 
 
             <ResourceDictionary.MergedDictionaries>
@@ -76,13 +77,7 @@
                     </ItemsControl>
                 </StackPanel>
             </StackPanel>
-            <ContentControl Visibility="{Binding IsAuthenticated, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter={StaticResource True}}" Grid.Column="1"  Content="{Binding CurrentPageViewModel}" />
+            <ContentControl  Visibility="{Binding IsAuthenticated, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter={StaticResource True}}" Grid.Column="1"  Content="{Binding CurrentPageViewModel}" />
         </Grid>
-    
-
-        
-           
-      
-       
     </Grid>
 </controls:MetroWindow>

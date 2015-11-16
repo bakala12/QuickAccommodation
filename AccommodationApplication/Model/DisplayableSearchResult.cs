@@ -11,9 +11,9 @@ namespace AccommodationApplication.Model
     {
         public DisplayableSearchResult(Offer offer) : base(offer)
         {
-            PlaceName = offer.Place.PlaceName;
+           
         }
 
-        public string PlaceName { get; set; }
+    
     }
 }

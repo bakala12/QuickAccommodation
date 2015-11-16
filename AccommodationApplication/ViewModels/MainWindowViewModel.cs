@@ -18,6 +18,7 @@ using UserAuthorizationSystem.Identities;
 using UserAuthorizationSystem.Registration;
 using UserAuthorizationSystem.Validation;
 using AccommodationApplication.Interfaces;
+using System.Windows.Controls;
 
 namespace AccommodationApplication.ViewModels
 {
@@ -28,18 +29,18 @@ namespace AccommodationApplication.ViewModels
         public MainWindowViewModel()
         {
             LoginCommand = new DelegateCommand(x => Login());
-            RegisterCommand = new DelegateCommand(x=>Register());
-            LogoutCommand = new DelegateCommand(x=>Logout());
+            RegisterCommand = new DelegateCommand(x => Register());
+            LogoutCommand = new DelegateCommand(x => Logout());
+
             AuthenticatedUser = null;
             PageViewModels.Add(new OffersViewModel());
             PageViewModels.Add(new SearchingViewModel());
             PageViewModels.Add(new AddNewOfferViewModel());
-
             CurrentPageViewModel = PageViewModels[0];
         }
 
         public ICommand LoginCommand { get; private set; }
-        public ICommand RegisterCommand { get;private set; }
+        public ICommand RegisterCommand { get; private set; }
         public ICommand LogoutCommand { get; private set; }
 
         private ICommand _changePageCommand;
@@ -47,14 +48,17 @@ namespace AccommodationApplication.ViewModels
         private IPageViewModel _currentPageViewModel;
         private List<IPageViewModel> _pageViewModels;
 
+  
+
+    
         public ICommand ChangePageCommand
         {
             get
             {
                 if (_changePageCommand == null)
                 {
-                    _changePageCommand = new DelegateCommand( async
-                        p => await temp((IPageViewModel)p),
+                    _changePageCommand = new DelegateCommand(async
+                       p => await temp((IPageViewModel)p),
                         p => p is IPageViewModel);
                 }
 
@@ -67,6 +71,8 @@ namespace AccommodationApplication.ViewModels
         {
             await Task.Run(() => ChangeViewModel(p));
         }
+
+        ContentControl CurrentContent { get; set; }
 
         public List<IPageViewModel> PageViewModels
         {
@@ -95,7 +101,14 @@ namespace AccommodationApplication.ViewModels
             }
         }
 
+        public IPageViewModel Edit
+        {
+            get
+            {
+                return PageViewModels.Last();
+            }
 
+        }
         private void ChangeViewModel(IPageViewModel viewModel)
         {
             if (!PageViewModels.Contains(viewModel))
@@ -107,12 +120,12 @@ namespace AccommodationApplication.ViewModels
 
         protected virtual void Login()
         {
-            LoginWindow login=new LoginWindow();
-            LoginWindowViewModel vm=new LoginWindowViewModel(new UserAuthenticationService());
-            vm.RequestClose += (x,e)=>CloseWindow(login);
+            LoginWindow login = new LoginWindow();
+            LoginWindowViewModel vm = new LoginWindowViewModel(new UserAuthenticationService());
+            vm.RequestClose += (x, e) => CloseWindow(login);
             login.DataContext = vm;
             login.ShowDialog();
-            AuthenticatedUser = Thread.CurrentPrincipal.Identity is AnonymousIdentity?null:Thread.CurrentPrincipal.Identity.Name;
+            AuthenticatedUser = Thread.CurrentPrincipal.Identity is AnonymousIdentity ? null : Thread.CurrentPrincipal.Identity.Name;
         }
 
         protected virtual void Register()
@@ -127,8 +140,8 @@ namespace AccommodationApplication.ViewModels
         private void Logout()
         {
             CustomPrincipal principal = Thread.CurrentPrincipal as CustomPrincipal;
-            if(principal==null) throw new InvalidOperationException();
-            principal.Identity=new AnonymousIdentity();
+            if (principal == null) throw new InvalidOperationException();
+            principal.Identity = new AnonymousIdentity();
             AuthenticatedUser = null;
         }
 
@@ -149,8 +162,8 @@ namespace AccommodationApplication.ViewModels
                 OnPropertyChanged(nameof(IsAuthenticated));
             }
         }
-        
 
-      
+
+
     }
 }

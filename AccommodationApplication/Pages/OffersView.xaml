@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:AccommodationApplication.Pages"
+             xmlns:main="clr-namespace:AccommodationApplication"
              xmlns:vm="clr-namespace:AccommodationApplication.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
@@ -11,16 +12,17 @@
     <UserControl.DataContext>
         <vm:OffersViewModel/>
     </UserControl.DataContext>
+    <UserControl.Resources>
+        <vm:MainWindowViewModel x:Key="btnViewModel" />
+    </UserControl.Resources>
 
     <Grid>
 
+      
         <ListView Name="currentOffers" ItemsSource="{Binding CurrentOffersList}" SelectedItem="{Binding 
                RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
                Path=DataContext.CurrentlySelectedOffer}" >
-
-            <ListView.DataContext>
-                <vm:OffersViewModel/>
-            </ListView.DataContext>
+            
             <ListView.Resources>
                 <DataTemplate x:Key="DefaultItemTemplate">
                     <WrapPanel >
@@ -36,7 +38,15 @@
                             </Grid.ColumnDefinitions>
 
                             <StackPanel Grid.Row="0" Grid.Column="0">
-                                <Label Content="{Binding Address}" FontWeight="Bold"  />
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" Content="{Binding PlaceName}" FontWeight="Bold"/>
+                                    <Label Grid.Column="1" Content="{Binding Address}" FontWeight="Bold"  />
+                                </Grid>
+
                             </StackPanel>
 
                             <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
@@ -74,7 +84,14 @@
                             </Grid.ColumnDefinitions>
 
                             <StackPanel Grid.Row="0" Grid.Column="0">
-                                <Label Content="{Binding Address}" FontWeight="Bold"  />
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" Content="{Binding PlaceName}" FontWeight="Bold"/>
+                                    <Label Grid.Column="1" Content="{Binding Address}" FontWeight="Bold"  />
+                                </Grid>
                             </StackPanel>
 
                             <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
@@ -108,7 +125,13 @@
                RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
                Path=DataContext.RemoveCommand}" CommandParameter=""  />
 
+                                <Button Content="Edytuj ofertę" Command="{Binding 
+               RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
+               Path=DataContext.EditCommand}" CommandParameter=""/>
+                                    
+
                             </StackPanel>
+
                         </Grid>
                     </WrapPanel>
                 </DataTemplate>
@@ -123,7 +146,6 @@
                         <Trigger Property="IsSelected" Value="True">
                             <!-- change what the selected item looks like -->
                             <Setter Property="ContentTemplate" Value="{StaticResource SelectedItemTemplate}" />
-                            <Setter Property="Background"  Value="LightGreen"/>
                             <!-- animate it as well -->
                             <Trigger.EnterActions>
                                 <BeginStoryboard>
