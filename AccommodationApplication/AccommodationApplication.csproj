@@ -75,9 +75,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\DelegateCommand.cs" />
+    <Compile Include="Converter\BookedOffersColorConverter.cs" />
     <Compile Include="Converter\BoolToVisibilityConverter.cs" />
     <Compile Include="Converter\PasswordsConverter.cs" />
     <Compile Include="Converter\RegisterViewsVisibilityConverter.cs" />
+    <Compile Include="Converter\ReverseBoolConverter.cs" />
     <Compile Include="Converter\SortByValuesConverter.cs" />
     <Compile Include="Converter\SortTypeToStringConverter.cs" />
     <Compile Include="Interfaces\IPageViewModel.cs" />
@@ -99,6 +101,9 @@
     <Compile Include="Pages\OffersView.xaml.cs">
       <DependentUpon>OffersView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\PurchasedOffersView.xaml.cs">
+      <DependentUpon>PurchasedOffersView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\SearchingView.xaml.cs">
       <DependentUpon>SearchingView.xaml</DependentUpon>
     </Compile>
@@ -108,6 +113,8 @@
     <Compile Include="ViewModels\LoginWindowViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\AddNewOfferViewModel.cs" />
+    <Compile Include="ViewModels\DisplayableOfferViewModel.cs" />
+    <Compile Include="ViewModels\PurchasedOffersViewModel.cs" />
     <Compile Include="ViewModels\SearchingViewModel.cs" />
     <Compile Include="ViewModels\OffersViewModel.cs" />
     <Compile Include="SplashScreen.xaml.cs">
@@ -161,6 +168,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\OffersView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\PurchasedOffersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

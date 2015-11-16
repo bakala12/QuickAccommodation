@@ -25,6 +25,8 @@ namespace AccommodationDataAccess.Model
         [InverseProperty("PurchasedOffers")]
         public virtual User Customer { get; set; }
         public int? CustomerId { get; set; }
+
+        public bool IsBooked { get; set; }
     }
 
 }

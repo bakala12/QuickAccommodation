@@ -52,6 +52,15 @@
     <Compile Include="Domain\AccommodationContext.cs" />
     <Compile Include="Domain\AccommodationDatabaseInitializer.cs" />
     <Compile Include="Domain\ExampleUsersProvider.cs" />
+    <Compile Include="Migrations\201511152104155_InitialCreate.cs" />
+    <Compile Include="Migrations\201511152104155_InitialCreate.Designer.cs">
+      <DependentUpon>201511152104155_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511161324001_TestMigration.cs" />
+    <Compile Include="Migrations\201511161324001_TestMigration.Designer.cs">
+      <DependentUpon>201511161324001_TestMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Address.cs" />
     <Compile Include="Model\Entity.cs" />
     <Compile Include="Model\OfferInfo.cs" />
@@ -67,7 +76,14 @@
     <Compile Include="Searching\OfferSearchingCriterion.cs" />
     <Compile Include="Searching\OffersSearchingCriteriaFactory.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201511152104155_InitialCreate.resx">
+      <DependentUpon>201511152104155_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511161324001_TestMigration.resx">
+      <DependentUpon>201511161324001_TestMigration.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />

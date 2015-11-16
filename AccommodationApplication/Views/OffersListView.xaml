@@ -3,9 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:converters="clr-namespace:AccommodationApplication.Converter"
+             xmlns:vm="clr-namespace:AccommodationApplication.ViewModels"
              xmlns:local="clr-namespace:AccommodationApplication.Views"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <converters:ReverseBoolConverter x:Key="ReverseBoolConverter"/>
+    </UserControl.Resources>
     <Grid>
         <!--<ListView ItemsSource="{Binding}">
             <ListView.ItemTemplate>
@@ -32,13 +37,16 @@
                             <TextBlock Grid.Row="3" Grid.Column="0" Text="Cena"/>
                             <TextBlock Grid.Row="3" Grid.Column="2" Text="Liczba dostępnych miejsc"/>
                             <TextBlock Grid.Row="4" Grid.Column="0" Text="Description"/>
-                            <TextBlock Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding PlaceName}" FontWeight="Bold"/>
-                            <TextBlock Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Address}" FontWeight="Bold"/>
-                            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding OfferStartTime}" FontWeight="Bold"/>
-                            <TextBlock Grid.Row="2" Grid.Column="3" Text="{Binding OfferEndTime}" FontWeight="Bold"/>
-                            <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Price}" FontWeight="Bold"/>
-                            <TextBlock Grid.Row="3" Grid.Column="3" Text="{Binding AvailableVacanciesNumber}" FontWeight="Bold"/>
-                            <TextBlock Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Description}" FontWeight="Bold"/>
+                            <TextBlock Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Offer.PlaceName}" FontWeight="Bold"/>
+                            <TextBlock Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Offer.Address}" FontWeight="Bold"/>
+                            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Offer.OfferStartTime}" FontWeight="Bold"/>
+                            <TextBlock Grid.Row="2" Grid.Column="3" Text="{Binding Offer.OfferEndTime}" FontWeight="Bold"/>
+                            <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Offer.Price}" FontWeight="Bold"/>
+                            <TextBlock Grid.Row="3" Grid.Column="3" Text="{Binding Offer.AvailableVacanciesNumber}" FontWeight="Bold"/>
+                            <TextBlock Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Offer.Description}" FontWeight="Bold"/>
+                            <Button Content="Zarezerwuj" Grid.Row="5" Grid.Column="3" HorizontalAlignment="Center"
+                                    VerticalAlignment="Center" IsEnabled="{Binding Offer.IsBooked, Converter={StaticResource ReverseBoolConverter}}"
+                                    CommandParameter="{Binding Offer}" Command="{Binding ReserveCommand}"/>
                         </Grid>
                     </Border>
                 </DataTemplate>

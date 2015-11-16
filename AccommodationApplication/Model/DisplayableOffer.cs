@@ -23,6 +23,7 @@ namespace AccommodationApplication.Model
             Description = offerInfo.Description;
             OfferPublishTime = offerInfo.OfferPublishTime;
             Id = offer.Id;
+            IsBooked = offer.IsBooked;
         }
         public int Id { get; set; }
         public string OfferStartTime { get; set; }
@@ -36,5 +37,6 @@ namespace AccommodationApplication.Model
         public string Description { get; set; }
         public DateTime OfferPublishTime { get; set; }
         public string PlaceName { get; set; }
+        public bool IsBooked { get; set; }
     }
 }

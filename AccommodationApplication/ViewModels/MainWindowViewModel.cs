@@ -36,6 +36,7 @@ namespace AccommodationApplication.ViewModels
             PageViewModels.Add(new OffersViewModel());
             PageViewModels.Add(new SearchingViewModel());
             PageViewModels.Add(new AddNewOfferViewModel());
+            PageViewModels.Add(new PurchasedOffersViewModel());
             CurrentPageViewModel = PageViewModels[0];
         }
 

@@ -22,9 +22,9 @@
             <DataTemplate DataType="{x:Type vm:AddNewOfferViewModel}">
                 <pg:AddNewOfferView />
             </DataTemplate>
-        
-
-
+            <DataTemplate DataType="{x:Type vm:PurchasedOffersViewModel}">
+                <pg:PurchasedOffersView/>
+            </DataTemplate>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles/MainWindowStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
