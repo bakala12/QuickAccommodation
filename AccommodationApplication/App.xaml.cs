@@ -20,5 +20,12 @@ namespace AccommodationApplication
             AppDomain.CurrentDomain.SetThreadPrincipal(customPrincipal);
             base.OnStartup(e);
         }
+
+        public event EventHandler Login;
+
+        public void RaiseLoginEvent()
+        {
+            Login?.Invoke(this, EventArgs.Empty);
+        }
     }
 }

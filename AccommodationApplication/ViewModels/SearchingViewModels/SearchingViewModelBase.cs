@@ -28,6 +28,7 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
         protected SearchingViewModelBase()
         {
             SearchCommand = new DelegateCommand(async x=>await SearchAsync());
+            (App.Current as App).Login += (x,e)=> { SearchingResults = null; };
         }
 
         private IEnumerable<DisplayableOfferViewModel> _searchingResults;

@@ -31,6 +31,7 @@ namespace AccommodationApplication.ViewModels
         public PurchasedOffersViewModel()
         {
             _purchasedOffers=new ObservableCollection<DisplayableOfferViewModel>();
+            (App.Current as App).Login += (x, e) => OnPropertyChanged(nameof(PurchasedOffers));
         }
 
         private readonly ObservableCollection<DisplayableOfferViewModel> _purchasedOffers;
