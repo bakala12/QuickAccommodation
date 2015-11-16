@@ -116,11 +116,7 @@ namespace AccommodationApplication.ViewModels
             login.DataContext = vm;
             login.ShowDialog();
             AuthenticatedUser = Thread.CurrentPrincipal.Identity is AnonymousIdentity ? null : Thread.CurrentPrincipal.Identity.Name;
-            PageViewModels.Clear();
-            PageViewModels.Add(new OffersViewModel());
-            PageViewModels.Add(new SearchingViewModel());
-            PageViewModels.Add(new AddNewOfferViewModel());
-            PageViewModels.Add(new PurchasedOffersViewModel());
+            (App.Current as App)?.RaiseLoginEvent();
         }
 
         protected virtual void Register()
@@ -137,7 +133,6 @@ namespace AccommodationApplication.ViewModels
         {
             CustomPrincipal principal = Thread.CurrentPrincipal as CustomPrincipal;
             if (principal == null) throw new InvalidOperationException();
-       
             principal.Identity = new AnonymousIdentity();
             AuthenticatedUser = null;
         }

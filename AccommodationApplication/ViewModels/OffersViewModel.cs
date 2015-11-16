@@ -39,6 +39,7 @@ namespace AccommodationApplication.ViewModels
             EditCommand = new DelegateCommand(x => Edit());
 
             CurrentOffersList = null;
+            (App.Current as App).Login += (x, e) => { CurrentOffersList = null; OnPropertyChanged(nameof(CurrentOffersList));};
         }
 
         /// <summary>
