@@ -12,6 +12,7 @@ using System.Transactions;
 using System.Threading;
 using System.ComponentModel;
 using AccommodationApplication.Model;
+using System.Collections.ObjectModel;
 
 namespace AccommodationApplication.ViewModels
 {
@@ -30,8 +31,7 @@ namespace AccommodationApplication.ViewModels
         private string _description;
         private OfferValidator ov = new OfferValidator();
 
-
-        public EditOfferViewModel(DisplayableOffer displayableOffer)
+        public EditOfferViewModel(DisplayableOffer displayableOffer, OffersViewModel ovm)
         {
             Description = displayableOffer.Description;
             AvailiableVacanciesNumber = displayableOffer.AvailableVacanciesNumber.ToString();
@@ -45,18 +45,21 @@ namespace AccommodationApplication.ViewModels
             PostalCode = displayableOffer.Address.PostalCode;
             UpDateCommand = new DelegateCommand(async x => await UpDateAsync());
             Id = displayableOffer.Id;
+            Ovm = ovm;
         }
 
-        public ICommand UpDateCommand { get; set; }
         public async virtual Task UpDateAsync()
         {
             await Task.Run(() => UpDate());
-            this.Close();
-
         }
+
+        public ICommand UpDateCommand { get; set; }
+
+        OffersViewModel Ovm;
 
         public void UpDate()
         {
+
             Address address = new Address()
             {
                 City = this.City,
@@ -74,6 +77,7 @@ namespace AccommodationApplication.ViewModels
                 AvailableVacanciesNumber = int.Parse(this.AvailiableVacanciesNumber),
                 OfferPublishTime = DateTime.UtcNow
             };
+
             Place place = new Place()
             {
                 PlaceName = this.AccommodationName,
@@ -91,17 +95,21 @@ namespace AccommodationApplication.ViewModels
                     if (currentUser == null) return;
                     User user = context.Users.FirstOrDefault(x => x.Username.Equals(currentUser));
                     Offer offer = context.Offers.FirstOrDefault(x => x.Id == this.Id);
+
                     if (offer == null) return;
 
                     offer.OfferInfo = offerInfo;
                     place.Address = address;
                     offer.Place = place;
 
+
                     context.SaveChanges();
                     scope.Complete();
                 }
             }
-           
+
+            Ovm.Load();
+            Close();
         }
 
         public string Description

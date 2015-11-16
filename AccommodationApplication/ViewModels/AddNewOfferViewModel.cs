@@ -141,7 +141,8 @@ namespace AccommodationApplication.ViewModels
             set
             {
                 _startDate = value;
-                OnPropertyChanged();
+                OnPropertyChanged("StartDate");
+                OnPropertyChanged("EndDate");
             }
         }
 
@@ -154,7 +155,8 @@ namespace AccommodationApplication.ViewModels
             set
             {
                 _endDate = value;
-                OnPropertyChanged();
+                OnPropertyChanged("StartDate");
+                OnPropertyChanged("EndDate");
             }
         }
 

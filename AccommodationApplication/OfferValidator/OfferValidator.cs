@@ -31,7 +31,7 @@ namespace AccommodationApplication
 
         public bool ValidateDate(DateTime start, DateTime end)
         {
-            return (start.Date.CompareTo(end.Date) < 0);
+            return (start.Date.CompareTo(end.Date) <= 0);
         }
 
         public bool ValidatePrice(string price)

@@ -81,8 +81,7 @@ namespace AccommodationApplication.ViewModels
 
         public void Edit()
         {
-            
-            EditOfferViewModel eo = new EditOfferViewModel(CurrentlySelectedOffer);
+            EditOfferViewModel eo = new EditOfferViewModel(CurrentlySelectedOffer, this);
             EditWindow e = new EditWindow();
             e.DataContext = eo;
             e.ShowDialog();
@@ -108,7 +107,6 @@ namespace AccommodationApplication.ViewModels
                     context.OfferInfo.Remove(offerInfo);
                     user.MyOffers.Remove(offer);
                     
-               //     DisplayableOffer displayableOffer = CurrentOffersList.FirstOrDefault(x => x.Id == offer.Id);
                     context.SaveChanges();
                     scope.Complete();
                 }
