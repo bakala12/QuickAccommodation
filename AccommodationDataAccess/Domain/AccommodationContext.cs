@@ -9,12 +9,18 @@ using AccommodationDataAccess.Model;
 
 namespace AccommodationDataAccess.Domain
 {
+    /// <summary>
+    /// Interface with Users set, uses in logging and registering users functionality
+    /// </summary>
     public interface IUsersContext : IDisposable
     {
         IDbSet<User> Users { get; }
         int SaveChanges();
     }
 
+    /// <summary>
+    /// Interface used as a database type
+    /// </summary>
     public interface IAccommodationContext : IDisposable
     {
         IDbSet<User> Users { get; set; }
