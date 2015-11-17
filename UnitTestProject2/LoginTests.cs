@@ -18,6 +18,7 @@ namespace UnitTestProject
     {
         /// <summary>
         /// Sprawdza czy powiedzie się uwierzytelnianie użytkownika bakalam loginem i hasłem
+        /// 
         /// </summary>
         [TestMethod]
         public void AuthenticateBakalamUser()

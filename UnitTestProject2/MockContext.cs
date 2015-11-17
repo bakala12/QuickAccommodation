@@ -119,7 +119,7 @@ namespace UnitTestProject2
         /// <summary>
         /// Nic nie robi
         /// </summary>
-        /// <returns>Zwraca zawsze 0</returns>
+        /// <returns></returns>
         public int SaveChanges()
         {
             return 0;
