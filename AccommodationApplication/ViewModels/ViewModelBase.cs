@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using AccommodationApplication.Annotations;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace AccommodationApplication.ViewModels
 {
