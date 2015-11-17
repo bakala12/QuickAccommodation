@@ -12,8 +12,10 @@ using System.Transactions;
 using System.Threading;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Threading;
 using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Controls;
+using MessageDialog = AccommodationApplication.Views.MessageDialog;
 
 namespace AccommodationApplication.ViewModels
 {
@@ -41,8 +43,7 @@ namespace AccommodationApplication.ViewModels
             //ustawianie początkowych wartości dla dat
             _startDate = DateTime.Now;
             _endDate = DateTime.Now;
-
-            AddCommand = new DelegateCommand(x => Add());
+            AddCommand = new DelegateCommand(async x=>await AddAsync());
         }
 
         /// <summary>
@@ -51,6 +52,10 @@ namespace AccommodationApplication.ViewModels
         /// <returns></returns>
         public async virtual Task AddAsync()
         {
+            MessageDialog m = new MessageDialog();
+            m.Title = "Potwierdzenie";
+            m.Message = "Dodano ofertę";
+            m.Show();
             await Task.Run(() => Add());
         }
 
