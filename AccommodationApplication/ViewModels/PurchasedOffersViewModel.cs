@@ -30,11 +30,11 @@ namespace AccommodationApplication.ViewModels
         /// </summary>
         public PurchasedOffersViewModel()
         {
-            _purchasedOffers=new ObservableCollection<DisplayableOfferViewModel>();
+            _purchasedOffers = null;
             (App.Current as App).Login += (x, e) => OnPropertyChanged(nameof(PurchasedOffers));
         }
 
-        private readonly ObservableCollection<DisplayableOfferViewModel> _purchasedOffers;
+        private ObservableCollection<DisplayableOfferViewModel> _purchasedOffers;
 
         /// <summary>
         /// Zwraca kolekcję ViewModeli zakupionych ofert
@@ -43,24 +43,34 @@ namespace AccommodationApplication.ViewModels
         {
             get
             {
-                _purchasedOffers.Clear();
-                string username = Thread.CurrentPrincipal.Identity.Name;
-                using (var context = new AccommodationContext())
-                {
-                    User u = context.Users.FirstOrDefault(us => us.Username.Equals(username));
-                    if (u == null) throw new Exception();
-                    IEnumerable<Offer> offers =
-                        context.Offers.Where(o => o.CustomerId == u.Id)
-                            .Include(o => o.OfferInfo)
-                            .Include(o => o.Place)
-                            .Include(o => o.Place.Address);
-                    foreach (var offer in offers)
-                    {
-                        _purchasedOffers.Add(new DisplayableOfferViewModel(new DisplayableSearchResult(offer)));
-                    }
-                }
                 return _purchasedOffers;
             }
+            set
+            {
+                _purchasedOffers = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private void Load()
+        {
+            var coll=new ObservableCollection<DisplayableOfferViewModel>();
+            string username = Thread.CurrentPrincipal.Identity.Name;
+            using (var context = new AccommodationContext())
+            {
+                User u = context.Users.FirstOrDefault(us => us.Username.Equals(username));
+                if (u == null) throw new Exception();
+                IEnumerable<Offer> offers =
+                    context.Offers.Where(o => o.CustomerId == u.Id)
+                        .Include(o => o.OfferInfo)
+                        .Include(o => o.Place)
+                        .Include(o => o.Place.Address);
+                foreach (var offer in offers)
+                {
+                    coll.Add(new DisplayableOfferViewModel(new DisplayableSearchResult(offer)));
+                }
+            }
+            PurchasedOffers = coll;
         }
     }
 }

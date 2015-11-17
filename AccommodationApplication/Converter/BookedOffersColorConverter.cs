@@ -15,7 +15,7 @@ namespace AccommodationApplication.Converter
         {
             bool? b = value as bool?;
             if (!b.HasValue || !b.Value) return null;
-            return new SolidColorBrush() {Color = Colors.Red};
+            return new SolidColorBrush() {Color = Colors.DeepSkyBlue};
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
