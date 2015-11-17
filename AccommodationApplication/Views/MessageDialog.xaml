@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:AccommodationApplication.Views"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
-        Height="150" Width="200" ResizeMode="CanMinimize" WindowState="Normal">
+        Height="120" Width="200" ResizeMode="CanMinimize" WindowState="Normal"
+        TitleCaps="False" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
