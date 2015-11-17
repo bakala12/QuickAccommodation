@@ -127,6 +127,9 @@
     <Compile Include="ViewModels\SearchingViewModels\PriceSearchingViewModel.cs" />
     <Compile Include="ViewModels\SearchingViewModels\SearchingViewModelBase.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="Views\MessageDialog.xaml.cs">
+      <DependentUpon>MessageDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\OffersListView.xaml.cs">
       <DependentUpon>OffersListView.xaml</DependentUpon>
     </Compile>
@@ -198,6 +201,10 @@
     <Page Include="Styles\SearchingStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MessageDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\OffersListView.xaml">
       <SubType>Designer</SubType>

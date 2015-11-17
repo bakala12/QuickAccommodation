@@ -42,7 +42,7 @@ namespace AccommodationApplication.ViewModels
             _startDate = DateTime.Now;
             _endDate = DateTime.Now;
 
-            AddCommand = new DelegateCommand(async x => await AddAsync());
+            AddCommand = new DelegateCommand(x => Add());
         }
 
         /// <summary>
@@ -115,6 +115,7 @@ namespace AccommodationApplication.ViewModels
                 }
             }
 
+           
         }
 
         public string Description
