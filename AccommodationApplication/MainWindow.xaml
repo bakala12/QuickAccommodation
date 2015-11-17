@@ -8,7 +8,7 @@
         xmlns:pg="clr-namespace:AccommodationApplication.Pages"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
-        Title="QuickAccommodation" Height="600" Width="800" WindowStartupLocation="CenterScreen"
+        Title="QuickAccommodation" Height="600" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
         TitleCaps="False" Icon="Resources/QuickAccommodationIcon.png">
     <Window.Resources>
         <ResourceDictionary>
@@ -27,6 +27,7 @@
             </DataTemplate>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles/MainWindowStyles.xaml"/>
+                <ResourceDictionary Source="Styles/LoginStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -56,26 +57,24 @@
         </DockPanel>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.2*"/>
+                <ColumnDefinition Width="0.3*"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <StackPanel Grid.Column="0">
-                <StackPanel >
+            <StackPanel Grid.Column="0" HorizontalAlignment="Center">
                     <ItemsControl ItemsSource="{Binding PageViewModels}"
                                   Visibility="{Binding IsAuthenticated, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter={StaticResource True}}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Button Content="{Binding Name}"
+                                <Button  Content="{Binding Name}" Style="{StaticResource ButtonStyle}" Width="140"
                                 Command="{Binding DataContext.ChangePageCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
                                 CommandParameter="{Binding }"
                                 Margin="2,5"/>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
-                </StackPanel>
             </StackPanel>
             <ContentControl  Visibility="{Binding IsAuthenticated, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter={StaticResource True}}" Grid.Column="1"  Content="{Binding CurrentPageViewModel}" />
         </Grid>

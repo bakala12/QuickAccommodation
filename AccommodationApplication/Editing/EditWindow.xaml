@@ -10,6 +10,13 @@
         Title="Edytuj" Height="600" Width="600"
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
         BorderThickness="1" BorderBrush="Green" TitleCaps="False" Icon="../Resources/QuickAccommodationIcon.png">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Styles/LoginStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
 
     <Grid>
        
@@ -167,7 +174,7 @@
         </GroupBox>
 
         <!-- przyscisk do aktualizacji oferty, wiązanie z właściwością w EditWindowViewModel -->
-        <Button Content="Aktualizuj ofertę" Grid.Row="3" Grid.ColumnSpan="2" Width="100" Height="40" 
+        <Button Content="Aktualizuj ofertę" Style="{StaticResource ButtonStyle}" Width="120" Grid.Row="3" Grid.ColumnSpan="2"  Height="40" 
                 Command="{Binding UpDateCommand}" 
                 CommandParameter="" />
     </Grid>

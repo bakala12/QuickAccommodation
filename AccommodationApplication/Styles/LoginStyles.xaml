@@ -75,4 +75,8 @@
     <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource CenterTextBlock}" x:Key="ErrorTextBlockStyle">
         <Setter Property="Foreground" Value="Red"/>
     </Style>
+
+    <Style TargetType="{x:Type Button}" x:Key="ButtonStyle" BasedOn="{StaticResource LoginButtonStyle}">
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+    </Style>
 </ResourceDictionary>

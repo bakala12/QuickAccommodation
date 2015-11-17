@@ -11,6 +11,9 @@ using System.Windows.Input;
 using System.Transactions;
 using System.Threading;
 using System.ComponentModel;
+using System.Windows;
+using MahApps.Metro.Controls.Dialogs;
+using MahApps.Metro.Controls;
 
 namespace AccommodationApplication.ViewModels
 {
@@ -111,6 +114,7 @@ namespace AccommodationApplication.ViewModels
                     transaction.Commit();
                 }
             }
+
         }
 
         public string Description
