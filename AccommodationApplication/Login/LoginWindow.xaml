@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Title="Zaloguj" Height="170" Width="300"
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
-        BorderThickness="1" TitleCaps="False" Icon="../Resources/QuickAccommodationIcon.png">
+        BorderThickness="1" BorderBrush="DeepSkyBlue" TitleCaps="False" Icon="../Resources/QuickAccommodationIcon.png">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
