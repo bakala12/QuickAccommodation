@@ -43,7 +43,6 @@ namespace AccommodationApplication.ViewModels
             //ustawianie początkowych wartości dla dat
             _startDate = DateTime.Now;
             _endDate = DateTime.Now;
-
             AddCommand = new DelegateCommand(async x=>await AddAsync());
         }
 
@@ -121,6 +120,7 @@ namespace AccommodationApplication.ViewModels
                 }
             }
 
+           
         }
 
         public string Description
