@@ -27,7 +27,7 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
         /// </summary>
         protected SearchingViewModelBase()
         {
-            SearchCommand = new DelegateCommand(async x=>await SearchAsync());
+            SearchCommand = new DelegateCommand(async x=>await SearchAsync<AccommodationContext>());
             (App.Current as App).Login += (x,e)=> { SearchingResults = null; };
         }
 
@@ -99,17 +99,17 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
         /// Asynchronicznie wyszukuje oferty w oparciu o kryterium wyszukiwania 
         /// </summary>
         /// <returns></returns>
-        public async Task SearchAsync()
+        public async Task SearchAsync<T>() where T:IAccommodationContext, IDisposable, new()
         {
-            await Task.Run(() => Search());
+            await Task.Run(() => Search<T>());
         }
 
         /// <summary>
         /// Wyszukuje oferty w oparciu o kryterium wyszukiwania 
         /// </summary>
-        protected virtual void Search()
+        protected virtual void Search<T>() where T : IAccommodationContext, IDisposable, new()
         {
-            using (var context=new AccommodationContext())
+            using (var context=new T())
             {
                 string userName = Thread.CurrentPrincipal.Identity.Name;
                 if(string.IsNullOrEmpty(userName)) throw new Exception();

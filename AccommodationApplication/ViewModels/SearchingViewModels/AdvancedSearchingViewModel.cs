@@ -122,9 +122,9 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
         /// <summary>
         /// Nadpisuje metodę wyszukiwania dla wielu kryteriów
         /// </summary>
-        protected override void Search()
+        protected override void Search<T>()
         {
-            using (var context = new AccommodationContext())
+            using (var context = new T())
             {
                 string userName = Thread.CurrentPrincipal.Identity.Name;
                 if (string.IsNullOrEmpty(userName)) throw new Exception();
