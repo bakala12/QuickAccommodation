@@ -9,7 +9,7 @@
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
         Title="Zarejestruj" Height="400" Width="400"
-        BorderBrush="Green" BorderThickness="1" ResizeMode="NoResize"
+        BorderThickness="1" ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen" TitleCaps="False" Icon="../Resources/QuickAccommodationIcon.png">
     <Window.Resources>
         <converter:RegisterViewsVisibilityConverter x:Key="Converter"/>
