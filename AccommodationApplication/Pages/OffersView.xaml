@@ -18,9 +18,13 @@
         <converters:BookedOffersColorConverter x:Key="BookedOffersColorConverter"/>
     </UserControl.Resources>
     <Grid>
-
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Label Content="Wystawione oferty" FontSize="16" Foreground="DeepSkyBlue"/>
         <!-- Lista wyników-->
-        <ListView Name="currentOffers" ItemsSource="{Binding CurrentOffersList}" SelectedItem="{Binding 
+        <ListView Grid.Row="1" Name="currentOffers" ItemsSource="{Binding CurrentOffersList}" SelectedItem="{Binding 
                RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
                Path=DataContext.CurrentlySelectedOffer}" >
 

@@ -12,8 +12,6 @@
         <converters:ReverseBoolConverter x:Key="ReverseBoolConverter"/>
     </UserControl.Resources>
     <Grid>
-        
-        <!-- Widok listy ofert danego usera-->
         <ListView ItemsSource="{Binding}">
             <ListView.ItemTemplate>
                 <DataTemplate>

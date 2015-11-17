@@ -43,6 +43,7 @@ namespace AccommodationApplication.ViewModels
         {
             get
             {
+                if(_purchasedOffers==null) Load();
                 return _purchasedOffers;
             }
             set
@@ -51,7 +52,7 @@ namespace AccommodationApplication.ViewModels
                 OnPropertyChanged();
             }
         }
-
+        
         private void Load()
         {
             var coll=new ObservableCollection<DisplayableOfferViewModel>();

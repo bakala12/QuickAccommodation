@@ -48,12 +48,16 @@
                     Style="{StaticResource FancyLoginButtonStyle}" Tag="{StaticResource LogoutIcon}"/>
         </DockPanel>
         <DockPanel Visibility="{Binding IsAuthenticated, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter={StaticResource False}}"
-                   Grid.Row="0" HorizontalAlignment="Right" Margin="4">
-            <Button Style="{StaticResource FancyLoginButtonStyle}" Command="{Binding LoginCommand}" 
-                    HorizontalAlignment="Right" Content="Zaloguj się" Tag="{StaticResource LoginIcon}"/>
-            <TextBlock Text="Nie masz jeszcze konta?" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0,10,0"/>
-            <Button Style="{StaticResource FancyLoginButtonStyle}" Content="Zarejestruj się" Tag="{StaticResource AddUserIcon}"
-                    HorizontalAlignment="Left" Command="{Binding RegisterCommand}"/>
+                   Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                   Margin="4">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Button Style="{StaticResource FancyLoginButtonStyle}" Command="{Binding LoginCommand}" 
+                        Content="Zaloguj się" Tag="{StaticResource LoginIcon}" Margin="50"
+                        Width="93" Height="60"/>
+                <Button Grid.Row="2" Style="{StaticResource FancyLoginButtonStyle}" Content="Zarejestruj się" 
+                        Tag="{StaticResource AddUserIcon}" Command="{Binding RegisterCommand}"
+                        Margin="50" Height="60" Width="110"/>
+            </StackPanel>
         </DockPanel>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
@@ -64,17 +68,17 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <StackPanel Grid.Column="0" HorizontalAlignment="Center">
-                    <ItemsControl ItemsSource="{Binding PageViewModels}"
+                <ItemsControl ItemsSource="{Binding PageViewModels}"
                                   Visibility="{Binding IsAuthenticated, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter={StaticResource True}}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Button  Content="{Binding Name}" Style="{StaticResource ButtonStyle}" Width="140"
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button  Content="{Binding Name}" Style="{StaticResource ButtonStyle}" Width="140"
                                 Command="{Binding DataContext.ChangePageCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
                                 CommandParameter="{Binding }"
                                 Margin="2,5"/>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </StackPanel>
             <ContentControl  Visibility="{Binding IsAuthenticated, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter={StaticResource True}}" Grid.Column="1"  Content="{Binding CurrentPageViewModel}" />
         </Grid>
