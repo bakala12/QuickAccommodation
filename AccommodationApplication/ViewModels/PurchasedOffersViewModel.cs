@@ -68,7 +68,7 @@ namespace AccommodationApplication.ViewModels
                         .Include(o => o.Place.Address);
                 foreach (var offer in offers)
                 {
-                    coll.Add(new DisplayableOfferViewModel(new DisplayableSearchResult(offer)));
+                    coll.Add(new DisplayableOfferViewModel(new DisplayableOffer(offer)));
                 }
             }
             PurchasedOffers = coll;

@@ -90,7 +90,6 @@
       <DependentUpon>RegisterWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\DisplayableOffer.cs" />
-    <Compile Include="Model\DisplayableSearchResult.cs" />
     <Compile Include="OfferValidator\OfferValidator.cs" />
     <Compile Include="Editing\EditWindow.xaml.cs">
       <DependentUpon>EditWindow.xaml</DependentUpon>

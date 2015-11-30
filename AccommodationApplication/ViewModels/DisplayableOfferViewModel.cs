@@ -29,7 +29,7 @@ namespace AccommodationApplication.ViewModels
         /// Inicjalizuje nową instancję klasy DisplayableOfferViewModel
         /// </summary>
         /// <param name="offer">Oferta stowarzyszona z bieżącą instancją</param>
-        public DisplayableOfferViewModel(DisplayableSearchResult offer)
+        public DisplayableOfferViewModel(DisplayableOffer offer)
         {
             ReserveCommand = new DelegateCommand(async o=>await ReserveAsync(o));
             ResignCommand =new DelegateCommand(async o=>await ResignAsync(o));
@@ -61,12 +61,12 @@ namespace AccommodationApplication.ViewModels
             }
         }
 
-        private DisplayableSearchResult _offer;
+        private DisplayableOffer _offer;
 
         /// <summary>
         /// Pobiera lub ustawia ofertę stowarzyszoną z bieżącą instancją ViewModelu
         /// </summary>
-        public DisplayableSearchResult Offer
+        public DisplayableOffer Offer
         {
             get { return _offer; }
             set

@@ -118,7 +118,7 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
                 IQueryable<Offer> offers = context.Offers.Where(o => o.VendorId != u.Id).Where(o => !o.IsBooked);
                 offers=offers.Where(Criterion.SelectableExpression).Include(o=>o.OfferInfo).Include(o=>o.Place.Address);
                 IEnumerable<Offer> of = offers.Take(20).OrderBy(SelectedSortType, SelectedSortBy);
-                SearchingResults = of.Select(offer => new DisplayableOfferViewModel(new DisplayableSearchResult(offer))).ToList();
+                SearchingResults = of.Select(offer => new DisplayableOfferViewModel(new DisplayableOffer(offer))).ToList();
             }
         } 
     }

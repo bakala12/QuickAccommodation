@@ -134,7 +134,7 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
                 offers = Criteria.Aggregate(offers, (current, criterion) => current.Where(criterion.SelectableExpression));
                 offers=offers.Include(o => o.OfferInfo).Include(o => o.Place.Address);
                 IEnumerable<Offer> of = offers.Take(20).OrderBy(SelectedSortType, SelectedSortBy);
-                SearchingResults = of.Select(offer => new DisplayableOfferViewModel(new DisplayableSearchResult(offer))).ToList();
+                SearchingResults = of.Select(offer => new DisplayableOfferViewModel(new DisplayableOffer(offer))).ToList();
             }
         }
     }
