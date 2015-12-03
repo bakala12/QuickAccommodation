@@ -65,7 +65,7 @@ namespace AccommodationApplication
         public bool ValidatePrice(string price)
         {
             double p1;
-            return double.TryParse(price, out p1);
+            return double.TryParse(price, out p1) && double.Parse(price) >= 0 && char.IsDigit(price[0]);
         }
 
         /// <summary>
