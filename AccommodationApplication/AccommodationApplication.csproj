@@ -83,15 +83,15 @@
     <Compile Include="Converter\SortByValuesConverter.cs" />
     <Compile Include="Converter\SortTypeToStringConverter.cs" />
     <Compile Include="Interfaces\IPageViewModel.cs" />
-    <Compile Include="Login\LoginWindow.xaml.cs">
+    <Compile Include="Views\Windows\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Login\RegisterWindow.xaml.cs">
+    <Compile Include="Views\Windows\RegisterWindow.xaml.cs">
       <DependentUpon>RegisterWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\DisplayableOffer.cs" />
     <Compile Include="OfferValidator\OfferValidator.cs" />
-    <Compile Include="Editing\EditWindow.xaml.cs">
+    <Compile Include="Views\Windows\EditWindow.xaml.cs">
       <DependentUpon>EditWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\AddNewOfferView.xaml.cs">
@@ -141,11 +141,11 @@
     <Compile Include="Views\RegisterCredentialsView.xaml.cs">
       <DependentUpon>RegisterCredentialsView.xaml</DependentUpon>
     </Compile>
-    <Page Include="Login\LoginWindow.xaml">
+    <Page Include="Views\Windows\LoginWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Login\RegisterWindow.xaml">
+    <Page Include="Views\Windows\RegisterWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -161,7 +161,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Editing\EditWindow.xaml">
+    <Page Include="Views\Windows\EditWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -272,6 +272,7 @@
   <ItemGroup>
     <Resource Include="Resources\Entypo-license.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

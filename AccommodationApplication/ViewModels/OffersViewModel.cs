@@ -1,5 +1,4 @@
 ﻿using AccommodationApplication.Commands;
-using AccommodationApplication.Editing;
 using AccommodationApplication.Interfaces;
 using AccommodationApplication.Model;
 using AccommodationDataAccess.Domain;
@@ -15,6 +14,7 @@ using System.Transactions;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
+using AccommodationApplication.Views.Windows;
 
 namespace AccommodationApplication.ViewModels
 {

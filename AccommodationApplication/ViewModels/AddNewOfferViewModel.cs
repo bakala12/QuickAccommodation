@@ -15,7 +15,7 @@ using System.Windows;
 using System.Windows.Threading;
 using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Controls;
-using MessageDialog = AccommodationApplication.Views.MessageDialog;
+using MessageDialog = AccommodationApplication.Views.Windows.MessageDialog;
 
 namespace AccommodationApplication.ViewModels
 {

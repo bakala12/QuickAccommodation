@@ -114,21 +114,9 @@
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AccommodationApplication\AccommodationApplication.csproj">
-      <Project>{81602b0c-636a-42d4-b4a3-bc71a310676e}</Project>
-      <Name>AccommodationApplication</Name>
-    </ProjectReference>
     <ProjectReference Include="..\AccommodationDataAccess\AccommodationDataAccess.csproj">
-      <Project>{75e75bca-8504-430f-817e-b6cbeb1061a2}</Project>
+      <Project>{75E75BCA-8504-430F-817E-B6CBEB1061A2}</Project>
       <Name>AccommodationDataAccess</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\UnitTestProject2\UnitTestProject2.csproj">
-      <Project>{25b7d511-bfa8-484c-b951-f3201b655e46}</Project>
-      <Name>UnitTestProject2</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\UserAuthorizationSystem\UserAuthorizationSystem.csproj">
-      <Project>{fd6dfed7-2ce0-46f8-bd12-4e655b5f968b}</Project>
-      <Name>UserAuthorizationSystem</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

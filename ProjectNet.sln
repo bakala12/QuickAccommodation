@@ -5,6 +5,7 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccommodationApplication", "AccommodationApplication\AccommodationApplication.csproj", "{81602B0C-636A-42D4-B4A3-BC71A310676E}"
 	ProjectSection(ProjectDependencies) = postProject
+		{69880EAB-F8A6-4A32-BF8E-DBC0D3B8F5EC} = {69880EAB-F8A6-4A32-BF8E-DBC0D3B8F5EC}
 		{75E75BCA-8504-430F-817E-B6CBEB1061A2} = {75E75BCA-8504-430F-817E-B6CBEB1061A2}
 	EndProjectSection
 EndProject

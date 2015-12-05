@@ -10,7 +10,6 @@ using System.Windows;
 using System.Windows.Input;
 using AccommodationApplication.Annotations;
 using AccommodationApplication.Commands;
-using AccommodationApplication.Login;
 using AccommodationDataAccess.Domain;
 using AccommodationDataAccess.Model;
 using UserAuthorizationSystem.Authentication;
@@ -19,6 +18,8 @@ using UserAuthorizationSystem.Registration;
 using UserAuthorizationSystem.Validation;
 using AccommodationApplication.Interfaces;
 using System.Windows.Controls;
+using AccommodationApplication.Views.Windows;
+using LoginWindow = AccommodationApplication.Views.Windows.LoginWindow;
 
 namespace AccommodationApplication.ViewModels
 {
