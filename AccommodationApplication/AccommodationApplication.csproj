@@ -47,11 +47,28 @@
       <HintPath>..\packages\MahApps.Metro.1.1.2.0\lib\net45\MahApps.Metro.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.1.2.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
@@ -83,6 +100,8 @@
     <Compile Include="Converter\SortByValuesConverter.cs" />
     <Compile Include="Converter\SortTypeToStringConverter.cs" />
     <Compile Include="Interfaces\IPageViewModel.cs" />
+    <Compile Include="Services\LoginProxy.cs" />
+    <Compile Include="Services\WebApiProxy.cs" />
     <Compile Include="Views\Windows\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
@@ -126,7 +145,7 @@
     <Compile Include="ViewModels\SearchingViewModels\PriceSearchingViewModel.cs" />
     <Compile Include="ViewModels\SearchingViewModels\SearchingViewModelBase.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
-    <Compile Include="Views\MessageDialog.xaml.cs">
+    <Compile Include="Views\Windows\MessageDialog.xaml.cs">
       <DependentUpon>MessageDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\OffersListView.xaml.cs">
@@ -201,7 +220,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MessageDialog.xaml">
+    <Page Include="Views\Windows\MessageDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -255,6 +274,10 @@
     <ProjectReference Include="..\AccommodationDataAccess\AccommodationDataAccess.csproj">
       <Project>{75e75bca-8504-430f-817e-b6cbeb1061a2}</Project>
       <Name>AccommodationDataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AccomodationWebApi\AccomodationWebApi.csproj">
+      <Project>{69880eab-f8a6-4a32-bf8e-dbc0d3b8f5ec}</Project>
+      <Name>AccomodationWebApi</Name>
     </ProjectReference>
     <ProjectReference Include="..\UserAuthorizationSystem\UserAuthorizationSystem.csproj">
       <Project>{fd6dfed7-2ce0-46f8-bd12-4e655b5f968b}</Project>
