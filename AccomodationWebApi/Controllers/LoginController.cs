@@ -17,7 +17,7 @@ namespace AccomodationWebApi.Controllers
     public class LoginController : ApiController
     {
         [Route("user/{username?}/{password?}"), HttpGet]
-        //[RequireHttps]
+        [RequireHttps]
         public IHttpActionResult GetUser(string username=null, string password=null)
         {
             IUserAuthenticationService service = new UserAuthenticationService();
