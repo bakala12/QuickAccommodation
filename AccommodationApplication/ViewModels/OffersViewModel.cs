@@ -15,6 +15,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using AccommodationApplication.Views.Windows;
+using AccommodationApplication.Services;
 
 namespace AccommodationApplication.ViewModels
 {
@@ -27,19 +28,28 @@ namespace AccommodationApplication.ViewModels
         /// Komenda do usuwania oferty
         /// </summary>
         public ICommand RemoveCommand { get; set; }
-        
+
         /// <summary>
         /// Komenda do edycji oferty
         /// </summary>
         public ICommand EditCommand { get; set; }
+        private readonly OffersProxy offersProxy;
+        private readonly OfferInfoesProxy offerInfoesProxy;
+        private readonly PlacesProxy PlacesProxy;
+        private readonly AddressesProxy addressesProxy;
 
         public OffersViewModel()
         {
             RemoveCommand = new DelegateCommand(async x => await RemoveAsync());
             EditCommand = new DelegateCommand(x => Edit());
 
+            this.offersProxy = new OffersProxy();
+            this.offerInfoesProxy = new OfferInfoesProxy();
+            this.PlacesProxy = new PlacesProxy();
+            this.addressesProxy = new AddressesProxy();
+
             CurrentOffersList = null;
-            (App.Current as App).Login += (x, e) => { CurrentOffersList = null; OnPropertyChanged(nameof(CurrentOffersList));};
+            (App.Current as App).Login += (x, e) => { CurrentOffersList = null; OnPropertyChanged(nameof(CurrentOffersList)); };
         }
 
         /// <summary>
@@ -87,7 +97,7 @@ namespace AccommodationApplication.ViewModels
 
             }
         }
-        
+
         /// <summary>
         /// Aktualnie zaznaczona oferta (do edycji lub usunięcia)
         /// </summary>
@@ -175,9 +185,31 @@ namespace AccommodationApplication.ViewModels
             get
             {
                 //przy pierwszej próbie wyświetlenia pobierz listę z bazy
-                if (currentOffersList == null) Load();
+                if (currentOffersList == null) Load2();
                 return currentOffersList;
             }
+        }
+        public async void Load2()
+        {
+            //test implementation
+            var ret = new ObservableCollection<DisplayableOffer>();
+
+            Offer offer = await offersProxy.Get(10);
+            if(offer != null)
+            {
+                OfferInfo oi = await offerInfoesProxy.Get(offer.OfferInfoId);
+                Place p = await PlacesProxy.Get(offer.PlaceId);
+                Address a = await addressesProxy.Get(p.AddressId);
+
+                p.Address = a;
+                offer.OfferInfo = oi;
+                offer.Place = p;
+                DisplayableOffer dof = new DisplayableOffer(offer);
+                ret.Add(dof);
+            }
+
+            this.CurrentOffersList = ret;
+                
         }
     }
 }

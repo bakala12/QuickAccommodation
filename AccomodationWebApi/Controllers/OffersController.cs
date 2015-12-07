@@ -11,6 +11,7 @@ using System.Web.Http;
 namespace AccomodationWebApi.Controllers
 {
     //test implementation only
+    [RoutePrefix("api/offers")]
     public class OffersController : ApiController
     {
         public IEnumerable<Offer> GetAllOffers()
@@ -28,7 +29,7 @@ namespace AccomodationWebApi.Controllers
 
         }
 
-        public IHttpActionResult GetOffer(int id)
+        public IHttpActionResult Get(int id)
         {
             Offer offer = null;
 
@@ -40,9 +41,11 @@ namespace AccomodationWebApi.Controllers
 
             if (offer == null)
             {
-                return NotFound();
+                return (IHttpActionResult)NotFound();
             }
             return Ok(offer);
+
+          
         }
     }
 }
