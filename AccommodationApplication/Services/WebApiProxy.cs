@@ -1,8 +1,11 @@
-﻿using System;
+﻿using AccommodationApplication.Properties;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Formatting;
+using System.Text;
 using System.Threading.Tasks;
-using AccommodationApplication.Properties;
 
 namespace AccommodationApplication.Services
 {
@@ -11,13 +14,14 @@ namespace AccommodationApplication.Services
         private readonly HttpClient _client;
         private readonly MediaTypeFormatter _formatter;
 
-        protected WebApiProxy(string controllerName, bool enableSsl=false)
+        protected WebApiProxy(string controllerName, bool enableSsl = false)
         {
             _client = HttpClientFactory.Create();
             _formatter = new JsonMediaTypeFormatter();
             _client.BaseAddress =
-                (!enableSsl)?new Uri($"{Settings.Default.BaseUrlAddress}/{controllerName}/"):
-                new Uri($"{Settings.Default.SslUrlAddress}/{controllerName}/");
+                (!enableSsl)
+                    ? new Uri($"{Settings.Default.BaseUrlAddress}/{controllerName}/")
+                    : new Uri($"{Settings.Default.SslUrlAddress}/{controllerName}/");
         }
 
         protected Task<TResponse> Post<TRequest, TResponse>(TRequest request)
@@ -38,9 +42,8 @@ namespace AccommodationApplication.Services
         private async Task<TResponse> ExtractResponse<TResponse>(HttpResponseMessage response)
         {
             await VerifyStatusCode(response);
-            return await response.Content.ReadAsAsync<TResponse>(new[] { _formatter });
+            return await response.Content.ReadAsAsync<TResponse>(new[] {_formatter});
         }
-
 
         private async Task VerifyStatusCode(HttpResponseMessage response)
         {

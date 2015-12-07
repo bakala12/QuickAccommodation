@@ -18,7 +18,8 @@ namespace AccommodationApplication.Services
 
         public async Task<CustomIdentity> GetUserAsync(string username, string clearTextPassword)
         {
-            return await Get<CustomIdentity>("user/");
+            return await Get<CustomIdentity>("user/"+HttpUtility.UrlEncode(username)+"/"+HttpUtility.UrlEncode(clearTextPassword));
+            //to change!
         }
     }
 }

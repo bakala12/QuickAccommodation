@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserAuthorizationSystem", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject2", "UnitTestProject2\UnitTestProject2.csproj", "{25B7D511-BFA8-484C-B951-F3201B655E46}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccomodationWebApi", "AccomodationWebApi\AccomodationWebApi.csproj", "{69880EAB-F8A6-4A32-BF8E-DBC0D3B8F5EC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccommodationWebApi", "AccomodationWebApi\AccommodationWebApi.csproj", "{69880EAB-F8A6-4A32-BF8E-DBC0D3B8F5EC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
