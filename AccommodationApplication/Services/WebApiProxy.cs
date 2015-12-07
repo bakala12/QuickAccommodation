@@ -11,12 +11,13 @@ namespace AccommodationApplication.Services
         private readonly HttpClient _client;
         private readonly MediaTypeFormatter _formatter;
 
-        protected WebApiProxy(string controllerName)
+        protected WebApiProxy(string controllerName, bool enableSsl=false)
         {
             _client = HttpClientFactory.Create();
             _formatter = new JsonMediaTypeFormatter();
             _client.BaseAddress =
-                new Uri($"{Settings.Default.BaseUrlAddress}/{controllerName}/");
+                (!enableSsl)?new Uri($"{Settings.Default.BaseUrlAddress}/{controllerName}/"):
+                new Uri($"{Settings.Default.SslUrlAddress}/{controllerName}/");
         }
 
         protected Task<TResponse> Post<TRequest, TResponse>(TRequest request)

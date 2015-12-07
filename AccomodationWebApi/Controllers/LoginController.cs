@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using AccommodationDataAccess.Domain;
 using AccommodationDataAccess.Model;
+using AccomodationWebApi.Attributes;
 using UserAuthorizationSystem.Authentication;
 using UserAuthorizationSystem.Identities;
 
@@ -15,7 +16,8 @@ namespace AccomodationWebApi.Controllers
     [RoutePrefix("api/Login")]
     public class LoginController : ApiController
     {
-        [Route("user/{username?}/{password?}"), HttpGet]
+        [Route("user"), HttpGet]
+        [RequireHttps]
         public IHttpActionResult GetUser(string username=null, string password=null)
         {
             IUserAuthenticationService service = new UserAuthenticationService();

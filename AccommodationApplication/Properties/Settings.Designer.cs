@@ -34,5 +34,17 @@ namespace AccommodationApplication.Properties {
                 this["BaseUrlAddress"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://localhost:44300/api")]
+        public string SslUrlAddress {
+            get {
+                return ((string)(this["SslUrlAddress"]));
+            }
+            set {
+                this["SslUrlAddress"] = value;
+            }
+        }
     }
 }

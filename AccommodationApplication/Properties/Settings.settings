@@ -5,5 +5,8 @@
     <Setting Name="BaseUrlAddress" Type="System.String" Scope="User">
       <Value Profile="(Default)">http://localhost:2426/api</Value>
     </Setting>
+    <Setting Name="SslUrlAddress" Type="System.String" Scope="User">
+      <Value Profile="(Default)">https://localhost:44300/api</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
