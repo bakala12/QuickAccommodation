@@ -116,12 +116,16 @@
     <Compile Include="Converter\SortByValuesConverter.cs" />
     <Compile Include="Converter\SortTypeToStringConverter.cs" />
     <Compile Include="Interfaces\IPageViewModel.cs" />
+    <Compile Include="Pages\YourProfileView.xaml.cs">
+      <DependentUpon>YourProfileView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Services\LoginProxy.cs" />
     <Compile Include="Services\OfferInfoesProxy.cs" />
     <Compile Include="Services\AddressesProxy.cs" />
     <Compile Include="Services\PlacesProxy.cs" />
     <Compile Include="Services\OffersProxy.cs" />
     <Compile Include="Services\WebApiProxy.cs" />
+    <Compile Include="ViewModels\YourProfileViewModel.cs" />
     <Compile Include="Views\Windows\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
@@ -180,6 +184,14 @@
     <Compile Include="Views\RegisterCredentialsView.xaml.cs">
       <DependentUpon>RegisterCredentialsView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Pages\YourProfileView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\YourProfileStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Windows\LoginWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -315,9 +327,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Entypo-license.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

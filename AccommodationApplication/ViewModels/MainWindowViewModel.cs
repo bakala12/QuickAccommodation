@@ -46,6 +46,7 @@ namespace AccommodationApplication.ViewModels
             PageViewModels.Add(new SearchingViewModel());
             PageViewModels.Add(new AddNewOfferViewModel());
             PageViewModels.Add(new PurchasedOffersViewModel());
+            PageViewModels.Add(new YourProfileViewModel());
             CurrentPageViewModel = PageViewModels[0];
         }
 
@@ -116,7 +117,7 @@ namespace AccommodationApplication.ViewModels
         protected virtual void Login()
         {
             LoginWindow login = new LoginWindow();
-            LoginWindowViewModel vm = new LoginWindowViewModel(new UserAuthenticationService());
+            LoginWindowViewModel vm = new LoginWindowViewModel();
             vm.RequestClose += (x, e) => CloseWindow(login);
             login.DataContext = vm;
             login.ShowDialog();
