@@ -34,8 +34,7 @@
                 <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
                 <converters:ReverseBoolConverter x:Key="ReverseBoolConverter"/>
                 <DataTemplate x:Key="DefaultItemTemplate">
-                    <WrapPanel >
-                        <Grid >
+                        <Grid HorizontalAlignment="Stretch">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="*"/>
@@ -43,9 +42,8 @@
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-
                             <StackPanel Grid.Row="0" Grid.Column="0">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -55,16 +53,13 @@
                                     <Label Grid.Column="0" Content="{Binding PlaceName}" FontWeight="Bold"/>
                                     <Label Grid.Column="1" Content="{Binding Address}" FontWeight="Bold"  />
                                 </Grid>
-
                             </StackPanel>
-
                             <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
                                 <Label  Content="Od: "/>
                                 <Label  Content="{Binding OfferStartTime, StringFormat='dd-mm-yyyy' }" />
                                 <Label  Content="Do: "/>
                                 <Label  Content="{Binding OfferEndTime, StringFormat='dd-mm-yyyy' }" />
                             </StackPanel>
-
                             <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
                                 <Label  Content="Liczba wolnych miejsc: "  />
                                 <Label  Content="{Binding AvailableVacanciesNumber}"  />
@@ -72,18 +67,15 @@
                                 <Label  Content="{Binding Price}"  />
                                 <Label Content="zł"/>
                             </StackPanel>
-
                             <TextBlock Grid.Column="1" Grid.RowSpan="3" Text="Zarezerwowano" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                                       Foreground="White" Margin="60,0,0,0"
+                                       Foreground="White"
                                        Visibility="{Binding IsBooked, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter={StaticResource True}}"/>
                         </Grid>
-                    </WrapPanel>
                 </DataTemplate>
 
                 <!-- Widok oferty rozwiniętej-->
                 <DataTemplate x:Key="SelectedItemTemplate">
-                    <WrapPanel >
-                        <Grid>
+                        <Grid HorizontalAlignment="Stretch">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="*"/>
@@ -96,7 +88,6 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="0.2*"/>
                             </Grid.ColumnDefinitions>
-
                             <StackPanel Grid.Row="0" Grid.Column="0">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -107,14 +98,12 @@
                                     <Label Grid.Column="1" Content="{Binding Address}" FontWeight="Bold"  />
                                 </Grid>
                             </StackPanel>
-
                             <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
                                 <Label  Content="Od: "/>
                                 <Label  Content="{Binding OfferStartTime }" />
                                 <Label  Content="Do: "/>
                                 <Label  Content="{Binding OfferEndTime }" />
                             </StackPanel>
-
                             <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
                                 <Label   Content="Liczba wolnych miejsc: "  />
                                 <Label  Content="{Binding AvailableVacanciesNumber}"  />
@@ -122,34 +111,26 @@
                                 <Label Content="{Binding Price}"  />
                                 <Label Content="zł"/>
                             </StackPanel>
-
                             <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal">
                                 <Label Content="Data wystawienia oferty:"/>
                                 <Label Content="{Binding OfferPublishTime}"/>
                             </StackPanel>
-
                             <StackPanel Grid.Row="4" Grid.Column="0" Orientation="Horizontal">
                                 <Label Content="Opis: "/>
                                 <Label Content="{Binding Description}"/>
                             </StackPanel>
-
                             <StackPanel Grid.Row="5" Grid.Column="0" Orientation="Horizontal">
-
                                 <Button  Content="Usuń ofertę" Command="{Binding 
                RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
                Path=DataContext.RemoveCommand}" CommandParameter=""  />
-
                                 <Button Content="Edytuj ofertę" Command="{Binding 
                RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
                Path=DataContext.EditCommand}" CommandParameter="" IsEnabled="{Binding IsBooked, Converter={StaticResource ReverseBoolConverter}}"/>
-
-
                             </StackPanel>
                             <TextBlock Foreground="White" Grid.RowSpan="6" Grid.Column="1" Text="Zarezerwowano"
-                                       HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" Margin="60,0,0,0"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16"
                                   Visibility="{Binding IsBooked, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter={StaticResource True}}"/>
                         </Grid>
-                    </WrapPanel>
                 </DataTemplate>
             </ListView.Resources>
 
@@ -157,6 +138,8 @@
                 <Style TargetType="ListViewItem">
                     <Setter Property="Background" Value="{Binding IsBooked, Converter={StaticResource BookedOffersColorConverter}}"/>
                     <Setter Property="ContentTemplate" Value="{StaticResource DefaultItemTemplate}" />
+                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                     <Style.Triggers>
 
                         <Trigger Property="IsSelected" Value="True">
