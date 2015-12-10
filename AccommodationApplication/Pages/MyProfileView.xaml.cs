@@ -18,9 +18,9 @@ namespace AccommodationApplication.Pages
     /// <summary>
     /// Interaction logic for YourProfileView.xaml
     /// </summary>
-    public partial class YourProfileView : UserControl
+    public partial class MyProfileView : UserControl
     {
-        public YourProfileView()
+        public MyProfileView()
         {
             InitializeComponent();
         }

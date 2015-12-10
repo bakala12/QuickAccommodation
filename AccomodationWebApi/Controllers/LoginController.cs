@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using AccommodationDataAccess.Domain;
 using AccommodationDataAccess.Model;
+using AccommodationShared.Dtos;
 using AccomodationWebApi.Attributes;
 using UserAuthorizationSystem.Authentication;
 using UserAuthorizationSystem.Identities;
@@ -18,10 +19,10 @@ namespace AccomodationWebApi.Controllers
     {
         [Route("user"), HttpPost]
         [RequireHttps]
-        public IHttpActionResult GetUserIdentity(string[] credentials)
+        public IHttpActionResult GetUserIdentity(UserCredentialDto dto)
         {
-            string username = credentials?[0];
-            string password = credentials?[1];
+            string username = dto.Username;
+            string password = dto.Password;
             IUserAuthenticationService service = new UserAuthenticationService();
             var user=service.AuthenticateUser<AccommodationContext>(username, password);
             return Ok(user);

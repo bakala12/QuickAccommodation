@@ -103,6 +103,7 @@
     <Compile Include="Controllers\PlacesController.cs" />
     <Compile Include="Controllers\OfferInfoesController.cs" />
     <Compile Include="Controllers\OffersController.cs" />
+    <Compile Include="Controllers\UserDataController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -125,6 +126,10 @@
     <ProjectReference Include="..\AccommodationDataAccess\AccommodationDataAccess.csproj">
       <Project>{75E75BCA-8504-430F-817E-B6CBEB1061A2}</Project>
       <Name>AccommodationDataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AccommodationShared\AccommodationShared.csproj">
+      <Project>{1cfc3bee-d4ce-464c-92d0-5d8a9b05e22c}</Project>
+      <Name>AccommodationShared</Name>
     </ProjectReference>
     <ProjectReference Include="..\UserAuthorizationSystem\UserAuthorizationSystem.csproj">
       <Project>{fd6dfed7-2ce0-46f8-bd12-4e655b5f968b}</Project>

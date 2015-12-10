@@ -116,16 +116,17 @@
     <Compile Include="Converter\SortByValuesConverter.cs" />
     <Compile Include="Converter\SortTypeToStringConverter.cs" />
     <Compile Include="Interfaces\IPageViewModel.cs" />
-    <Compile Include="Pages\YourProfileView.xaml.cs">
-      <DependentUpon>YourProfileView.xaml</DependentUpon>
+    <Compile Include="Pages\MyProfileView.xaml.cs">
+      <DependentUpon>MyProfileView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Services\LoginProxy.cs" />
     <Compile Include="Services\OfferInfoesProxy.cs" />
     <Compile Include="Services\AddressesProxy.cs" />
     <Compile Include="Services\PlacesProxy.cs" />
     <Compile Include="Services\OffersProxy.cs" />
+    <Compile Include="Services\UserProfileProxy.cs" />
     <Compile Include="Services\WebApiProxy.cs" />
-    <Compile Include="ViewModels\YourProfileViewModel.cs" />
+    <Compile Include="ViewModels\MyProfileViewModel.cs" />
     <Compile Include="Views\Windows\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
@@ -184,7 +185,7 @@
     <Compile Include="Views\RegisterCredentialsView.xaml.cs">
       <DependentUpon>RegisterCredentialsView.xaml</DependentUpon>
     </Compile>
-    <Page Include="Pages\YourProfileView.xaml">
+    <Page Include="Pages\MyProfileView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -307,6 +308,10 @@
     <ProjectReference Include="..\AccommodationDataAccess\AccommodationDataAccess.csproj">
       <Project>{75e75bca-8504-430f-817e-b6cbeb1061a2}</Project>
       <Name>AccommodationDataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AccommodationShared\AccommodationShared.csproj">
+      <Project>{1cfc3bee-d4ce-464c-92d0-5d8a9b05e22c}</Project>
+      <Name>AccommodationShared</Name>
     </ProjectReference>
     <ProjectReference Include="..\AccomodationWebApi\AccommodationWebApi.csproj">
       <Project>{69880eab-f8a6-4a32-bf8e-dbc0d3b8f5ec}</Project>

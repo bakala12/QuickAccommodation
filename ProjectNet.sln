@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject2", "UnitTes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccommodationWebApi", "AccomodationWebApi\AccommodationWebApi.csproj", "{69880EAB-F8A6-4A32-BF8E-DBC0D3B8F5EC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccommodationShared", "AccommodationShared\AccommodationShared.csproj", "{1CFC3BEE-D4CE-464C-92D0-5D8A9B05E22C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,10 @@ Global
 		{69880EAB-F8A6-4A32-BF8E-DBC0D3B8F5EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{69880EAB-F8A6-4A32-BF8E-DBC0D3B8F5EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{69880EAB-F8A6-4A32-BF8E-DBC0D3B8F5EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1CFC3BEE-D4CE-464C-92D0-5D8A9B05E22C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CFC3BEE-D4CE-464C-92D0-5D8A9B05E22C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CFC3BEE-D4CE-464C-92D0-5D8A9B05E22C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CFC3BEE-D4CE-464C-92D0-5D8A9B05E22C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

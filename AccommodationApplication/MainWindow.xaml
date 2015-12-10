@@ -25,8 +25,8 @@
             <DataTemplate DataType="{x:Type vm:PurchasedOffersViewModel}">
                 <pg:PurchasedOffersView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type vm:YourProfileViewModel}">
-                <pg:YourProfileView/>
+            <DataTemplate DataType="{x:Type vm:MyProfileViewModel}">
+                <pg:MyProfileView/>
             </DataTemplate>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles/MainWindowStyles.xaml"/>

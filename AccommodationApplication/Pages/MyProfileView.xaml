@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="AccommodationApplication.Pages.YourProfileView"
+﻿<UserControl x:Class="AccommodationApplication.Pages.MyProfileView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -15,16 +15,18 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <UserControl.DataContext>
-        <vm:YourProfileViewModel/>
+        <vm:MyProfileViewModel/>
     </UserControl.DataContext>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Grid>
+        <DockPanel>
+            <!--Style-->
+            <TextBlock Text="Użytkownik: "/>
             <TextBlock Text="{Binding LoggedUser}"/>
-        </Grid>
+        </DockPanel>
         <GroupBox Header="Dane osobowe" Grid.Row="1">
             <GroupBox.HeaderTemplate>
                 <DataTemplate>
@@ -48,8 +50,11 @@
                 <TextBlock Text="Nazwa firmy" Grid.Row="2" Grid.Column="0"/>
                 <TextBlock Text="Email" Grid.Row="3" Grid.Column="0"/>
                 <Button Content="Edytuj" Grid.Row="4" Grid.ColumnSpan="2" Grid.Column="0"/>
+                <TextBlock Text="{Binding FirstName}" Grid.Row="0" Grid.Column="1"/>
+                <TextBlock Text="{Binding LastName}" Grid.Row="1" Grid.Column="1"/>
+                <TextBlock Text="{Binding CompanyName}" Grid.Row="2" Grid.Column="1"/>
+                <TextBlock Text="{Binding Email}" Grid.Row="3" Grid.Column="1"/>
             </Grid>
         </GroupBox>
-        
     </Grid>
 </UserControl>
