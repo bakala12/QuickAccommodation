@@ -20,7 +20,7 @@ namespace AccommodationApplication.Services
         public async Task<CustomIdentity> GetUserAsync(string username, string clearTextPassword)
         {
             ServicePointManager.ServerCertificateValidationCallback += delegate { return true; };
-            return await Get<CustomIdentity>("user/"+HttpUtility.UrlEncode(username)+"/"+HttpUtility.UrlEncode(clearTextPassword));
+            return await Post<string[], CustomIdentity>("user", new[] {username, clearTextPassword});
         }
     }
 }

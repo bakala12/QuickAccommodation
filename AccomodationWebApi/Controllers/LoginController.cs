@@ -16,10 +16,12 @@ namespace AccomodationWebApi.Controllers
     [RoutePrefix("api/Login")]
     public class LoginController : ApiController
     {
-        [Route("user/{username?}/{password?}"), HttpGet]
+        [Route("user"), HttpPost]
         [RequireHttps]
-        public IHttpActionResult GetUser(string username=null, string password=null)
+        public IHttpActionResult GetUserIdentity(string[] credentials)
         {
+            string username = credentials?[0];
+            string password = credentials?[1];
             IUserAuthenticationService service = new UserAuthenticationService();
             var user=service.AuthenticateUser<AccommodationContext>(username, password);
             return Ok(user);
