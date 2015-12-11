@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using AccommodationApplication.Commands;
@@ -21,12 +22,14 @@ namespace AccommodationApplication.ViewModels
     {
         private string _username;
         private string _errorText;
+        private readonly LoginProxy _service;
 
         /// <summary>
         /// Inicjalizuje nowa instancję klasy LoginWindowViewModel
         /// </summary>
         public LoginWindowViewModel()
         {
+            _service = new LoginProxy();
             LoginCommand = new DelegateCommand(async x => await LoginAsync(x));
         }
 
@@ -75,8 +78,16 @@ namespace AccommodationApplication.ViewModels
             CustomPrincipal principal=Thread.CurrentPrincipal as CustomPrincipal;
             if(principal==null)
                 throw new InvalidOperationException();
-            LoginProxy _service = new LoginProxy();
-            CustomIdentity identity = await _service.GetUserAsync(Username, passwordBox.Password);
+            
+            CustomIdentity identity = null;
+            try
+            {
+                identity = await _service.GetUserAsync(Username, passwordBox.Password);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Błąd systemu logowania");
+            }
             if (identity == null)
             {
                 ErrorText = "Nieprawidłowa nazwa użytkownika lub hasło";

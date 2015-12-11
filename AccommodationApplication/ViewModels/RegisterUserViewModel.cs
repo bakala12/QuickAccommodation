@@ -5,9 +5,11 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using AccommodationApplication.Commands;
+using AccommodationApplication.Services;
 using AccommodationDataAccess.Domain;
 using AccommodationDataAccess.Model;
 using UserAuthorizationSystem.Registration;
@@ -43,7 +45,7 @@ namespace AccommodationApplication.ViewModels
         private string _error;
         private CurrentScreen _currentScreen;
         private readonly IUserCredentialsValidator _validator;
-        private readonly IRegisterUser _register;
+        private readonly LoginProxy _service;
         private User _user;
         private UserData _userData;
         private Address _address;
@@ -53,11 +55,11 @@ namespace AccommodationApplication.ViewModels
         /// </summary>
         /// <param name="validator">Validator danych wprowadzanych przez użytkownika</param>
         /// <param name="regiser">Instancja odpowiadająca za zapisanie użytkownika do bazy danych</param>
-        public RegisterUserViewModel(IUserCredentialsValidator validator, IRegisterUser regiser)
+        public RegisterUserViewModel(IUserCredentialsValidator validator)
         {
-            if(validator == null || regiser==null) throw new ArgumentNullException();
+            if(validator == null) throw new ArgumentNullException();
             _validator = validator;
-            _register = regiser;
+            _service = new LoginProxy();
             NextCommand = new DelegateCommand(async x=> await NextScreenAsync(x));
             RegisterCommand = new DelegateCommand(async x =>await RegisterAsync());
             CurrentScreen = CurrentScreen.Credentials;
@@ -92,6 +94,7 @@ namespace AccommodationApplication.ViewModels
         /// <returns></returns>
         public async Task NextScreenAsync(object x)
         {
+            Error = null;
             switch (CurrentScreen)
             {
                 case CurrentScreen.Credentials:
@@ -116,7 +119,7 @@ namespace AccommodationApplication.ViewModels
                         Error = err;
                         return;
                     }
-                    _user = _register.GetNewUser(Username, passwords[0].Password);
+                    _user = await _service.GetNewUserAsync(Username, passwords[0].Password);
                     _userData = new UserData() {Email = Email};
                     CurrentScreen=CurrentScreen.BasicData;
                     break;
@@ -146,7 +149,15 @@ namespace AccommodationApplication.ViewModels
         public async virtual Task RegisterAsync()
         {
             _address = new Address() {City = City, Street = Street, PostalCode = PostalCode, LocalNumber = LocaleNumber};
-            await _register.SaveUserAsync<AccommodationContext>(_user, _userData, _address);
+            try
+            {
+                await _service.SaveUserAsync(_user, _userData, _address);
+                MessageBox.Show("Dodano nowego użytkownika", "Nowy użytkownik");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Błąd przy dodawaniu uzytkownika");
+            }
             Close();
         }
 
