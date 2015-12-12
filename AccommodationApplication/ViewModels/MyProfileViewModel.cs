@@ -21,6 +21,7 @@ namespace AccommodationApplication.ViewModels
         private string _lastName;
         private string _email;
         private string _companyName;
+        private string _role;
 
         public MyProfileViewModel()
         {
@@ -79,6 +80,16 @@ namespace AccommodationApplication.ViewModels
             set
             {
                 _email = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string UserRole
+        {
+            get { return _role; }
+            set
+            {
+                _role = value;
                 OnPropertyChanged();
             }
         }

@@ -23,11 +23,18 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <DockPanel>
-            <!--Style-->
-            <TextBlock Text="Użytkownik: "/>
-            <TextBlock Text="{Binding LoggedUser}"/>
-        </DockPanel>
+        <Grid Margin ="0,10,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Użytkownik: " Grid.Row="0" Grid.Column="0"/>
+            <TextBlock Text="{Binding LoggedUser}" Grid.Row="0" Grid.Column="1"/>
+            <TextBlock Text="{Binding UserRole}" Grid.Row="0" Grid.Column="2"
+                       Foreground="Green"/>
+        </Grid>
         <GroupBox Header="Dane osobowe" Grid.Row="1">
             <GroupBox.HeaderTemplate>
                 <DataTemplate>
