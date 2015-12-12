@@ -16,11 +16,11 @@ using MahApps.Metro.Controls;
 namespace AccommodationApplication.Views.Windows
 {
     /// <summary>
-    /// Interaction logic for EditDataDialog.xaml
+    /// Interaction logic for ChangePasswordDialog.xaml
     /// </summary>
-    public partial class EditDataDialog : MetroWindow
+    public partial class ChangePasswordDialog : MetroWindow
     {
-        public EditDataDialog()
+        public ChangePasswordDialog()
         {
             InitializeComponent();
         }

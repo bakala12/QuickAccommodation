@@ -55,15 +55,15 @@
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
     </Style>
-    
-    <Style TargetType="TextBox" x:Key="TextBoxStyle">
+
+    <Style TargetType="{x:Type TextBox}" x:Key="TextBoxStyle">
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Padding" Value="10,5,10,5"/>
         <Setter Property="BorderBrush" Value="DeepSkyBlue"/>
         <Setter Property="Margin" Value="10,5,10,5"/>
     </Style>
-    
+
     <Style TargetType="{x:Type PasswordBox}" x:Key="PasswordBoxStyle">
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Center"/>

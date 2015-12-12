@@ -9,6 +9,7 @@ using AccommodationDataAccess.Domain;
 using AccommodationDataAccess.Model;
 using AccommodationShared.Dtos;
 using AccomodationWebApi.Attributes;
+using UserAuthorizationSystem.Registration;
 
 namespace AccomodationWebApi.Controllers
 {
@@ -53,6 +54,27 @@ namespace AccomodationWebApi.Controllers
                         Email = dto.Email
                     };
                     user.UserData = data;
+                    context.SaveChanges();
+                    transaction.Commit();
+                }
+            }
+            return Ok(true);
+        }
+
+        [Route("changePassword"), HttpPost]
+        [RequireHttps]
+        public IHttpActionResult ChangeUserPassword(UserNewPasswordDto dto)
+        {
+            IRegisterUser register = new UserRegister();
+            User newUser = register.GetNewUser(dto.Username, dto.NewPassword);
+            using (var context = new AccommodationContext())
+            {
+                using (var transaction = context.Database.BeginTransaction())
+                {
+                    User user = context.Users.FirstOrDefault(u => u.Username.Equals(dto.Username));
+                    if (user == null) return null;
+                    user.Salt = newUser.Salt;
+                    user.HashedPassword = newUser.HashedPassword;
                     context.SaveChanges();
                     transaction.Commit();
                 }

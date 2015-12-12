@@ -126,8 +126,12 @@
     <Compile Include="Services\OffersProxy.cs" />
     <Compile Include="Services\UserProfileProxy.cs" />
     <Compile Include="Services\WebApiProxy.cs" />
+    <Compile Include="ViewModels\ChangePasswordViewModel.cs" />
     <Compile Include="ViewModels\EditUserDataViewModel.cs" />
     <Compile Include="ViewModels\MyProfileViewModel.cs" />
+    <Compile Include="Views\Windows\ChangePasswordDialog.xaml.cs">
+      <DependentUpon>ChangePasswordDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Windows\EditDataDialog.xaml.cs">
       <DependentUpon>EditDataDialog.xaml</DependentUpon>
     </Compile>
@@ -194,6 +198,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\YourProfileStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Windows\ChangePasswordDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

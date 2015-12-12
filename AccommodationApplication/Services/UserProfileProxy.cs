@@ -36,5 +36,10 @@ namespace AccommodationApplication.Services
             };
             await Post<ChangeUserDataDto, bool>("changeData", dataDto);
         }
+
+        public async Task ChangeUserPasswordAsync(UserNewPasswordDto dto)
+        {
+            await Post<UserNewPasswordDto, bool>("changePassword", dto);
+        }
     }
 }

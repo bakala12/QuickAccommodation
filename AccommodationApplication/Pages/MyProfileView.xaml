@@ -21,6 +21,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <DockPanel>
             <!--Style-->
@@ -49,12 +50,13 @@
                 <TextBlock Text="Nazwisko" Grid.Row="1" Grid.Column="0"/>
                 <TextBlock Text="Nazwa firmy" Grid.Row="2" Grid.Column="0"/>
                 <TextBlock Text="Email" Grid.Row="3" Grid.Column="0"/>
-                <Button Content="Edytuj" Grid.Row="4" Grid.ColumnSpan="2" Grid.Column="0" Command="{Binding EditDataCommand}"/>
                 <TextBlock Text="{Binding FirstName}" Grid.Row="0" Grid.Column="1"/>
                 <TextBlock Text="{Binding LastName}" Grid.Row="1" Grid.Column="1"/>
                 <TextBlock Text="{Binding CompanyName}" Grid.Row="2" Grid.Column="1"/>
                 <TextBlock Text="{Binding Email}" Grid.Row="3" Grid.Column="1"/>
+                <Button Content="Edytuj" Grid.Row="4" Grid.ColumnSpan="2" Grid.Column="0" Command="{Binding EditDataCommand}"/>
             </Grid>
         </GroupBox>
+        <Button Grid.Row="2" Content="Zmień hasło" Command="{Binding ChangePasswordCommand}" HorizontalAlignment="Right"/>
     </Grid>
 </UserControl>

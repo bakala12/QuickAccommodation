@@ -13,11 +13,14 @@ namespace AccommodationApplication.Converter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            PasswordBox password = values[0] as PasswordBox;
-            PasswordBox passwordConfirmed = values[1] as PasswordBox;
-            if(password==null || passwordConfirmed==null) 
-                throw new InvalidOperationException();
-            return new PasswordBox[] {password, passwordConfirmed};
+            List<PasswordBox> passwordBoxes = new List<PasswordBox>();
+            foreach (var value in values)
+            {
+                PasswordBox p = value as PasswordBox;
+                if(p==null) throw new InvalidOperationException();
+                passwordBoxes.Add(p);               
+            }
+            return passwordBoxes.ToArray();
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

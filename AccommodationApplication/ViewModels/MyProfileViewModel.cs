@@ -26,6 +26,7 @@ namespace AccommodationApplication.ViewModels
         {
             ReloadData += async (x, e) => await LoadUserDataAsync();
             EditDataCommand = new DelegateCommand(x => EditData());
+            ChangePasswordCommand = new DelegateCommand(x=>ChangePassword());
             ReloadData?.Invoke(this, EventArgs.Empty);
         }
 
@@ -103,6 +104,15 @@ namespace AccommodationApplication.ViewModels
             vm.RequestClose += (x, e) => dialog.Close();
             dialog.ShowDialog();
             ReloadData?.Invoke(this, EventArgs.Empty); //email!
+        }
+
+        protected void ChangePassword()
+        {
+            ChangePasswordDialog dialog = new ChangePasswordDialog();
+            ChangePasswordViewModel vm = new ChangePasswordViewModel(LoggedUser);
+            dialog.DataContext = vm;
+            vm.RequestClose += (x, e) => dialog.Close();
+            dialog.ShowDialog();
         }
     }
 }

@@ -154,7 +154,7 @@ namespace AccommodationApplication.ViewModels
                 await _service.SaveUserAsync(_user, _userData, _address);
                 MessageBox.Show("Dodano nowego użytkownika", "Nowy użytkownik");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 MessageBox.Show("Błąd przy dodawaniu uzytkownika");
             }
