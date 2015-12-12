@@ -126,7 +126,11 @@
     <Compile Include="Services\OffersProxy.cs" />
     <Compile Include="Services\UserProfileProxy.cs" />
     <Compile Include="Services\WebApiProxy.cs" />
+    <Compile Include="ViewModels\EditUserDataViewModel.cs" />
     <Compile Include="ViewModels\MyProfileViewModel.cs" />
+    <Compile Include="Views\Windows\EditDataDialog.xaml.cs">
+      <DependentUpon>EditDataDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Windows\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
@@ -190,6 +194,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\YourProfileStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Windows\EditDataDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -32,6 +33,31 @@ namespace AccomodationWebApi.Controllers
                 returnDto.Email = data.Email;
             }
             return Ok(returnDto);
+        }
+
+        [Route("changeData"), HttpPost]
+        [RequireHttps]
+        public IHttpActionResult ChangeUserData(ChangeUserDataDto dto)
+        {
+            using (var context = new AccommodationContext())
+            {
+                using (var transaction = context.Database.BeginTransaction())
+                {
+                    User user = context.Users.FirstOrDefault(u=>u.Username.Equals(dto.Username));
+                    if (user == null) return null;
+                    UserData data = new UserData()
+                    {
+                        FirstName = dto.FirstName,
+                        LastName = dto.LastName,
+                        CompanyName = dto.CompanyName,
+                        Email = dto.Email
+                    };
+                    user.UserData = data;
+                    context.SaveChanges();
+                    transaction.Commit();
+                }
+            }
+            return Ok(true);
         }
     }
 }

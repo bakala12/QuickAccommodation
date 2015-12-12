@@ -14,14 +14,27 @@ namespace AccommodationApplication.Services
     {
         public UserProfileProxy() : base("UserData", true)
         {
+            ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
         }
 
         public async Task<UserBasicDataDto> GetUserAsync(string username)
         {
             if (string.IsNullOrEmpty(username)) return null;
-            ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
-            UserCredentialDto dto = new UserCredentialDto() {Username = username};
+            UserCredentialDto dto = new UserCredentialDto() { Username = username };
             return await Post<UserCredentialDto, UserBasicDataDto>("data", dto);
+        }
+
+        public async Task ChangeUserDataAsync(string username, UserBasicDataDto dto)
+        {
+            ChangeUserDataDto dataDto = new ChangeUserDataDto()
+            {
+                Username = username,
+                FirstName = dto.FirstName,
+                LastName = dto.LastName,
+                CompanyName = dto.CompanyName,
+                Email = dto.Email
+            };
+            await Post<ChangeUserDataDto, bool>("changeData", dataDto);
         }
     }
 }

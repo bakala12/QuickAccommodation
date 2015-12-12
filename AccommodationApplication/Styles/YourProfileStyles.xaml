@@ -6,10 +6,11 @@
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="FontWeight" Value="Bold"/>
     </Style>
-    
+
     <Style TargetType="{x:Type Button}">
         <Setter Property="Padding" Value="5"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="5"/>
     </Style>
 </ResourceDictionary>
