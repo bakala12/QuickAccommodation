@@ -37,6 +37,7 @@ namespace AccommodationApplication.ViewModels
         private readonly OfferInfoesProxy offerInfoesProxy;
         private readonly PlacesProxy PlacesProxy;
         private readonly AddressesProxy addressesProxy;
+        private readonly UsersProxy usersProxy;
 
         public OffersViewModel()
         {
@@ -47,6 +48,7 @@ namespace AccommodationApplication.ViewModels
             this.offerInfoesProxy = new OfferInfoesProxy();
             this.PlacesProxy = new PlacesProxy();
             this.addressesProxy = new AddressesProxy();
+            this.usersProxy = new UsersProxy();
 
             CurrentOffersList = null;
             (App.Current as App).Login += (x, e) => { CurrentOffersList = null; OnPropertyChanged(nameof(CurrentOffersList)); };
@@ -55,39 +57,6 @@ namespace AccommodationApplication.ViewModels
         /// <summary>
         /// Uaktualnia bieżącą listę ofert użytkownika
         /// </summary>
-        public void Load()
-        {
-            var ret = new ObservableCollection<DisplayableOffer>();
-
-            using (var context = new AccommodationContext())
-            {
-                //pobierz login aktualnego usera
-                string currentUser = Thread.CurrentPrincipal.Identity.Name;
-
-                //wyciągnij usera z bazy
-                User user = context.Users.FirstOrDefault(x => x.Username.Equals(currentUser));
-
-                //lista ofert aktualnego użytkownika
-                var list = user.MyOffers;
-
-                //dla każej oferty stwórz jest wersję do wyświetlenia i dodaj do listy ofert
-                foreach (var item in list)
-                {
-                    Offer offer = context.Offers.FirstOrDefault(x => item.Id == x.Id);
-                    OfferInfo offerInfo = context.OfferInfo.FirstOrDefault(x => x.Id == offer.OfferInfoId);
-                    Place place = context.Places.FirstOrDefault(x => offer.PlaceId == x.Id);
-                    Address address = context.Addresses.FirstOrDefault(x => place.AddressId == x.Id);
-
-                    place.Address = address;
-                    offer.OfferInfo = offerInfo;
-                    offer.Place = place;
-                    DisplayableOffer dof = new DisplayableOffer(offer);
-                    ret.Add(dof);
-                }
-            }
-
-            CurrentOffersList = ret;
-        }
 
         public string Name
         {
@@ -185,31 +154,36 @@ namespace AccommodationApplication.ViewModels
             get
             {
                 //przy pierwszej próbie wyświetlenia pobierz listę z bazy
-                if (currentOffersList == null) Load2();
+                if (currentOffersList == null) this.Load();
                 return currentOffersList;
             }
         }
-        public async void Load2()
+        public async void Load()
         {
-            //test implementation
+
             var ret = new ObservableCollection<DisplayableOffer>();
 
-            Offer offer = await offersProxy.Get(10);
-            if(offer != null)
+            string currentUser = Thread.CurrentPrincipal.Identity.Name;
+
+            User user = await usersProxy.GetUser(currentUser);
+
+            var list = await offersProxy.GetUserOffers(user.Id);
+
+            foreach (var item in list)
             {
-                OfferInfo oi = await offerInfoesProxy.Get(offer.OfferInfoId);
-                Place p = await PlacesProxy.Get(offer.PlaceId);
+                OfferInfo oi = await offerInfoesProxy.Get(item.OfferInfoId);
+                Place p = await PlacesProxy.Get(item.PlaceId);
                 Address a = await addressesProxy.Get(p.AddressId);
 
                 p.Address = a;
-                offer.OfferInfo = oi;
-                offer.Place = p;
-                DisplayableOffer dof = new DisplayableOffer(offer);
+                item.OfferInfo = oi;
+                item.Place = p;
+                DisplayableOffer dof = new DisplayableOffer(item);
                 ret.Add(dof);
             }
 
             this.CurrentOffersList = ret;
-                
+
         }
     }
 }

@@ -14,18 +14,19 @@ namespace AccomodationWebApi.Controllers
     [RoutePrefix("api/offers")]
     public class OffersController : ApiController
     {
-        public IEnumerable<Offer> GetAllOffers()
+        [Route("GetUserOffers/{UserId?}"), HttpGet]
+        public IHttpActionResult GetUserOffers(int userId)
         {
-            List<Offer> ret = new List<Offer>();
+
+            IList<Offer> ret;
 
             using (var context = new AccommodationContext())
             {
                 context.Configuration.ProxyCreationEnabled = false;
-                ret = context.Offers.Take(20).ToList();
-                context.SaveChanges();
+                ret = context.Offers.Where(o => o.VendorId == userId).ToList();
             }
 
-            return ret;
+            return Ok(ret);
 
         }
 
@@ -45,7 +46,7 @@ namespace AccomodationWebApi.Controllers
             }
             return Ok(offer);
 
-          
+
         }
     }
 }
