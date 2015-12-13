@@ -37,6 +37,7 @@ namespace AccommodationApplication.ViewModels
         private readonly OfferInfoesProxy offerInfoesProxy;
         private readonly PlacesProxy PlacesProxy;
         private readonly AddressesProxy addressesProxy;
+        private readonly UsersProxy usersProxy;
 
         public OffersViewModel()
         {
@@ -47,6 +48,7 @@ namespace AccommodationApplication.ViewModels
             this.offerInfoesProxy = new OfferInfoesProxy();
             this.PlacesProxy = new PlacesProxy();
             this.addressesProxy = new AddressesProxy();
+            this.usersProxy = new UsersProxy();
 
             CurrentOffersList = null;
             (App.Current as App).Login += (x, e) => { CurrentOffersList = null; OnPropertyChanged(nameof(CurrentOffersList)); };
@@ -191,25 +193,31 @@ namespace AccommodationApplication.ViewModels
         }
         public async void Load2()
         {
-            //test implementation
+
             var ret = new ObservableCollection<DisplayableOffer>();
 
-            Offer offer = await offersProxy.Get(10);
-            if(offer != null)
+            string currentUser = Thread.CurrentPrincipal.Identity.Name;
+
+            User user = await usersProxy.GetUser(currentUser);
+
+            var list = await offersProxy.GetUserOffers(user.Id);
+
+            foreach (var item in list)
             {
-                OfferInfo oi = await offerInfoesProxy.Get(offer.OfferInfoId);
-                Place p = await PlacesProxy.Get(offer.PlaceId);
+                OfferInfo oi = await offerInfoesProxy.Get(item.OfferInfoId);
+                Place p = await PlacesProxy.Get(item.PlaceId);
                 Address a = await addressesProxy.Get(p.AddressId);
 
                 p.Address = a;
-                offer.OfferInfo = oi;
-                offer.Place = p;
-                DisplayableOffer dof = new DisplayableOffer(offer);
+                item.OfferInfo = oi;
+                item.Place = p;
+                DisplayableOffer dof = new DisplayableOffer(item);
                 ret.Add(dof);
             }
 
+
             this.CurrentOffersList = ret;
-                
+
         }
     }
 }

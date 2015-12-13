@@ -97,6 +97,7 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AddressesController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\PlacesController.cs" />
     <Compile Include="Controllers\OfferInfoesController.cs" />
     <Compile Include="Controllers\OffersController.cs" />
