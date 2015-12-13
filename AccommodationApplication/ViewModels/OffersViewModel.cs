@@ -57,39 +57,6 @@ namespace AccommodationApplication.ViewModels
         /// <summary>
         /// Uaktualnia bieżącą listę ofert użytkownika
         /// </summary>
-        public void Load()
-        {
-            var ret = new ObservableCollection<DisplayableOffer>();
-
-            using (var context = new AccommodationContext())
-            {
-                //pobierz login aktualnego usera
-                string currentUser = Thread.CurrentPrincipal.Identity.Name;
-
-                //wyciągnij usera z bazy
-                User user = context.Users.FirstOrDefault(x => x.Username.Equals(currentUser));
-
-                //lista ofert aktualnego użytkownika
-                var list = user.MyOffers;
-
-                //dla każej oferty stwórz jest wersję do wyświetlenia i dodaj do listy ofert
-                foreach (var item in list)
-                {
-                    Offer offer = context.Offers.FirstOrDefault(x => item.Id == x.Id);
-                    OfferInfo offerInfo = context.OfferInfo.FirstOrDefault(x => x.Id == offer.OfferInfoId);
-                    Place place = context.Places.FirstOrDefault(x => offer.PlaceId == x.Id);
-                    Address address = context.Addresses.FirstOrDefault(x => place.AddressId == x.Id);
-
-                    place.Address = address;
-                    offer.OfferInfo = offerInfo;
-                    offer.Place = place;
-                    DisplayableOffer dof = new DisplayableOffer(offer);
-                    ret.Add(dof);
-                }
-            }
-
-            CurrentOffersList = ret;
-        }
 
         public string Name
         {
@@ -187,11 +154,11 @@ namespace AccommodationApplication.ViewModels
             get
             {
                 //przy pierwszej próbie wyświetlenia pobierz listę z bazy
-                if (currentOffersList == null) Load2();
+                if (currentOffersList == null) this.Load();
                 return currentOffersList;
             }
         }
-        public async void Load2()
+        public async void Load()
         {
 
             var ret = new ObservableCollection<DisplayableOffer>();
@@ -214,7 +181,6 @@ namespace AccommodationApplication.ViewModels
                 DisplayableOffer dof = new DisplayableOffer(item);
                 ret.Add(dof);
             }
-
 
             this.CurrentOffersList = ret;
 
