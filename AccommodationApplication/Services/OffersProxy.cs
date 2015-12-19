@@ -1,7 +1,9 @@
 ﻿using AccommodationDataAccess.Model;
+using AccommodationShared.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Text;
@@ -12,9 +14,9 @@ namespace AccommodationApplication.Services
 {
     public class OffersProxy : WebApiProxy
     {
-        public OffersProxy() : base("Offers")
+        public OffersProxy() : base("Offers", true)
         {
-
+            ServicePointManager.ServerCertificateValidationCallback += delegate { return true; };
         }
 
         public async Task<Offer> Get(int id)
@@ -26,5 +28,29 @@ namespace AccommodationApplication.Services
         {
             return await this.Get<IList<Offer>>(string.Concat("GetUserOffers/", HttpUtility.UrlEncode(userId.ToString())));
         }
+
+        public async Task SaveOfferAsync(OfferInfo offerInfo, User vendor, Place place)
+        {
+            OfferAllDataDto dto = new OfferAllDataDto()
+            {
+                Vendor = vendor,
+                OfferInfo = offerInfo,
+                Place = place
+            };
+            await Post<OfferAllDataDto, object>("saveOffer", dto);
+        }
+
+        public async Task EditOfferAsync(string username, int Id, OfferInfo offerInfo, Place place)
+        {
+            OfferEditDataDto dataDto = new OfferEditDataDto()
+            {
+                OfferInfo = offerInfo,
+                Place = place,
+                Username = username,
+                OfferId = Id
+            };
+            await Post<OfferEditDataDto, bool>("editOffer", dataDto);
+        }
+
     }
 }

@@ -1,5 +1,7 @@
 ﻿using AccommodationDataAccess.Domain;
 using AccommodationDataAccess.Model;
+using AccommodationShared.Dtos;
+using AccomodationWebApi.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,5 +50,55 @@ namespace AccomodationWebApi.Controllers
 
 
         }
+        [Route("saveOffer"), HttpPost]
+        [RequireHttps]
+        public IHttpActionResult SaveOfferAsync(OfferAllDataDto dto)
+        {
+            using (var context = new AccommodationContext())
+            {
+                using (var transaction = context.Database.BeginTransaction())
+                {
+                    Offer offerToAdd = new Offer();
+
+                    User user = context.Users.FirstOrDefault(x => x.Id == dto.Vendor.Id);
+                    if (user == null) return NotFound();
+
+                    offerToAdd.OfferInfo = dto.OfferInfo;
+                    offerToAdd.Vendor = user;
+                    offerToAdd.Place = dto.Place;
+
+                    user.MyOffers.Add(offerToAdd);
+
+                    context.SaveChanges();
+                    transaction.Commit();
+                }
+            }
+
+            return Ok();
+        }
+
+        [Route("editOffer"), HttpPost]
+        [RequireHttps]
+        public IHttpActionResult ChangeUserData(OfferEditDataDto dto)
+        {
+            using (var context = new AccommodationContext())
+            {
+                using (var transaction = context.Database.BeginTransaction())
+                {
+                    User user = context.Users.FirstOrDefault(u => u.Username.Equals(dto.Username));
+                    if (user == null) return NotFound();
+                    Offer offer = context.Offers.FirstOrDefault(x => x.Id == dto.OfferId);
+                    if (offer == null) return NotFound();
+
+                    offer.OfferInfo = dto.OfferInfo;
+                    offer.Vendor = user;
+                    offer.Place = dto.Place;
+                    context.SaveChanges();
+                    transaction.Commit();
+                }
+            }
+            return Ok();
+        }
+
     }
 }

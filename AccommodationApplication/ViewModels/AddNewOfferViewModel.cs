@@ -16,6 +16,7 @@ using System.Windows.Threading;
 using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Controls;
 using MessageDialog = AccommodationApplication.Views.Windows.MessageDialog;
+using AccommodationApplication.Services;
 
 namespace AccommodationApplication.ViewModels
 {
@@ -36,6 +37,9 @@ namespace AccommodationApplication.ViewModels
         private string _availiableVacanciesNumber;
         private string _description;
         private OfferValidator ov = new OfferValidator();
+        private UsersProxy usersProxy;
+        private OffersProxy offersProxy;
+        private User currentuser;
 
 
         public AddNewOfferViewModel()
@@ -43,7 +47,9 @@ namespace AccommodationApplication.ViewModels
             //ustawianie początkowych wartości dla dat
             _startDate = DateTime.Now;
             _endDate = DateTime.Now;
-            AddCommand = new DelegateCommand(async x=>await AddAsync());
+            AddCommand = new DelegateCommand(async x => await AddAsync());
+            usersProxy = new UsersProxy();
+            offersProxy = new OffersProxy();
         }
 
         /// <summary>
@@ -53,10 +59,11 @@ namespace AccommodationApplication.ViewModels
         public async virtual Task AddAsync()
         {
             MessageDialog m = new MessageDialog();
+            await Task.Run(() => Add());
             m.Title = "Potwierdzenie";
             m.Message = "Dodano ofertę";
             m.Show();
-            await Task.Run(() => Add());
+
         }
 
         /// <summary>
@@ -67,8 +74,11 @@ namespace AccommodationApplication.ViewModels
         /// <summary>
         /// Funkcja dodająca nową ofertę
         /// </summary>
-        public void Add()
+        public async void Add()
         {
+            string currentUser = Thread.CurrentPrincipal.Identity.Name;
+            User vendor = await usersProxy.GetUser(currentUser);
+
             Address address = new Address()
             {
                 City = this.City,
@@ -94,33 +104,7 @@ namespace AccommodationApplication.ViewModels
                 Address = address
             };
 
-            Offer offerToAdd = new Offer();
-
-            //pobierz login aktualnego usera
-            string currentUser = Thread.CurrentPrincipal.Identity.Name;
-
-            using (var context = new AccommodationContext())
-            {
-                using (var transaction = context.Database.BeginTransaction())
-                {
-                    //Wyciągnij z bazy aktualnego usera
-                    User user = context.Users.FirstOrDefault(x => x.Username.Equals(currentUser));
-                    if (user == null) throw new InvalidOperationException();
-
-                    offerToAdd.OfferInfo = offer;
-                    offerToAdd.Vendor = user;
-                    offerToAdd.Place = place;
-
-                    //dodaj do listy ofert nową ofertę
-                    user.MyOffers.Add(offerToAdd);
-
-
-                    context.SaveChanges();
-                    transaction.Commit();
-                }
-            }
-
-           
+            await offersProxy.SaveOfferAsync(offer, vendor, place);
         }
 
         public string Description
