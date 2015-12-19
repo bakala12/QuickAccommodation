@@ -52,5 +52,15 @@ namespace AccommodationApplication.Services
             await Post<OfferEditDataDto, bool>("editOffer", dataDto);
         }
 
+        public async Task RemoveOfferAsync(string username, int Id)
+        {
+            OfferEditDataDto dataDto = new OfferEditDataDto()
+            {
+                Username = username,
+                OfferId = Id
+            };
+            await Post<OfferEditDataDto, bool>("removeOffer", dataDto);
+        }
+
     }
 }

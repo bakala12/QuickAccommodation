@@ -79,7 +79,7 @@ namespace AccomodationWebApi.Controllers
 
         [Route("editOffer"), HttpPost]
         [RequireHttps]
-        public IHttpActionResult ChangeUserData(OfferEditDataDto dto)
+        public IHttpActionResult EditOffer(OfferEditDataDto dto)
         {
             using (var context = new AccommodationContext())
             {
@@ -100,5 +100,36 @@ namespace AccomodationWebApi.Controllers
             return Ok();
         }
 
+        [Route("removeOffer"), HttpPost]
+        [RequireHttps]
+        public IHttpActionResult RemoveOfferAsync(OfferEditDataDto dto)
+        {
+
+            using (var context = new AccommodationContext())
+            {
+                using (var transaction = context.Database.BeginTransaction())
+                {
+                    User user = context.Users.FirstOrDefault(x => x.Username.Equals(dto.Username));
+
+                    Offer offer = context.Offers.FirstOrDefault(x => x.Id == dto.OfferId);
+                    if (offer == null) return NotFound();
+
+                    OfferInfo offerInfo = context.OfferInfo.FirstOrDefault(x => x.Id == offer.OfferInfoId);
+                    Place place = context.Places.FirstOrDefault(x => x.Id == offer.PlaceId);
+                    Address address = context.Addresses.FirstOrDefault(x => x.Id == place.AddressId);
+
+                    //usuń z bazy ofertę oraz jej dane
+                    context.Offers.Remove(offer);
+                    context.Places.Remove(place);
+                    context.Addresses.Remove(address);
+                    context.OfferInfo.Remove(offerInfo);
+                    user.MyOffers.Remove(offer);
+
+                    context.SaveChanges();
+                    transaction.Commit();
+                }
+            }
+            return Ok();
+        }
     }
 }

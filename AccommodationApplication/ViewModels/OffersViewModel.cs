@@ -103,38 +103,10 @@ namespace AccommodationApplication.ViewModels
         /// <summary>
         /// Funkcja do usuwania zaznaczonej oferty
         /// </summary>
-        public void Remove()
+        public async void Remove()
         {
-            using (var context = new AccommodationContext())
-            {
-                using (var transaction = context.Database.BeginTransaction())
-                {
-                    //pobierz login aktualnego usera
-                    string currentUser = Thread.CurrentPrincipal.Identity.Name;
-
-                    //wyciągnij go z bazy
-                    User user = context.Users.FirstOrDefault(x => x.Username.Equals(currentUser));
-
-                    //znajdź ofertę do usunięcia
-                    Offer offer = context.Offers.FirstOrDefault(x => x.Id == CurrentlySelectedOffer.Id);
-                    if (offer == null) return;
-
-                    //pobierz dodatkowe dane oferty do usunięcia
-                    OfferInfo offerInfo = context.OfferInfo.FirstOrDefault(x => x.Id == offer.OfferInfoId);
-                    Place place = context.Places.FirstOrDefault(x => x.Id == offer.PlaceId);
-                    Address address = context.Addresses.FirstOrDefault(x => x.Id == place.AddressId);
-
-                    //usuń z bazy ofertę oraz jej dane
-                    context.Offers.Remove(offer);
-                    context.Places.Remove(place);
-                    context.Addresses.Remove(address);
-                    context.OfferInfo.Remove(offerInfo);
-                    user.MyOffers.Remove(offer);
-
-                    context.SaveChanges();
-                    transaction.Commit();
-                }
-            }
+            string currentUser = Thread.CurrentPrincipal.Identity.Name;
+            await offersProxy.RemoveOfferAsync(currentUser, CurrentlySelectedOffer.Id);
             //uaktualnij bieżącą listę ofert
             Load();
         }
