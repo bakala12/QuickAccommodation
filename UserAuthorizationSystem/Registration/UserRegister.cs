@@ -36,7 +36,7 @@ namespace UserAuthorizationSystem.Registration
         /// <param name="user">Nazwa użytkownika</param>
         /// <param name="userdata">Dane osobowe użytkownika</param>
         /// <param name="address">Dane adresowe użytkownika</param>
-        public void SaveUser<T>(User user, UserData userdata, Address address) where T : IUsersContext, IDisposable, new()
+        public void SaveUser<T>(User user, UserData userdata, Address address) where T : IAccommodationContext, IDisposable, new()
         {
             using (var context = new T())
             {
@@ -44,6 +44,7 @@ namespace UserAuthorizationSystem.Registration
                 {
                     user.UserData = userdata;
                     user.UserData.Address = address;
+                    user.Rank = context.Ranks.FirstOrDefault(r => r.Name.Equals("Nowicjusz"));
                     context.Users.Add(user);
                     context.SaveChanges();
                     scope.Complete();
@@ -57,7 +58,7 @@ namespace UserAuthorizationSystem.Registration
         /// <param name="user">Nazwa użytkownika</param>
         /// <param name="userdata">Dane osobowe użytkownika</param>
         /// <param name="address">Dane adresowe użytkownika</param>
-        public async Task SaveUserAsync<T>(User user, UserData userdata, Address address) where T : IUsersContext, IDisposable, new()
+        public async Task SaveUserAsync<T>(User user, UserData userdata, Address address) where T : IAccommodationContext, IDisposable, new()
         {
             await Task.Run(() => SaveUser<T>(user, userdata, address));
         }

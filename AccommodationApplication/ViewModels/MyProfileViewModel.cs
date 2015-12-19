@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using AccommodationApplication.Commands;
 using AccommodationApplication.Interfaces;
@@ -29,6 +30,7 @@ namespace AccommodationApplication.ViewModels
             EditDataCommand = new DelegateCommand(x => EditData());
             ChangePasswordCommand = new DelegateCommand(x=>ChangePassword());
             ReloadData?.Invoke(this, EventArgs.Empty);
+            (App.Current as App).Login += async (x, e) => await LoadUserDataAsync();
         }
 
         public string LoggedUser => Thread.CurrentPrincipal?.Identity?.Name;

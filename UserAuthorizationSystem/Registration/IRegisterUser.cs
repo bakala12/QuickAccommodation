@@ -27,7 +27,7 @@ namespace UserAuthorizationSystem.Registration
         /// <param name="user">Nazwa użytkownika</param>
         /// <param name="userdata">Dane osobowe użytkownika</param>
         /// <param name="address">Dane adresowe użytkownika</param>
-        void SaveUser<T>(User user, UserData userdata, Address address) where T:IUsersContext, IDisposable, new();
+        void SaveUser<T>(User user, UserData userdata, Address address) where T:IAccommodationContext, IDisposable, new();
         /// <summary>
         /// Asynchronicznie zapisuje użytkownika z jego danymi do bazy danych.
         /// </summary>
@@ -35,6 +35,6 @@ namespace UserAuthorizationSystem.Registration
         /// <param name="user">Nazwa użytkownika</param>
         /// <param name="userdata">Dane osobowe użytkownika</param>
         /// <param name="address">Dane adresowe użytkownika</param>
-        Task SaveUserAsync<T>(User user, UserData userdata, Address address) where T:IUsersContext, IDisposable, new();
+        Task SaveUserAsync<T>(User user, UserData userdata, Address address) where T:IAccommodationContext, IDisposable, new();
     }
 }

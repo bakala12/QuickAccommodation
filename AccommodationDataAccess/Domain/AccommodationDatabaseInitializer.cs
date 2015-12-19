@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AccommodationDataAccess.Model;
 
 namespace AccommodationDataAccess.Domain
 {
@@ -18,9 +19,16 @@ namespace AccommodationDataAccess.Domain
         /// <param name="context">Kontekst bazy danych</param>
         protected override void Seed(AccommodationContext context)
         {
+            foreach (var exampleRank in ExampleUsersProvider.GetExampleRanks())
+            {
+                context.Ranks.Add(exampleRank);
+            }
+            context.SaveChanges();
             foreach (var exampleUser in ExampleUsersProvider.GetExampleUsers())
             {
                 context.Users.Add(exampleUser);
+                Rank rank=context.Ranks.FirstOrDefault(r => r.Name.Equals("Nowicjusz"));
+                exampleUser.Rank = rank;
             }
             context.SaveChanges();
         }
