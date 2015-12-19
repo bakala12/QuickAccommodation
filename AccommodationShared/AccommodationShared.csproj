@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Dtos\ChangeUserDataDto.cs" />
     <Compile Include="Dtos\SearchRequestDto.cs" />
+    <Compile Include="Dtos\SearchResultDto.cs" />
     <Compile Include="Dtos\UserAllDataDto.cs" />
     <Compile Include="Dtos\UserBasicDataDto.cs" />
     <Compile Include="Dtos\UserCredentialDto.cs" />

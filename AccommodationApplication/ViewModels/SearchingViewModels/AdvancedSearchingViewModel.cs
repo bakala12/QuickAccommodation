@@ -119,10 +119,11 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
                 OffersSearchingCriteriaFactory.CreatePriceSearchingCriterion(MinimalPrice, MaximalPrice)
             };
 
-        public override async Task SearchAsync()
+        public override async Task<IEnumerable<Offer>>  SearchAsync()
         {
             string username = Thread.CurrentPrincipal.Identity.Name;
-            
+            return await Service.SearchByMultipleCriteria(username, PlaceName, CityName, MinimalDate, MaximalDate,
+                MinimalPrice, MaximalPrice, SelectedSortType, SelectedSortBy);
         }
     }
 }

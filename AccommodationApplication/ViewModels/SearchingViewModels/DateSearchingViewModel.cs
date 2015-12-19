@@ -69,12 +69,11 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
         /// <summary>
         /// Znajduje pasujące oferty po dacie.
         /// </summary>
-        public override async Task SearchAsync()
+        public override async Task<IEnumerable<Offer>>  SearchAsync()
         {
             string username = Thread.CurrentPrincipal.Identity.Name;
-            IEnumerable<Offer> offers = await Service.SearchByDateAsync(username, MinimalDate, MaximalDate,
+             return await Service.SearchByDateAsync(username, MinimalDate, MaximalDate,
                 ShowPartiallyMatchingResults, SelectedSortType, SelectedSortBy);
-            SearchingResults = offers.Select(o => new DisplayableOfferViewModel(new DisplayableOffer(o)));
         }
     }
 }

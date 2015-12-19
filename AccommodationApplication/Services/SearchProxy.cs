@@ -28,7 +28,8 @@ namespace AccommodationApplication.Services
                 SortType = sortType,
                 SortBy = sortBy
             };
-            return await Post<PlaceSearchRequestDto, List<Offer>>("place", dto);
+            var res= await Post<PlaceSearchRequestDto, SearchResultDto>("place", dto);
+            return res.Offers;
         }
 
         public async Task<IEnumerable<Offer>> SearchByDateAsync(string username, DateTime? minimalDate, DateTime? maximalDate,
@@ -43,7 +44,8 @@ namespace AccommodationApplication.Services
                 SortType = sortType,
                 SortBy = sortBy
             };
-            return await Post<DateSearchRequestDto, List<Offer>>("date", dto);
+            var res= await Post<DateSearchRequestDto, SearchResultDto>("date", dto);
+            return res.Offers;
         }
 
         public async Task<IEnumerable<Offer>> SearchByPriceAsync(string username, double? minimalPrice, double? maximalPrice,
@@ -57,12 +59,27 @@ namespace AccommodationApplication.Services
                 SortBy = sortBy,
                 SortType = sortType
             };
-            return await Post<PriceSearchRequestDto, List<Offer>>("price", dto);
+            var res= await Post<PriceSearchRequestDto, SearchResultDto>("price", dto);
+            return res.Offers;
         }
 
-        //public async Task<IEnumerable<Offer>> SearchByMultipleCriteria(string username)
-        //{
-            
-        //}
+        public async Task<IEnumerable<Offer>> SearchByMultipleCriteria(string username, string placeName, string cityName,
+            DateTime? minimalDate, DateTime? maximalDate, double? minimalPrice, double? maximalPrice, SortType sortType, SortBy sortBy)
+        {
+            AdvancedSearchRequestDto dto = new AdvancedSearchRequestDto()
+            {
+                Username = username,
+                PlaceName = placeName,
+                CityName = cityName,
+                MinimalDate = minimalDate,
+                MaximalDate = maximalDate,
+                MinimalPrice = minimalPrice,
+                MaximalPrice = maximalPrice,
+                SortBy = sortBy,
+                SortType = sortType
+            };
+            var res = await Post<AdvancedSearchRequestDto, SearchResultDto>("advanced", dto);
+            return res.Offers;
+        }
     }
 }

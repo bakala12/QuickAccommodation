@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Xml;
 using AccommodationDataAccess.Domain;
 using AccommodationDataAccess.Model;
 using AccommodationDataAccess.Searching;
@@ -16,7 +17,7 @@ namespace AccomodationWebApi.Controllers
     [RoutePrefix("api/Search")]
     public class SearchController : ApiController
     {
-        private IHttpActionResult Search(string username, ISearchingCriterion<Offer> criterion, SortType sortType, SortBy sortBy)
+        private IHttpActionResult Search(string username, ISearchingCriterion<Offer>[] criteria, SortType sortType, SortBy sortBy)
         {
             using (var context = new AccommodationContext())
             {
@@ -25,13 +26,14 @@ namespace AccomodationWebApi.Controllers
                 User u = context.Users.FirstOrDefault(us => us.Username.Equals(username));
                 if (u == null) return null;
                 IQueryable<Offer> offers = context.Offers.Where(o => o.VendorId != u.Id).Where(o => !o.IsBooked);
-                offers =
-                    offers.Where(criterion.SelectableExpression)
-                        .Include(o => o.OfferInfo)
-                        .Include(o => o.Place.Address);
+                offers = criteria.Aggregate(offers, (current, criterion) => current.Where(criterion.SelectableExpression));
                 offers = offers.Take(20).OrderBy(sortType, sortBy);
                 List<Offer> list = offers.ToList();
-                return Ok(list);
+                SearchResultDto dto = new SearchResultDto()
+                {
+                    Offers = list
+                };
+                return Ok(dto);
             }
         }
 
@@ -40,7 +42,7 @@ namespace AccomodationWebApi.Controllers
         {
             ISearchingCriterion<Offer> criterion =
                 OffersSearchingCriteriaFactory.CreatePlaceSearchingCriterion(dto.PlaceName, dto.CityName);
-            return Search(dto.Username, criterion, dto.SortType, dto.SortBy);
+            return Search(dto.Username, new [] { criterion}, dto.SortType, dto.SortBy);
         }
 
         [Route("date"), HttpPost]
@@ -49,7 +51,7 @@ namespace AccomodationWebApi.Controllers
             ISearchingCriterion<Offer> criterion =
                 OffersSearchingCriteriaFactory.CreateDateSearchingCriterion(dto.MinimalDate, dto.MaximalDate,
                     dto.ShowPartiallyMatchingResults);
-            return Search(dto.Username, criterion, dto.SortType, dto.SortBy);
+            return Search(dto.Username, new[] { criterion }, dto.SortType, dto.SortBy);
         }
 
         [Route("price"), HttpPost]
@@ -57,13 +59,19 @@ namespace AccomodationWebApi.Controllers
         {
             ISearchingCriterion<Offer> criterion =
                 OffersSearchingCriteriaFactory.CreatePriceSearchingCriterion(dto.MinimalPrice, dto.MaximalPrice);
-            return Search(dto.Username, criterion, dto.SortType, dto.SortBy);
+            return Search(dto.Username, new[] { criterion }, dto.SortType, dto.SortBy);
         }
 
-        //[Route("advanced")]
-        //public IHttpActionResult SearchByMultipleCriteria()
-        //{
-            
-        //}
+        [Route("advanced"), HttpPost]
+        public IHttpActionResult SearchByMultipleCriteria(AdvancedSearchRequestDto dto)
+        {
+            ISearchingCriterion<Offer>[] criteria = new[]
+            {
+                OffersSearchingCriteriaFactory.CreatePlaceSearchingCriterion(dto.PlaceName, dto.CityName),
+                OffersSearchingCriteriaFactory.CreateDateSearchingCriterion(dto.MinimalDate, dto.MaximalDate),
+                OffersSearchingCriteriaFactory.CreatePriceSearchingCriterion(dto.MinimalPrice, dto.MaximalPrice)
+            };
+            return Search(dto.Username, criteria, dto.SortType, dto.SortBy);
+        }
     }
 }

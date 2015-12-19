@@ -49,18 +49,16 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
         /// <summary>
         /// Zwraca odpowiednie kryterium wyszukiwania
         /// </summary>
-        public override ISearchingCriterion<Offer> Criterion 
+        public override ISearchingCriterion<Offer> Criterion
             => OffersSearchingCriteriaFactory.CreatePlaceSearchingCriterion(PlaceName, CityName);
 
         /// <summary>
         /// Znajduje pasujące oferty po miejscu.
         /// </summary>
-        public override async Task SearchAsync()
+        public override async Task<IEnumerable<Offer>>  SearchAsync()
         {
             string username = Thread.CurrentPrincipal.Identity.Name;
-            IEnumerable<Offer> offers =
-                await Service.SearchByPlaceAsync(username, PlaceName, CityName, SelectedSortType, SelectedSortBy);
-            SearchingResults = offers.Select(o => new DisplayableOfferViewModel(new DisplayableOffer(o)));
+            return await Service.SearchByPlaceAsync(username, PlaceName, CityName, SelectedSortType, SelectedSortBy);
         }
     }
 }

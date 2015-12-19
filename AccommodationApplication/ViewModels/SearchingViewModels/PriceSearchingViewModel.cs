@@ -56,12 +56,10 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
         /// Znajduje wyniki wyszukiwania dla ceny.
         /// </summary>
         /// <returns></returns>
-        public override async Task SearchAsync()
+        public override async Task<IEnumerable<Offer>>  SearchAsync()
         {
             string username = Thread.CurrentPrincipal.Identity.Name;
-            IEnumerable<Offer> offers =
-                await Service.SearchByPriceAsync(username, MinimalPrice, MaximalPrice, SelectedSortType, SelectedSortBy);
-            SearchingResults = offers.Select(o => new DisplayableOfferViewModel(new DisplayableOffer(o)));
+            return await Service.SearchByPriceAsync(username, MinimalPrice, MaximalPrice, SelectedSortType, SelectedSortBy);
         }
     }
 }

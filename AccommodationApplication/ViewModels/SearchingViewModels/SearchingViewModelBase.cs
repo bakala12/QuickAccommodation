@@ -24,15 +24,19 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
     /// </summary>
     public abstract class SearchingViewModelBase : ViewModelBase
     {
+        private readonly OfferInfoesProxy _oiProxy = new OfferInfoesProxy();
+        private readonly AddressesProxy _addressProxy = new AddressesProxy();
+        private readonly PlacesProxy _placesProxy = new PlacesProxy();
+
         protected SearchProxy Service { get; }
         /// <summary>
         /// Inicjalizuje początkowy stan obiektu
         /// </summary>
         protected SearchingViewModelBase()
         {
-            Service=new SearchProxy();
-            SearchCommand = new DelegateCommand(async x=>await SearchAsync());
-            (App.Current as App).Login += (x,e)=> { SearchingResults = null; };
+            Service = new SearchProxy();
+            SearchCommand = new DelegateCommand(async x => await SearchResultAsync());
+            (App.Current as App).Login += (x, e) => { SearchingResults = null; };
         }
 
         private IEnumerable<DisplayableOfferViewModel> _searchingResults;
@@ -48,7 +52,7 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
                 _searchingResults = value;
                 OnPropertyChanged();
             }
-        } 
+        }
 
         /// <summary>
         /// Komenda reagująca na szukanie
@@ -63,11 +67,11 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
         /// <summary>
         /// Kolekcja dostępnych typów wyszukiwania
         /// </summary>
-        public IEnumerable<SortType> SortTypes => (IEnumerable<SortType>)Enum.GetValues(typeof (SortType));
+        public IEnumerable<SortType> SortTypes => (IEnumerable<SortType>)Enum.GetValues(typeof(SortType));
         /// <summary>
         /// Kolekcja dostępnych wartości po których można wyszukiwać
         /// </summary>
-        public IEnumerable<SortBy> SortByValues => (IEnumerable<SortBy>) Enum.GetValues(typeof (SortBy));
+        public IEnumerable<SortBy> SortByValues => (IEnumerable<SortBy>)Enum.GetValues(typeof(SortBy));
 
         private SortType _selectedSortType;
 
@@ -102,7 +106,29 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
         /// <summary>
         /// Asynchronicznie wyszukuje oferty w oparciu o kryterium wyszukiwania 
         /// </summary>
-        /// <returns></returns>
-        public abstract Task SearchAsync();
+        /// <returns>Pasujące oferty</returns>
+        public abstract Task<IEnumerable<Offer>> SearchAsync();
+
+        public async Task SearchResultAsync()
+        {
+            try
+            {
+                IEnumerable<Offer> offers = await SearchAsync();
+                foreach (var offer in offers)
+                {
+                    Place p = await _placesProxy.Get(offer.PlaceId);
+                    OfferInfo oi = await _oiProxy.Get(offer.OfferInfoId);
+                    Address a = await _addressProxy.Get(p.AddressId);
+                    p.Address = a;
+                    offer.Place = p;
+                    offer.OfferInfo = oi;
+                }
+                SearchingResults = offers.Select(o => new DisplayableOfferViewModel(new DisplayableOffer(o)));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Problem z wyszukiwaniem");
+            }
+        }
     }
 }

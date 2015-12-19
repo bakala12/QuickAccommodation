@@ -32,4 +32,14 @@ namespace AccommodationShared.Dtos
         public double? MinimalPrice { get; set; }
         public double? MaximalPrice { get; set; }
     }
+
+    public class AdvancedSearchRequestDto : SearchRequestDto
+    {
+        public string PlaceName { get; set; }
+        public string CityName { get; set; }
+        public DateTime? MinimalDate { get; set; }
+        public DateTime? MaximalDate { get; set; }
+        public double? MinimalPrice { get; set; }
+        public double? MaximalPrice { get; set; }
+    }
 }
