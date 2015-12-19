@@ -49,7 +49,6 @@ namespace AccommodationApplication.Services
         {
             if (!response.IsSuccessStatusCode)
             {
-                //TODO: Dedicated exception type
                 throw new Exception(await response.Content.ReadAsStringAsync());
             }
         }

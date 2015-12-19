@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using AccommodationApplication.Model;
 using AccommodationDataAccess.Domain;
 using AccommodationDataAccess.Model;
 using AccommodationDataAccess.Searching;
@@ -49,5 +51,16 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
         /// </summary>
         public override ISearchingCriterion<Offer> Criterion 
             => OffersSearchingCriteriaFactory.CreatePlaceSearchingCriterion(PlaceName, CityName);
+
+        /// <summary>
+        /// Znajduje pasujące oferty po miejscu.
+        /// </summary>
+        public override async Task SearchAsync()
+        {
+            string username = Thread.CurrentPrincipal.Identity.Name;
+            IEnumerable<Offer> offers =
+                await Service.SearchByPlaceAsync(username, PlaceName, CityName, SelectedSortType, SelectedSortBy);
+            SearchingResults = offers.Select(o => new DisplayableOfferViewModel(new DisplayableOffer(o)));
+        }
     }
 }

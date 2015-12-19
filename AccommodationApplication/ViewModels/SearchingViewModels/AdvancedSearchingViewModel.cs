@@ -119,23 +119,10 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
                 OffersSearchingCriteriaFactory.CreatePriceSearchingCriterion(MinimalPrice, MaximalPrice)
             };
 
-        /// <summary>
-        /// Nadpisuje metodę wyszukiwania dla wielu kryteriów
-        /// </summary>
-        protected override void Search<T>()
+        public override async Task SearchAsync()
         {
-            using (var context = new T())
-            {
-                string userName = Thread.CurrentPrincipal.Identity.Name;
-                if (string.IsNullOrEmpty(userName)) throw new Exception();
-                User u = context.Users.FirstOrDefault(us => us.Username.Equals(userName));
-                if (u == null) throw new Exception();
-                IQueryable<Offer> offers = context.Offers.Where(o => o.VendorId != u.Id).Where(o => !o.IsBooked);
-                offers = Criteria.Aggregate(offers, (current, criterion) => current.Where(criterion.SelectableExpression));
-                offers=offers.Include(o => o.OfferInfo).Include(o => o.Place.Address);
-                IEnumerable<Offer> of = offers.Take(20).OrderBy(SelectedSortType, SelectedSortBy);
-                SearchingResults = of.Select(offer => new DisplayableOfferViewModel(new DisplayableOffer(offer))).ToList();
-            }
+            string username = Thread.CurrentPrincipal.Identity.Name;
+            
         }
     }
 }

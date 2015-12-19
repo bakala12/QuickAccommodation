@@ -41,11 +41,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dtos\ChangeUserDataDto.cs" />
+    <Compile Include="Dtos\SearchRequestDto.cs" />
     <Compile Include="Dtos\UserAllDataDto.cs" />
     <Compile Include="Dtos\UserBasicDataDto.cs" />
     <Compile Include="Dtos\UserCredentialDto.cs" />
     <Compile Include="Dtos\UserNewPasswordDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Searching\Sorter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AccommodationDataAccess\AccommodationDataAccess.csproj">
