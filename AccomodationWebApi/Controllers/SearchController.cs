@@ -22,9 +22,9 @@ namespace AccomodationWebApi.Controllers
             using (var context = new AccommodationContext())
             {
                 context.Configuration.ProxyCreationEnabled = false;
-                if (string.IsNullOrEmpty(username)) return null;
+                if (string.IsNullOrEmpty(username)) return NotFound();
                 User u = context.Users.FirstOrDefault(us => us.Username.Equals(username));
-                if (u == null) return null;
+                if (u == null) return NotFound();
                 IQueryable<Offer> offers = context.Offers.Where(o => o.VendorId != u.Id).Where(o => !o.IsBooked);
                 offers = criteria.Aggregate(offers, (current, criterion) => current.Where(criterion.SelectableExpression));
                 offers = offers.Take(20).OrderBy(sortType, sortBy);

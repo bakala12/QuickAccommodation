@@ -13,24 +13,6 @@ namespace AccomodationWebApi.Controllers
     [RoutePrefix("api/users")]
     public class UsersController : ApiController
     {
-
-        //public IHttpActionResult Get(int id)
-        //{
-        //    User user = null;
-
-        //    using (var context = new AccommodationContext())
-        //    {
-        //        context.Configuration.ProxyCreationEnabled = false;
-        //        user = context.Users.FirstOrDefault(o => o.Id.Equals(id));
-        //    }
-
-        //    if (user == null)
-        //    {
-        //        return (IHttpActionResult)NotFound();
-        //    }
-        //    return Ok(user);
-        //}
-
         [Route("getuser/{username?}"), HttpGet]
         public IHttpActionResult Get(string username = null)
         {

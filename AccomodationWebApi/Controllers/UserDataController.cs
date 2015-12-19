@@ -13,21 +13,29 @@ using UserAuthorizationSystem.Registration;
 
 namespace AccomodationWebApi.Controllers
 {
+    /// <summary>
+    /// Provides a way to edit the user data. Due to security of user data all of this methods uses 
+    /// save HTTPS protocol.
+    /// </summary>
     [RoutePrefix("api/UserData")]
     public class UserDataController : ApiController
     {
-        [Route("data"), HttpPost]
+        /// <summary>
+        /// Gets the data of the current user.
+        /// </summary>
+        /// <param name="username">The name of the user.</param>
+        /// <returns>The data of the user.</returns>
+        [Route("data/{username?}"), HttpGet]
         [RequireHttps]
-        public IHttpActionResult GetUserData(UserCredentialDto dto)
+        public IHttpActionResult GetUserData(string username)
         {
-            string username = dto.Username;
             User user = null;
             UserBasicDataDto returnDto = new UserBasicDataDto();
             using (var context = new AccommodationContext())
             {
                 user = context.Users.First(u => u.Username.Equals(username));
                 var data = context.UserData.First(ud => ud.Id == user.UserDataId);
-                if (user == null) return null;
+                if (user == null) return NotFound();
                 returnDto.FirstName = data.FirstName;
                 returnDto.LastName = data.LastName;
                 returnDto.CompanyName = data.CompanyName;
@@ -36,6 +44,11 @@ namespace AccomodationWebApi.Controllers
             return Ok(returnDto);
         }
 
+        /// <summary>
+        /// Changes the user data.
+        /// </summary>
+        /// <param name="dto">New data for the user</param>
+        /// <returns>The status of the operation.</returns>
         [Route("changeData"), HttpPost]
         [RequireHttps]
         public IHttpActionResult ChangeUserData(ChangeUserDataDto dto)
@@ -44,8 +57,8 @@ namespace AccomodationWebApi.Controllers
             {
                 using (var transaction = context.Database.BeginTransaction())
                 {
-                    User user = context.Users.FirstOrDefault(u=>u.Username.Equals(dto.Username));
-                    if (user == null) return null;
+                    User user = context.Users.FirstOrDefault(u => u.Username.Equals(dto.Username));
+                    if (user == null) return NotFound();
                     UserData data = new UserData()
                     {
                         FirstName = dto.FirstName,
@@ -61,6 +74,11 @@ namespace AccomodationWebApi.Controllers
             return Ok(true);
         }
 
+        /// <summary>
+        /// Changes the user password.
+        /// </summary>
+        /// <param name="dto">An object containing new user's credentials.</param>
+        /// <returns>Operation complete status.</returns>
         [Route("changePassword"), HttpPost]
         [RequireHttps]
         public IHttpActionResult ChangeUserPassword(UserNewPasswordDto dto)
@@ -72,7 +90,7 @@ namespace AccomodationWebApi.Controllers
                 using (var transaction = context.Database.BeginTransaction())
                 {
                     User user = context.Users.FirstOrDefault(u => u.Username.Equals(dto.Username));
-                    if (user == null) return null;
+                    if (user == null) return NotFound();
                     user.Salt = newUser.Salt;
                     user.HashedPassword = newUser.HashedPassword;
                     context.SaveChanges();

@@ -15,9 +15,18 @@ using UserAuthorizationSystem.Registration;
 
 namespace AccomodationWebApi.Controllers
 {
+    /// <summary>
+    /// Provides a way to authenticate user and register user in the application.
+    /// All the methods in this class must be save, so they uses save HTTPS protocol.
+    /// </summary>
     [RoutePrefix("api/Login")]
     public class LoginController : ApiController
     {
+        /// <summary>
+        /// Gets the authenticated user identity.
+        /// </summary>
+        /// <param name="dto">Object containing user's credential data.</param>
+        /// <returns>The identity of the user.</returns>
         [Route("user"), HttpPost]
         [RequireHttps]
         public IHttpActionResult GetUserIdentity(UserCredentialDto dto)
@@ -29,6 +38,11 @@ namespace AccomodationWebApi.Controllers
             return Ok(user);
         }
 
+        /// <summary>
+        /// Sign up a new user into the application.
+        /// </summary>
+        /// <param name="dto">All kind of user data.</param>
+        /// <returns>Operation complete status.</returns>
         [Route("save"), HttpPost]
         [RequireHttps]
         public IHttpActionResult SaveUserAsync(UserAllDataDto dto)
@@ -38,6 +52,11 @@ namespace AccomodationWebApi.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Gets an object representing a new user.
+        /// </summary>
+        /// <param name="dto">Some initializing user credentials.</param>
+        /// <returns>An object representing a user.</returns>
         [Route("newUser"), HttpPost]
         [RequireHttps]
         public IHttpActionResult GetNewUserAsync(UserCredentialDto dto)

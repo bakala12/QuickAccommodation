@@ -20,8 +20,7 @@ namespace AccommodationApplication.Services
         public async Task<UserBasicDataDto> GetUserAsync(string username)
         {
             if (string.IsNullOrEmpty(username)) return null;
-            UserCredentialDto dto = new UserCredentialDto() { Username = username };
-            return await Post<UserCredentialDto, UserBasicDataDto>("data", dto);
+            return await Get<UserBasicDataDto>("data/" + HttpUtility.UrlEncode(username));
         }
 
         public async Task ChangeUserDataAsync(string username, UserBasicDataDto dto)
