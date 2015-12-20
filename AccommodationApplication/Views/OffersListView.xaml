@@ -32,6 +32,7 @@
                             </Grid.RowDefinitions>
                             <TextBlock Text="Miejsce:"/>
                             <TextBlock Grid.Row="1" Grid.Column="0" Text="Adres:"/>
+                            <TextBlock Grid.Row="1" Grid.Column="2" Text="Pokój:"/>
                             <TextBlock Grid.Row="2" Grid.Column="0" Text="Data rozpoczęcia oferty:"/>
                             <TextBlock Grid.Row="2" Grid.Column="2" Text="Data zakończenia oferty:"/>
                             <TextBlock Grid.Row="3" Grid.Column="0" Text="Cena"/>
@@ -44,6 +45,7 @@
                             <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Offer.Price}" FontWeight="Bold"/>
                             <TextBlock Grid.Row="3" Grid.Column="3" Text="{Binding Offer.AvailableVacanciesNumber}" FontWeight="Bold"/>
                             <TextBlock Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Offer.Description}" FontWeight="Bold"/>
+                            <TextBlock Grid.Row="1" Grid.Column="3" Text="{Binding Offer.RoomNumber}"/>
                             <Button Content="Zarezerwuj" Grid.Row="5" Grid.Column="3" HorizontalAlignment="Center"
                                     VerticalAlignment="Center" IsEnabled="{Binding Offer.IsBooked, Converter={StaticResource ReverseBoolConverter}}"
                                     CommandParameter="{Binding Offer}" Command="{Binding ReserveCommand}"/>

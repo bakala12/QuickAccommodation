@@ -48,6 +48,7 @@ namespace AccommodationApplication.ViewModels
             City = displayableOffer.Address.City;
             PostalCode = displayableOffer.Address.PostalCode;
             Id = displayableOffer.Id;
+            RoomNumber = displayableOffer.RoomNumber;
             Ovm = ovm;
             UpDateCommand = new DelegateCommand(x => UpDate());
             offersProxy = new OffersProxy();
@@ -103,7 +104,8 @@ namespace AccommodationApplication.ViewModels
 
             Room room = new Room()
             {
-                Capacity = int.Parse(AvailiableVacanciesNumber)
+                Capacity = int.Parse(AvailiableVacanciesNumber),
+                Number = RoomNumber
             };
 
             string currentUser = Thread.CurrentPrincipal.Identity.Name;
@@ -244,16 +246,21 @@ namespace AccommodationApplication.ViewModels
             }
         }
 
-        public string Error
+        private string _roomNumber;
+
+        public string RoomNumber
         {
-            get
+            get { return _roomNumber; }
+            set
             {
-                return String.Empty;
-            }
+                _roomNumber = value;
+                OnPropertyChanged();
+            }    
         }
 
-        public int Id { get; set; }
+        public string Error => String.Empty;
 
+        public int Id { get; set; }
 
         /// <summary>
         /// indekser potzrebny do walidacji
@@ -305,6 +312,12 @@ namespace AccommodationApplication.ViewModels
                         if (string.IsNullOrEmpty(this.City))
                         {
                             errorMessage = "Nieprawidłowa nazwa miasta";
+                        }
+                        break;
+                    case "RoomNumber":
+                        if (string.IsNullOrWhiteSpace(RoomNumber) || !ov.ValidateLocalNumber(RoomNumber))
+                        {
+                            errorMessage = "Nieprawidłowy numer pokoju";
                         }
                         break;
                     case "StartDate":

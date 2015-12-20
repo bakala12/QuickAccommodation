@@ -50,7 +50,7 @@
                     </StackPanel>
                     <Button Grid.Row="3" Grid.Column="0" Content="Wyszukaj" Command="{Binding SearchCommand}" 
                             Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5,0,5"/>
-                    <view:OffersListView Grid.Row="4" Grid.ColumnSpan="2" DataContext="{Binding SearchingResults}"/>
+                    <view:OffersListView Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" DataContext="{Binding SearchingResults}"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Data" DataContext="{Binding DateSearchingViewModel}">
@@ -84,8 +84,8 @@
                                   Margin="0,5,0,5"/>
                     </StackPanel>
                     <CheckBox IsChecked="{Binding ShowPartiallyMatchingResults}" Content="Pokaż częściowo pasujące wyniki"
-                              Grid.Row="3" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="0,5,0,5"/>
-                    <view:OffersListView Grid.Row="5" Grid.ColumnSpan="2" DataContext="{Binding SearchingResults}"/>
+                              Grid.Row="3" Grid.ColumnSpan="2" Grid.Column="0" HorizontalAlignment="Center" Margin="0,5,0,5"/>
+                    <view:OffersListView Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" DataContext="{Binding SearchingResults}"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Cena" DataContext="{Binding PriceSearchingViewModel}">
@@ -119,7 +119,7 @@
                                   SelectedItem="{Binding SelectedSortType, Converter={StaticResource SortTypeToStringConverter}}"
                                   Margin="0,5,0,5"/>
                     </StackPanel>
-                    <view:OffersListView Grid.Row="4" Grid.ColumnSpan="2" DataContext="{Binding SearchingResults}"/>
+                    <view:OffersListView Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" DataContext="{Binding SearchingResults}"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Zaawansowane" DataContext="{Binding AdvancedSearchingViewModel}">
@@ -165,7 +165,7 @@
                                   SelectedItem="{Binding SelectedSortType, Converter={StaticResource SortTypeToStringConverter}}"
                                   Margin="0,5,0,5"/>
                     </StackPanel>
-                    <view:OffersListView Grid.Row="8" Grid.ColumnSpan="2" DataContext="{Binding SearchingResults}"/>
+                    <view:OffersListView Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" DataContext="{Binding SearchingResults}"/>
                 </Grid>
             </TabItem>
         </TabControl>

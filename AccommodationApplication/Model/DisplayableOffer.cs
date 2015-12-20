@@ -22,6 +22,7 @@ namespace AccommodationApplication.Model
             Address = offer.Room.Place.Address;
             PlaceName = offer.Room.Place.PlaceName;
             AvailableVacanciesNumber = offer.Room.Capacity;
+            RoomNumber = offer.Room.Number;
             Price = offerInfo.Price;
             Description = offerInfo.Description;
             OfferPublishTime = offerInfo.OfferPublishTime;
@@ -53,7 +54,7 @@ namespace AccommodationApplication.Model
         /// <summary>
         /// Adres oferty
         /// </summary>
-        public virtual Address Address { get; set; }
+        public Address Address { get; set; }
 
         /// <summary>
         /// Liczba wolnych miejsc
@@ -84,5 +85,10 @@ namespace AccommodationApplication.Model
         /// Zwraca informację czy oferta jest jeszcze dostępna
         /// </summary>
         public bool IsBooked { get; set; }
+
+        /// <summary>
+        /// Numer pokoju.
+        /// </summary>
+        public string RoomNumber { get; set; }
     }
 }

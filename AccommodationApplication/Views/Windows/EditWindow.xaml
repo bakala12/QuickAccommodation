@@ -104,6 +104,7 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
 
                 <TextBlock Text="Nazwa" Grid.Row="0" Grid.Column="0" Margin="4 4 4 4"/>
@@ -111,6 +112,7 @@
                 <TextBlock Text="Numer domu" Grid.Row="2" Grid.Column="0" Margin="4 4 4 4"/>
                 <TextBlock Text="Kod pocztowy" Grid.Row="3" Grid.Column="0" Margin="4 4 4 4"/>
                 <TextBlock Text="Miejscowosć" Grid.Row="4" Grid.Column="0" Margin="4 4 4 4"/>
+                <TextBlock Text="Numer pokoju" Grid.Row="5" Grid.Column="0" Margin="4"/>
                 <TextBox Margin="4 4 4 4" Name ="acc" Grid.Column="1" Grid.Row="0"  Text="{Binding Path=AccommodationName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
                     ValidatesOnDataErrors=True}"/>
                 <TextBox Margin="4 4 4 4" Name ="str" Grid.Column="1" Grid.Row="1"  Text="{Binding Path=Street, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,
@@ -121,6 +123,7 @@
                     ValidatesOnDataErrors=True}"/>
                 <TextBox Margin="4 4 4 4" Name ="cit" Grid.Column="1" Grid.Row="4"  Text="{Binding Path=City, UpdateSourceTrigger=PropertyChanged,
                     ValidatesOnDataErrors=True}"/>
+                <TextBox Margin="4" Grid.Row="5" Grid.Column="1" Text="{Binding RoomNumber, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ValidatesOnDataErrors=True}"></TextBox>
             </Grid>
         </GroupBox>
 
