@@ -27,5 +27,7 @@ namespace AccommodationApplication.Services
             return await this.Get<User>(string.Concat("GetUser/", HttpUtility.UrlEncode(username)));
         }
 
+        
+
     }
 }

@@ -13,6 +13,7 @@ using System.Threading;
 using System.ComponentModel;
 using AccommodationApplication.Model;
 using System.Collections.ObjectModel;
+using AccommodationApplication.Services;
 
 namespace AccommodationApplication.ViewModels
 {
@@ -31,6 +32,7 @@ namespace AccommodationApplication.ViewModels
         private string _price;
         private string _availiableVacanciesNumber;
         private string _description;
+        private OffersProxy offersProxy;
         private OfferValidator ov = new OfferValidator();
 
         public EditOfferViewModel(DisplayableOffer displayableOffer, OffersViewModel ovm)
@@ -47,8 +49,8 @@ namespace AccommodationApplication.ViewModels
             PostalCode = displayableOffer.Address.PostalCode;
             Id = displayableOffer.Id;
             Ovm = ovm;
-            //UpDateCommand = new DelegateCommand(async x => await UpDateAsync());
             UpDateCommand = new DelegateCommand(x => UpDate());
+            offersProxy = new OffersProxy();
         }
 
         /// <summary>
@@ -73,7 +75,7 @@ namespace AccommodationApplication.ViewModels
         /// <summary>
         /// Funkcja aktualizująca ofertę w bazie
         /// </summary>
-        public void UpDate()
+        public async void UpDate()
         {
 
             Address address = new Address()
@@ -101,28 +103,8 @@ namespace AccommodationApplication.ViewModels
             };
 
             Offer offerToAdd = new Offer();
-
-            using (var context = new AccommodationContext())
-            {
-                using (var transaction = context.Database.BeginTransaction())
-                {
-
-                    string currentUser = Thread.CurrentPrincipal.Identity.Name;
-                    if (currentUser == null) return;
-                    User user = context.Users.FirstOrDefault(x => x.Username.Equals(currentUser));
-                    Offer offer = context.Offers.FirstOrDefault(x => x.Id == this.Id);
-
-                    if (offer == null) return;
-
-                    offer.OfferInfo = offerInfo;
-                    place.Address = address;
-                    offer.Place = place;
-
-
-                    context.SaveChanges();
-                    transaction.Commit();
-                }
-            }
+            string currentUser = Thread.CurrentPrincipal.Identity.Name;
+            await offersProxy.EditOfferAsync(currentUser, this.Id, offerInfo, place);
 
             Close();
 
