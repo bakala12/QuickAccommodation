@@ -76,6 +76,25 @@ namespace AccomodationWebApi.Controllers
                     historicalOffer.OfferInfo = dto.OfferInfo;
                     historicalOffer.Vendor = user;
 
+                    //ewentualna zmiana rangi
+                    int c = user.MyHistoricalOffers.Count + 1;
+                    if (c >= 4 && c<8)
+                    {
+                        user.Rank = context.Ranks.FirstOrDefault(r => r.Name.Equals("Junior"));
+                    }
+                    else if (c >= 8 && c<15)
+                    {
+                        user.Rank = context.Ranks.FirstOrDefault(r => r.Name.Equals("Znawca"));
+                    }
+                    else if (c >= 15 && c<25)
+                    {
+                        user.Rank = context.Ranks.FirstOrDefault(r => r.Name.Equals("Mistrz"));
+                    }
+                    else if (c >= 25)
+                    {
+                        user.Rank = context.Ranks.FirstOrDefault(r => r.Name.Equals("Guru"));
+                    }
+
                     user.MyHistoricalOffers.Add(historicalOffer);
 
                     context.SaveChanges();
