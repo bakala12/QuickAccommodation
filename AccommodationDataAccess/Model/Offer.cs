@@ -45,6 +45,10 @@ namespace AccommodationDataAccess.Model
         /// Informacja o tym, czy oferta jest już zarezerwowana
         /// </summary>
         public bool IsBooked { get; set; }
+
+        public virtual Room Room { get; set; }
+        public int RoomId { get; set; }
+
     }
 
 }

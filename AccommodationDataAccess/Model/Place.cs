@@ -13,6 +13,9 @@ namespace AccommodationDataAccess.Model
         public virtual Address Address { get; set; }
         public int AddressId { get; set; }
 
-        public virtual IList<Offer> Offers { get; set; } 
+        public virtual IList<Offer> Offers { get; set; }
+
+        //modyfikacja
+        public virtual IList<Room> Rooms { get; set; }
     }
 }

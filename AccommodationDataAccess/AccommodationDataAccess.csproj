@@ -65,6 +65,7 @@
     <Compile Include="Model\Entity.cs" />
     <Compile Include="Model\OfferInfo.cs" />
     <Compile Include="Model\Place.cs" />
+    <Compile Include="Model\Room.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="Model\Offer.cs" />
     <Compile Include="Model\UserData.cs" />

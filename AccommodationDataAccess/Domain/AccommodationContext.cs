@@ -45,5 +45,6 @@ namespace AccommodationDataAccess.Domain
         public IDbSet<Address> Addresses { get; set; }
         public IDbSet<UserData> UserData { get; set; }
         public IDbSet<Place> Places { get; set; }
+        public IDbSet<Room> Rooms { get; set; }
     }
 }
