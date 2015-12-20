@@ -54,6 +54,7 @@
     <Compile Include="Domain\ExampleUsersProvider.cs" />
     <Compile Include="Model\Address.cs" />
     <Compile Include="Model\Entity.cs" />
+    <Compile Include="Model\HistoricalOffer.cs" />
     <Compile Include="Model\OfferInfo.cs" />
     <Compile Include="Model\Place.cs" />
     <Compile Include="Model\Room.cs" />

@@ -31,6 +31,7 @@ namespace AccommodationDataAccess.Domain
         IDbSet<Place> Places { get; set; }
         IDbSet<Rank> Ranks { get; set; }
         IDbSet<Room> Rooms { get; set; } 
+        IDbSet<HistoricalOffer> HistoricalOffers { get; set; } 
         int SaveChanges();
     }
 
@@ -49,5 +50,6 @@ namespace AccommodationDataAccess.Domain
         public IDbSet<Place> Places { get; set; }
         public IDbSet<Room> Rooms { get; set; }
         public IDbSet<Rank> Ranks { get; set; } 
+        public IDbSet<HistoricalOffer> HistoricalOffers { get; set; } 
     }
 }

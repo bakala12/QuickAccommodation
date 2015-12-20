@@ -21,6 +21,8 @@ namespace AccommodationDataAccess.Model
 
         public virtual IList<Offer> MyOffers { get; set; }
         public virtual IList<Offer> PurchasedOffers { get; set; }
+        public virtual IList<HistoricalOffer> MyHistoricalOffers { get; set; } 
+        public virtual IList<HistoricalOffer> PurchasedHistoricalOffers { get; set; } 
 
         public override string ToString()
         {
