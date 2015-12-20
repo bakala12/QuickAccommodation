@@ -92,7 +92,6 @@ namespace AccommodationApplication.ViewModels
                 OfferEndTime = TimeZoneInfo.ConvertTimeToUtc(this.EndDate),
                 Description = this.Description,
                 Price = double.Parse(this.Price),
-                AvailableVacanciesNumber = int.Parse(this.AvailiableVacanciesNumber),
                 OfferPublishTime = DateTime.UtcNow
             };
 

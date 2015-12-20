@@ -29,13 +29,14 @@ namespace AccommodationApplication.Services
             return await this.Get<IList<Offer>>(string.Concat("GetUserOffers/", HttpUtility.UrlEncode(userId.ToString())));
         }
 
-        public async Task SaveOfferAsync(OfferInfo offerInfo, User vendor, Place place)
+        public async Task SaveOfferAsync(OfferInfo offerInfo, User vendor, Place place, Room room)
         {
             OfferAllDataDto dto = new OfferAllDataDto()
             {
                 Vendor = vendor,
                 OfferInfo = offerInfo,
-                Place = place
+                Place = place,
+                Room = room
             };
             await Post<OfferAllDataDto, object>("saveOffer", dto);
         }

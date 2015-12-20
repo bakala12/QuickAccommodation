@@ -10,7 +10,7 @@ namespace AccommodationDataAccess.Model
     public class Room : Entity
     {
         public int Capacity { get; set; }
-        public string Name { get; set; }
+        public string Number { get; set; }
 
         [InverseProperty("Rooms")]
         public virtual Place Place { get; set; }

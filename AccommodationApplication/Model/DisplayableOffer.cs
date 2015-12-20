@@ -21,7 +21,7 @@ namespace AccommodationApplication.Model
             OfferStartTimeDate = offerInfo.OfferStartTime;
             Address = offer.Room.Place.Address;
             PlaceName = offer.Room.Place.PlaceName;
-            AvailableVacanciesNumber = offerInfo.AvailableVacanciesNumber;
+            AvailableVacanciesNumber = offer.Room.Capacity;
             Price = offerInfo.Price;
             Description = offerInfo.Description;
             OfferPublishTime = offerInfo.OfferPublishTime;

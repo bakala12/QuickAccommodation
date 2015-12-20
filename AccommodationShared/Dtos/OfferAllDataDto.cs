@@ -12,5 +12,6 @@ namespace AccommodationShared.Dtos
         public OfferInfo OfferInfo { get; set; }
         public Place Place { get; set; }
         public User Vendor { get; set; }
+        public Room Room { get; set; }
     }
 }

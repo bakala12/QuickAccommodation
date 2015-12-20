@@ -58,7 +58,7 @@ namespace AccommodationShared.Searching
                 case SortBy.EndDate:
                     return o.OrderBy(x => x.OfferInfo.OfferEndTime);
                 case SortBy.VacanciesNumber:
-                    return o.OrderBy(x => x.OfferInfo.AvailableVacanciesNumber);
+                    return o.OrderBy(x => x.Room.Capacity);
                 case SortBy.PublishDate:
                     return o.OrderBy(x => x.OfferInfo.OfferPublishTime);
                 default:
@@ -81,7 +81,7 @@ namespace AccommodationShared.Searching
                 case SortBy.EndDate:
                     return o.OrderByDescending(x => x.OfferInfo.OfferEndTime);
                 case SortBy.VacanciesNumber:
-                    return o.OrderByDescending(x => x.OfferInfo.AvailableVacanciesNumber);
+                    return o.OrderByDescending(x => x.Room.Capacity);
                 case SortBy.PublishDate:
                     return o.OrderByDescending(x => x.OfferInfo.OfferPublishTime);
                 default:

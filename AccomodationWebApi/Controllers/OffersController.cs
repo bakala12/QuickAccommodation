@@ -65,9 +65,18 @@ namespace AccomodationWebApi.Controllers
 
                     offerToAdd.OfferInfo = dto.OfferInfo;
                     offerToAdd.Vendor = user;
+                    offerToAdd.Room = dto.Room;
                     offerToAdd.Room.Place = dto.Place;
 
                     user.MyOffers.Add(offerToAdd);
+
+                    HistoricalOffer historicalOffer = new HistoricalOffer();
+                    historicalOffer.Room = dto.Room;
+                    historicalOffer.Room.Place = dto.Place;
+                    historicalOffer.OfferInfo = dto.OfferInfo;
+                    historicalOffer.Vendor = user;
+
+                    user.MyHistoricalOffers.Add(historicalOffer);
 
                     context.SaveChanges();
                     transaction.Commit();

@@ -95,7 +95,6 @@ namespace AccommodationApplication.ViewModels
 
                 Description = this.Description,
                 Price = double.Parse(this.Price),
-                AvailableVacanciesNumber = int.Parse(this.AvailiableVacanciesNumber),
                 OfferPublishTime = DateTime.UtcNow
             };
             Place place = new Place()
@@ -103,8 +102,13 @@ namespace AccommodationApplication.ViewModels
                 PlaceName = this.AccommodationName,
                 Address = address
             };
+            Room room = new Room()
+            {
+                Capacity = int.Parse(AvailiableVacanciesNumber),
+                Number = RoomNumber
+            };
 
-            await offersProxy.SaveOfferAsync(offer, vendor, place);
+            await offersProxy.SaveOfferAsync(offer, vendor, place, room);
         }
 
         public string Description
@@ -245,6 +249,18 @@ namespace AccommodationApplication.ViewModels
             }
         }
 
+        private string _roomNumber;
+
+        public string RoomNumber
+        {
+            get { return _roomNumber; }
+            set
+            {
+                _roomNumber = value;
+                OnPropertyChanged();
+            }
+        }
+
 
         //indekser, potrzebny do walidacji
         public string this[string columnName]
@@ -291,6 +307,12 @@ namespace AccommodationApplication.ViewModels
                         if (string.IsNullOrEmpty(this.City))
                         {
                             errorMessage = "Nieprawidłowa nazwa miasta";
+                        }
+                        break;
+                    case "RoomNumber":
+                        if (string.IsNullOrWhiteSpace(RoomNumber) || !ov.ValidateLocalNumber(RoomNumber))
+                        {
+                            errorMessage = "Nieprawidłowy numer pokoju";
                         }
                         break;
                     case "StartDate":
