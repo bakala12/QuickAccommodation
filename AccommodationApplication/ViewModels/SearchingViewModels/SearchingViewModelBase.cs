@@ -27,6 +27,7 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
         private readonly OfferInfoesProxy _oiProxy = new OfferInfoesProxy();
         private readonly AddressesProxy _addressProxy = new AddressesProxy();
         private readonly PlacesProxy _placesProxy = new PlacesProxy();
+        private readonly RoomsProxy _roomsProxy = new RoomsProxy();
 
         protected SearchProxy Service { get; }
         /// <summary>
@@ -116,10 +117,12 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
                 IEnumerable<Offer> offers = await SearchAsync();
                 foreach (var offer in offers)
                 {
-                    Place p = await _placesProxy.Get(offer.Room.PlaceId);
+                    Room r = await _roomsProxy.Get(offer.RoomId);
+                    Place p = await _placesProxy.Get(r.PlaceId);
                     OfferInfo oi = await _oiProxy.Get(offer.OfferInfoId);
                     Address a = await _addressProxy.Get(p.AddressId);
                     p.Address = a;
+                    offer.Room = r;
                     offer.Room.Place = p;
                     offer.OfferInfo = oi;
                 }

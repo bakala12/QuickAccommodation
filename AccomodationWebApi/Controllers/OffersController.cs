@@ -123,13 +123,19 @@ namespace AccomodationWebApi.Controllers
                     offer.Room = dto.Room;
                     offer.Room.Place = dto.Place;
 
-                    //historyczną edytować?? dodać nową??
-                    HistoricalOffer ho = context.HistoricalOffers.FirstOrDefault(h => h.Id == offer.Id);
-                    if (ho == null) return NotFound();
-                    ho.OfferInfo = dto.OfferInfo;
-                    ho.Room = offer.Room;
-                    ho.Room.Place = dto.Place;
-                    ho.Vendor = dto.Vendor;
+                    //historyczną edytować?? dodać nową?? 
+                    //Nie mam pewności czy to będzie działać, bo nie wiem czy biorę dobre Id
+                    //Może być tak, że istnieje oferta o id=5 i ją usuwam. W historii zostaje ta oferta.
+                    //Jednak później jak dodam do bazy jakąś ofertę to ona może (nie wiem?) dostać id=5 i będzie
+                    //stowarzyszona z nie tą ofertą w historii co trzeba
+                    //Od biedy można dodać w historycznej ofercie relację do oferty i to w sumie byłoby nawet lepsze,
+                    //wtedy z edycją nie byłoby problemu. Ale tego na razie nie będę robił.
+                    //HistoricalOffer ho = context.HistoricalOffers.FirstOrDefault(h => h.Id == offer.Id);
+                    //if (ho == null) return NotFound();
+                    //ho.OfferInfo = dto.OfferInfo;
+                    //ho.Room = offer.Room;
+                    //ho.Room.Place = dto.Place;
+                    //ho.Vendor = dto.Vendor;
 
                     context.SaveChanges();
                     transaction.Commit();
