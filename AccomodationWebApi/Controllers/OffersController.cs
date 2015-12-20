@@ -124,6 +124,12 @@ namespace AccomodationWebApi.Controllers
                     offer.Room.Place = dto.Place;
 
                     //historyczną edytować?? dodać nową??
+                    HistoricalOffer ho = context.HistoricalOffers.FirstOrDefault(h => h.Id == offer.Id);
+                    if (ho == null) return NotFound();
+                    ho.OfferInfo = dto.OfferInfo;
+                    ho.Room = offer.Room;
+                    ho.Room.Place = dto.Place;
+                    ho.Vendor = dto.Vendor;
 
                     context.SaveChanges();
                     transaction.Commit();
