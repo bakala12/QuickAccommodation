@@ -16,6 +16,8 @@ namespace AccommodationDataAccess.Model
 
         public int UserDataId { get; set; }
         public virtual UserData UserData { get; set; }
+        
+        public virtual Rank Rank { get; set; }
 
         public virtual IList<Offer> MyOffers { get; set; }
         public virtual IList<Offer> PurchasedOffers { get; set; }

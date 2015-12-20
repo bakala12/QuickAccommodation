@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using AccommodationApplication.Commands;
 using AccommodationApplication.Interfaces;
@@ -21,27 +22,31 @@ namespace AccommodationApplication.ViewModels
         private string _lastName;
         private string _email;
         private string _companyName;
-        private string _role;
+        private string _rank;
+        private readonly UserProfileProxy _service;
 
         public MyProfileViewModel()
         {
+            _service = new UserProfileProxy();
             ReloadData += async (x, e) => await LoadUserDataAsync();
             EditDataCommand = new DelegateCommand(x => EditData());
             ChangePasswordCommand = new DelegateCommand(x=>ChangePassword());
             ReloadData?.Invoke(this, EventArgs.Empty);
+            (App.Current as App).Login += async (x, e) => await LoadUserDataAsync();
         }
 
         public string LoggedUser => Thread.CurrentPrincipal?.Identity?.Name;
 
         protected async virtual Task LoadUserDataAsync()
         {
-            UserProfileProxy service = new UserProfileProxy();
-            UserBasicDataDto data = await service.GetUserAsync(LoggedUser);
+            UserBasicDataDto data = await _service.GetUserAsync(LoggedUser);
             if (data == null) return;
             FirstName = data.FirstName;
             LastName = data.LastName;
             Email = data.Email;
             CompanyName = data.CompanyName ?? string.Empty;
+            string r = await _service.GetUserRankAsync(LoggedUser);
+            UserRank = r;
         }
 
         public string FirstName
@@ -84,12 +89,12 @@ namespace AccommodationApplication.ViewModels
             }
         }
 
-        public string UserRole
+        public string UserRank
         {
-            get { return _role; }
+            get { return _rank; }
             set
             {
-                _role = value;
+                _rank = value;
                 OnPropertyChanged();
             }
         }

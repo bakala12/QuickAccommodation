@@ -40,5 +40,10 @@ namespace AccommodationApplication.Services
         {
             await Post<UserNewPasswordDto, bool>("changePassword", dto);
         }
+
+        public async Task<string> GetUserRankAsync(string username)
+        {
+            return await Get<string>("rank/" + HttpUtility.UrlEncode(username));
+        }
     }
 }

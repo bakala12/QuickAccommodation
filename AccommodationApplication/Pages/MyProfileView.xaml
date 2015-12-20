@@ -32,7 +32,7 @@
             </Grid.ColumnDefinitions>
             <TextBlock Text="Użytkownik: " Grid.Row="0" Grid.Column="0"/>
             <TextBlock Text="{Binding LoggedUser}" Grid.Row="0" Grid.Column="1"/>
-            <TextBlock Text="{Binding UserRole}" Grid.Row="0" Grid.Column="2"
+            <TextBlock Text="{Binding UserRank}" Grid.Row="0" Grid.Column="2"
                        Foreground="Green"/>
         </Grid>
         <GroupBox Header="Dane osobowe" Grid.Row="1">

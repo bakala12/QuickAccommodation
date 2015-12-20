@@ -99,5 +99,26 @@ namespace AccomodationWebApi.Controllers
             }
             return Ok(true);
         }
+
+        /// <summary>
+        /// Gets the rank of the user.
+        /// </summary>
+        /// <param name="username">The name of the user.</param>
+        /// <returns>The rank of the given user.</returns>
+        [Route("rank/{username?}"), HttpGet]
+        public IHttpActionResult GetUserRank(string username)
+        {
+            using (var context = new AccommodationContext())
+            {
+                using (var transaction = context.Database.BeginTransaction())
+                {
+                    User user = context.Users.FirstOrDefault(u => u.Username.Equals(username));
+                    if (user == null) NotFound();
+                    Rank rank = context.Ranks.FirstOrDefault(r => r.Id == user.Rank.Id);
+                    transaction.Commit();
+                    return Ok(rank?.Name);
+                }
+            }
+        }
     }
 }
