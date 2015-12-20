@@ -101,7 +101,11 @@ namespace AccomodationWebApi.Controllers
 
                     offer.OfferInfo = dto.OfferInfo;
                     offer.Vendor = user;
+                    offer.Room = dto.Room;
                     offer.Room.Place = dto.Place;
+
+                    //historyczną edytować?? dodać nową??
+
                     context.SaveChanges();
                     transaction.Commit();
                 }

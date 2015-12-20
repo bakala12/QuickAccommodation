@@ -38,6 +38,7 @@ namespace AccommodationApplication.ViewModels
         private readonly PlacesProxy PlacesProxy;
         private readonly AddressesProxy addressesProxy;
         private readonly UsersProxy usersProxy;
+        private readonly RoomsProxy _roomsProxy = new RoomsProxy();
 
         public OffersViewModel()
         {
@@ -144,12 +145,14 @@ namespace AccommodationApplication.ViewModels
             foreach (var item in list)
             {
                 OfferInfo oi = await offerInfoesProxy.Get(item.OfferInfoId);
-                Place p = await PlacesProxy.Get(item.Room.PlaceId);
+                Room r = await _roomsProxy.Get(item.RoomId);
+                Place p = await PlacesProxy.Get(r.PlaceId);
                 Address a = await addressesProxy.Get(p.AddressId);
 
                 p.Address = a;
+                r.Place = p;
                 item.OfferInfo = oi;
-                item.Room.Place = p;
+                item.Room = r;
                 DisplayableOffer dof = new DisplayableOffer(item);
                 ret.Add(dof);
             }

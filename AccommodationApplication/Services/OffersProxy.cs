@@ -41,14 +41,15 @@ namespace AccommodationApplication.Services
             await Post<OfferAllDataDto, object>("saveOffer", dto);
         }
 
-        public async Task EditOfferAsync(string username, int Id, OfferInfo offerInfo, Place place)
+        public async Task EditOfferAsync(string username, int Id, OfferInfo offerInfo, Place place, Room room)
         {
             OfferEditDataDto dataDto = new OfferEditDataDto()
             {
                 OfferInfo = offerInfo,
                 Place = place,
                 Username = username,
-                OfferId = Id
+                OfferId = Id,
+                Room = room
             };
             await Post<OfferEditDataDto, bool>("editOffer", dataDto);
         }

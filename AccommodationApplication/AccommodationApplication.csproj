@@ -135,6 +135,7 @@
       <DependentUpon>MyProfileView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Services\LoginProxy.cs" />
+    <Compile Include="Services\RoomsProxy.cs" />
     <Compile Include="Services\SearchProxy.cs" />
     <Compile Include="Services\UsersProxy.cs" />
     <Compile Include="Services\OfferInfoesProxy.cs" />

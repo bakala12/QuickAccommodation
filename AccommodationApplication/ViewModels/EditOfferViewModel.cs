@@ -101,9 +101,13 @@ namespace AccommodationApplication.ViewModels
                 Address = address
             };
 
-            Offer offerToAdd = new Offer();
+            Room room = new Room()
+            {
+                Capacity = int.Parse(AvailiableVacanciesNumber)
+            };
+
             string currentUser = Thread.CurrentPrincipal.Identity.Name;
-            await offersProxy.EditOfferAsync(currentUser, this.Id, offerInfo, place);
+            await offersProxy.EditOfferAsync(currentUser, this.Id, offerInfo, place, room);
 
             Close();
 
