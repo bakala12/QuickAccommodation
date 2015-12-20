@@ -116,11 +116,11 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
                 IEnumerable<Offer> offers = await SearchAsync();
                 foreach (var offer in offers)
                 {
-                    Place p = await _placesProxy.Get(offer.PlaceId);
+                    Place p = await _placesProxy.Get(offer.Room.PlaceId);
                     OfferInfo oi = await _oiProxy.Get(offer.OfferInfoId);
                     Address a = await _addressProxy.Get(p.AddressId);
                     p.Address = a;
-                    offer.Place = p;
+                    offer.Room.Place = p;
                     offer.OfferInfo = oi;
                 }
                 SearchingResults = offers.Select(o => new DisplayableOfferViewModel(new DisplayableOffer(o)));

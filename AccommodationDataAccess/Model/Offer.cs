@@ -17,9 +17,9 @@ namespace AccommodationDataAccess.Model
         /// <summary>
         /// Miejsce opisane w ofercie (adres i nazwa)
         /// </summary>
-        [InverseProperty("Offers")]
-        public virtual Place Place { get; set; }
-        public int PlaceId { get; set; }
+        //[InverseProperty("Offers")]
+        //public virtual Place Place { get; set; }
+        //public int PlaceId { get; set; }
 
         /// <summary>
         /// Informacje dotyczące oferty
@@ -48,7 +48,6 @@ namespace AccommodationDataAccess.Model
 
         public virtual Room Room { get; set; }
         public int RoomId { get; set; }
-
     }
 
 }

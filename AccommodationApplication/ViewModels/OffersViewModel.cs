@@ -144,12 +144,12 @@ namespace AccommodationApplication.ViewModels
             foreach (var item in list)
             {
                 OfferInfo oi = await offerInfoesProxy.Get(item.OfferInfoId);
-                Place p = await PlacesProxy.Get(item.PlaceId);
+                Place p = await PlacesProxy.Get(item.Room.PlaceId);
                 Address a = await addressesProxy.Get(p.AddressId);
 
                 p.Address = a;
                 item.OfferInfo = oi;
-                item.Place = p;
+                item.Room.Place = p;
                 DisplayableOffer dof = new DisplayableOffer(item);
                 ret.Add(dof);
             }

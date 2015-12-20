@@ -19,8 +19,8 @@ namespace AccommodationApplication.Model
             OfferEndTime = offerInfo.OfferEndTime.Date.ToString("dd/MM/yyyy");
             OfferEndTimeDate = offerInfo.OfferEndTime;
             OfferStartTimeDate = offerInfo.OfferStartTime;
-            Address = offer.Place.Address;
-            PlaceName = offer.Place.PlaceName;
+            Address = offer.Room.Place.Address;
+            PlaceName = offer.Room.Place.PlaceName;
             AvailableVacanciesNumber = offerInfo.AvailableVacanciesNumber;
             Price = offerInfo.Price;
             Description = offerInfo.Description;

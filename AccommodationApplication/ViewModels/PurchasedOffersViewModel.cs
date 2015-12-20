@@ -64,8 +64,8 @@ namespace AccommodationApplication.ViewModels
                 IEnumerable<Offer> offers =
                     context.Offers.Where(o => o.CustomerId == u.Id)
                         .Include(o => o.OfferInfo)
-                        .Include(o => o.Place)
-                        .Include(o => o.Place.Address);
+                        .Include(o => o.Room.Place)
+                        .Include(o => o.Room.Place.Address);
                 foreach (var offer in offers)
                 {
                     coll.Add(new DisplayableOfferViewModel(new DisplayableOffer(offer)));

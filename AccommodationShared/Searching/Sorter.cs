@@ -48,9 +48,9 @@ namespace AccommodationShared.Searching
             switch (by)
             {
                 case SortBy.Place:
-                    return o.OrderBy(x => x.Place.PlaceName);
+                    return o.OrderBy(x => x.Room.Place.PlaceName);
                 case SortBy.City:
-                    return o.OrderBy(x => x.Place.Address.City);
+                    return o.OrderBy(x => x.Room.Place.Address.City);
                 case SortBy.Price:
                     return o.OrderBy(x => x.OfferInfo.Price);
                 case SortBy.StartDate:
@@ -71,9 +71,9 @@ namespace AccommodationShared.Searching
             switch (by)
             {
                 case SortBy.Place:
-                    return o.OrderByDescending(x => x.Place.PlaceName);
+                    return o.OrderByDescending(x => x.Room.Place.PlaceName);
                 case SortBy.City:
-                    return o.OrderByDescending(x => x.Place.Address.City);
+                    return o.OrderByDescending(x => x.Room.Place.Address.City);
                 case SortBy.Price:
                     return o.OrderByDescending(x => x.OfferInfo.Price);
                 case SortBy.StartDate:

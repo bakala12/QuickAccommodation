@@ -65,7 +65,7 @@ namespace AccomodationWebApi.Controllers
 
                     offerToAdd.OfferInfo = dto.OfferInfo;
                     offerToAdd.Vendor = user;
-                    offerToAdd.Place = dto.Place;
+                    offerToAdd.Room.Place = dto.Place;
 
                     user.MyOffers.Add(offerToAdd);
 
@@ -92,7 +92,7 @@ namespace AccomodationWebApi.Controllers
 
                     offer.OfferInfo = dto.OfferInfo;
                     offer.Vendor = user;
-                    offer.Place = dto.Place;
+                    offer.Room.Place = dto.Place;
                     context.SaveChanges();
                     transaction.Commit();
                 }
@@ -115,7 +115,7 @@ namespace AccomodationWebApi.Controllers
                     if (offer == null) return NotFound();
 
                     OfferInfo offerInfo = context.OfferInfo.FirstOrDefault(x => x.Id == offer.OfferInfoId);
-                    Place place = context.Places.FirstOrDefault(x => x.Id == offer.PlaceId);
+                    Place place = context.Places.FirstOrDefault(x => x.Id == offer.Room.PlaceId);
                     Address address = context.Addresses.FirstOrDefault(x => x.Id == place.AddressId);
 
                     //usuń z bazy ofertę oraz jej dane
