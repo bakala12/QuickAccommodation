@@ -107,6 +107,7 @@
     <Compile Include="Controllers\OfferInfoesController.cs" />
     <Compile Include="Controllers\OffersController.cs" />
     <Compile Include="Controllers\UserDataController.cs" />
+    <Compile Include="Notification\EmailNotification.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

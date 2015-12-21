@@ -28,6 +28,9 @@
             <DataTemplate DataType="{x:Type vm:MyProfileViewModel}">
                 <pg:MyProfileView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:HistoryViewModel}">
+                <pg:HistoryView/>
+            </DataTemplate>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles/MainWindowStyles.xaml"/>
                 <ResourceDictionary Source="Styles/LoginStyles.xaml"/>

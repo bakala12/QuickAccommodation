@@ -34,6 +34,23 @@ namespace AccomodationWebApi.Controllers
 
         }
 
+        [Route("GetUserHistoricalOffers/{UserId?}"), HttpGet]
+        public IHttpActionResult GetUserHistoricalOffers(int userId)
+        {
+
+            IList<HistoricalOffer> ret;
+
+            using (var context = new AccommodationContext())
+            {
+                context.Configuration.ProxyCreationEnabled = false;
+                ret = context.HistoricalOffers.Where(o => o.OriginalOfferId == userId).ToList();
+            }
+
+            return Ok(ret);
+
+        }
+
+        [Route("GetOffer/{id?}"), HttpGet]
         public IHttpActionResult Get(int id)
         {
             Offer offer = null;
@@ -42,6 +59,26 @@ namespace AccomodationWebApi.Controllers
             {
                 context.Configuration.ProxyCreationEnabled = false;
                 offer = context.Offers.FirstOrDefault(o => o.Id == id);
+            }
+
+            if (offer == null)
+            {
+                return (IHttpActionResult)NotFound();
+            }
+            return Ok(offer);
+
+
+        }
+
+        [Route("GetHistoricalOffer/{id?}"), HttpGet]
+        public IHttpActionResult GetHistorcialOffer(int id)
+        {
+            HistoricalOffer offer = null;
+
+            using (var context = new AccommodationContext())
+            {
+                context.Configuration.ProxyCreationEnabled = false;
+                offer = context.HistoricalOffers.FirstOrDefault(o => o.OriginalOfferId == id);
             }
 
             if (offer == null)
@@ -211,15 +248,28 @@ namespace AccomodationWebApi.Controllers
                 using (var transaction = context.Database.BeginTransaction())
                 {
                     Offer offer = context.Offers.FirstOrDefault(o => o.Id == dto.OfferId);
-                    User user = context.Users.FirstOrDefault(u => u.Username.Equals(dto.Username));
-                    if (offer == null || user == null) return NotFound();
+
+                    User customer = context.Users.FirstOrDefault(u => u.Username.Equals(dto.Username));
+                    User vendor = context.Users.FirstOrDefault(x => x.Id == offer.VendorId);
+                   
+                    OfferInfo offerInfo = context.OfferInfo.FirstOrDefault(o => o.Id == offer.OfferInfoId);
+                    UserData customerData = context.UserData.FirstOrDefault(x => x.Id == customer.UserDataId);
+                    UserData vendorData = context.UserData.FirstOrDefault(x => x.Id == vendor.UserDataId);
+                    Room room = context.Rooms.FirstOrDefault(x => x.Id == offer.RoomId);
+                    Place place = context.Places.FirstOrDefault(x => x.Id == room.PlaceId);
+
+                    if (offer == null || customer == null) return NotFound();
                     if (offer.IsBooked) return BadRequest();
                     offer.IsBooked = true;
-                    offer.Customer = user;
+                    offer.Customer = customer;
                     context.SaveChanges();
                     transaction.Commit();
+
+                    EmailNotification.SendReservationNotification(offerInfo, place, vendorData, customerData, room);
                 }
             }
+
+
             return Ok(true);
         }
 

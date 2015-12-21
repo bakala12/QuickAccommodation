@@ -21,19 +21,15 @@ using AccomodationWebApi;
 namespace AccommodationApplication.ViewModels
 {
     /// <summary>
-    /// ViewModel dla widoku dostępnych ofert
+    /// ViewModel dla widoku historii ofert
     /// </summary>
-    public class OffersViewModel : ViewModelBase, IPageViewModel
+    public class HistoryViewModel : ViewModelBase, IPageViewModel
     {
         /// <summary>
         /// Komenda do usuwania oferty
         /// </summary>
         public ICommand RemoveCommand { get; set; }
 
-        /// <summary>
-        /// Komenda do edycji oferty
-        /// </summary>
-        public ICommand EditCommand { get; set; }
         private readonly OffersProxy offersProxy;
         private readonly OfferInfoesProxy offerInfoesProxy;
         private readonly PlacesProxy PlacesProxy;
@@ -41,10 +37,9 @@ namespace AccommodationApplication.ViewModels
         private readonly UsersProxy usersProxy;
         private readonly RoomsProxy _roomsProxy = new RoomsProxy();
 
-        public OffersViewModel()
+        public HistoryViewModel()
         {
             RemoveCommand = new DelegateCommand(async x => await RemoveAsync());
-            EditCommand = new DelegateCommand(x => Edit());
 
             this.offersProxy = new OffersProxy();
             this.offerInfoesProxy = new OfferInfoesProxy();
@@ -56,21 +51,17 @@ namespace AccommodationApplication.ViewModels
             (App.Current as App).Login += (x, e) => { CurrentOffersList = null; OnPropertyChanged(nameof(CurrentOffersList)); };
         }
 
-        /// <summary>
-        /// Uaktualnia bieżącą listę ofert użytkownika
-        /// </summary>
-
         public string Name
         {
             get
             {
-                return "Moje oferty";
+                return "Historia Ofert";
 
             }
         }
 
         /// <summary>
-        /// Aktualnie zaznaczona oferta (do edycji lub usunięcia)
+        /// Aktualnie zaznaczona oferta (do usunięcia)
         /// </summary>
         public DisplayableOffer CurrentlySelectedOffer { get; set; }
 
@@ -81,20 +72,6 @@ namespace AccommodationApplication.ViewModels
         public async virtual Task RemoveAsync()
         {
             await Task.Run(() => Remove());
-        }
-
-        /// <summary>
-        /// Funkcja do edytowania zaznaczonej oferty
-        /// </summary>
-        public void Edit()
-        {
-            EditOfferViewModel eo = new EditOfferViewModel(CurrentlySelectedOffer, this);
-            EditWindow e = new EditWindow();
-            eo.RequestClose += (x, ev) => CloseWindow(e);
-            e.DataContext = eo;
-
-            //pokaż nowe okno dialogowe do edycji oferty
-            e.ShowDialog();
         }
 
         private static void CloseWindow(Window window)
@@ -141,7 +118,7 @@ namespace AccommodationApplication.ViewModels
 
             User user = await usersProxy.GetUser(currentUser);
 
-            var list = await offersProxy.GetUserOffers(user.Id);
+            var list = await offersProxy.GetUserHistoricalOffers(user.Id);
 
             foreach (var item in list)
             {
