@@ -10,6 +10,10 @@ using AccommodationShared.Searching;
 
 namespace AccommodationApplication.Services
 {
+
+    /// <summary>
+    /// Proxy dla wyszukiwania
+    /// </summary>
     public class SearchProxy : WebApiProxy
     {
         public SearchProxy() : base("Search")

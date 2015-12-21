@@ -7,6 +7,9 @@ using AccommodationShared.Searching;
 
 namespace AccommodationShared.Dtos
 {
+    /// <summary>
+    /// Dto dla zapytania
+    /// </summary>
     public class SearchRequestDto
     {
         public string Username { get; set; }
@@ -14,12 +17,18 @@ namespace AccommodationShared.Dtos
         public SortBy SortBy { get; set; }
     }
 
+    /// <summary>
+    /// Dto dla szukania po miejscu
+    /// </summary>
     public class PlaceSearchRequestDto : SearchRequestDto
     {
         public string PlaceName { get; set; }
         public string CityName { get; set; }
     }
 
+    /// <summary>
+    /// Dto dla szukania po dacie
+    /// </summary>
     public class DateSearchRequestDto : SearchRequestDto
     {
         public DateTime? MinimalDate { get; set; }
@@ -27,12 +36,18 @@ namespace AccommodationShared.Dtos
         public bool ShowPartiallyMatchingResults { get; set; }
     }
 
+    /// <summary>
+    /// Dto dla szukania po cenie
+    /// </summary>
     public class PriceSearchRequestDto : SearchRequestDto
     {
         public double? MinimalPrice { get; set; }
         public double? MaximalPrice { get; set; }
     }
 
+    /// <summary>
+    /// Dto dla szukania zaawansowanego
+    /// </summary>
     public class AdvancedSearchRequestDto : SearchRequestDto
     {
         public string PlaceName { get; set; }

@@ -8,6 +8,7 @@ using AccommodationDataAccess.Domain;
 using AccommodationDataAccess.Model;
 using AccomodationWebApi.Providers;
 using System.Data.Entity;
+using AccomodationWebApi.Attributes;
 
 namespace AccomodationWebApi.Controllers
 {
@@ -27,6 +28,11 @@ namespace AccomodationWebApi.Controllers
             _provider = new ContextProvider<AccommodationContext>();
         }
 
+        /// <summary>
+        /// Wysyła pokój o danym id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 
         public IHttpActionResult Get(int id)
         {

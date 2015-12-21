@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace AccommodationShared.Dtos
 {
+    /// <summary>
+    /// Dto dla podstawowych informacji o userze
+    /// </summary>
     public class UserBasicDataDto
     {
         public string FirstName { get; set; }

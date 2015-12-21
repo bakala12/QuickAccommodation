@@ -25,23 +25,19 @@ namespace AccommodationApplication.ViewModels
     /// </summary>
     public class HistoryViewModel : ViewModelBase, IPageViewModel
     {
-        /// <summary>
-        /// Komenda do usuwania oferty
-        /// </summary>
-        public ICommand RemoveCommand { get; set; }
 
         private readonly OffersProxy offersProxy;
         private readonly OfferInfoesProxy offerInfoesProxy;
-        private readonly PlacesProxy PlacesProxy;
+        private readonly PlacesProxy placesProxy;
         private readonly AddressesProxy addressesProxy;
         private readonly UsersProxy usersProxy;
-        private readonly RoomsProxy _roomsProxy = new RoomsProxy();
+        private readonly RoomsProxy roomsProxy = new RoomsProxy();
 
         public HistoryViewModel()
         {
             this.offersProxy = new OffersProxy();
             this.offerInfoesProxy = new OfferInfoesProxy();
-            this.PlacesProxy = new PlacesProxy();
+            this.placesProxy = new PlacesProxy();
             this.addressesProxy = new AddressesProxy();
             this.usersProxy = new UsersProxy();
 
@@ -58,7 +54,7 @@ namespace AccommodationApplication.ViewModels
         }
 
         /// <summary>
-        /// Aktualnie zaznaczona oferta (do usunięcia)
+        /// Aktualnie zaznaczona oferta
         /// </summary>
         public DisplayableOffer CurrentlySelectedOffer { get; set; }
 
@@ -71,7 +67,7 @@ namespace AccommodationApplication.ViewModels
         public ObservableCollection<DisplayableOffer> currentOffersList;
 
         /// <summary>
-        /// Lista ofert dodanych przez aktualnego usera
+        /// Lista ofert dodanych przez aktualnego usera (historia)
         /// </summary>
         public ObservableCollection<DisplayableOffer> CurrentOffersList
         {
@@ -87,22 +83,30 @@ namespace AccommodationApplication.ViewModels
                 return currentOffersList;
             }
         }
+
+        /// <summary>
+        /// Wczytywanie historii ofert
+        /// </summary>
         public async void Load()
         {
 
             var ret = new ObservableCollection<DisplayableOffer>();
 
+            //nazwa aktualnego usera
             string currentUser = Thread.CurrentPrincipal.Identity.Name;
 
+            //wyslij zapytanie o akutualnego usera
             User user = await usersProxy.GetUser(currentUser);
 
+            //wyslij zapytanie o listę ofert
             var list = await offersProxy.GetUserHistoricalOffers(user.Id);
 
+            //Dla każdej oferty w historii stwórz jej wersję do wyświetlenia
             foreach (var item in list)
             {
                 OfferInfo oi = await offerInfoesProxy.Get(item.OfferInfoId);
-                Room r = await _roomsProxy.Get(item.RoomId);
-                Place p = await PlacesProxy.Get(r.PlaceId);
+                Room r = await roomsProxy.Get(item.RoomId);
+                Place p = await placesProxy.Get(r.PlaceId);
                 Address a = await addressesProxy.Get(p.AddressId);
 
                 p.Address = a;

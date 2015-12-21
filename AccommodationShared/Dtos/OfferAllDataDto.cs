@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace AccommodationShared.Dtos
 {
+    /// <summary>
+    /// Dto dla wszystkich danych oferty
+    /// </summary>
     public class OfferAllDataDto
     {
         public OfferInfo OfferInfo { get; set; }
