@@ -8,6 +8,9 @@ using System.Web;
 
 namespace AccomodationWebApi
 {
+    /// <summary>
+    /// Klasa do powiadomień mailowych
+    /// </summary>
     public static class EmailNotification
     {
 
@@ -18,7 +21,7 @@ namespace AccomodationWebApi
         private static string body2 = "Powyższa wiadomość została wygenerowana autmatycznie, prosimy nie odpowiadać";
 
 
-        public static bool SendReservationNotification(OfferInfo offerInfo, Place place, UserData vendor, UserData customer, Room room)
+        public static bool SendNotification(OfferInfo offerInfo, Place place, UserData vendor, UserData customer, Room room, bool revervation)
         {
 
             MailMessage mail = new MailMessage();
@@ -31,7 +34,10 @@ namespace AccomodationWebApi
             var sb = new StringBuilder();
             sb.AppendFormat("Witaj, {0}", vendor.FirstName);
             sb.AppendLine();
-            sb.AppendFormat("Użytkownik {0} {1} zarezerwował ofertę:", customer.FirstName, customer.LastName);
+            if(revervation)
+                sb.AppendFormat("Użytkownik {0} {1} zarezerwował ofertę:", customer.FirstName, customer.LastName);
+            else
+                sb.AppendFormat("Użytkownik {0} {1} zrezygnował z  oferty:", customer.FirstName, customer.LastName);
             sb.AppendLine();
             sb.AppendFormat("{0}, pokój nr {1}, od {2} do {3}", place.PlaceName, room.Number, offerInfo.OfferStartTime.Date.ToString("dd/MM/yyyy"), offerInfo.OfferEndTime.Date.ToString("dd/MM/yyyy"));
             sb.AppendLine();

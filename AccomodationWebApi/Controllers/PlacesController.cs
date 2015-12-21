@@ -1,5 +1,6 @@
 ﻿using AccommodationDataAccess.Domain;
 using AccommodationDataAccess.Model;
+using AccomodationWebApi.Attributes;
 using AccomodationWebApi.Providers;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ using System.Web.Http;
 
 namespace AccomodationWebApi.Controllers
 {
-    //test implementation only
+
     [RoutePrefix("api/places")]
     public class PlacesController : ApiController
     {
@@ -30,6 +31,12 @@ namespace AccomodationWebApi.Controllers
             _provider = new ContextProvider<AccommodationContext>();
         }
 
+        /// <summary>
+        /// Wysyła miejsce o danym id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+
         public IHttpActionResult Get(int id)
         {
             Place place = null;
@@ -46,7 +53,7 @@ namespace AccomodationWebApi.Controllers
             }
             return Ok(place);
 
-          
+
         }
     }
 }

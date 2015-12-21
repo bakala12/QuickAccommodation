@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace AccommodationShared.Dtos
 {
+    /// <summary>
+    /// Dto dla rezerwacji oferty
+    /// </summary>
     public class ReserveOfferDto
     {
         public string Username { get; set; }

@@ -15,7 +15,6 @@ using System.Web.Http;
 
 namespace AccomodationWebApi.Controllers
 {
-    //test implementation only
     [RoutePrefix("api/offers")]
     public class OffersController : ApiController
     {
@@ -34,7 +33,11 @@ namespace AccomodationWebApi.Controllers
         }
 
 
-
+        /// <summary>
+        /// Wysyła listę ofert użytkownika o danym id
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         [Route("GetUserOffers/{UserId?}"), HttpGet]
         public IHttpActionResult GetUserOffers(int userId)
         {
@@ -54,10 +57,15 @@ namespace AccomodationWebApi.Controllers
 
         }
 
+        /// <summary>
+        /// Wysyła listę wszystkich (w tym także już nieaktualnych) ofert użytkowania.
+        /// Potrzebne przy tworzeniu hostorii
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         [Route("GetUserHistoricalOffers/{UserId?}"), HttpGet]
         public IHttpActionResult GetUserHistoricalOffers(int userId)
         {
-
             IList<HistoricalOffer> ret;
 
             using (var context = _provider.GetNewContext())
@@ -73,6 +81,11 @@ namespace AccomodationWebApi.Controllers
 
         }
 
+        /// <summary>
+        /// Wysyła ofertę o danym id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [Route("GetOffer/{id?}"), HttpGet]
         public IHttpActionResult Get(int id)
         {
@@ -96,6 +109,11 @@ namespace AccomodationWebApi.Controllers
 
         }
 
+        /// <summary>
+        /// Wysyła ofertę o danym id (oferta może być już nieaktualna)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [Route("GetHistoricalOffer/{id?}"), HttpGet]
         public IHttpActionResult GetHistorcialOffer(int id)
         {
@@ -118,6 +136,11 @@ namespace AccomodationWebApi.Controllers
 
 
         }
+        /// <summary>
+        /// Zapisuje nową ofertę w bazie
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
         [Route("saveOffer"), HttpPost]
         [RequireHttps]
         public IHttpActionResult SaveOfferAsync(OfferAllDataDto dto)
@@ -174,6 +197,7 @@ namespace AccomodationWebApi.Controllers
                     }
                     user.MyOffers.Add(offerToAdd);
 
+                    //zapisanie do historii
                     HistoricalOffer historicalOffer = new HistoricalOffer();
                     historicalOffer.OfferInfo = offerToAdd.OfferInfo;
                     historicalOffer.Vendor = offerToAdd.Vendor;
@@ -211,6 +235,11 @@ namespace AccomodationWebApi.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Edycja oferty w bazie
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
         [Route("editOffer"), HttpPost]
         [RequireHttps]
         public IHttpActionResult EditOffer(OfferEditDataDto dto)
@@ -239,6 +268,11 @@ namespace AccomodationWebApi.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Usuuwanie oferty z bazy
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
         [Route("removeOffer"), HttpPost]
         [RequireHttps]
         public IHttpActionResult RemoveOfferAsync(OfferEditDataDto dto)
@@ -272,6 +306,11 @@ namespace AccomodationWebApi.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Rezerwacja oferty
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
         [Route("reserve"), HttpPost]
         public IHttpActionResult ReserveOffer(ReserveOfferDto dto)
         {
@@ -297,7 +336,8 @@ namespace AccomodationWebApi.Controllers
                     context.SaveChanges();
                     transaction.Commit();
 
-                    EmailNotification.SendReservationNotification(offerInfo, place, vendorData, customerData, room);
+                    //Wysłanie powiadomienia mailowego, ostatni parametr oznacza rezerwację
+                    EmailNotification.SendNotification(offerInfo, place, vendorData, customerData, room,true);
                 }
             }
 
@@ -305,6 +345,11 @@ namespace AccomodationWebApi.Controllers
             return Ok(true);
         }
 
+        /// <summary>
+        /// Rezygnacja z oferty
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
         [Route("resign"), HttpPost]
         public IHttpActionResult ResignOffer(ReserveOfferDto dto)
         {
@@ -313,18 +358,35 @@ namespace AccomodationWebApi.Controllers
                 using (var transaction = (context as DbContext).Database.BeginTransaction())
                 {
                     Offer offer = context.Offers.FirstOrDefault(o => o.Id == dto.OfferId);
-                    User user = context.Users.FirstOrDefault(u => u.Username.Equals(dto.Username));
-                    if (offer == null || user == null) return NotFound();
+                    User customer = context.Users.FirstOrDefault(u => u.Username.Equals(dto.Username));
+                    User vendor = context.Users.FirstOrDefault(x => x.Id == offer.VendorId);
+
+                    if (offer == null || customer == null) return NotFound();
                     if (!offer.IsBooked) return BadRequest();
+
+
+                    OfferInfo offerInfo = context.OfferInfo.FirstOrDefault(o => o.Id == offer.OfferInfoId);
+                    UserData customerData = context.UserData.FirstOrDefault(x => x.Id == customer.UserDataId);
+                    UserData vendorData = context.UserData.FirstOrDefault(x => x.Id == vendor.UserDataId);
+                    Room room = context.Rooms.FirstOrDefault(x => x.Id == offer.RoomId);
+                    Place place = context.Places.FirstOrDefault(x => x.Id == room.PlaceId);
                     offer.IsBooked = false;
                     offer.Customer = null;
                     context.SaveChanges();
                     transaction.Commit();
+
+                    //Wysłanie powiadomienia mailowego, ostatni parametr oznacza rezygnację
+                    EmailNotification.SendNotification(offerInfo, place, vendorData, customerData, room, false);
                 }
             }
             return Ok(true);
         }
 
+        /// <summary>
+        /// Wysyła zarezerwowane oferty danego usera
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
         [Route("reservedOffers/{username?}"), HttpGet]
         public IHttpActionResult GetReservedOffers(string username)
         {

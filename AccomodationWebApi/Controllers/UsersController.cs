@@ -1,5 +1,6 @@
 ﻿using AccommodationDataAccess.Domain;
 using AccommodationDataAccess.Model;
+using AccomodationWebApi.Attributes;
 using AccomodationWebApi.Providers;
 using System;
 using System.Collections.Generic;
@@ -28,7 +29,11 @@ namespace AccomodationWebApi.Controllers
             _provider = new ContextProvider<AccommodationContext>();
         }
 
-
+        /// <summary>
+        /// Wysła usera o danej nazwie
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
         [Route("getuser/{username?}"), HttpGet]
         public IHttpActionResult Get(string username = null)
         {

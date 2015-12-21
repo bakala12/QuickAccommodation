@@ -8,6 +8,9 @@ using AccommodationDataAccess.Model;
 
 namespace AccommodationShared.Dtos
 {
+    /// <summary>
+    /// Dto dla wszystkich informacji o userze
+    /// </summary>
     public class UserAllDataDto
     {
         public User User { get; set; }

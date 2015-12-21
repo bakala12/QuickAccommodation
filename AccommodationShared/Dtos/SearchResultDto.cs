@@ -7,6 +7,9 @@ using AccommodationDataAccess.Model;
 
 namespace AccommodationShared.Dtos
 {
+    /// <summary>
+    /// Dto dla wyników wyszukiwania
+    /// </summary>
     public class SearchResultDto
     {
         public IEnumerable<Offer> Offers { get; set; }

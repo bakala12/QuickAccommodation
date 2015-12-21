@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace AccommodationShared.Dtos
 {
+    /// <summary>
+    /// Dto dla zmiany danych użytkownika
+    /// </summary>
     public class ChangeUserDataDto : UserBasicDataDto
     {
         public string Username { get; set; }

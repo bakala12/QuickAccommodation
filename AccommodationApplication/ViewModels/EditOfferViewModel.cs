@@ -109,9 +109,12 @@ namespace AccommodationApplication.ViewModels
                 Number = RoomNumber
             };
 
+            //nazwa aktualnego usera
             string currentUser = Thread.CurrentPrincipal.Identity.Name;
+
             try
             {
+                //asynchronicznie wysyła zapytanie do edycji oferty
                 await offersProxy.EditOfferAsync(currentUser, this.Id, offerInfo, place, room);
             }
             catch (Exception)
@@ -126,6 +129,9 @@ namespace AccommodationApplication.ViewModels
            
         }
 
+        /// <summary>
+        /// Opis oferty
+        /// </summary>
         public string Description
         {
             get
@@ -139,7 +145,9 @@ namespace AccommodationApplication.ViewModels
             }
         }
 
-
+        /// <summary>
+        /// Pojemność pokoju
+        /// </summary>
         public string AvailiableVacanciesNumber
         {
             get
@@ -153,6 +161,9 @@ namespace AccommodationApplication.ViewModels
             }
         }
 
+        /// <summary>
+        /// Cena
+        /// </summary>
         public string Price
         {
             get
@@ -166,7 +177,9 @@ namespace AccommodationApplication.ViewModels
             }
         }
 
-
+        /// <summary>
+        /// Początowa data oferty
+        /// </summary>
         public DateTime StartDate
         {
             get
@@ -180,6 +193,9 @@ namespace AccommodationApplication.ViewModels
             }
         }
 
+        /// <summary>
+        /// Końcowa data oferty
+        /// </summary>
         public DateTime EndDate
         {
             get
@@ -193,6 +209,9 @@ namespace AccommodationApplication.ViewModels
             }
         }
 
+        /// <summary>
+        /// Nazwa miejsca w którym jest wystawiona oferta
+        /// </summary>
         public string AccommodationName
         {
             get
@@ -206,6 +225,9 @@ namespace AccommodationApplication.ViewModels
             }
         }
 
+        /// <summary>
+        /// Tekst guzika 
+        /// </summary>
         public string Name
         {
             get
@@ -214,6 +236,9 @@ namespace AccommodationApplication.ViewModels
             }
         }
 
+        /// <summary>
+        /// Nazwa ulicy
+        /// </summary>
         public string Street
         {
             get { return _street; }
@@ -224,6 +249,9 @@ namespace AccommodationApplication.ViewModels
             }
         }
 
+        /// <summary>
+        /// Numer domu
+        /// </summary>
         public string LocalNumber
         {
             get { return _localNumber; }
@@ -234,6 +262,9 @@ namespace AccommodationApplication.ViewModels
             }
         }
 
+        /// <summary>
+        /// Kod pocztowy
+        /// </summary>
         public string PostalCode
         {
             get { return _postalCode; }
@@ -244,6 +275,9 @@ namespace AccommodationApplication.ViewModels
             }
         }
 
+        /// <summary>
+        /// Nazwa miasta
+        /// </summary>
         public string City
         {
             get { return _city; }
@@ -256,6 +290,9 @@ namespace AccommodationApplication.ViewModels
 
         private string _roomNumber;
 
+        /// <summary>
+        /// Numer pokoju
+        /// </summary>
         public string RoomNumber
         {
             get { return _roomNumber; }
@@ -268,6 +305,9 @@ namespace AccommodationApplication.ViewModels
 
         public string Error => String.Empty;
 
+        /// <summary>
+        /// Id oferty
+        /// </summary>
         public int Id { get; set; }
 
         /// <summary>
