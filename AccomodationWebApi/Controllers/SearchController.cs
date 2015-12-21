@@ -36,7 +36,8 @@ namespace AccomodationWebApi.Controllers
         {
             using (var context = _provider.GetNewContext())
             {
-                (context as DbContext).Configuration.ProxyCreationEnabled = false;
+                if(context is DbContext)
+                    (context as DbContext).Configuration.ProxyCreationEnabled = false;
                 if (string.IsNullOrEmpty(username)) return NotFound();
                 User u = context.Users.FirstOrDefault(us => us.Username.Equals(username));
                 if (u == null) return NotFound();

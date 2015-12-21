@@ -36,7 +36,8 @@ namespace AccomodationWebApi.Controllers
 
             using (var context = _provider.GetNewContext())
             {
-                (context as DbContext).Configuration.ProxyCreationEnabled = false;
+                if(context is DbContext)
+                    (context as DbContext).Configuration.ProxyCreationEnabled = false;
                 place = context.Places.FirstOrDefault(o => o.Id == id);
             }
 

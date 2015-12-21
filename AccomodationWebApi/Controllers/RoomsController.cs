@@ -33,7 +33,8 @@ namespace AccomodationWebApi.Controllers
             Room room = null;
             using (var context = _provider.GetNewContext())
             {
-                (context as DbContext).Configuration.ProxyCreationEnabled = false;
+                if(context is DbContext)
+                    (context as DbContext).Configuration.ProxyCreationEnabled = false;
                 room = context.Rooms.FirstOrDefault(r => r.Id == id);
             }
             if (room == null) return NotFound();

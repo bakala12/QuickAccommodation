@@ -11,6 +11,7 @@ using System.Net;
 using System.Net.Http;
 using System.Reflection.Emit;
 using System.Threading;
+using System.Transactions;
 using System.Web.Http;
 
 namespace AccomodationWebApi.Controllers
@@ -43,10 +44,11 @@ namespace AccomodationWebApi.Controllers
 
             using (var context = _provider.GetNewContext())
             {
-                using (var transaction = (context as DbContext).Database.BeginTransaction())
+                using (var transaction = new TransactionScope())
                 {
                     if (context is DbContext) (context as DbContext).Configuration.ProxyCreationEnabled = false;
                     ret = context.Offers.Where(o => o.VendorId == userId).ToList();
+                    transaction.Complete();
                 }
             }
 
@@ -62,10 +64,12 @@ namespace AccomodationWebApi.Controllers
 
             using (var context = _provider.GetNewContext())
             {
-                using (var transaction = (context as DbContext).Database.BeginTransaction())
+                using (var transaction = new TransactionScope())
                 {
-                    if (context is DbContext) (context as DbContext).Configuration.ProxyCreationEnabled = false;
+                    if (context is DbContext)
+                        (context as DbContext).Configuration.ProxyCreationEnabled = false;
                     ret = context.HistoricalOffers.Where(o => o.VendorId == userId).ToList();
+                    transaction.Complete();
                 }
             }
 
@@ -80,10 +84,12 @@ namespace AccomodationWebApi.Controllers
 
             using (var context = _provider.GetNewContext())
             {
-                using (var transaction = (context as DbContext).Database.BeginTransaction())
+                using (var transaction = new TransactionScope())
                 {
-                    if (context is DbContext) (context as DbContext).Configuration.ProxyCreationEnabled = false;
+                    if (context is DbContext)
+                        (context as DbContext).Configuration.ProxyCreationEnabled = false;
                     offer = context.Offers.FirstOrDefault(o => o.Id == id);
+                    transaction.Complete();
                 }
             }
 
@@ -103,11 +109,8 @@ namespace AccomodationWebApi.Controllers
 
             using (var context = _provider.GetNewContext())
             {
-                using (var transaction = (context as DbContext).Database.BeginTransaction())
-                {
                     if (context is DbContext) (context as DbContext).Configuration.ProxyCreationEnabled = false;
                     offer = context.HistoricalOffers.FirstOrDefault(o => o.OriginalOfferId == id);
-                }
             }
 
             if (offer == null)
@@ -124,7 +127,7 @@ namespace AccomodationWebApi.Controllers
         {
             using (var context = _provider.GetNewContext())
             {
-                using (var transaction = (context as DbContext).Database.BeginTransaction())
+                using (var transaction = new TransactionScope())
                 {
                     Offer offerToAdd = new Offer();
 
@@ -204,7 +207,7 @@ namespace AccomodationWebApi.Controllers
                     }
 
                     context.SaveChanges();
-                    transaction.Commit();
+                    transaction.Complete();
                 }
             }
 
@@ -217,7 +220,7 @@ namespace AccomodationWebApi.Controllers
         {
             using (var context = _provider.GetNewContext())
             {
-                using (var transaction = (context as DbContext).Database.BeginTransaction())
+                using (var transaction = new TransactionScope())
                 {
                     User user = context.Users.FirstOrDefault(u => u.Username.Equals(dto.Username));
                     if (user == null) return NotFound();
@@ -233,7 +236,7 @@ namespace AccomodationWebApi.Controllers
                     ho.Room.Place.Address = offer.Room.Place.Address = dto.Place.Address;
 
                     context.SaveChanges();
-                    transaction.Commit();
+                    transaction.Complete();
                 }
             }
             return Ok();
@@ -246,7 +249,7 @@ namespace AccomodationWebApi.Controllers
 
             using (var context = _provider.GetNewContext())
             {
-                using (var transaction = (context as DbContext).Database.BeginTransaction())
+                using (var transaction = new TransactionScope())
                 {
                     User user = context.Users.FirstOrDefault(x => x.Username.Equals(dto.Username));
                     if (user == null) return NotFound();
@@ -266,7 +269,7 @@ namespace AccomodationWebApi.Controllers
                     user.MyOffers.Remove(offer);
 
                     context.SaveChanges();
-                    transaction.Commit();
+                    transaction.Complete();
                 }
             }
             return Ok();
@@ -277,7 +280,7 @@ namespace AccomodationWebApi.Controllers
         {
             using (var context = _provider.GetNewContext())
             {
-                using (var transaction = (context as DbContext).Database.BeginTransaction())
+                using (var transaction = new TransactionScope())
                 {
                     Offer offer = context.Offers.FirstOrDefault(o => o.Id == dto.OfferId);
 
@@ -295,9 +298,9 @@ namespace AccomodationWebApi.Controllers
                     offer.IsBooked = true;
                     offer.Customer = customer;
                     context.SaveChanges();
-                    transaction.Commit();
 
                     EmailNotification.SendReservationNotification(offerInfo, place, vendorData, customerData, room);
+                    transaction.Complete();
                 }
             }
 
@@ -310,7 +313,7 @@ namespace AccomodationWebApi.Controllers
         {
             using (var context = _provider.GetNewContext())
             {
-                using (var transaction = (context as DbContext).Database.BeginTransaction())
+                using (var transaction = new TransactionScope())
                 {
                     Offer offer = context.Offers.FirstOrDefault(o => o.Id == dto.OfferId);
                     User user = context.Users.FirstOrDefault(u => u.Username.Equals(dto.Username));
@@ -319,7 +322,7 @@ namespace AccomodationWebApi.Controllers
                     offer.IsBooked = false;
                     offer.Customer = null;
                     context.SaveChanges();
-                    transaction.Commit();
+                    transaction.Complete();
                 }
             }
             return Ok(true);
@@ -331,8 +334,6 @@ namespace AccomodationWebApi.Controllers
             IList<Offer> offers = null;
             using (var context = _provider.GetNewContext())
             {
-                using (var transaction = (context as DbContext).Database.BeginTransaction())
-                {
                     if (context is DbContext) (context as DbContext).Configuration.ProxyCreationEnabled = false;
                     User user = context.Users.FirstOrDefault(u => u.Username.Equals(username));
                     if (user == null) return NotFound();
@@ -341,7 +342,6 @@ namespace AccomodationWebApi.Controllers
                     {
                         offer.Customer = null;
                     }
-                }
             }
             return Ok(offers);
 

@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Transactions;
 using System.Web.Http;
 using AccommodationDataAccess.Domain;
 using AccommodationDataAccess.Model;
@@ -71,7 +72,7 @@ namespace AccomodationWebApi.Controllers
         {
             using (var context = _provider.GetNewContext())
             {
-                using (var transaction = (context as DbContext).Database.BeginTransaction())
+                using (var transaction = new TransactionScope())
                 {
                     User user = context.Users.FirstOrDefault(u => u.Username.Equals(dto.Username));
                     if (user == null) return NotFound();
@@ -84,7 +85,7 @@ namespace AccomodationWebApi.Controllers
                     };
                     user.UserData = data;
                     context.SaveChanges();
-                    transaction.Commit();
+                    transaction.Complete();
                 }
             }
             return Ok(true);
@@ -103,14 +104,14 @@ namespace AccomodationWebApi.Controllers
             User newUser = register.GetNewUser(dto.Username, dto.NewPassword);
             using (var context = _provider.GetNewContext())
             {
-                using (var transaction = (context as DbContext).Database.BeginTransaction())
+                using (var transaction = new TransactionScope())
                 {
                     User user = context.Users.FirstOrDefault(u => u.Username.Equals(dto.Username));
                     if (user == null) return NotFound();
                     user.Salt = newUser.Salt;
                     user.HashedPassword = newUser.HashedPassword;
                     context.SaveChanges();
-                    transaction.Commit();
+                    transaction.Complete();
                 }
             }
             return Ok(true);
@@ -126,12 +127,12 @@ namespace AccomodationWebApi.Controllers
         {
             using (var context = _provider.GetNewContext())
             {
-                using (var transaction = (context as DbContext).Database.BeginTransaction())
+                using (var transaction = new TransactionScope())
                 {
                     User user = context.Users.FirstOrDefault(u => u.Username.Equals(username));
                     if (user == null) NotFound();
                     Rank rank = context.Ranks.FirstOrDefault(r => r.Id == user.Rank.Id);
-                    transaction.Commit();
+                    transaction.Complete();
                     return Ok(rank?.Name);
                 }
             }

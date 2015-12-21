@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Web.Http;
 using AccommodationDataAccess.Domain;
@@ -78,7 +79,7 @@ namespace AccomodationWebApi.Controllers
         public IHttpActionResult GetNewUserAsync(UserCredentialDto dto)
         {
             IRegisterUser register = new UserRegister();
-            User user = register.GetNewUser(dto.Username, dto.Password);
+            User user =register.GetNewUser(dto.Username, dto.Password);
             return Ok(user);
         }
     }
