@@ -81,6 +81,8 @@ namespace AccommodationApplication.ViewModels
         public async virtual Task ChangePageAsync(IPageViewModel p)
         {
             await Task.Run(() => ChangeViewModel(p));
+            Task t =(p as StatisticsViewModel)?.Load();
+            if (t != null) await t;
         }
 
         /// <summary>

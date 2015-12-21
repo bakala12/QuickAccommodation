@@ -63,6 +63,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="AccommodationMockContext.cs" />
     <Compile Include="LoginTests.cs" />
     <Compile Include="MockContext.cs" />
     <Compile Include="MockDbSet.cs" />
