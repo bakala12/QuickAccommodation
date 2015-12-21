@@ -30,7 +30,7 @@ namespace UserAuthorizationSystem.Authentication
             using (var context = new T())
             {
                 User user = context.Users.FirstOrDefault(x => x.Username.Equals(username));
-                if (user == null) return null;
+                if (user == null || user.Username.Length!=username.Length) return null;
                 string hash = PasswordHashHelper.CalculateHash(password, user.Salt);
                 return user.HashedPassword.Equals(hash) ? new CustomIdentity(username) : null;
             }

@@ -13,6 +13,7 @@ using System.Threading;
 using System.ComponentModel;
 using AccommodationApplication.Model;
 using System.Collections.ObjectModel;
+using System.Windows;
 using AccommodationApplication.Services;
 
 namespace AccommodationApplication.ViewModels
@@ -109,8 +110,15 @@ namespace AccommodationApplication.ViewModels
             };
 
             string currentUser = Thread.CurrentPrincipal.Identity.Name;
-            await offersProxy.EditOfferAsync(currentUser, this.Id, offerInfo, place, room);
-
+            try
+            {
+                await offersProxy.EditOfferAsync(currentUser, this.Id, offerInfo, place, room);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Wystąpił błąd przy edycji oferty");
+                return;
+            }
             Close();
 
             //uaktualnij bieżące oferty

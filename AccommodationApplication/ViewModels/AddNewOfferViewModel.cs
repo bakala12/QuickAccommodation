@@ -134,7 +134,6 @@ namespace AccommodationApplication.ViewModels
             }
         }
 
-
         public string AvailiableVacanciesNumber
         {
             get

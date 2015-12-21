@@ -108,15 +108,15 @@ namespace AccomodationWebApi.Controllers
                     }
                     user.MyOffers.Add(offerToAdd);
 
-                    //HistoricalOffer historicalOffer = new HistoricalOffer();
-                    //historicalOffer.Room = dto.Room;
-                    //historicalOffer.Room.Place = dto.Place;
-                    //historicalOffer.OfferInfo = dto.OfferInfo;
-                    //historicalOffer.Vendor = user;
-                    //historicalOffer.Room.Place.Address = dto.Place.Address;
-                    //historicalOffer.OriginalOffer = offerToAdd;
+                    HistoricalOffer historicalOffer = new HistoricalOffer();
+                    historicalOffer.OfferInfo = offerToAdd.OfferInfo;
+                    historicalOffer.Vendor = offerToAdd.Vendor;
+                    historicalOffer.Room = offerToAdd.Room;
+                    historicalOffer.Room.Place = offerToAdd.Room.Place;
+                    historicalOffer.Room.Place.Address = offerToAdd.Room.Place.Address;
+                    historicalOffer.OriginalOffer = offerToAdd;
 
-                    //user.MyHistoricalOffers.Add(historicalOffer);
+                    user.MyHistoricalOffers.Add(historicalOffer);
 
                     //ewentualna zmiana rangi
                     int c = user.MyHistoricalOffers.Count;
