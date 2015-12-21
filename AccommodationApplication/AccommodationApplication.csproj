@@ -137,9 +137,13 @@
     <Compile Include="Pages\MyProfileView.xaml.cs">
       <DependentUpon>MyProfileView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\StatisticsView.xaml.cs">
+      <DependentUpon>StatisticsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Services\LoginProxy.cs" />
     <Compile Include="Services\RoomsProxy.cs" />
     <Compile Include="Services\SearchProxy.cs" />
+    <Compile Include="Services\StatisticsProxy.cs" />
     <Compile Include="Services\UsersProxy.cs" />
     <Compile Include="Services\OfferInfoesProxy.cs" />
     <Compile Include="Services\AddressesProxy.cs" />
@@ -151,6 +155,7 @@
     <Compile Include="ViewModels\EditUserDataViewModel.cs" />
     <Compile Include="ViewModels\MyProfileViewModel.cs" />
     <Compile Include="ViewModels\HistoryViewModel.cs" />
+    <Compile Include="ViewModels\StatisticsViewModel.cs" />
     <Compile Include="Views\Windows\ChangePasswordDialog.xaml.cs">
       <DependentUpon>ChangePasswordDialog.xaml</DependentUpon>
     </Compile>
@@ -220,6 +225,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\MyProfileView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\StatisticsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

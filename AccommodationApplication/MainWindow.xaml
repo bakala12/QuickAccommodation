@@ -31,6 +31,9 @@
             <DataTemplate DataType="{x:Type vm:HistoryViewModel}">
                 <pg:HistoryView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:StatisticsViewModel}">
+                <pg:StatisticsView/>
+            </DataTemplate>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles/MainWindowStyles.xaml"/>
                 <ResourceDictionary Source="Styles/LoginStyles.xaml"/>

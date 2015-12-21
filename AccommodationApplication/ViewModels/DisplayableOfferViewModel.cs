@@ -51,8 +51,8 @@ namespace AccommodationApplication.ViewModels
             string username = Thread.CurrentPrincipal.Identity.Name;
             try
             {
-                await _service.ReserveOffer(username, id);
                 OfferReserved?.Invoke(this, EventArgs.Empty);
+                await _service.ReserveOffer(username, id);
                 MessageBox.Show("Oferta została zarezerwowana");
             }
             catch (ArgumentException)
@@ -97,8 +97,8 @@ namespace AccommodationApplication.ViewModels
             string username = Thread.CurrentPrincipal.Identity.Name;
             try
             {
-                await _service.ResignOffer(username, offer.Id);
                 OfferResigned?.Invoke(this, EventArgs.Empty);
+                await _service.ResignOffer(username, offer.Id);
                 MessageBox.Show("Rezygnacja z oferty została dokonana pomyślnie");
             }
             catch (ArgumentException)

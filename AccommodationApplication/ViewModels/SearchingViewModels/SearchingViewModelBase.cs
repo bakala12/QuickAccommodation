@@ -130,7 +130,7 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
                 SearchingResults = offers.Select(o => new DisplayableOfferViewModel(new DisplayableOffer(o)));
                 foreach (var displayableOfferViewModel in SearchingResults)
                 {
-                    displayableOfferViewModel.OfferReserved += async (x,e)=>await OnOfferReserved(x,e);
+                    displayableOfferViewModel.OfferReserved += (x,e)=>OnOfferReserved(x,e);
                 }
             }
             catch (Exception)
@@ -140,9 +140,13 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
             }
         }
 
-        public async Task OnOfferReserved(object sender, EventArgs e)
+        public void OnOfferReserved(object sender, EventArgs e)
         {
-            await SearchResultAsync();
+            List<DisplayableOfferViewModel> vms = SearchingResults?.ToList();
+            DisplayableOfferViewModel vm = sender as DisplayableOfferViewModel;
+            if(vm ==null || vms ==null) return;
+            vms.Remove(vm);
+            SearchingResults = vms;
         }
     }
 }
