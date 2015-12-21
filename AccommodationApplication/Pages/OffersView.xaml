@@ -34,103 +34,113 @@
                 <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
                 <converters:ReverseBoolConverter x:Key="ReverseBoolConverter"/>
                 <DataTemplate x:Key="DefaultItemTemplate">
-                        <Grid HorizontalAlignment="Stretch">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <StackPanel Grid.Row="0" Grid.Column="0">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition Width="auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Label Grid.Column="0" Content="{Binding PlaceName}" FontWeight="Bold"/>
-                                    <Label Grid.Column="1" Content="{Binding Address}" FontWeight="Bold"  />
-                                </Grid>
-                            </StackPanel>
-                            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
-                                <Label  Content="Od: "/>
-                                <Label  Content="{Binding OfferStartTime, StringFormat='dd-mm-yyyy' }" />
-                                <Label  Content="Do: "/>
-                                <Label  Content="{Binding OfferEndTime, StringFormat='dd-mm-yyyy' }" />
-                            </StackPanel>
-                            <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
-                                <Label  Content="Liczba wolnych miejsc: "  />
-                                <Label  Content="{Binding AvailableVacanciesNumber}"  />
-                                <Label  Content="Cena: "  />
-                                <Label  Content="{Binding Price}"  />
-                                <Label Content="zł"/>
-                            </StackPanel>
-                            <TextBlock Grid.Column="1" Grid.RowSpan="3" Text="Zarezerwowano" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                    <Grid HorizontalAlignment="Stretch">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Row="0" Grid.Column="0">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Content="Miejsce: " Margin="0,0,5,0"/>
+                                    <TextBlock Text="{Binding PlaceName}" FontWeight="Bold" VerticalAlignment="Center"/>
+                                    <Label Content="Adres: " Margin="5,0,5,0"/>
+                                    <TextBlock Text="{Binding Address}" FontWeight="Bold" VerticalAlignment="Center"/>
+                                    <Label Content="Pokój: " Margin="5,0,5,0"/>
+                                    <TextBlock Text="{Binding RoomNumber}" FontWeight="Bold" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
+                            <Label  Content="Od: "/>
+                            <Label  Content="{Binding OfferStartTime, StringFormat='dd-mm-yyyy' }" />
+                            <Label  Content="Do: "/>
+                            <Label  Content="{Binding OfferEndTime, StringFormat='dd-mm-yyyy' }" />
+                        </StackPanel>
+                        <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
+                            <Label  Content="Liczba wolnych miejsc: "  />
+                            <Label  Content="{Binding AvailableVacanciesNumber}"  />
+                            <Label  Content="Cena: "  />
+                            <Label  Content="{Binding Price}"  />
+                            <Label Content="zł"/>
+                        </StackPanel>
+                        <TextBlock Grid.Column="1" Grid.RowSpan="3" Text="Zarezerwowano" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center" 
                                        Foreground="White"
                                        Visibility="{Binding IsBooked, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter={StaticResource True}}"/>
-                        </Grid>
+                    </Grid>
                 </DataTemplate>
 
                 <!-- Widok oferty rozwiniętej-->
                 <DataTemplate x:Key="SelectedItemTemplate">
-                        <Grid HorizontalAlignment="Stretch">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="0.2*"/>
-                            </Grid.ColumnDefinitions>
-                            <StackPanel Grid.Row="0" Grid.Column="0">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition Width="auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Label Grid.Column="0" Content="{Binding PlaceName}" FontWeight="Bold"/>
-                                    <Label Grid.Column="1" Content="{Binding Address}" FontWeight="Bold"  />
-                                </Grid>
+                    <Grid HorizontalAlignment="Stretch">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="0.2*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Row="0" Grid.Column="0">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                            </Grid>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Miejsce: " Margin="0,0,5,0"/>
+                                <TextBlock Text="{Binding PlaceName}" FontWeight="Bold" VerticalAlignment="Center"/>
+                                <Label Content="Adres: " Margin="5,0,5,0"/>
+                                <TextBlock Text="{Binding Address}" FontWeight="Bold" VerticalAlignment="Center"/>
+                                <Label Content="Pokój: " Margin="5,0,5,0"/>
+                                <TextBlock Text="{Binding RoomNumber}" FontWeight="Bold" VerticalAlignment="Center"/>
                             </StackPanel>
-                            <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
-                                <Label  Content="Od: "/>
-                                <Label  Content="{Binding OfferStartTime }" />
-                                <Label  Content="Do: "/>
-                                <Label  Content="{Binding OfferEndTime }" />
-                            </StackPanel>
-                            <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
-                                <Label   Content="Liczba wolnych miejsc: "  />
-                                <Label  Content="{Binding AvailableVacanciesNumber}"  />
-                                <Label  Content="Cena: "  />
-                                <Label Content="{Binding Price}"  />
-                                <Label Content="zł"/>
-                            </StackPanel>
-                            <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal">
-                                <Label Content="Data wystawienia oferty:"/>
-                                <Label Content="{Binding OfferPublishTime}"/>
-                            </StackPanel>
-                            <StackPanel Grid.Row="4" Grid.Column="0" Orientation="Horizontal">
-                                <Label Content="Opis: "/>
-                                <Label Content="{Binding Description}"/>
-                            </StackPanel>
-                            <StackPanel Grid.Row="5" Grid.Column="0" Orientation="Horizontal">
-                                <Button  Content="Usuń ofertę" Command="{Binding 
+                        </StackPanel>
+                        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
+                            <Label  Content="Od: "/>
+                            <Label  Content="{Binding OfferStartTime }" />
+                            <Label  Content="Do: "/>
+                            <Label  Content="{Binding OfferEndTime }" />
+                        </StackPanel>
+                        <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
+                            <Label   Content="Liczba wolnych miejsc: "  />
+                            <Label  Content="{Binding AvailableVacanciesNumber}"  />
+                            <Label  Content="Cena: "  />
+                            <Label Content="{Binding Price}"  />
+                            <Label Content="zł"/>
+                        </StackPanel>
+                        <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal">
+                            <Label Content="Data wystawienia oferty:"/>
+                            <Label Content="{Binding OfferPublishTime}"/>
+                        </StackPanel>
+                        <StackPanel Grid.Row="4" Grid.Column="0" Orientation="Horizontal">
+                            <Label Content="Opis: "/>
+                            <Label Content="{Binding Description}"/>
+                        </StackPanel>
+                        <StackPanel Grid.Row="5" Grid.Column="0" Orientation="Horizontal">
+                            <Button  Content="Usuń ofertę" Command="{Binding 
                RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
                Path=DataContext.RemoveCommand}" CommandParameter=""  />
-                                <Button Content="Edytuj ofertę" Command="{Binding 
+                            <Button Content="Edytuj ofertę" Command="{Binding 
                RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
                Path=DataContext.EditCommand}" CommandParameter="" IsEnabled="{Binding IsBooked, Converter={StaticResource ReverseBoolConverter}}"/>
-                            </StackPanel>
-                            <TextBlock Foreground="White" Grid.RowSpan="6" Grid.Column="1" Text="Zarezerwowano"
+                        </StackPanel>
+                        <TextBlock Foreground="White" Grid.RowSpan="6" Grid.Column="1" Text="Zarezerwowano"
                                        HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16"
                                   Visibility="{Binding IsBooked, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter={StaticResource True}}"/>
-                        </Grid>
+                    </Grid>
                 </DataTemplate>
             </ListView.Resources>
 

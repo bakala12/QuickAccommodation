@@ -128,7 +128,7 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
                 }
                 SearchingResults = offers.Select(o => new DisplayableOfferViewModel(new DisplayableOffer(o)));
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 MessageBox.Show("Problem z wyszukiwaniem");
             }
