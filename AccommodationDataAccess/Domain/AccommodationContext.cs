@@ -23,15 +23,15 @@ namespace AccommodationDataAccess.Domain
     /// </summary>
     public interface IAccommodationContext : IDisposable
     {
-        IDbSet<User> Users { get; set; }
-        IDbSet<Offer> Offers { get; set; }
-        IDbSet<OfferInfo> OfferInfo { get; set; }
-        IDbSet<Address> Addresses { get; set; }
-        IDbSet<UserData> UserData { get; set; }
-        IDbSet<Place> Places { get; set; }
-        IDbSet<Rank> Ranks { get; set; }
-        IDbSet<Room> Rooms { get; set; } 
-        IDbSet<HistoricalOffer> HistoricalOffers { get; set; } 
+        IDbSet<User> Users { get; }
+        IDbSet<Offer> Offers { get; }
+        IDbSet<OfferInfo> OfferInfo { get; }
+        IDbSet<Address> Addresses { get; }
+        IDbSet<UserData> UserData { get; }
+        IDbSet<Place> Places { get; }
+        IDbSet<Rank> Ranks { get; }
+        IDbSet<Room> Rooms { get; } 
+        IDbSet<HistoricalOffer> HistoricalOffers { get; } 
         int SaveChanges();
     }
 
