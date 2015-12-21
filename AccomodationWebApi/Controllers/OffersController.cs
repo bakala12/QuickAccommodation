@@ -210,16 +210,29 @@ namespace AccomodationWebApi.Controllers
             {
                 using (var transaction = context.Database.BeginTransaction())
                 {
+                    User customer = context.Users.FirstOrDefault(u => u.Username.Equals(dto.Username));
                     Offer offer = context.Offers.FirstOrDefault(o => o.Id == dto.OfferId);
-                    User user = context.Users.FirstOrDefault(u => u.Username.Equals(dto.Username));
-                    if (offer == null || user == null) return NotFound();
+                    User vendor = context.Users.FirstOrDefault(x => x.Id == offer.VendorId);
+                    OfferInfo offerInfo = context.OfferInfo.FirstOrDefault(o => o.Id == offer.OfferInfoId);
+                    UserData vendorData = context.UserData.FirstOrDefault(x => x.Id == customer.UserDataId);
+                    UserData vendor = context.UserData.FirstOrDefault(x => x.Id == customer.UserDataId);
+                    Room room = context.Rooms.FirstOrDefault(x => x.Id == offer.RoomId);
+                    Place place = context.Places.FirstOrDefault(x => x.Id == room.PlaceId);
+
+                    if (offer == null || customer == null) return NotFound();
                     if (offer.IsBooked) return BadRequest();
                     offer.IsBooked = true;
-                    offer.Customer = user;
+                    offer.Customer = customer;
                     context.SaveChanges();
                     transaction.Commit();
+
+                    EmailNotification.SendReservationNotification(offerInfo,place,vendor,customer)
+
+                   
                 }
             }
+
+
             return Ok(true);
         }
 

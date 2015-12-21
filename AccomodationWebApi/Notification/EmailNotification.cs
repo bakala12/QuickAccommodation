@@ -18,22 +18,22 @@ namespace AccomodationWebApi
         private static string body2 = "Powyższa wiadomość została wygenerowana autmatycznie, prosimy nie odpowiadać";
 
 
-        public static bool SendReservationNotification(OfferInfo offerInfo, Place place, UserData userTo, UserData customer)
+        public static bool SendReservationNotification(OfferInfo offerInfo, Place place, UserData vendor, UserData customer, Room room)
         {
 
             MailMessage mail = new MailMessage();
             SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
 
             mail.From = new MailAddress("quickaccommodationnoreply@gmail.com");
-            mail.To.Add(userTo.Email);
+            mail.To.Add(vendor.Email);
             mail.Subject = subject;
 
             var sb = new StringBuilder();
-            sb.AppendFormat("Witaj, {0}", userTo.FirstName);
+            sb.AppendFormat("Witaj, {0}", vendor.FirstName);
             sb.AppendLine();
             sb.AppendFormat("Użytkownik {0} {1} zarezerwował ofertę:", customer.FirstName, customer.LastName);
             sb.AppendLine();
-            sb.AppendFormat("{0}, od {1} do {2}", place.PlaceName, offerInfo.OfferStartTime, offerInfo.OfferEndTime);
+            sb.AppendFormat("{0}, pokój nr {1}, od {2} do {3}", place.PlaceName, room.Number, offerInfo.OfferStartTime, offerInfo.OfferEndTime);
             sb.AppendLine();
             sb.AppendLine();
             sb.Append(body1);
