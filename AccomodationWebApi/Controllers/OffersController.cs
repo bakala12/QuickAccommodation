@@ -4,9 +4,11 @@ using AccommodationShared.Dtos;
 using AccomodationWebApi.Attributes;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Reflection.Emit;
 using System.Threading;
 using System.Web.Http;
 
@@ -63,30 +65,70 @@ namespace AccomodationWebApi.Controllers
                     User user = context.Users.FirstOrDefault(x => x.Id == dto.Vendor.Id);
                     if (user == null) return NotFound();
 
+                    offerToAdd.Vendor=user;
                     offerToAdd.OfferInfo = dto.OfferInfo;
-                    offerToAdd.Vendor = user;
-                    offerToAdd.Room = dto.Room;
-                    offerToAdd.Room.Place = dto.Place;
 
+                    Place place = context.Places.FirstOrDefault(p => p.PlaceName.Equals(dto.Place.PlaceName) &&
+                                                                     p.Address.City.Equals(dto.Place.Address.City) &&
+                                                                     p.Address.Street.Equals(dto.Place.Address.Street) &&
+                                                                     p.Address.LocalNumber == dto.Place.Address.LocalNumber);
+                    if (place != null)
+                    {
+                        //istnieje to miejsce w bazie danych
+                        Room room = context.Rooms.FirstOrDefault(r => r.PlaceId == place.Id && r.Number == dto.Room.Number);
+                        if (room != null)
+                        {
+                            //istnieje oferta na ten pokój
+                            List<Offer> off =
+                                context.Offers.Where(offer => offer.RoomId == room.Id)
+                                    .Include(o => o.OfferInfo)
+                                    .ToList();
+                            if (off.Any(offer => (offer.OfferInfo.OfferStartTime <= dto.OfferInfo.OfferStartTime &&
+                                                  offer.OfferInfo.OfferEndTime >= dto.OfferInfo.OfferStartTime) ||
+                                                 (offer.OfferInfo.OfferStartTime >= dto.OfferInfo.OfferStartTime &&
+                                                  offer.OfferInfo.OfferEndTime <= dto.OfferInfo.OfferEndTime)))
+                            {
+                                return BadRequest();
+                            }
+                            //żadna oferta nie koliduje
+                            offerToAdd.Room = room;
+                        }
+                        else
+                        {
+                            //nowy pokój
+                            offerToAdd.Room = dto.Room;
+                            offerToAdd.Room.Place = place;
+                        }
+                    }
+                    else
+                    {
+                        offerToAdd.Room = dto.Room;
+                        offerToAdd.Room.Place = dto.Place;
+                        offerToAdd.Room.Place.Address = dto.Place.Address;
+                    }
                     user.MyOffers.Add(offerToAdd);
 
                     HistoricalOffer historicalOffer = new HistoricalOffer();
-                    historicalOffer.Room = dto.Room;
-                    historicalOffer.Room.Place = dto.Place;
-                    historicalOffer.OfferInfo = dto.OfferInfo;
-                    historicalOffer.Vendor = user;
+                    historicalOffer.OfferInfo = offerToAdd.OfferInfo;
+                    historicalOffer.Vendor = offerToAdd.Vendor;
+                    historicalOffer.Room = offerToAdd.Room;
+                    historicalOffer.Room.Place = offerToAdd.Room.Place;
+                    historicalOffer.Room.Place.Address = offerToAdd.Room.Place.Address;
+                    historicalOffer.OriginalOffer = offerToAdd;
+
+                    user.MyHistoricalOffers.Add(historicalOffer);
 
                     //ewentualna zmiana rangi
-                    int c = user.MyHistoricalOffers.Count + 1;
-                    if (c >= 4 && c<8)
+                    int c = user.MyHistoricalOffers.Count;
+                    if (c >= 4 && c < 8)
                     {
                         user.Rank = context.Ranks.FirstOrDefault(r => r.Name.Equals("Junior"));
                     }
-                    else if (c >= 8 && c<15)
+                    else if (c >= 8 && c < 15)
                     {
                         user.Rank = context.Ranks.FirstOrDefault(r => r.Name.Equals("Znawca"));
                     }
-                    else if (c >= 15 && c<25)
+                    else if (c >= 15 && c < 25)
                     {
                         user.Rank = context.Ranks.FirstOrDefault(r => r.Name.Equals("Mistrz"));
                     }
@@ -94,8 +136,6 @@ namespace AccomodationWebApi.Controllers
                     {
                         user.Rank = context.Ranks.FirstOrDefault(r => r.Name.Equals("Guru"));
                     }
-
-                    user.MyHistoricalOffers.Add(historicalOffer);
 
                     context.SaveChanges();
                     transaction.Commit();
@@ -122,20 +162,7 @@ namespace AccomodationWebApi.Controllers
                     offer.Vendor = user;
                     offer.Room = dto.Room;
                     offer.Room.Place = dto.Place;
-
-                    //historyczną edytować?? dodać nową?? 
-                    //Nie mam pewności czy to będzie działać, bo nie wiem czy biorę dobre Id
-                    //Może być tak, że istnieje oferta o id=5 i ją usuwam. W historii zostaje ta oferta.
-                    //Jednak później jak dodam do bazy jakąś ofertę to ona może (nie wiem?) dostać id=5 i będzie
-                    //stowarzyszona z nie tą ofertą w historii co trzeba
-                    //Od biedy można dodać w historycznej ofercie relację do oferty i to w sumie byłoby nawet lepsze,
-                    //wtedy z edycją nie byłoby problemu. Ale tego na razie nie będę robił.
-                    //HistoricalOffer ho = context.HistoricalOffers.FirstOrDefault(h => h.Id == offer.Id);
-                    //if (ho == null) return NotFound();
-                    //ho.OfferInfo = dto.OfferInfo;
-                    //ho.Room = offer.Room;
-                    //ho.Room.Place = dto.Place;
-                    //ho.Vendor = dto.Vendor;
+                    offer.Room.Place.Address = dto.Place.Address;
 
                     context.SaveChanges();
                     transaction.Commit();
@@ -154,7 +181,7 @@ namespace AccomodationWebApi.Controllers
                 using (var transaction = context.Database.BeginTransaction())
                 {
                     User user = context.Users.FirstOrDefault(x => x.Username.Equals(dto.Username));
-
+                    if (user == null) return NotFound();
                     Offer offer = context.Offers.FirstOrDefault(x => x.Id == dto.OfferId);
                     if (offer == null) return NotFound();
 
@@ -174,6 +201,46 @@ namespace AccomodationWebApi.Controllers
                 }
             }
             return Ok();
+        }
+
+        [Route("reserve"), HttpPost]
+        public IHttpActionResult ReserveOffer(ReserveOfferDto dto)
+        {
+            using (var context = new AccommodationContext())
+            {
+                using (var transaction = context.Database.BeginTransaction())
+                {
+                    Offer offer = context.Offers.FirstOrDefault(o => o.Id == dto.OfferId);
+                    User user = context.Users.FirstOrDefault(u => u.Username.Equals(dto.Username));
+                    if (offer == null || user == null) return NotFound();
+                    if (offer.IsBooked) return BadRequest();
+                    offer.IsBooked = true;
+                    offer.Customer = user;
+                    context.SaveChanges();
+                    transaction.Commit();
+                }
+            }
+            return Ok(true);
+        }
+
+        [Route("resign"), HttpPost]
+        public IHttpActionResult ResignOffer(ReserveOfferDto dto)
+        {
+            using (var context = new AccommodationContext())
+            {
+                using (var transaction = context.Database.BeginTransaction())
+                {
+                    Offer offer = context.Offers.FirstOrDefault(o => o.Id == dto.OfferId);
+                    User user = context.Users.FirstOrDefault(u => u.Username.Equals(dto.Username));
+                    if (offer == null || user == null) return NotFound();
+                    if (!offer.IsBooked) return BadRequest();
+                    offer.IsBooked = false;
+                    offer.Customer = null;
+                    context.SaveChanges();
+                    transaction.Commit();
+                }
+            }
+            return Ok(true);
         }
     }
 }

@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using AccommodationApplication.Commands;
 using AccommodationApplication.Services;
+using AccommodationApplication.Views.Windows;
 using UserAuthorizationSystem.Authentication;
 using UserAuthorizationSystem.Identities;
 
@@ -86,7 +87,10 @@ namespace AccommodationApplication.ViewModels
             }
             catch (Exception)
             {
-                MessageBox.Show("Błąd systemu logowania");
+                MessageDialog md = new MessageDialog();
+                md.Title = "Błąd";
+                md.Message = "Błąd systemu logowania";
+                md.ShowDialog();
             }
             if (identity == null)
             {

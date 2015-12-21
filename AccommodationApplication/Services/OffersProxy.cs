@@ -64,5 +64,24 @@ namespace AccommodationApplication.Services
             await Post<OfferEditDataDto, bool>("removeOffer", dataDto);
         }
 
+        public async Task ReserveOffer(string username, int offerId)
+        {
+            ReserveOfferDto dto = new ReserveOfferDto()
+            {
+                Username = username,
+                OfferId = offerId
+            };
+            await Post<ReserveOfferDto, bool>("reserve", dto);
+        }
+
+        public async Task ResignOffer(string username, int offerId)
+        {
+            ReserveOfferDto dto = new ReserveOfferDto()
+            {
+                Username = username,
+                OfferId = offerId
+            };
+            await Post<ReserveOfferDto, bool>("resign", dto);
+        }
     }
 }

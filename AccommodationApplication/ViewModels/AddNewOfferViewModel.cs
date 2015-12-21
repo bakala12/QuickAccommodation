@@ -105,8 +105,18 @@ namespace AccommodationApplication.ViewModels
                 Capacity = int.Parse(AvailiableVacanciesNumber),
                 Number = RoomNumber
             };
-
-            await offersProxy.SaveOfferAsync(offer, vendor, place, room);
+            try
+            {
+                await offersProxy.SaveOfferAsync(offer, vendor, place, room);
+            }
+            catch (ArgumentException)
+            {
+                MessageBox.Show("Nie można dodać już oferty dla tego miejsca na ten pokój. Oferta koliduje z inną.");
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Dodawanie oferty nie powiodło się");
+            }
         }
 
         public string Description
@@ -121,7 +131,6 @@ namespace AccommodationApplication.ViewModels
                 OnPropertyChanged();
             }
         }
-
 
         public string AvailiableVacanciesNumber
         {

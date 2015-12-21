@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Text;
@@ -49,6 +50,7 @@ namespace AccommodationApplication.Services
         {
             if (!response.IsSuccessStatusCode)
             {
+                if(response.StatusCode == HttpStatusCode.BadRequest) throw new ArgumentException();
                 throw new Exception(await response.Content.ReadAsStringAsync());
             }
         }
