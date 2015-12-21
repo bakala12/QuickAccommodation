@@ -128,12 +128,21 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
                     offer.OfferInfo = oi;
                 }
                 SearchingResults = offers.Select(o => new DisplayableOfferViewModel(new DisplayableOffer(o)));
+                foreach (var displayableOfferViewModel in SearchingResults)
+                {
+                    displayableOfferViewModel.OfferReserved += async (x,e)=>await OnOfferReserved(x,e);
+                }
             }
             catch (Exception)
             {
                 MessageDialog md = new MessageDialog() { Title = "Błąd", Message = "Błąd systemu wyszukiwania"};
                 md.ShowDialog();
             }
+        }
+
+        public async Task OnOfferReserved(object sender, EventArgs e)
+        {
+            await SearchResultAsync();
         }
     }
 }

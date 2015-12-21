@@ -43,6 +43,7 @@
     <Compile Include="Dtos\ChangeUserDataDto.cs" />
     <Compile Include="Dtos\OfferAllDataDto.cs" />
     <Compile Include="Dtos\OfferEditDataDto.cs" />
+    <Compile Include="Dtos\ReserveOfferDto.cs" />
     <Compile Include="Dtos\SearchRequestDto.cs" />
     <Compile Include="Dtos\SearchResultDto.cs" />
     <Compile Include="Dtos\UserAllDataDto.cs" />

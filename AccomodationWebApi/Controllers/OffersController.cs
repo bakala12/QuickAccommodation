@@ -202,5 +202,45 @@ namespace AccomodationWebApi.Controllers
             }
             return Ok();
         }
+
+        [Route("reserve"), HttpPost]
+        public IHttpActionResult ReserveOffer(ReserveOfferDto dto)
+        {
+            using (var context = new AccommodationContext())
+            {
+                using (var transaction = context.Database.BeginTransaction())
+                {
+                    Offer offer = context.Offers.FirstOrDefault(o => o.Id == dto.OfferId);
+                    User user = context.Users.FirstOrDefault(u => u.Username.Equals(dto.Username));
+                    if (offer == null || user == null) return NotFound();
+                    if (offer.IsBooked) return BadRequest();
+                    offer.IsBooked = true;
+                    offer.Customer = user;
+                    context.SaveChanges();
+                    transaction.Commit();
+                }
+            }
+            return Ok(true);
+        }
+
+        [Route("resign"), HttpPost]
+        public IHttpActionResult ResignOffer(ReserveOfferDto dto)
+        {
+            using (var context = new AccommodationContext())
+            {
+                using (var transaction = context.Database.BeginTransaction())
+                {
+                    Offer offer = context.Offers.FirstOrDefault(o => o.Id == dto.OfferId);
+                    User user = context.Users.FirstOrDefault(u => u.Username.Equals(dto.Username));
+                    if (offer == null || user == null) return NotFound();
+                    if (!offer.IsBooked) return BadRequest();
+                    offer.IsBooked = false;
+                    offer.Customer = null;
+                    context.SaveChanges();
+                    transaction.Commit();
+                }
+            }
+            return Ok(true);
+        }
     }
 }
