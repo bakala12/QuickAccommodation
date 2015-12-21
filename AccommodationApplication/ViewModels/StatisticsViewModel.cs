@@ -6,11 +6,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using AccommodationApplication.Interfaces;
+using AccommodationApplication.Services;
 
 namespace AccommodationApplication.ViewModels
 {
     public class StatisticsViewModel : ViewModelBase,IPageViewModel
     {
+        private readonly StatisticsProxy _service = new StatisticsProxy();
+
         public StatisticsViewModel()
         {
             (Application.Current as App).Login += (sender, args) => Load();
@@ -54,6 +57,18 @@ namespace AccommodationApplication.ViewModels
             }
         }
 
-
+        public async Task Load()
+        {
+            try
+            {
+                RankName = await _service.GetUserRank(LoggedUser);
+                MyOffersCount = await _service.GetUserOffersCount(LoggedUser);
+                ReservedOffersCount = await _service.GetReservedOffersCount(LoggedUser);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Nie udało się załadować statystyk", "Błąd");
+            }
+        }
     }
 } 

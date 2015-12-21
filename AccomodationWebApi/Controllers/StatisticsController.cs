@@ -37,5 +37,27 @@ namespace AccomodationWebApi.Controllers
                 return Ok(name);
             }
         }
+
+        [Route("offersCount/{username?}"), HttpGet]
+        public IHttpActionResult GetUsersOffersCount(string username)
+        {
+            using (var context = _provider.GetNewContext())
+            {
+                var user = context.Users.FirstOrDefault(u => u.Username.Equals(username));
+                if (user == null) return NotFound();
+                return Ok(user.MyOffers.Count);
+            }
+        }
+
+        [Route("reservedOffersCount/{username?}"), HttpGet]
+        public IHttpActionResult GetUsersReservedOffersCount(string username)
+        {
+            using (var context = _provider.GetNewContext())
+            {
+                var user = context.Users.FirstOrDefault(u => u.Username.Equals(username));
+                if (user == null) return NotFound();
+                return Ok(user.PurchasedOffers.Count);
+            }
+        }
     }
 }
