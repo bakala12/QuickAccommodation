@@ -10,13 +10,9 @@
              mc:Ignorable="d"
              xmlns:s="clr-namespace:System;assembly=mscorlib"
              d:DesignHeight="300" d:DesignWidth="300">
-
-
     <UserControl.DataContext>
         <vm:HistoryViewModel/>
     </UserControl.DataContext>
-
- 
     <UserControl.Resources>
         <converters:BookedOffersColorConverter x:Key="BookedOffersColorConverter"/>
     </UserControl.Resources>
