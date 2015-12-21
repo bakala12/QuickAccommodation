@@ -10,13 +10,20 @@ using System.Web;
 
 namespace AccommodationApplication.Services
 {
+    /// <summary>
+    /// Proxy dla miejsc
+    /// </summary>
     public class PlacesProxy : WebApiProxy
     {
         public PlacesProxy() : base("Places")
         {
-
         }
 
+        /// <summary>
+        /// Wysyła zapytanie o miejsce o danym id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<Place> Get(int id)
         {
             return await this.Get<Place>(id.ToString());

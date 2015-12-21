@@ -39,8 +39,6 @@ namespace AccommodationApplication.ViewModels
 
         public HistoryViewModel()
         {
-            RemoveCommand = new DelegateCommand(async x => await RemoveAsync());
-
             this.offersProxy = new OffersProxy();
             this.offerInfoesProxy = new OfferInfoesProxy();
             this.PlacesProxy = new PlacesProxy();
@@ -56,7 +54,6 @@ namespace AccommodationApplication.ViewModels
             get
             {
                 return "Historia Ofert";
-
             }
         }
 
@@ -65,29 +62,10 @@ namespace AccommodationApplication.ViewModels
         /// </summary>
         public DisplayableOffer CurrentlySelectedOffer { get; set; }
 
-        /// <summary>
-        /// Asynchroniczne usuwanie oferty
-        /// </summary>
-        /// <returns></returns>
-        public async virtual Task RemoveAsync()
-        {
-            await Task.Run(() => Remove());
-        }
 
         private static void CloseWindow(Window window)
         {
             window?.Close();
-        }
-
-        /// <summary>
-        /// Funkcja do usuwania zaznaczonej oferty
-        /// </summary>
-        public async void Remove()
-        {
-            string currentUser = Thread.CurrentPrincipal.Identity.Name;
-            await offersProxy.RemoveOfferAsync(currentUser, CurrentlySelectedOffer.Id);
-            //uaktualnij bieżącą listę ofert
-            Load();
         }
 
         public ObservableCollection<DisplayableOffer> currentOffersList;

@@ -10,21 +10,24 @@ using System.Web;
 
 namespace AccommodationApplication.Services
 {
-        public class AddressesProxy : WebApiProxy
+    /// <summary>
+    /// Proxy dla adresów
+    /// </summary>
+    public class AddressesProxy : WebApiProxy
+    {
+        public AddressesProxy() : base("Addresses")
         {
-            public AddressesProxy() : base("Addresses")
-            {
-
-            }
-
-            public async Task<Address> Get(int id)
-            {
-                return await this.Get<Address>(id.ToString());
-            }
-
-            //public async Task<IList<Offer>> Search(string searchPhrase)
-            //{
-            //    return await this.Get<IList<Offer>>(string.Concat("Search/", HttpUtility.UrlEncode(searchPhrase)));
-            //}
         }
+
+        /// <summary>
+        /// Wysyła zapytanie o adres o danym id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<Address> Get(int id)
+        {
+            return await this.Get<Address>(id.ToString());
+        }
+
     }
+}

@@ -20,7 +20,7 @@ namespace AccommodationApplication.Services
         }
 
         /// <summary>
-        /// Pobiera informację o ofercie o danym id
+        /// Wysyła zapytanie o informację o ofercie o danym id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>

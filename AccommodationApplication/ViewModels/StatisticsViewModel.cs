@@ -16,7 +16,7 @@ namespace AccommodationApplication.ViewModels
 
         public StatisticsViewModel()
         {
-            (Application.Current as App).Login += (sender, args) => Load();
+         //   (Application.Current as App).Login += (sender, args) => Load();
         }
 
         private string _rankName;

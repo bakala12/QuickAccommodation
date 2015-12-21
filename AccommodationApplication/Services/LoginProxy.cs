@@ -13,6 +13,9 @@ using AccomodationWebApi.Attributes;
 
 namespace AccommodationApplication.Services
 {
+    /// <summary>
+    /// Proxy dla loginu
+    /// </summary>
     public class LoginProxy : WebApiProxy
     {
         public LoginProxy() : base("Login", true)
