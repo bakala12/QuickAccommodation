@@ -28,5 +28,15 @@ namespace AccommodationApplication.Services
         {
             return await Get<int>("reservedOffersCount/" + HttpUtility.UrlEncode(username));
         }
+
+        public async Task<double> GetCheapestOfferPrice(string username)
+        {
+            return await Get<double>("CheapestOfferPrice/" + HttpUtility.UrlEncode(username));
+        }
+
+        public async Task<double> GetMostExpensiveOfferPrice(string username)
+        {
+            return await Get<double>("MostExpensiveOfferPrice/" + HttpUtility.UrlEncode(username));
+        }
     }
 }

@@ -7,6 +7,8 @@ using System.Runtime.Remoting.Channels;
 using System.Web.Http;
 using AccommodationDataAccess.Domain;
 using AccomodationWebApi.Providers;
+using System.Data.Entity;
+using AccommodationDataAccess.Model;
 
 namespace AccomodationWebApi.Controllers
 {
@@ -17,7 +19,7 @@ namespace AccomodationWebApi.Controllers
 
         public StatisticsController(IContextProvider provider)
         {
-            if(provider==null) throw new ArgumentNullException(nameof(provider));
+            if (provider == null) throw new ArgumentNullException(nameof(provider));
             _provider = provider;
         }
 
@@ -33,7 +35,7 @@ namespace AccomodationWebApi.Controllers
             {
                 var user = context.Users.FirstOrDefault(u => u.Username.Equals(username));
                 if (user == null) return NotFound();
-                string name=user.Rank.Name;
+                string name = user.Rank.Name;
                 return Ok(name);
             }
         }
@@ -59,5 +61,34 @@ namespace AccomodationWebApi.Controllers
                 return Ok(user.PurchasedOffers.Count);
             }
         }
+
+        [Route("CheapestOfferPrice/{username?}"), HttpGet]
+        public IHttpActionResult CheapestOfferPrice(string username)
+        {
+            using (var context = _provider.GetNewContext())
+            {
+                var user = context.Users.FirstOrDefault(u => u.Username.Equals(username));
+                if (user == null) return NotFound();
+
+                List<Offer> list = context.Offers.Where(x => x.VendorId == user.Id).Include(o => o.OfferInfo).ToList();
+                double min = list.Min(x => x.OfferInfo.Price);
+                return Ok(min);
+            }
+        }
+
+        [Route("MostExpensiveOfferPrice/{username?}"), HttpGet]
+        public IHttpActionResult MostExpensiveOfferPrice(string username)
+        {
+            using (var context = _provider.GetNewContext())
+            {
+                var user = context.Users.FirstOrDefault(u => u.Username.Equals(username));
+                if (user == null) return NotFound();
+
+                List<Offer> list = context.Offers.Where(x => x.VendorId == user.Id).Include(o => o.OfferInfo).ToList();
+                double max = list.Max(x => x.OfferInfo.Price);
+                return Ok(max);
+            }
+        }
+
     }
 }

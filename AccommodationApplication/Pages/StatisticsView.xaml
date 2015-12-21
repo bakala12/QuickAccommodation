@@ -24,11 +24,17 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <TextBlock Text="Liczba wystawionych ofert:"/>
             <TextBlock Text="Liczba zarezerwowanych ofert:" Grid.Row="1" Grid.Column="0"/>
+            <TextBlock Text="Najtańsza wystawiona oferta:" Grid.Row="2" Grid.Column="0"/>
+            <TextBlock Text="Najdroższa wystawiona oferta:" Grid.Row="3" Grid.Column="0"/>
             <TextBlock Text="{Binding MyOffersCount}" Grid.Row="0" Grid.Column="1"/>
             <TextBlock Text="{Binding ReservedOffersCount}" Grid.Row="1" Grid.Column="1"/>
+            <TextBlock Text="{Binding CheapestOfferPrice}" Grid.Row="2" Grid.Column="1"/>
+            <TextBlock Text="{Binding MostExpensiveOfferPrice}" Grid.Row="3" Grid.Column="1"/>
         </Grid>
     </Grid>
 </UserControl>
