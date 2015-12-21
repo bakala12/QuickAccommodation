@@ -65,7 +65,7 @@ namespace AccomodationWebApi.Controllers
                     User user = context.Users.FirstOrDefault(x => x.Id == dto.Vendor.Id);
                     if (user == null) return NotFound();
 
-                    offerToAdd.Vendor=user;
+                    offerToAdd.Vendor = user;
                     offerToAdd.OfferInfo = dto.OfferInfo;
 
                     Place place = context.Places.FirstOrDefault(p => p.PlaceName.Equals(dto.Place.PlaceName) &&
@@ -241,6 +241,25 @@ namespace AccomodationWebApi.Controllers
                 }
             }
             return Ok(true);
+        }
+
+        [Route("reservedOffers/{username?}"), HttpGet]
+        public IHttpActionResult GetReservedOffers(string username)
+        {
+            IList<Offer> offers = null;
+            using (var context = new AccommodationContext())
+            {
+                context.Configuration.ProxyCreationEnabled = false;
+                User user = context.Users.FirstOrDefault(u => u.Username.Equals(username));
+                if (user == null) return NotFound();
+                offers = context.Offers.Where(o => o.CustomerId == user.Id).ToList();
+                foreach (var offer in offers)
+                {
+                    offer.Customer = null;
+                }
+            }
+            return Ok(offers);
+
         }
     }
 }

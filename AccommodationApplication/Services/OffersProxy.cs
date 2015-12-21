@@ -83,5 +83,10 @@ namespace AccommodationApplication.Services
             };
             await Post<ReserveOfferDto, bool>("resign", dto);
         }
-    }
+
+        public async Task<IList<Offer>> GetReservedOffers(string username)
+        {
+            return await Get<IList<Offer>>("reservedOffers/" + HttpUtility.UrlEncode(username));
+        }
+    } 
 }
