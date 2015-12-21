@@ -39,8 +39,6 @@ namespace AccommodationApplication.ViewModels
         private OfferValidator ov = new OfferValidator();
         private UsersProxy usersProxy;
         private OffersProxy offersProxy;
-        private User currentuser;
-
 
         public AddNewOfferViewModel()
         {

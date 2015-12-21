@@ -16,6 +16,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using AccommodationApplication.Views.Windows;
 using AccommodationApplication.Services;
+using AccomodationWebApi;
 
 namespace AccommodationApplication.ViewModels
 {
@@ -133,6 +134,8 @@ namespace AccommodationApplication.ViewModels
         }
         public async void Load()
         {
+
+       
 
             var ret = new ObservableCollection<DisplayableOffer>();
 
