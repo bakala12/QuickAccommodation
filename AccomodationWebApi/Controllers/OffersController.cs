@@ -2,6 +2,7 @@
 using AccommodationDataAccess.Model;
 using AccommodationShared.Dtos;
 using AccomodationWebApi.Attributes;
+using AccomodationWebApi.Providers;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -18,16 +19,35 @@ namespace AccomodationWebApi.Controllers
     [RoutePrefix("api/offers")]
     public class OffersController : ApiController
     {
+
+        private readonly IContextProvider _provider;
+
+        public OffersController(IContextProvider provider)
+        {
+            if (provider == null) throw new ArgumentNullException(nameof(provider));
+            _provider = provider;
+        }
+
+        public OffersController()
+        {
+            _provider = new ContextProvider<AccommodationContext>();
+        }
+
+
+
         [Route("GetUserOffers/{UserId?}"), HttpGet]
         public IHttpActionResult GetUserOffers(int userId)
         {
 
             IList<Offer> ret;
 
-            using (var context = new AccommodationContext())
+            using (var context = _provider.GetNewContext())
             {
-                context.Configuration.ProxyCreationEnabled = false;
-                ret = context.Offers.Where(o => o.VendorId == userId).ToList();
+                using (var transaction = (context as DbContext).Database.BeginTransaction())
+                {
+                    if (context is DbContext) (context as DbContext).Configuration.ProxyCreationEnabled = false;
+                    ret = context.Offers.Where(o => o.VendorId == userId).ToList();
+                }
             }
 
             return Ok(ret);
@@ -40,10 +60,13 @@ namespace AccomodationWebApi.Controllers
 
             IList<HistoricalOffer> ret;
 
-            using (var context = new AccommodationContext())
+            using (var context = _provider.GetNewContext())
             {
-                context.Configuration.ProxyCreationEnabled = false;
-                ret = context.HistoricalOffers.Where(o => o.VendorId == userId).ToList();
+                using (var transaction = (context as DbContext).Database.BeginTransaction())
+                {
+                    if (context is DbContext) (context as DbContext).Configuration.ProxyCreationEnabled = false;
+                    ret = context.HistoricalOffers.Where(o => o.VendorId == userId).ToList();
+                }
             }
 
             return Ok(ret);
@@ -55,10 +78,13 @@ namespace AccomodationWebApi.Controllers
         {
             Offer offer = null;
 
-            using (var context = new AccommodationContext())
+            using (var context = _provider.GetNewContext())
             {
-                context.Configuration.ProxyCreationEnabled = false;
-                offer = context.Offers.FirstOrDefault(o => o.Id == id);
+                using (var transaction = (context as DbContext).Database.BeginTransaction())
+                {
+                    if (context is DbContext) (context as DbContext).Configuration.ProxyCreationEnabled = false;
+                    offer = context.Offers.FirstOrDefault(o => o.Id == id);
+                }
             }
 
             if (offer == null)
@@ -75,10 +101,13 @@ namespace AccomodationWebApi.Controllers
         {
             HistoricalOffer offer = null;
 
-            using (var context = new AccommodationContext())
+            using (var context = _provider.GetNewContext())
             {
-                context.Configuration.ProxyCreationEnabled = false;
-                offer = context.HistoricalOffers.FirstOrDefault(o => o.OriginalOfferId == id);
+                using (var transaction = (context as DbContext).Database.BeginTransaction())
+                {
+                    if (context is DbContext) (context as DbContext).Configuration.ProxyCreationEnabled = false;
+                    offer = context.HistoricalOffers.FirstOrDefault(o => o.OriginalOfferId == id);
+                }
             }
 
             if (offer == null)
@@ -93,9 +122,9 @@ namespace AccomodationWebApi.Controllers
         [RequireHttps]
         public IHttpActionResult SaveOfferAsync(OfferAllDataDto dto)
         {
-            using (var context = new AccommodationContext())
+            using (var context = _provider.GetNewContext())
             {
-                using (var transaction = context.Database.BeginTransaction())
+                using (var transaction = (context as DbContext).Database.BeginTransaction())
                 {
                     Offer offerToAdd = new Offer();
 
@@ -186,16 +215,16 @@ namespace AccomodationWebApi.Controllers
         [RequireHttps]
         public IHttpActionResult EditOffer(OfferEditDataDto dto)
         {
-            using (var context = new AccommodationContext())
+            using (var context = _provider.GetNewContext())
             {
-                using (var transaction = context.Database.BeginTransaction())
+                using (var transaction = (context as DbContext).Database.BeginTransaction())
                 {
                     User user = context.Users.FirstOrDefault(u => u.Username.Equals(dto.Username));
                     if (user == null) return NotFound();
                     Offer offer = context.Offers.FirstOrDefault(x => x.Id == dto.OfferId);
                     if (offer == null) return NotFound();
 
-                    HistoricalOffer ho = context.HistoricalOffers.FirstOrDefault(x=> x.OriginalOfferId == offer.Id);
+                    HistoricalOffer ho = context.HistoricalOffers.FirstOrDefault(x => x.OriginalOfferId == offer.Id);
 
                     ho.OfferInfo = offer.OfferInfo = dto.OfferInfo;
                     ho.Vendor = offer.Vendor = user;
@@ -215,9 +244,9 @@ namespace AccomodationWebApi.Controllers
         public IHttpActionResult RemoveOfferAsync(OfferEditDataDto dto)
         {
 
-            using (var context = new AccommodationContext())
+            using (var context = _provider.GetNewContext())
             {
-                using (var transaction = context.Database.BeginTransaction())
+                using (var transaction = (context as DbContext).Database.BeginTransaction())
                 {
                     User user = context.Users.FirstOrDefault(x => x.Username.Equals(dto.Username));
                     if (user == null) return NotFound();
@@ -230,7 +259,7 @@ namespace AccomodationWebApi.Controllers
                     Address address = context.Addresses.FirstOrDefault(x => x.Id == place.AddressId);
 
                     var ho = context.HistoricalOffers.FirstOrDefault(h => h.OriginalOfferId == offer.Id);
-                    if(ho!=null) ho.OriginalOffer = null;
+                    if (ho != null) ho.OriginalOffer = null;
                     //usuń z bazy ofertę oraz jej dane
 
                     context.Offers.Remove(offer);
@@ -246,15 +275,15 @@ namespace AccomodationWebApi.Controllers
         [Route("reserve"), HttpPost]
         public IHttpActionResult ReserveOffer(ReserveOfferDto dto)
         {
-            using (var context = new AccommodationContext())
+            using (var context = _provider.GetNewContext())
             {
-                using (var transaction = context.Database.BeginTransaction())
+                using (var transaction = (context as DbContext).Database.BeginTransaction())
                 {
                     Offer offer = context.Offers.FirstOrDefault(o => o.Id == dto.OfferId);
 
                     User customer = context.Users.FirstOrDefault(u => u.Username.Equals(dto.Username));
                     User vendor = context.Users.FirstOrDefault(x => x.Id == offer.VendorId);
-                   
+
                     OfferInfo offerInfo = context.OfferInfo.FirstOrDefault(o => o.Id == offer.OfferInfoId);
                     UserData customerData = context.UserData.FirstOrDefault(x => x.Id == customer.UserDataId);
                     UserData vendorData = context.UserData.FirstOrDefault(x => x.Id == vendor.UserDataId);
@@ -279,9 +308,9 @@ namespace AccomodationWebApi.Controllers
         [Route("resign"), HttpPost]
         public IHttpActionResult ResignOffer(ReserveOfferDto dto)
         {
-            using (var context = new AccommodationContext())
+            using (var context = _provider.GetNewContext())
             {
-                using (var transaction = context.Database.BeginTransaction())
+                using (var transaction = (context as DbContext).Database.BeginTransaction())
                 {
                     Offer offer = context.Offers.FirstOrDefault(o => o.Id == dto.OfferId);
                     User user = context.Users.FirstOrDefault(u => u.Username.Equals(dto.Username));
@@ -300,15 +329,18 @@ namespace AccomodationWebApi.Controllers
         public IHttpActionResult GetReservedOffers(string username)
         {
             IList<Offer> offers = null;
-            using (var context = new AccommodationContext())
+            using (var context = _provider.GetNewContext())
             {
-                context.Configuration.ProxyCreationEnabled = false;
-                User user = context.Users.FirstOrDefault(u => u.Username.Equals(username));
-                if (user == null) return NotFound();
-                offers = context.Offers.Where(o => o.CustomerId == user.Id).ToList();
-                foreach (var offer in offers)
+                using (var transaction = (context as DbContext).Database.BeginTransaction())
                 {
-                    offer.Customer = null;
+                    if (context is DbContext) (context as DbContext).Configuration.ProxyCreationEnabled = false;
+                    User user = context.Users.FirstOrDefault(u => u.Username.Equals(username));
+                    if (user == null) return NotFound();
+                    offers = context.Offers.Where(o => o.CustomerId == user.Id).ToList();
+                    foreach (var offer in offers)
+                    {
+                        offer.Customer = null;
+                    }
                 }
             }
             return Ok(offers);
