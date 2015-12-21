@@ -33,11 +33,11 @@ namespace AccomodationWebApi
             sb.AppendLine();
             sb.AppendFormat("Użytkownik {0} {1} zarezerwował ofertę:", customer.FirstName, customer.LastName);
             sb.AppendLine();
-            sb.AppendFormat("{0}, pokój nr {1}, od {2} do {3}", place.PlaceName, room.Number, offerInfo.OfferStartTime, offerInfo.OfferEndTime);
+            sb.AppendFormat("{0}, pokój nr {1}, od {2} do {3}", place.PlaceName, room.Number, offerInfo.OfferStartTime.Date.ToString("dd/MM/yyyy"), offerInfo.OfferEndTime.Date.ToString("dd/MM/yyyy"));
             sb.AppendLine();
             sb.AppendLine();
             sb.Append(body1);
-            sb.AppendLine();
+            sb.AppendLine(); 
             sb.Append(body2);
 
             mail.Body = sb.ToString();
