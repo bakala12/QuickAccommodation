@@ -30,8 +30,13 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="0.2*"/>
                             </Grid.ColumnDefinitions>
-                            <StackPanel Grid.Row="0" Grid.Column="0">
-                                <Label Content="{Binding Offer.Address}" FontWeight="Bold"  />
+                            <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
+                                <TextBlock Text="Miejsce: " Margin="4,0,0,0"/>
+                                <TextBlock Text="{Binding Offer.PlaceName}" FontWeight="Bold"/>
+                                <TextBlock Text="Adres: " Margin="4,0,0,0"/>
+                                <TextBlock Text="{Binding Offer.Address}" FontWeight="Bold"  />
+                                <TextBlock Text="Pokój: " Margin="4,0,0,0"/>
+                                <TextBlock Text="{Binding Offer.RoomNumber}"/>
                             </StackPanel>
                             <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
                                 <Label  Content="Od: "/>
@@ -64,8 +69,13 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="0.2*"/>
                             </Grid.ColumnDefinitions>
-                            <StackPanel Grid.Row="0" Grid.Column="0">
-                                <Label Content="{Binding Offer.Address}" FontWeight="Bold"  />
+                            <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
+                                <TextBlock Text="Miejsce: " Margin="4,0,0,0"/>
+                                <TextBlock Text="{Binding Offer.PlaceName}" FontWeight="Bold"/>
+                                <TextBlock Text="Adres: " Margin="4,0,0,0"/>
+                                <TextBlock Text="{Binding Offer.Address}" FontWeight="Bold"  />
+                                <TextBlock Text="Pokój: " Margin="4,0,0,0"/>
+                                <TextBlock Text="{Binding Offer.RoomNumber}"/>
                             </StackPanel>
                             <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
                                 <Label  Content="Od: "/>
