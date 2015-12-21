@@ -26,7 +26,7 @@ namespace AccomodationWebApi
                 SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
 
                 mail.From = new MailAddress("quickaccommodationnoreply@gmail.com");
-                mail.To.Add("matjablonski94@gmail.com");
+                mail.To.Add(userTo.Email);
                 mail.Subject = subject;
 
                 var sb = new StringBuilder();
