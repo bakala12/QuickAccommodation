@@ -43,7 +43,7 @@ namespace AccomodationWebApi.Controllers
             using (var context = new AccommodationContext())
             {
                 context.Configuration.ProxyCreationEnabled = false;
-                ret = context.HistoricalOffers.Where(o => o.OriginalOfferId == userId).ToList();
+                ret = context.HistoricalOffers.Where(o => o.VendorId == userId).ToList();
             }
 
             return Ok(ret);
@@ -223,14 +223,15 @@ namespace AccomodationWebApi.Controllers
                     if (offer == null) return NotFound();
 
                     OfferInfo offerInfo = context.OfferInfo.FirstOrDefault(x => x.Id == offer.OfferInfoId);
-                    Place place = context.Places.FirstOrDefault(x => x.Id == offer.Room.PlaceId);
+                    Room room = context.Rooms.FirstOrDefault(x => x.Id == offer.RoomId);
+                    Place place = context.Places.FirstOrDefault(x => x.Id == room.PlaceId);
                     Address address = context.Addresses.FirstOrDefault(x => x.Id == place.AddressId);
 
                     //usuń z bazy ofertę oraz jej dane
+                    var ho = context.HistoricalOffers.FirstOrDefault(h => h.OriginalOfferId == offer.Id);
+                    if(ho != null ) ho.OriginalOffer = null;
+
                     context.Offers.Remove(offer);
-                    context.Places.Remove(place);
-                    context.Addresses.Remove(address);
-                    context.OfferInfo.Remove(offerInfo);
                     user.MyOffers.Remove(offer);
 
                     context.SaveChanges();

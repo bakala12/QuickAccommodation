@@ -58,9 +58,9 @@ namespace AccommodationApplication.Services
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public async Task<IList<Offer>> GetUserHistoricalOffers(int userId)
+        public async Task<IList<HistoricalOffer>> GetUserHistoricalOffers(int userId)
         {
-            return await this.Get<IList<Offer>>(string.Concat("GetUserHistoricalOffers/", HttpUtility.UrlEncode(userId.ToString())));
+            return await this.Get<IList<HistoricalOffer>>(string.Concat("GetUserHistoricalOffers/", HttpUtility.UrlEncode(userId.ToString())));
         }
 
         /// <summary>
@@ -81,6 +81,11 @@ namespace AccommodationApplication.Services
                 Room = room
             };
             await Post<OfferAllDataDto, object>("saveOffer", dto);
+        }
+
+        internal Task RemoveHistoricalOfferAsync(string currentUser, int id)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>

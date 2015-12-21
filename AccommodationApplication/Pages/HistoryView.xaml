@@ -128,11 +128,6 @@
                             <Label Content="Opis: "/>
                             <Label Content="{Binding Description}"/>
                         </StackPanel>
-                        <StackPanel Grid.Row="5" Grid.Column="0" Orientation="Horizontal">
-                            <Button  Content="Usuń ofertę" Command="{Binding 
-               RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, 
-               Path=DataContext.RemoveCommand}" CommandParameter=""  />
-                        </StackPanel>
                         <TextBlock Foreground="White" Grid.RowSpan="6" Grid.Column="1" Text="Zarezerwowano"
                                        HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16"
                                   Visibility="{Binding IsBooked, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter={StaticResource True}}"/>
