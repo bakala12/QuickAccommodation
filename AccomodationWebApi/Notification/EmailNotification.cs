@@ -15,47 +15,43 @@ namespace AccomodationWebApi
         private static string password = "123QANR123"; //to chyba jest słabe, żeby tu trzymać hasło 
         private static string subject = "Powiadomienie o rezerwacji oferty";
         private static string body1 = "Pozdrawiamy, zespół QuickAccommodation";
-        private static string body2 = "Powyższa wiadomośc została wygenerowana autmatycznie, prosimy nie odpowiadać";
+        private static string body2 = "Powyższa wiadomość została wygenerowana autmatycznie, prosimy nie odpowiadać";
 
 
-        public static bool SendReservationNotification(OfferInfo offerInfo,Place place, UserData userTo, UserData customer)
+        public static bool SendReservationNotification(OfferInfo offerInfo, Place place, UserData userTo, UserData customer)
         {
-            try
-            {
-                MailMessage mail = new MailMessage();
-                SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
 
-                mail.From = new MailAddress("quickaccommodationnoreply@gmail.com");
-                mail.To.Add(userTo.Email);
-                mail.Subject = subject;
+            MailMessage mail = new MailMessage();
+            SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
 
-                var sb = new StringBuilder();
-                sb.AppendFormat("Witaj, {0}",userTo.FirstName);
-                sb.AppendLine();
-                sb.AppendFormat("Użytkownik {1} {2} zarezerwował ofertę:", customer.FirstName, customer.LastName);
-                sb.AppendLine();
-                sb.AppendFormat("{0}, od {1} do {2}", place.PlaceName, offerInfo.OfferStartTime, offerInfo.OfferEndTime);
-                sb.AppendLine();
-                sb.Append(body1);
-                sb.AppendLine();
-                sb.Append(body2);
+            mail.From = new MailAddress("quickaccommodationnoreply@gmail.com");
+            mail.To.Add(userTo.Email);
+            mail.Subject = subject;
 
-                mail.Body = sb.ToString();
+            var sb = new StringBuilder();
+            sb.AppendFormat("Witaj, {0}", userTo.FirstName);
+            sb.AppendLine();
+            sb.AppendFormat("Użytkownik {0} {1} zarezerwował ofertę:", customer.FirstName, customer.LastName);
+            sb.AppendLine();
+            sb.AppendFormat("{0}, od {1} do {2}", place.PlaceName, offerInfo.OfferStartTime, offerInfo.OfferEndTime);
+            sb.AppendLine();
+            sb.AppendLine();
+            sb.Append(body1);
+            sb.AppendLine();
+            sb.Append(body2);
 
-                SmtpServer.Port = 587;
+            mail.Body = sb.ToString();
 
-                SmtpServer.DeliveryMethod = SmtpDeliveryMethod.Network;
-                SmtpServer.UseDefaultCredentials = false;
+            SmtpServer.Port = 587;
 
-                SmtpServer.Credentials = new System.Net.NetworkCredential(username,password);
-                SmtpServer.EnableSsl = true;
+            SmtpServer.DeliveryMethod = SmtpDeliveryMethod.Network;
+            SmtpServer.UseDefaultCredentials = false;
 
-                SmtpServer.Send(mail);
-            }
-            catch (Exception)
-            {
-                throw new InvalidOperationException();
-            }
+            SmtpServer.Credentials = new System.Net.NetworkCredential(username, password);
+            SmtpServer.EnableSsl = true;
+
+            SmtpServer.Send(mail);
+
             return true;
         }
     }

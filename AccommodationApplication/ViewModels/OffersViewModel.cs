@@ -135,8 +135,6 @@ namespace AccommodationApplication.ViewModels
         public async void Load()
         {
 
-       
-
             var ret = new ObservableCollection<DisplayableOffer>();
 
             string currentUser = Thread.CurrentPrincipal.Identity.Name;
