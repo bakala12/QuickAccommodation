@@ -10,21 +10,23 @@ using System.Web;
 
 namespace AccommodationApplication.Services
 {
-        public class OfferInfoesProxy : WebApiProxy
+    /// <summary>
+    /// Proxy dla informacji o ofercie
+    /// </summary>
+    public class OfferInfoesProxy : WebApiProxy
+    {
+        public OfferInfoesProxy() : base("OfferInfoes")
         {
-            public OfferInfoesProxy() : base("OfferInfoes")
-            {
+        }
 
-            }
-
-            public async Task<OfferInfo> Get(int id)
-            {
-                return await this.Get<OfferInfo>(id.ToString());
-            }
-
-            //public async Task<IList<Offer>> Search(string searchPhrase)
-            //{
-            //    return await this.Get<IList<Offer>>(string.Concat("Search/", HttpUtility.UrlEncode(searchPhrase)));
-            //}
+        /// <summary>
+        /// Pobiera informację o ofercie o danym id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<OfferInfo> Get(int id)
+        {
+            return await this.Get<OfferInfo>(id.ToString());
         }
     }
+}
