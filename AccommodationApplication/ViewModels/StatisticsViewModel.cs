@@ -10,18 +10,20 @@ using AccommodationApplication.Services;
 
 namespace AccommodationApplication.ViewModels
 {
-    public class StatisticsViewModel : ViewModelBase,IPageViewModel
+    public class StatisticsViewModel : ViewModelBase, IPageViewModel
     {
         private readonly StatisticsProxy _service = new StatisticsProxy();
 
         public StatisticsViewModel()
         {
-         //   (Application.Current as App).Login += (sender, args) => Load();
+            //   (Application.Current as App).Login += (sender, args) => Load();
         }
 
         private string _rankName;
         private int _myOffersCount;
         private int _reservedOffersCount;
+        private double _cheapestOfferPrice;
+        private double _mostExpensiveOfferPrice;
 
         public string Name => "Statystyki";
 
@@ -57,6 +59,27 @@ namespace AccommodationApplication.ViewModels
             }
         }
 
+        public double CheapestOfferPrice
+        {
+            get { return _cheapestOfferPrice; }
+            set
+            {
+                _cheapestOfferPrice = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public double MostExpensiveOfferPrice
+        {
+            get { return _mostExpensiveOfferPrice; }
+            set
+            {
+                _mostExpensiveOfferPrice = value;
+                OnPropertyChanged();
+            }
+        }
+
+
         public async Task Load()
         {
             try
@@ -64,6 +87,8 @@ namespace AccommodationApplication.ViewModels
                 RankName = await _service.GetUserRank(LoggedUser);
                 MyOffersCount = await _service.GetUserOffersCount(LoggedUser);
                 ReservedOffersCount = await _service.GetReservedOffersCount(LoggedUser);
+                CheapestOfferPrice = await _service.GetCheapestOfferPrice(LoggedUser);
+                MostExpensiveOfferPrice = await _service.GetMostExpensiveOfferPrice(LoggedUser);
             }
             catch (Exception)
             {
@@ -71,4 +96,4 @@ namespace AccommodationApplication.ViewModels
             }
         }
     }
-} 
+}
