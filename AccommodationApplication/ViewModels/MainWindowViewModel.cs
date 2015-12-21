@@ -46,7 +46,9 @@ namespace AccommodationApplication.ViewModels
             PageViewModels.Add(new SearchingViewModel());
             PageViewModels.Add(new AddNewOfferViewModel());
             PageViewModels.Add(new PurchasedOffersViewModel());
+            PageViewModels.Add(new HistoryViewModel());
             PageViewModels.Add(new MyProfileViewModel());
+          
             CurrentPageViewModel = PageViewModels[0];
         }
 

@@ -19,14 +19,24 @@ namespace AccommodationApplication.Services
             ServicePointManager.ServerCertificateValidationCallback += delegate { return true; };
         }
 
-        public async Task<Offer> Get(int id)
+        public async Task<Offer> GetOffer(int id)
         {
-            return await this.Get<Offer>(id.ToString());
+            return await this.Get<Offer>(string.Concat("GetOffer/", HttpUtility.UrlEncode(id.ToString())));
+        }
+
+        public async Task<Offer> GetHistoricalOffer(int id)
+        {
+            return await this.Get<Offer>(string.Concat("GetHistoricalOffer/", HttpUtility.UrlEncode(id.ToString())));
         }
 
         public async Task<IList<Offer>> GetUserOffers(int userId)
         {
             return await this.Get<IList<Offer>>(string.Concat("GetUserOffers/", HttpUtility.UrlEncode(userId.ToString())));
+        }
+
+        public async Task<IList<Offer>> GetUserHistoricalOffers(int userId)
+        {
+            return await this.Get<IList<Offer>>(string.Concat("GetUserHistoricalOffers/", HttpUtility.UrlEncode(userId.ToString())));
         }
 
         public async Task SaveOfferAsync(OfferInfo offerInfo, User vendor, Place place, Room room)
