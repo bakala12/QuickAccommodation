@@ -227,7 +227,7 @@ namespace AccomodationWebApi.Controllers
                     Address address = context.Addresses.FirstOrDefault(x => x.Id == place.AddressId);
 
                     var ho = context.HistoricalOffers.FirstOrDefault(h => h.OriginalOfferId == offer.Id);
-                    ho?.OriginalOffer = null;
+                    if(ho!=null) ho.OriginalOffer = null;
                     //usuń z bazy ofertę oraz jej dane
                     context.Offers.Remove(offer);
                     context.Places.Remove(place);

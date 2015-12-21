@@ -4,12 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using AccommodationApplication.Interfaces;
 
 namespace AccommodationApplication.ViewModels
 {
     public class StatisticsViewModel : ViewModelBase,IPageViewModel
     {
+        public StatisticsViewModel()
+        {
+            (Application.Current as App).Login += (sender, args) => Load();
+        }
+
         private string _rankName;
         private int _myOffersCount;
         private int _reservedOffersCount;
@@ -47,5 +53,7 @@ namespace AccommodationApplication.ViewModels
                 OnPropertyChanged();
             }
         }
+
+
     }
 } 

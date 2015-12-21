@@ -143,6 +143,7 @@
     <Compile Include="Services\LoginProxy.cs" />
     <Compile Include="Services\RoomsProxy.cs" />
     <Compile Include="Services\SearchProxy.cs" />
+    <Compile Include="Services\StatisticsProxy.cs" />
     <Compile Include="Services\UsersProxy.cs" />
     <Compile Include="Services\OfferInfoesProxy.cs" />
     <Compile Include="Services\AddressesProxy.cs" />

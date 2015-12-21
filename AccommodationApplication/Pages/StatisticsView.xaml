@@ -7,6 +7,14 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <TextBlock Text="Użytkownik:" Margin="5"/>
+            <TextBlock Text="{Binding LoggedUser}" FontWeight="Bold" Margin="5"/>
+            <TextBlock Text="{Binding RankName}" Foreground="Green" Margin="5"/>
+        </StackPanel>
     </Grid>
 </UserControl>

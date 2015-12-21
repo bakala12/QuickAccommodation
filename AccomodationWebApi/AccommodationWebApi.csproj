@@ -102,6 +102,7 @@
     <Compile Include="Controllers\AddressesController.cs" />
     <Compile Include="Controllers\RoomsController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
+    <Compile Include="Controllers\StatisticsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\PlacesController.cs" />
     <Compile Include="Controllers\OfferInfoesController.cs" />
