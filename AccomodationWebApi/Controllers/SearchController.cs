@@ -11,17 +11,32 @@ using AccommodationDataAccess.Model;
 using AccommodationDataAccess.Searching;
 using AccommodationShared.Dtos;
 using AccommodationShared.Searching;
+using AccomodationWebApi.Providers;
 
 namespace AccomodationWebApi.Controllers
 {
     [RoutePrefix("api/Search")]
     public class SearchController : ApiController
     {
+
+        private readonly IContextProvider _provider;
+
+        public SearchController(IContextProvider provider)
+        {
+            if (provider == null) throw new ArgumentNullException(nameof(provider));
+            _provider = provider;
+        }
+
+        public SearchController()
+        {
+            _provider = new ContextProvider<AccommodationContext>();
+        }
+
         private IHttpActionResult Search(string username, ISearchingCriterion<Offer>[] criteria, SortType sortType, SortBy sortBy)
         {
-            using (var context = new AccommodationContext())
+            using (var context = _provider.GetNewContext())
             {
-                context.Configuration.ProxyCreationEnabled = false;
+                (context as DbContext).Configuration.ProxyCreationEnabled = false;
                 if (string.IsNullOrEmpty(username)) return NotFound();
                 User u = context.Users.FirstOrDefault(us => us.Username.Equals(username));
                 if (u == null) return NotFound();

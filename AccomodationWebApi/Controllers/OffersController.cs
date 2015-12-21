@@ -232,8 +232,6 @@ namespace AccomodationWebApi.Controllers
                     var ho = context.HistoricalOffers.FirstOrDefault(h => h.OriginalOfferId == offer.Id);
                     if(ho!=null) ho.OriginalOffer = null;
                     //usuń z bazy ofertę oraz jej dane
-                    var ho = context.HistoricalOffers.FirstOrDefault(h => h.OriginalOfferId == offer.Id);
-                    if(ho != null ) ho.OriginalOffer = null;
 
                     context.Offers.Remove(offer);
                     user.MyOffers.Remove(offer);

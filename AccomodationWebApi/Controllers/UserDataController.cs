@@ -10,6 +10,7 @@ using AccommodationDataAccess.Model;
 using AccommodationShared.Dtos;
 using AccomodationWebApi.Attributes;
 using UserAuthorizationSystem.Registration;
+using AccomodationWebApi.Providers;
 
 namespace AccomodationWebApi.Controllers
 {
@@ -20,6 +21,21 @@ namespace AccomodationWebApi.Controllers
     [RoutePrefix("api/UserData")]
     public class UserDataController : ApiController
     {
+
+        private readonly IContextProvider _provider;
+
+        public UserDataController(IContextProvider provider)
+        {
+            if (provider == null) throw new ArgumentNullException(nameof(provider));
+            _provider = provider;
+        }
+
+        public UserDataController()
+        {
+            _provider = new ContextProvider<AccommodationContext>();
+        }
+
+
         /// <summary>
         /// Gets the data of the current user.
         /// </summary>
@@ -31,7 +47,7 @@ namespace AccomodationWebApi.Controllers
         {
             User user = null;
             UserBasicDataDto returnDto = new UserBasicDataDto();
-            using (var context = new AccommodationContext())
+            using (var context = _provider.GetNewContext())
             {
                 user = context.Users.First(u => u.Username.Equals(username));
                 var data = context.UserData.First(ud => ud.Id == user.UserDataId);
@@ -53,9 +69,9 @@ namespace AccomodationWebApi.Controllers
         [RequireHttps]
         public IHttpActionResult ChangeUserData(ChangeUserDataDto dto)
         {
-            using (var context = new AccommodationContext())
+            using (var context = _provider.GetNewContext())
             {
-                using (var transaction = context.Database.BeginTransaction())
+                using (var transaction = (context as DbContext).Database.BeginTransaction())
                 {
                     User user = context.Users.FirstOrDefault(u => u.Username.Equals(dto.Username));
                     if (user == null) return NotFound();
@@ -85,9 +101,9 @@ namespace AccomodationWebApi.Controllers
         {
             IRegisterUser register = new UserRegister();
             User newUser = register.GetNewUser(dto.Username, dto.NewPassword);
-            using (var context = new AccommodationContext())
+            using (var context = _provider.GetNewContext())
             {
-                using (var transaction = context.Database.BeginTransaction())
+                using (var transaction = (context as DbContext).Database.BeginTransaction())
                 {
                     User user = context.Users.FirstOrDefault(u => u.Username.Equals(dto.Username));
                     if (user == null) return NotFound();
@@ -108,9 +124,9 @@ namespace AccomodationWebApi.Controllers
         [Route("rank/{username?}"), HttpGet]
         public IHttpActionResult GetUserRank(string username)
         {
-            using (var context = new AccommodationContext())
+            using (var context = _provider.GetNewContext())
             {
-                using (var transaction = context.Database.BeginTransaction())
+                using (var transaction = (context as DbContext).Database.BeginTransaction())
                 {
                     User user = context.Users.FirstOrDefault(u => u.Username.Equals(username));
                     if (user == null) NotFound();

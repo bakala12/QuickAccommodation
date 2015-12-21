@@ -12,6 +12,7 @@ using AccomodationWebApi.Attributes;
 using UserAuthorizationSystem.Authentication;
 using UserAuthorizationSystem.Identities;
 using UserAuthorizationSystem.Registration;
+using AccomodationWebApi.Providers;
 
 namespace AccomodationWebApi.Controllers
 {
@@ -22,6 +23,21 @@ namespace AccomodationWebApi.Controllers
     [RoutePrefix("api/Login")]
     public class LoginController : ApiController
     {
+
+        private readonly IContextProvider _provider;
+
+        public LoginController(IContextProvider provider)
+        {
+            if (provider == null) throw new ArgumentNullException(nameof(provider));
+            _provider = provider;
+        }
+
+        public LoginController()
+        {
+            _provider = new ContextProvider<AccommodationContext>();
+        }
+
+
         /// <summary>
         /// Gets the authenticated user identity.
         /// </summary>
