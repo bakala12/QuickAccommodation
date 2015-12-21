@@ -11,7 +11,6 @@ namespace AccommodationApplication.Services
     {
         public RoomsProxy(): base("Rooms", false)
         {
-            
         }
 
         public async Task<Room> Get(int id)

@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace AccommodationApplication.Services
 {
+    /// <summary>
+    /// Klasa bazowa dla proxy
+    /// </summary>
     public abstract class WebApiProxy
     {
         private readonly HttpClient _client;
