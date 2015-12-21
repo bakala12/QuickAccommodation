@@ -78,6 +78,7 @@
   <ItemGroup>
     <Compile Include="AccommodationMockContext.cs" />
     <Compile Include="ControllerTests\OffersControllerTests.cs" />
+    <Compile Include="ControllerTests\SearchControllerTests.cs" />
     <Compile Include="LoginTests.cs" />
     <Compile Include="MockContext.cs" />
     <Compile Include="MockDbSet.cs" />

@@ -128,7 +128,7 @@ namespace UnitTestProject2
                 {
                     Vendor = users[0],
                     VendorId = 1,
-                    Id=1,
+                    Id=2,
                     Room = rooms[1],
                     RoomId = rooms[1].Id,
                     OfferInfo = offerInfos[1],
@@ -138,7 +138,7 @@ namespace UnitTestProject2
                 {
                     Vendor = users[1],
                     VendorId = 2,
-                    Id=1,
+                    Id=3,
                     Room = rooms[1],
                     RoomId = rooms[1].Id,
                     OfferInfo = offerInfos[2],
@@ -163,7 +163,7 @@ namespace UnitTestProject2
                 {
                     Vendor = users[0],
                     VendorId = 1,
-                    Id=1,
+                    Id=2,
                     Room = rooms[1],
                     RoomId = rooms[1].Id,
                     OfferInfo = offerInfos[1],
@@ -175,7 +175,7 @@ namespace UnitTestProject2
                 {
                     Vendor = users[1],
                     VendorId = 2,
-                    Id=1,
+                    Id=3,
                     Room = rooms[1],
                     RoomId = rooms[1].Id,
                     OfferInfo = offerInfos[2],
