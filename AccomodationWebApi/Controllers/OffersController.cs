@@ -195,11 +195,13 @@ namespace AccomodationWebApi.Controllers
                     Offer offer = context.Offers.FirstOrDefault(x => x.Id == dto.OfferId);
                     if (offer == null) return NotFound();
 
-                    offer.OfferInfo = dto.OfferInfo;
-                    offer.Vendor = user;
-                    offer.Room = dto.Room;
-                    offer.Room.Place = dto.Place;
-                    offer.Room.Place.Address = dto.Place.Address;
+                    HistoricalOffer ho = context.HistoricalOffers.FirstOrDefault(x=> x.OriginalOfferId == offer.Id);
+
+                    ho.OfferInfo = offer.OfferInfo = dto.OfferInfo;
+                    ho.Vendor = offer.Vendor = user;
+                    ho.Room = offer.Room = dto.Room;
+                    ho.Room.Place = offer.Room.Place = dto.Place;
+                    ho.Room.Place.Address = offer.Room.Place.Address = dto.Place.Address;
 
                     context.SaveChanges();
                     transaction.Commit();
