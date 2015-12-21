@@ -80,7 +80,8 @@ namespace UnitTestProject2
 
             List<Room> rooms = new List<Room>()
             {
-                new Room() {Id = 1, Place = places[0], Capacity = 2, Number = "101", PlaceId = 1}
+                new Room() {Id = 1, Place = places[0], Capacity = 2, Number = "101", PlaceId = 1},
+                new Room() {Id = 2, Place = places[0], PlaceId = places[0].Id, Capacity = 3, Number = "102"}
             };
 
             List<OfferInfo> offerInfos = new List<OfferInfo>()
