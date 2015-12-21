@@ -12,6 +12,7 @@ using System.Windows.Input;
 using AccommodationApplication.Commands;
 using AccommodationApplication.Model;
 using AccommodationApplication.Services;
+using AccommodationApplication.Views.Windows;
 using AccommodationDataAccess.Domain;
 using AccommodationDataAccess.Model;
 using AccommodationDataAccess.Searching;
@@ -130,7 +131,8 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
             }
             catch (Exception)
             {
-                MessageBox.Show("Problem z wyszukiwaniem");
+                MessageDialog md = new MessageDialog() { Title = "Błąd", Message = "Błąd systemu wyszukiwania"};
+                md.ShowDialog();
             }
         }
     }

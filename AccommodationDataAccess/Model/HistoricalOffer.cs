@@ -34,7 +34,16 @@ namespace AccommodationDataAccess.Model
         /// </summary>
         public bool IsBooked { get; set; }
 
+        /// <summary>
+        /// Informacja o pokoju.
+        /// </summary>
         public virtual Room Room { get; set; }
         public int RoomId { get; set; }
+
+        /// <summary>
+        /// Powiązanie z aktualną ofertą.
+        /// </summary>
+        public virtual Offer OriginalOffer { get; set; }
+        public int? OriginalOfferId { get; set; }
     }
 }
