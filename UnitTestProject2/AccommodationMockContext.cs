@@ -38,6 +38,13 @@ namespace UnitTestProject2
                     Username = "jablonskim",
                     HashedPassword = @"PIks6KBVlB0pE5DvlSmKpxKCs5tN9EDebq6s8bqb4HA=",
                     Salt = @"zapt0VgkYldvUEc7K3TJ5S0aRLDavxmN"
+                },
+                 new User()
+                {
+                    Id=3,
+                    Username = "jablonskim2",
+                    HashedPassword = @"PIks6KBVlB0pE5DvlSmKpxKCs5tN9EDebq6s8bqb4HA=",
+                    Salt = @"zapt0VgkYldvUEc7K3TJ5S0aRLDavxmN"
                 }
             };
             List<UserData> userData = new List<UserData>()
@@ -116,13 +123,14 @@ namespace UnitTestProject2
             {
                 new Offer()
                 {
-                    Vendor = users[0],
-                    VendorId = 1,
+                    Vendor = users[1],
+                    VendorId = 2,
                     Id=1,
                     Room = rooms[0],
                     RoomId = rooms[0].Id,
                     OfferInfo = offerInfos[0],
-                    OfferInfoId = 1
+                    OfferInfoId = 1,
+                    IsBooked = false
                 },
                 new Offer()
                 {
@@ -132,7 +140,8 @@ namespace UnitTestProject2
                     Room = rooms[1],
                     RoomId = rooms[1].Id,
                     OfferInfo = offerInfos[1],
-                    OfferInfoId = 2
+                    OfferInfoId = 2,
+                     IsBooked = false
                 },
                 new Offer()
                 {
@@ -142,7 +151,20 @@ namespace UnitTestProject2
                     Room = rooms[1],
                     RoomId = rooms[1].Id,
                     OfferInfo = offerInfos[2],
-                    OfferInfoId = 3
+                    OfferInfoId = 3,
+                     IsBooked = true,
+                     CustomerId = 2
+                },
+                new Offer()
+                {
+                    Vendor = users[0],
+                    VendorId = 1,
+                    Id=4,
+                    Room = rooms[0],
+                    RoomId = rooms[0].Id,
+                    OfferInfo = offerInfos[0],
+                    OfferInfoId = 1,
+                    IsBooked = false
                 }
             };
             List<HistoricalOffer> historical = new List<HistoricalOffer>()

@@ -235,7 +235,7 @@ namespace AccomodationWebApi.Controllers
                 }
             }
 
-            return Ok();
+            return Ok(true);
         }
 
         /// <summary>
