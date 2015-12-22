@@ -16,7 +16,7 @@ namespace AccommodationApplication.ViewModels
 
         public StatisticsViewModel()
         {
-            //   (Application.Current as App).Login += (sender, args) => Load();
+            (Application.Current as App).Login += (sender, args) => Load();
         }
 
         private string _rankName;
@@ -24,10 +24,19 @@ namespace AccommodationApplication.ViewModels
         private int _reservedOffersCount;
         private double _cheapestOfferPrice;
         private double _mostExpensiveOfferPrice;
+        private string _loggedUser;
 
         public string Name => "Statystyki";
 
-        public string LoggedUser => Thread.CurrentPrincipal?.Identity?.Name;
+        public string LoggedUser
+        {
+            get { return _loggedUser; }
+            set
+            {
+                _loggedUser = value;
+                OnPropertyChanged();
+            }
+        }
 
         public string RankName
         {
@@ -82,6 +91,7 @@ namespace AccommodationApplication.ViewModels
 
         public async Task Load()
         {
+            LoggedUser = Thread.CurrentPrincipal?.Identity?.Name;
             try
             {
                 RankName = await _service.GetUserRank(LoggedUser);
@@ -93,6 +103,10 @@ namespace AccommodationApplication.ViewModels
             catch (Exception)
             {
                 MessageBox.Show("Nie udało się załadować statystyk", "Błąd");
+                MostExpensiveOfferPrice = 0;
+                CheapestOfferPrice = 0;
+                MyOffersCount = 0;
+                ReservedOffersCount = 0;
             }
         }
     }

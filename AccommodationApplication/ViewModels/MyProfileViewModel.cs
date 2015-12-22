@@ -24,6 +24,7 @@ namespace AccommodationApplication.ViewModels
         private string _companyName;
         private string _rank;
         private readonly UserProfileProxy _service;
+        private string _loggedUser;
 
         public MyProfileViewModel()
         {
@@ -35,10 +36,19 @@ namespace AccommodationApplication.ViewModels
             (App.Current as App).Login += async (x, e) => await LoadUserDataAsync();
         }
 
-        public string LoggedUser => Thread.CurrentPrincipal?.Identity?.Name;
+        public string LoggedUser
+        {
+            get { return _loggedUser; }
+            set
+            {
+                _loggedUser = value;
+                OnPropertyChanged();
+            }
+        }
 
         protected async virtual Task LoadUserDataAsync()
         {
+            LoggedUser = Thread.CurrentPrincipal?.Identity?.Name;
             UserBasicDataDto data = await _service.GetUserAsync(LoggedUser);
             if (data == null) return;
             FirstName = data.FirstName;
