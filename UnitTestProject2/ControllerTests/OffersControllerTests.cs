@@ -15,18 +15,27 @@ using System.Data.Entity;
 
 namespace UnitTestProject2.ControllerTests
 {
+    /// <summary>
+    /// Tests for OffersController class.
+    /// </summary>
     [TestClass]
     public class OffersControllerTests
     {
         private readonly AccommodationMockContext _context = new AccommodationMockContext();
         private readonly OffersController _controller;
 
+        /// <summary>
+        /// Initializes controller and mocked database.
+        /// </summary>
         public OffersControllerTests()
         {
             IContextProvider provider = new TestContextProvider(_context);
             _controller = new OffersController(provider);
         }
 
+        /// <summary>
+        /// Tests getting offer from database by Id.
+        /// </summary>
         [TestMethod]
         public void GetOfferByIdTest()
         {
@@ -41,6 +50,9 @@ namespace UnitTestProject2.ControllerTests
             Assert.AreEqual(o.VendorId, contentResult.Content.VendorId);
         }
 
+        /// <summary>
+        /// Tests getting all offers for the given user as vendor.
+        /// </summary>
         [TestMethod]
         public void GetUserOffersTest()
         {
@@ -52,6 +64,9 @@ namespace UnitTestProject2.ControllerTests
             Assert.AreEqual(2, contentResult.Content.Count);
         }
 
+        /// <summary>
+        /// Tests reserving offer functionality.
+        /// </summary>
         [TestMethod]
         public void ReserveOfferTest()
         {
@@ -71,7 +86,9 @@ namespace UnitTestProject2.ControllerTests
             Assert.IsTrue(o.Customer.Username.Equals("jablonskim"));
         }
 
-
+        /// <summary>
+        /// Tests resigning offer functionality.
+        /// </summary>
         [TestMethod]
         public void ResignOfferTest()
         {
@@ -91,6 +108,9 @@ namespace UnitTestProject2.ControllerTests
             Assert.IsNull(o.Customer);
         }
 
+        /// <summary>
+        /// Tests getting all reserved for the current user.
+        /// </summary>
         [TestMethod]
         public void GetReservedOffersTest()
         {
@@ -104,6 +124,9 @@ namespace UnitTestProject2.ControllerTests
             Assert.AreEqual(0, contentResult.Content.Count);
         }
 
+        /// <summary>
+        /// Tests for removing offer functionality.
+        /// </summary>
         [TestMethod]
         public void RemoveOfferTest()
         {
@@ -119,62 +142,5 @@ namespace UnitTestProject2.ControllerTests
 
             Assert.IsNull(o);
         }
-
-        [TestMethod]
-        public void AddOfferTest()
-        {
-
-            User vendor = new User
-            {
-                Username = "jablonskim2",
-            };
-            OfferInfo offerInfo = new OfferInfo()
-            {
-                OfferStartTime = new DateTime(2015, 12, 26),
-                OfferEndTime = new DateTime(2015, 12, 30),
-                OfferPublishTime = new DateTime(2015, 12, 13),
-                Price = 500,
-            };
-            Place place = new Place()
-            {
-                PlaceName = "Willa Magnolia",
-                Address = new Address()
-                {
-                    City = "Zakopane",
-                    Id = 3,
-                    PostalCode = "11-111",
-                    LocalNumber = "12a",
-                    Street = "Zielona"
-                }
-            };
-
-            Room room = new Room()
-            {
-                Capacity = 2,
-                Number = "3",
-            };
-
-            OfferAllDataDto dto = new OfferAllDataDto()
-            {
-                Vendor = vendor,
-                OfferInfo = offerInfo,
-                Place = place,
-                Room = room
-            };
-
-            IHttpActionResult result = _controller.SaveOfferAsync(dto);
-
-          //  OfferInfo offerInfoTest = _context.OfferInfo.Find(offerInfo);
-          //  Place placeTest = _context.Places.Find(place);
-          //  Room roomtest = _context.Rooms.Find(room);
-          ////  Offer offerTest = _context.Offers.FirstOrDefault(x => x.OfferInfoId == offerInfoTest.Id);
-          //  User userTest = _context.Users.FirstOrDefault(x => x.Username == "jablonskim2"); 
-
-          //  Assert.AreEqual(roomtest.PlaceId, placeTest.Id);
-          //  Assert.AreEqual(offerInfoTest.Price, 500);
-          ////  Assert.AreEqual(offerTest.Room, roomtest);
-          ////  Assert.AreEqual(offerTest.VendorId, userTest.Id);
-        }
-
     }
 }

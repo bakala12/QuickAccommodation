@@ -9,6 +9,9 @@ using AccommodationDataAccess.Model;
 
 namespace UnitTestProject2
 {
+    /// <summary>
+    /// Reprezents a mocked context to database used for tests.
+    /// </summary>
     public class AccommodationMockContext : IAccommodationContext
     {
         private readonly MockDbSet<User> _users;
@@ -21,6 +24,9 @@ namespace UnitTestProject2
         private readonly MockDbSet<Rank> _ranks;
         private readonly MockDbSet<HistoricalOffer> _historicalOffers;
 
+        /// <summary>
+        /// Initializes a new AccommodationMockContext object and fills it with example data.
+        /// </summary>
         public AccommodationMockContext()
         {
             List<User> users = new List<User>()
@@ -237,11 +243,18 @@ namespace UnitTestProject2
         public IDbSet<Room> Rooms => _rooms.Set.Object;
         public IDbSet<HistoricalOffer> HistoricalOffers => _historicalOffers.Set.Object;
 
+        /// <summary>
+        /// Do nothing, only for interface implementation
+        /// </summary>
+        /// <returns></returns>
         public int SaveChanges()
         {
             return 0;
         }
 
+        /// <summary>
+        /// Do nothing.
+        /// </summary>
         public void Dispose()
         {
 
