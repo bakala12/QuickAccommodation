@@ -300,8 +300,7 @@ namespace AccomodationWebApi.Controllers
                     //usuń z bazy ofertę oraz jej dane
 
                     context.Offers.Remove(offer);
-                    user.MyOffers.Remove(offer);
-
+                    user?.MyOffers?.Remove(offer);
                     context.SaveChanges();
                     transaction.Complete();
                 }

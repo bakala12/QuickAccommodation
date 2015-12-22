@@ -23,7 +23,7 @@ namespace UnitTestProject2.ControllerTests
 
         public OffersControllerTests()
         {
-            IContextProvider provider = new ContextProvider<AccommodationMockContext>();
+            IContextProvider provider = new TestContextProvider(_context);
             _controller = new OffersController(provider);
         }
 
@@ -49,7 +49,7 @@ namespace UnitTestProject2.ControllerTests
 
             Assert.IsNotNull(contentResult);
             Assert.IsNotNull(contentResult.Content);
-            Assert.AreEqual(1, contentResult.Content.Count);
+            Assert.AreEqual(2, contentResult.Content.Count);
         }
 
         [TestMethod]
@@ -66,8 +66,9 @@ namespace UnitTestProject2.ControllerTests
 
             Offer o = _context.Offers.FirstOrDefault(x => x.Id == dto.OfferId);
 
-            Assert.AreEqual(o.IsBooked, true);
-            Assert.AreEqual(o.CustomerId, 2);
+            Assert.IsNotNull(o);
+            Assert.AreEqual(true,o.IsBooked);
+            Assert.IsTrue(o.Customer.Username.Equals("jablonskim"));
         }
 
 
@@ -85,8 +86,9 @@ namespace UnitTestProject2.ControllerTests
 
             Offer o = _context.Offers.FirstOrDefault(x => x.Id == dto.OfferId);
 
+            Assert.IsNotNull(o);
             Assert.AreEqual(o.IsBooked, false);
-            Assert.AreEqual(o.CustomerId, null);
+            Assert.IsNull(o.Customer);
         }
 
         [TestMethod]

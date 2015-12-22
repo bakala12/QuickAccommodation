@@ -77,7 +77,7 @@ namespace UnitTestProject2.ControllerTests
             Assert.IsNotNull(contentResult.Content);
             Assert.AreEqual(2, contentResult.Content.Offers.Count());
             Assert.AreEqual(2, contentResult.Content.Offers.ToList()[0].Id);
-            Assert.AreEqual(1, contentResult.Content.Offers.ToList()[1].Id);
+            Assert.AreEqual(4, contentResult.Content.Offers.ToList()[1].Id);
         }
 
         /// <summary>

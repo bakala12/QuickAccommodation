@@ -33,6 +33,7 @@ namespace UnitTestProject2
             set.As<IQueryable<T>>().Setup(m => m.GetEnumerator()).Returns(data.AsQueryable().GetEnumerator());
 
             set.Setup(s => s.Add(It.IsAny<T>())).Returns((T t) => t).Callback((T t) => data.Add(t));
+            set.Setup(s => s.Remove(It.IsAny<T>())).Returns((T t) => t).Callback((T t) => data.Remove(t));
             Set = set;
         } 
     }

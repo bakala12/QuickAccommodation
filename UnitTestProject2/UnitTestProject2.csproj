@@ -78,11 +78,13 @@
   <ItemGroup>
     <Compile Include="AccommodationMockContext.cs" />
     <Compile Include="ControllerTests\OffersControllerTests.cs" />
+    <Compile Include="ControllerTests\OtherControllersTests.cs" />
     <Compile Include="ControllerTests\SearchControllerTests.cs" />
     <Compile Include="LoginTests.cs" />
     <Compile Include="MockContext.cs" />
     <Compile Include="MockDbSet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestContextProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AccommodationApplication\AccommodationApplication.csproj">
