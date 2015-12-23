@@ -3,10 +3,10 @@
   <Profiles />
   <Settings>
     <Setting Name="BaseUrlAddress" Type="System.String" Scope="User">
-      <Value Profile="(Default)">http://localhost:2426/api</Value>
+      <Value Profile="(Default)">http://testappaccommodation.azurewebsites.net/api</Value>
     </Setting>
     <Setting Name="SslUrlAddress" Type="System.String" Scope="User">
-      <Value Profile="(Default)">https://localhost:44300/api</Value>
+      <Value Profile="(Default)">https://testappaccommodation.azurewebsites.net/api</Value>
     </Setting>
   </Settings>
 </SettingsFile>

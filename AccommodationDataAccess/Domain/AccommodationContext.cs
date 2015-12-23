@@ -42,6 +42,12 @@ namespace AccommodationDataAccess.Domain
             Database.SetInitializer<AccommodationContext>(new AccommodationDatabaseInitializer());
         }
 
+        public AccommodationContext()
+            : base("AccomConnStr") 
+        {
+            
+        }
+
         public IDbSet<User> Users { get; set; }
         public IDbSet<Offer> Offers { get; set; }
         public IDbSet<OfferInfo> OfferInfo { get; set; }

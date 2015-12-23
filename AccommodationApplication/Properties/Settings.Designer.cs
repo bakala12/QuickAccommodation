@@ -25,7 +25,7 @@ namespace AccommodationApplication.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:2426/api")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://testappaccommodation.azurewebsites.net/api")]
         public string BaseUrlAddress {
             get {
                 return ((string)(this["BaseUrlAddress"]));
@@ -37,7 +37,7 @@ namespace AccommodationApplication.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://localhost:44300/api")]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://testappaccommodation.azurewebsites.net/api")]
         public string SslUrlAddress {
             get {
                 return ((string)(this["SslUrlAddress"]));

@@ -102,7 +102,7 @@ namespace AccommodationApplication.ViewModels
             }
             catch (Exception)
             {
-                MessageBox.Show("Nie udało się załadować statystyk", "Błąd");
+                //MessageBox.Show("Nie udało się załadować statystyk", "Błąd");
                 MostExpensiveOfferPrice = 0;
                 CheapestOfferPrice = 0;
                 MyOffersCount = 0;
