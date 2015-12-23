@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using AccommodationApplication.Model;
 using AccommodationDataAccess.Domain;
 using AccommodationDataAccess.Model;
 using AccommodationDataAccess.Searching;
@@ -63,5 +65,15 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
         /// </summary>
         public override ISearchingCriterion<Offer> Criterion 
             => OffersSearchingCriteriaFactory.CreateDateSearchingCriterion(MinimalDate, MaximalDate, ShowPartiallyMatchingResults);
+
+        /// <summary>
+        /// Znajduje pasujące oferty po dacie.
+        /// </summary>
+        public override async Task<IEnumerable<Offer>>  SearchAsync()
+        {
+            string username = Thread.CurrentPrincipal.Identity.Name;
+             return await Service.SearchByDateAsync(username, MinimalDate, MaximalDate,
+                ShowPartiallyMatchingResults, SelectedSortType, SelectedSortBy);
+        }
     }
 }

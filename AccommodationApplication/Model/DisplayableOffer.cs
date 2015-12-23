@@ -19,9 +19,28 @@ namespace AccommodationApplication.Model
             OfferEndTime = offerInfo.OfferEndTime.Date.ToString("dd/MM/yyyy");
             OfferEndTimeDate = offerInfo.OfferEndTime;
             OfferStartTimeDate = offerInfo.OfferStartTime;
-            Address = offer.Place.Address;
-            PlaceName = offer.Place.PlaceName;
-            AvailableVacanciesNumber = offerInfo.AvailableVacanciesNumber;
+            Address = offer.Room.Place.Address;
+            PlaceName = offer.Room.Place.PlaceName;
+            AvailableVacanciesNumber = offer.Room.Capacity;
+            RoomNumber = offer.Room.Number;
+            Price = offerInfo.Price;
+            Description = offerInfo.Description;
+            OfferPublishTime = offerInfo.OfferPublishTime;
+            Id = offer.Id;
+            IsBooked = offer.IsBooked;
+        }
+
+        public DisplayableOffer(HistoricalOffer offer)
+        {
+            OfferInfo offerInfo = offer.OfferInfo;
+            OfferStartTime = offerInfo.OfferStartTime.Date.ToString("dd/MM/yyyy");
+            OfferEndTime = offerInfo.OfferEndTime.Date.ToString("dd/MM/yyyy");
+            OfferEndTimeDate = offerInfo.OfferEndTime;
+            OfferStartTimeDate = offerInfo.OfferStartTime;
+            Address = offer.Room.Place.Address;
+            PlaceName = offer.Room.Place.PlaceName;
+            AvailableVacanciesNumber = offer.Room.Capacity;
+            RoomNumber = offer.Room.Number;
             Price = offerInfo.Price;
             Description = offerInfo.Description;
             OfferPublishTime = offerInfo.OfferPublishTime;
@@ -53,7 +72,7 @@ namespace AccommodationApplication.Model
         /// <summary>
         /// Adres oferty
         /// </summary>
-        public virtual Address Address { get; set; }
+        public Address Address { get; set; }
 
         /// <summary>
         /// Liczba wolnych miejsc
@@ -84,5 +103,10 @@ namespace AccommodationApplication.Model
         /// Zwraca informację czy oferta jest jeszcze dostępna
         /// </summary>
         public bool IsBooked { get; set; }
+
+        /// <summary>
+        /// Numer pokoju.
+        /// </summary>
+        public string RoomNumber { get; set; }
     }
 }

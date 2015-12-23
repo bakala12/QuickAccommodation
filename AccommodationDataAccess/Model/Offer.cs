@@ -15,13 +15,6 @@ namespace AccommodationDataAccess.Model
     public class Offer : Entity
     {
         /// <summary>
-        /// Miejsce opisane w ofercie (adres i nazwa)
-        /// </summary>
-        [InverseProperty("Offers")]
-        public virtual Place Place { get; set; }
-        public int PlaceId { get; set; }
-
-        /// <summary>
         /// Informacje dotyczące oferty
         /// </summary>
         public OfferInfo OfferInfo { get; set; }
@@ -45,6 +38,9 @@ namespace AccommodationDataAccess.Model
         /// Informacja o tym, czy oferta jest już zarezerwowana
         /// </summary>
         public bool IsBooked { get; set; }
+
+        public virtual Room Room { get; set; }
+        public int RoomId { get; set; }
     }
 
 }

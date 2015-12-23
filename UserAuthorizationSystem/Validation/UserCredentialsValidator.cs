@@ -22,7 +22,7 @@ namespace UserAuthorizationSystem.Validation
         {
             using (var context=new T())
             {
-                return !context.Users.Any(u => u.Username == username);
+                return !context.Users.Any(u => u.Username.Equals(username));
             }
         }
 

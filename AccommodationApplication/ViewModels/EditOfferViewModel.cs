@@ -13,6 +13,8 @@ using System.Threading;
 using System.ComponentModel;
 using AccommodationApplication.Model;
 using System.Collections.ObjectModel;
+using System.Windows;
+using AccommodationApplication.Services;
 
 namespace AccommodationApplication.ViewModels
 {
@@ -31,6 +33,7 @@ namespace AccommodationApplication.ViewModels
         private string _price;
         private string _availiableVacanciesNumber;
         private string _description;
+        private OffersProxy offersProxy;
         private OfferValidator ov = new OfferValidator();
 
         public EditOfferViewModel(DisplayableOffer displayableOffer, OffersViewModel ovm)
@@ -46,9 +49,10 @@ namespace AccommodationApplication.ViewModels
             City = displayableOffer.Address.City;
             PostalCode = displayableOffer.Address.PostalCode;
             Id = displayableOffer.Id;
+            RoomNumber = displayableOffer.RoomNumber;
             Ovm = ovm;
-            //UpDateCommand = new DelegateCommand(async x => await UpDateAsync());
             UpDateCommand = new DelegateCommand(x => UpDate());
+            offersProxy = new OffersProxy();
         }
 
         /// <summary>
@@ -73,7 +77,7 @@ namespace AccommodationApplication.ViewModels
         /// <summary>
         /// Funkcja aktualizująca ofertę w bazie
         /// </summary>
-        public void UpDate()
+        public async void UpDate()
         {
 
             Address address = new Address()
@@ -90,7 +94,6 @@ namespace AccommodationApplication.ViewModels
                 OfferEndTime = TimeZoneInfo.ConvertTimeToUtc(this.EndDate),
                 Description = this.Description,
                 Price = double.Parse(this.Price),
-                AvailableVacanciesNumber = int.Parse(this.AvailiableVacanciesNumber),
                 OfferPublishTime = DateTime.UtcNow
             };
 
@@ -100,30 +103,25 @@ namespace AccommodationApplication.ViewModels
                 Address = address
             };
 
-            Offer offerToAdd = new Offer();
-
-            using (var context = new AccommodationContext())
+            Room room = new Room()
             {
-                using (var transaction = context.Database.BeginTransaction())
-                {
+                Capacity = int.Parse(AvailiableVacanciesNumber),
+                Number = RoomNumber
+            };
 
-                    string currentUser = Thread.CurrentPrincipal.Identity.Name;
-                    if (currentUser == null) return;
-                    User user = context.Users.FirstOrDefault(x => x.Username.Equals(currentUser));
-                    Offer offer = context.Offers.FirstOrDefault(x => x.Id == this.Id);
+            //nazwa aktualnego usera
+            string currentUser = Thread.CurrentPrincipal.Identity.Name;
 
-                    if (offer == null) return;
-
-                    offer.OfferInfo = offerInfo;
-                    place.Address = address;
-                    offer.Place = place;
-
-
-                    context.SaveChanges();
-                    transaction.Commit();
-                }
+            try
+            {
+                //asynchronicznie wysyła zapytanie do edycji oferty
+                await offersProxy.EditOfferAsync(currentUser, this.Id, offerInfo, place, room);
             }
-
+            catch (Exception)
+            {
+                MessageBox.Show("Wystąpił błąd przy edycji oferty");
+                return;
+            }
             Close();
 
             //uaktualnij bieżące oferty
@@ -131,6 +129,9 @@ namespace AccommodationApplication.ViewModels
            
         }
 
+        /// <summary>
+        /// Opis oferty
+        /// </summary>
         public string Description
         {
             get
@@ -144,7 +145,9 @@ namespace AccommodationApplication.ViewModels
             }
         }
 
-
+        /// <summary>
+        /// Pojemność pokoju
+        /// </summary>
         public string AvailiableVacanciesNumber
         {
             get
@@ -158,6 +161,9 @@ namespace AccommodationApplication.ViewModels
             }
         }
 
+        /// <summary>
+        /// Cena
+        /// </summary>
         public string Price
         {
             get
@@ -171,7 +177,9 @@ namespace AccommodationApplication.ViewModels
             }
         }
 
-
+        /// <summary>
+        /// Początowa data oferty
+        /// </summary>
         public DateTime StartDate
         {
             get
@@ -185,6 +193,9 @@ namespace AccommodationApplication.ViewModels
             }
         }
 
+        /// <summary>
+        /// Końcowa data oferty
+        /// </summary>
         public DateTime EndDate
         {
             get
@@ -198,6 +209,9 @@ namespace AccommodationApplication.ViewModels
             }
         }
 
+        /// <summary>
+        /// Nazwa miejsca w którym jest wystawiona oferta
+        /// </summary>
         public string AccommodationName
         {
             get
@@ -211,6 +225,9 @@ namespace AccommodationApplication.ViewModels
             }
         }
 
+        /// <summary>
+        /// Tekst guzika 
+        /// </summary>
         public string Name
         {
             get
@@ -219,6 +236,9 @@ namespace AccommodationApplication.ViewModels
             }
         }
 
+        /// <summary>
+        /// Nazwa ulicy
+        /// </summary>
         public string Street
         {
             get { return _street; }
@@ -229,6 +249,9 @@ namespace AccommodationApplication.ViewModels
             }
         }
 
+        /// <summary>
+        /// Numer domu
+        /// </summary>
         public string LocalNumber
         {
             get { return _localNumber; }
@@ -239,6 +262,9 @@ namespace AccommodationApplication.ViewModels
             }
         }
 
+        /// <summary>
+        /// Kod pocztowy
+        /// </summary>
         public string PostalCode
         {
             get { return _postalCode; }
@@ -249,6 +275,9 @@ namespace AccommodationApplication.ViewModels
             }
         }
 
+        /// <summary>
+        /// Nazwa miasta
+        /// </summary>
         public string City
         {
             get { return _city; }
@@ -259,16 +288,27 @@ namespace AccommodationApplication.ViewModels
             }
         }
 
-        public string Error
+        private string _roomNumber;
+
+        /// <summary>
+        /// Numer pokoju
+        /// </summary>
+        public string RoomNumber
         {
-            get
+            get { return _roomNumber; }
+            set
             {
-                return String.Empty;
-            }
+                _roomNumber = value;
+                OnPropertyChanged();
+            }    
         }
 
-        public int Id { get; set; }
+        public string Error => String.Empty;
 
+        /// <summary>
+        /// Id oferty
+        /// </summary>
+        public int Id { get; set; }
 
         /// <summary>
         /// indekser potzrebny do walidacji
@@ -320,6 +360,12 @@ namespace AccommodationApplication.ViewModels
                         if (string.IsNullOrEmpty(this.City))
                         {
                             errorMessage = "Nieprawidłowa nazwa miasta";
+                        }
+                        break;
+                    case "RoomNumber":
+                        if (string.IsNullOrWhiteSpace(RoomNumber) || !ov.ValidateLocalNumber(RoomNumber))
+                        {
+                            errorMessage = "Nieprawidłowy numer pokoju";
                         }
                         break;
                     case "StartDate":

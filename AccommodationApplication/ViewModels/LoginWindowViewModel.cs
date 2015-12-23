@@ -5,10 +5,12 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using AccommodationApplication.Commands;
-using AccommodationDataAccess.Domain;
+using AccommodationApplication.Services;
+using AccommodationApplication.Views.Windows;
 using UserAuthorizationSystem.Authentication;
 using UserAuthorizationSystem.Identities;
 
@@ -21,16 +23,14 @@ namespace AccommodationApplication.ViewModels
     {
         private string _username;
         private string _errorText;
-        private readonly IUserAuthenticationService _authenticationService;
+        private readonly LoginProxy _service;
 
         /// <summary>
         /// Inicjalizuje nowa instancję klasy LoginWindowViewModel
         /// </summary>
-        /// <param name="authenticationService">Instancja odpowiedzialna za uwierzytelnienie uzytkownika</param>
-        public LoginWindowViewModel(IUserAuthenticationService authenticationService)
+        public LoginWindowViewModel()
         {
-            if(authenticationService==null) throw new ArgumentNullException();
-            _authenticationService = authenticationService;
+            _service = new LoginProxy();
             LoginCommand = new DelegateCommand(async x => await LoginAsync(x));
         }
 
@@ -79,8 +79,19 @@ namespace AccommodationApplication.ViewModels
             CustomPrincipal principal=Thread.CurrentPrincipal as CustomPrincipal;
             if(principal==null)
                 throw new InvalidOperationException();
-            CustomIdentity identity =
-                await _authenticationService.AuthenticateUserAsync<AccommodationContext>(Username, passwordBox.Password);
+            
+            CustomIdentity identity = null;
+            try
+            {
+                identity = await _service.GetUserAsync(Username, passwordBox.Password);
+            }
+            catch (Exception)
+            {
+                MessageDialog md = new MessageDialog();
+                md.Title = "Błąd";
+                md.Message = "Błąd systemu logowania";
+                md.ShowDialog();
+            }
             if (identity == null)
             {
                 ErrorText = "Nieprawidłowa nazwa użytkownika lub hasło";

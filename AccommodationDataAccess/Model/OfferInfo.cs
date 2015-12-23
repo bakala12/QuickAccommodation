@@ -26,11 +26,6 @@ namespace AccommodationDataAccess.Model
         public string Description { get; set; }
 
         /// <summary>
-        /// Liczba wolnych miejsc
-        /// </summary>
-        public int AvailableVacanciesNumber { get; set; }
-
-        /// <summary>
         /// Cena
         /// </summary>
         public double Price { get; set; }

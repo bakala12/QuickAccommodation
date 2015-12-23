@@ -10,6 +10,7 @@ using System.Windows;
 using System.Windows.Input;
 using AccommodationApplication.Commands;
 using AccommodationApplication.Model;
+using AccommodationApplication.Services;
 using AccommodationDataAccess.Domain;
 using AccommodationDataAccess.Model;
 
@@ -20,6 +21,7 @@ namespace AccommodationApplication.ViewModels
     /// </summary>
     public class DisplayableOfferViewModel : ViewModelBase
     {
+        private readonly OffersProxy _service = new OffersProxy();
         /// <summary>
         /// Komenda rezerwacji oferty
         /// </summary>
@@ -44,20 +46,22 @@ namespace AccommodationApplication.ViewModels
         public async Task ReserveAsync(object o)
         {
             DisplayableOffer off= o as DisplayableOffer;
+            if (off == null) return;
             int id = off.Id;
             string username = Thread.CurrentPrincipal.Identity.Name;
-            using (var context = new AccommodationContext())
+            try
             {
-                using (var transaction = context.Database.BeginTransaction())
-                {
-                    User u = await context.Users.FirstOrDefaultAsync(us => us.Username.Equals(username));
-                    Offer offer = await context.Offers.FirstOrDefaultAsync(of => of.Id == id);
-                    if (u == null || offer == null || offer.IsBooked) throw new Exception();
-                    offer.IsBooked = true;
-                    offer.Customer = u;
-                    await context.SaveChangesAsync();
-                    transaction.Commit();
-                }
+                OfferReserved?.Invoke(this, EventArgs.Empty);
+                await _service.ReserveOffer(username, id);
+                MessageBox.Show("Oferta została zarezerwowana");
+            }
+            catch (ArgumentException)
+            {
+                MessageBox.Show("Oferta już zarezerwowana.", "Błąd");
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Błąd systemu rezerwacji");
             }
         }
 
@@ -82,39 +86,38 @@ namespace AccommodationApplication.ViewModels
         public ICommand ResignCommand { get; private set; }
 
         /// <summary>
-        /// Rezygnuje zi bieżącej oferty
-        /// </summary>
-        /// <param name="x">Parametr</param>
-        public void Resign(object x)
-        {
-            DisplayableOffer offer=x as DisplayableOffer;
-            if (offer == null) throw new Exception();
-            string username = Thread.CurrentPrincipal.Identity.Name;
-            if (string.IsNullOrEmpty(username)) throw new Exception();
-            using (var context = new AccommodationContext())
-            {
-                using (var transaction = context.Database.BeginTransaction())
-                {
-                    User u = context.Users.FirstOrDefault(us => us.Username.Equals(username));
-                    if (u == null) throw new Exception();
-                    Offer o = context.Offers.FirstOrDefault(of => of.Id == offer.Id);
-                    if (o == null) throw new Exception();
-                    o.Customer = null;
-                    o.IsBooked = false;
-                    context.SaveChanges();
-                    transaction.Commit();
-                }
-            }
-        }
-
-        /// <summary>
         /// Asynchronicznie rezygnuje z oferty
         /// </summary>
         /// <param name="x">Parametr</param>
         /// <returns></returns>
         public async Task ResignAsync(object x)
         {
-            await Task.Run(() => Resign(x));
+            DisplayableOffer offer = x as DisplayableOffer;
+            if (offer == null) return;
+            string username = Thread.CurrentPrincipal.Identity.Name;
+            try
+            {
+                OfferResigned?.Invoke(this, EventArgs.Empty);
+                await _service.ResignOffer(username, offer.Id);
+                MessageBox.Show("Rezygnacja z oferty została dokonana pomyślnie");
+            }
+            catch (ArgumentException)
+            {
+                MessageBox.Show("Oferta nie była zarezerwowana.", "Błąd");
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Błąd systemu rezerwacji");
+            }
         }
+
+        /// <summary>
+        /// Wydarzenie podnoszone po zarezerwowaniu oferty.
+        /// </summary>
+        public event EventHandler OfferReserved;
+        /// <summary>
+        /// Wydarzenie podnoszone po rezygnacji z oferty.
+        /// </summary>
+        public event EventHandler OfferResigned;
     }
 }

@@ -10,7 +10,6 @@ using System.Windows;
 using System.Windows.Input;
 using AccommodationApplication.Annotations;
 using AccommodationApplication.Commands;
-using AccommodationApplication.Login;
 using AccommodationDataAccess.Domain;
 using AccommodationDataAccess.Model;
 using UserAuthorizationSystem.Authentication;
@@ -19,6 +18,8 @@ using UserAuthorizationSystem.Registration;
 using UserAuthorizationSystem.Validation;
 using AccommodationApplication.Interfaces;
 using System.Windows.Controls;
+using AccommodationApplication.Views.Windows;
+using LoginWindow = AccommodationApplication.Views.Windows.LoginWindow;
 
 namespace AccommodationApplication.ViewModels
 {
@@ -45,6 +46,10 @@ namespace AccommodationApplication.ViewModels
             PageViewModels.Add(new SearchingViewModel());
             PageViewModels.Add(new AddNewOfferViewModel());
             PageViewModels.Add(new PurchasedOffersViewModel());
+            PageViewModels.Add(new HistoryViewModel());
+            PageViewModels.Add(new MyProfileViewModel());
+            PageViewModels.Add(new StatisticsViewModel());
+          
             CurrentPageViewModel = PageViewModels[0];
         }
 
@@ -76,6 +81,8 @@ namespace AccommodationApplication.ViewModels
         public async virtual Task ChangePageAsync(IPageViewModel p)
         {
             await Task.Run(() => ChangeViewModel(p));
+            Task t =(p as StatisticsViewModel)?.Load();
+            if (t != null) await t;
         }
 
         /// <summary>
@@ -115,7 +122,7 @@ namespace AccommodationApplication.ViewModels
         protected virtual void Login()
         {
             LoginWindow login = new LoginWindow();
-            LoginWindowViewModel vm = new LoginWindowViewModel(new UserAuthenticationService());
+            LoginWindowViewModel vm = new LoginWindowViewModel();
             vm.RequestClose += (x, e) => CloseWindow(login);
             login.DataContext = vm;
             login.ShowDialog();
@@ -129,7 +136,7 @@ namespace AccommodationApplication.ViewModels
         protected virtual void Register()
         {
             RegisterWindow registerWindow = new RegisterWindow();
-            RegisterUserViewModel vm = new RegisterUserViewModel(new UserCredentialsValidator(), new UserRegister());
+            RegisterUserViewModel vm = new RegisterUserViewModel(new UserCredentialsValidator());
             vm.RequestClose += (x, e) => CloseWindow(registerWindow);
             registerWindow.DataContext = vm;
             registerWindow.ShowDialog();

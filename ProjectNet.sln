@@ -5,6 +5,7 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccommodationApplication", "AccommodationApplication\AccommodationApplication.csproj", "{81602B0C-636A-42D4-B4A3-BC71A310676E}"
 	ProjectSection(ProjectDependencies) = postProject
+		{69880EAB-F8A6-4A32-BF8E-DBC0D3B8F5EC} = {69880EAB-F8A6-4A32-BF8E-DBC0D3B8F5EC}
 		{75E75BCA-8504-430F-817E-B6CBEB1061A2} = {75E75BCA-8504-430F-817E-B6CBEB1061A2}
 	EndProjectSection
 EndProject
@@ -13,6 +14,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserAuthorizationSystem", "UserAuthorizationSystem\UserAuthorizationSystem.csproj", "{FD6DFED7-2CE0-46F8-BD12-4E655B5F968B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject2", "UnitTestProject2\UnitTestProject2.csproj", "{25B7D511-BFA8-484C-B951-F3201B655E46}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccommodationWebApi", "AccomodationWebApi\AccommodationWebApi.csproj", "{69880EAB-F8A6-4A32-BF8E-DBC0D3B8F5EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccommodationShared", "AccommodationShared\AccommodationShared.csproj", "{1CFC3BEE-D4CE-464C-92D0-5D8A9B05E22C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,6 +41,14 @@ Global
 		{25B7D511-BFA8-484C-B951-F3201B655E46}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{25B7D511-BFA8-484C-B951-F3201B655E46}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{25B7D511-BFA8-484C-B951-F3201B655E46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69880EAB-F8A6-4A32-BF8E-DBC0D3B8F5EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69880EAB-F8A6-4A32-BF8E-DBC0D3B8F5EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69880EAB-F8A6-4A32-BF8E-DBC0D3B8F5EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69880EAB-F8A6-4A32-BF8E-DBC0D3B8F5EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1CFC3BEE-D4CE-464C-92D0-5D8A9B05E22C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CFC3BEE-D4CE-464C-92D0-5D8A9B05E22C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CFC3BEE-D4CE-464C-92D0-5D8A9B05E22C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CFC3BEE-D4CE-464C-92D0-5D8A9B05E22C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

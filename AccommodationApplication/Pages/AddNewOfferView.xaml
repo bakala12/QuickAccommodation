@@ -111,6 +111,7 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
 
                 <TextBlock Text="Nazwa" Grid.Row="0" Grid.Column="0" Margin="4 4 4 4"/>
@@ -128,6 +129,8 @@
                     ValidatesOnDataErrors=True}"/>
                 <TextBox Margin="4 4 4 4" Name ="cit" Grid.Column="1" Grid.Row="4"  Text="{Binding Path=City, UpdateSourceTrigger=PropertyChanged,
                     ValidatesOnDataErrors=True}"/>
+                <TextBlock Text="Numer pokoju" Grid.Row="5" Grid.Column="0" Margin="4,4,4,4"/>
+                <TextBox Grid.Row="5" Grid.Column="1" Margin="4,4,4,4" Text="{Binding RoomNumber, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
             </Grid>
         </GroupBox>
 

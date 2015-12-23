@@ -11,9 +11,12 @@ using System.Windows;
 using System.Windows.Input;
 using AccommodationApplication.Commands;
 using AccommodationApplication.Model;
+using AccommodationApplication.Services;
+using AccommodationApplication.Views.Windows;
 using AccommodationDataAccess.Domain;
 using AccommodationDataAccess.Model;
 using AccommodationDataAccess.Searching;
+using AccommodationShared.Searching;
 
 namespace AccommodationApplication.ViewModels.SearchingViewModels
 {
@@ -22,13 +25,20 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
     /// </summary>
     public abstract class SearchingViewModelBase : ViewModelBase
     {
+        private readonly OfferInfoesProxy _oiProxy = new OfferInfoesProxy();
+        private readonly AddressesProxy _addressProxy = new AddressesProxy();
+        private readonly PlacesProxy _placesProxy = new PlacesProxy();
+        private readonly RoomsProxy _roomsProxy = new RoomsProxy();
+
+        protected SearchProxy Service { get; }
         /// <summary>
         /// Inicjalizuje początkowy stan obiektu
         /// </summary>
         protected SearchingViewModelBase()
         {
-            SearchCommand = new DelegateCommand(async x=>await SearchAsync<AccommodationContext>());
-            (App.Current as App).Login += (x,e)=> { SearchingResults = null; };
+            Service = new SearchProxy();
+            SearchCommand = new DelegateCommand(async x => await SearchResultAsync());
+            (App.Current as App).Login += (x, e) => { SearchingResults = null; };
         }
 
         private IEnumerable<DisplayableOfferViewModel> _searchingResults;
@@ -44,7 +54,7 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
                 _searchingResults = value;
                 OnPropertyChanged();
             }
-        } 
+        }
 
         /// <summary>
         /// Komenda reagująca na szukanie
@@ -59,11 +69,11 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
         /// <summary>
         /// Kolekcja dostępnych typów wyszukiwania
         /// </summary>
-        public IEnumerable<SortType> SortTypes => (IEnumerable<SortType>)Enum.GetValues(typeof (SortType));
+        public IEnumerable<SortType> SortTypes => (IEnumerable<SortType>)Enum.GetValues(typeof(SortType));
         /// <summary>
         /// Kolekcja dostępnych wartości po których można wyszukiwać
         /// </summary>
-        public IEnumerable<SortBy> SortByValues => (IEnumerable<SortBy>) Enum.GetValues(typeof (SortBy));
+        public IEnumerable<SortBy> SortByValues => (IEnumerable<SortBy>)Enum.GetValues(typeof(SortBy));
 
         private SortType _selectedSortType;
 
@@ -98,108 +108,45 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
         /// <summary>
         /// Asynchronicznie wyszukuje oferty w oparciu o kryterium wyszukiwania 
         /// </summary>
-        /// <returns></returns>
-        public async Task SearchAsync<T>() where T:IAccommodationContext, IDisposable, new()
-        {
-            await Task.Run(() => Search<T>());
-        }
+        /// <returns>Pasujące oferty</returns>
+        public abstract Task<IEnumerable<Offer>> SearchAsync();
 
-        /// <summary>
-        /// Wyszukuje oferty w oparciu o kryterium wyszukiwania 
-        /// </summary>
-        protected virtual void Search<T>() where T : IAccommodationContext, IDisposable, new()
+        public async Task SearchResultAsync()
         {
-            using (var context=new T())
+            try
             {
-                string userName = Thread.CurrentPrincipal.Identity.Name;
-                if(string.IsNullOrEmpty(userName)) throw new Exception();
-                User u = context.Users.FirstOrDefault(us => us.Username.Equals(userName));
-                if(u==null) throw new Exception();
-                IQueryable<Offer> offers = context.Offers.Where(o => o.VendorId != u.Id).Where(o => !o.IsBooked);
-                offers=offers.Where(Criterion.SelectableExpression).Include(o=>o.OfferInfo).Include(o=>o.Place.Address);
-                IEnumerable<Offer> of = offers.Take(20).OrderBy(SelectedSortType, SelectedSortBy);
-                SearchingResults = of.Select(offer => new DisplayableOfferViewModel(new DisplayableOffer(offer))).ToList();
+                IEnumerable<Offer> offers = await SearchAsync();
+                foreach (var offer in offers)
+                {
+                    Room r = await _roomsProxy.Get(offer.RoomId);
+                    Place p = await _placesProxy.Get(r.PlaceId);
+                    OfferInfo oi = await _oiProxy.Get(offer.OfferInfoId);
+                    Address a = await _addressProxy.Get(p.AddressId);
+                    p.Address = a;
+                    offer.Room = r;
+                    offer.Room.Place = p;
+                    offer.OfferInfo = oi;
+                }
+                SearchingResults = offers.Select(o => new DisplayableOfferViewModel(new DisplayableOffer(o)));
+                foreach (var displayableOfferViewModel in SearchingResults)
+                {
+                    displayableOfferViewModel.OfferReserved += (x,e)=>OnOfferReserved(x,e);
+                }
             }
-        } 
-    }
-
-    /// <summary>
-    /// Typ sortownia 
-    /// </summary>
-    public enum SortType
-    {
-        Ascending,
-        Descending,
-        NotSort
-    }
-
-    /// <summary>
-    /// Właściwość po której wyszukujemy
-    /// </summary>
-    public enum SortBy
-    {
-        Place,
-        City,
-        Price,
-        StartDate,
-        EndDate,
-        VacanciesNumber,
-        PublishDate
-    }
-
-    internal static class Sorter
-    {
-        public static IQueryable<Offer> OrderBy(this IQueryable<Offer> o, SortType type, SortBy by)
-        {
-            if (type == SortType.Ascending) return o.OrderBy(by);
-            if (type == SortType.Descending) return o.OrderByDescending(by);
-            return o;
-        }
-
-        private static IQueryable<Offer> OrderBy(this IQueryable<Offer> o, SortBy by)
-        {
-            switch (by)
+            catch (Exception)
             {
-                case SortBy.Place:
-                    return o.OrderBy(x => x.Place.PlaceName);
-                case SortBy.City:
-                    return o.OrderBy(x => x.Place.Address.City);
-                case SortBy.Price:
-                    return o.OrderBy(x => x.OfferInfo.Price);
-                case SortBy.StartDate:
-                    return o.OrderBy(x => x.OfferInfo.OfferStartTime);
-                case SortBy.EndDate:
-                    return o.OrderBy(x => x.OfferInfo.OfferEndTime);
-                case SortBy.VacanciesNumber:
-                    return o.OrderBy(x => x.OfferInfo.AvailableVacanciesNumber);
-                case SortBy.PublishDate:
-                    return o.OrderBy(x => x.OfferInfo.OfferPublishTime);
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(@by), @by, null);
+                MessageDialog md = new MessageDialog() { Title = "Błąd", Message = "Błąd systemu wyszukiwania"};
+                md.ShowDialog();
             }
         }
 
-        private static IQueryable<Offer> OrderByDescending(this IQueryable<Offer> o, SortBy by)
+        public void OnOfferReserved(object sender, EventArgs e)
         {
-            switch (by)
-            {
-                case SortBy.Place:
-                    return o.OrderByDescending(x => x.Place.PlaceName);
-                case SortBy.City:
-                    return o.OrderByDescending(x => x.Place.Address.City);
-                case SortBy.Price:
-                    return o.OrderByDescending(x => x.OfferInfo.Price);
-                case SortBy.StartDate:
-                    return o.OrderByDescending(x => x.OfferInfo.OfferStartTime);
-                case SortBy.EndDate:
-                    return o.OrderByDescending(x => x.OfferInfo.OfferEndTime);
-                case SortBy.VacanciesNumber:
-                    return o.OrderByDescending(x => x.OfferInfo.AvailableVacanciesNumber);
-                case SortBy.PublishDate:
-                    return o.OrderByDescending(x => x.OfferInfo.OfferPublishTime);
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(@by), @by, null);
-            }
+            List<DisplayableOfferViewModel> vms = SearchingResults?.ToList();
+            DisplayableOfferViewModel vm = sender as DisplayableOfferViewModel;
+            if(vm ==null || vms ==null) return;
+            vms.Remove(vm);
+            SearchingResults = vms;
         }
     }
 }

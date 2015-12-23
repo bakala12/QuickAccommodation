@@ -4,7 +4,9 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
+using AccommodationApplication.Model;
 using AccommodationDataAccess.Model;
 using AccommodationDataAccess.Searching;
 
@@ -47,12 +49,17 @@ namespace AccommodationApplication.ViewModels.SearchingViewModels
         /// <summary>
         /// Odpowiednie kryetrium wyszukiwania
         /// </summary>
-        public override ISearchingCriterion<Offer> Criterion
+        public override ISearchingCriterion<Offer> Criterion =>
+            OffersSearchingCriteriaFactory.CreatePriceSearchingCriterion(MinimalPrice, MaximalPrice);
+
+        /// <summary>
+        /// Znajduje wyniki wyszukiwania dla ceny.
+        /// </summary>
+        /// <returns></returns>
+        public override async Task<IEnumerable<Offer>>  SearchAsync()
         {
-            get
-            {
-                return OffersSearchingCriteriaFactory.CreatePriceSearchingCriterion(MinimalPrice,MaximalPrice);
-            }
+            string username = Thread.CurrentPrincipal.Identity.Name;
+            return await Service.SearchByPriceAsync(username, MinimalPrice, MaximalPrice, SelectedSortType, SelectedSortBy);
         }
     }
 }

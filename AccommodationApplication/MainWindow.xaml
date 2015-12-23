@@ -8,7 +8,7 @@
         xmlns:pg="clr-namespace:AccommodationApplication.Pages"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         mc:Ignorable="d"
-        Title="QuickAccommodation" Height="600" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        Title="QuickAccommodation" Height="600" Width="800" WindowStartupLocation="CenterScreen"
         TitleCaps="False" Icon="Resources/QuickAccommodationIcon.png">
     <Window.Resources>
         <ResourceDictionary>
@@ -24,6 +24,15 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type vm:PurchasedOffersViewModel}">
                 <pg:PurchasedOffersView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:MyProfileViewModel}">
+                <pg:MyProfileView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:HistoryViewModel}">
+                <pg:HistoryView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:StatisticsViewModel}">
+                <pg:StatisticsView/>
             </DataTemplate>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles/MainWindowStyles.xaml"/>

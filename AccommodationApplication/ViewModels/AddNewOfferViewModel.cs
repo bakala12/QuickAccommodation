@@ -15,7 +15,8 @@ using System.Windows;
 using System.Windows.Threading;
 using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Controls;
-using MessageDialog = AccommodationApplication.Views.MessageDialog;
+using MessageDialog = AccommodationApplication.Views.Windows.MessageDialog;
+using AccommodationApplication.Services;
 
 namespace AccommodationApplication.ViewModels
 {
@@ -36,14 +37,17 @@ namespace AccommodationApplication.ViewModels
         private string _availiableVacanciesNumber;
         private string _description;
         private OfferValidator ov = new OfferValidator();
-
+        private UsersProxy usersProxy;
+        private OffersProxy offersProxy;
 
         public AddNewOfferViewModel()
         {
             //ustawianie początkowych wartości dla dat
             _startDate = DateTime.Now;
             _endDate = DateTime.Now;
-            AddCommand = new DelegateCommand(async x=>await AddAsync());
+            AddCommand = new DelegateCommand(async x => await AddAsync());
+            usersProxy = new UsersProxy();
+            offersProxy = new OffersProxy();
         }
 
         /// <summary>
@@ -53,10 +57,11 @@ namespace AccommodationApplication.ViewModels
         public async virtual Task AddAsync()
         {
             MessageDialog m = new MessageDialog();
+            await Task.Run(() => Add());
             m.Title = "Potwierdzenie";
             m.Message = "Dodano ofertę";
             m.Show();
-            await Task.Run(() => Add());
+
         }
 
         /// <summary>
@@ -67,8 +72,11 @@ namespace AccommodationApplication.ViewModels
         /// <summary>
         /// Funkcja dodająca nową ofertę
         /// </summary>
-        public void Add()
+        public async void Add()
         {
+            string currentUser = Thread.CurrentPrincipal.Identity.Name;
+            User vendor = await usersProxy.GetUser(currentUser);
+
             Address address = new Address()
             {
                 City = this.City,
@@ -85,7 +93,6 @@ namespace AccommodationApplication.ViewModels
 
                 Description = this.Description,
                 Price = double.Parse(this.Price),
-                AvailableVacanciesNumber = int.Parse(this.AvailiableVacanciesNumber),
                 OfferPublishTime = DateTime.UtcNow
             };
             Place place = new Place()
@@ -93,34 +100,23 @@ namespace AccommodationApplication.ViewModels
                 PlaceName = this.AccommodationName,
                 Address = address
             };
-
-            Offer offerToAdd = new Offer();
-
-            //pobierz login aktualnego usera
-            string currentUser = Thread.CurrentPrincipal.Identity.Name;
-
-            using (var context = new AccommodationContext())
+            Room room = new Room()
             {
-                using (var transaction = context.Database.BeginTransaction())
-                {
-                    //Wyciągnij z bazy aktualnego usera
-                    User user = context.Users.FirstOrDefault(x => x.Username.Equals(currentUser));
-                    if (user == null) throw new InvalidOperationException();
-
-                    offerToAdd.OfferInfo = offer;
-                    offerToAdd.Vendor = user;
-                    offerToAdd.Place = place;
-
-                    //dodaj do listy ofert nową ofertę
-                    user.MyOffers.Add(offerToAdd);
-
-
-                    context.SaveChanges();
-                    transaction.Commit();
-                }
+                Capacity = int.Parse(AvailiableVacanciesNumber),
+                Number = RoomNumber
+            };
+            try
+            {
+                await offersProxy.SaveOfferAsync(offer, vendor, place, room);
             }
-
-           
+            catch (ArgumentException)
+            {
+                MessageBox.Show("Nie można dodać już oferty dla tego miejsca na ten pokój. Oferta koliduje z inną.");
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Dodawanie oferty nie powiodło się");
+            }
         }
 
         public string Description
@@ -135,7 +131,6 @@ namespace AccommodationApplication.ViewModels
                 OnPropertyChanged();
             }
         }
-
 
         public string AvailiableVacanciesNumber
         {
@@ -261,6 +256,18 @@ namespace AccommodationApplication.ViewModels
             }
         }
 
+        private string _roomNumber;
+
+        public string RoomNumber
+        {
+            get { return _roomNumber; }
+            set
+            {
+                _roomNumber = value;
+                OnPropertyChanged();
+            }
+        }
+
 
         //indekser, potrzebny do walidacji
         public string this[string columnName]
@@ -307,6 +314,12 @@ namespace AccommodationApplication.ViewModels
                         if (string.IsNullOrEmpty(this.City))
                         {
                             errorMessage = "Nieprawidłowa nazwa miasta";
+                        }
+                        break;
+                    case "RoomNumber":
+                        if (string.IsNullOrWhiteSpace(RoomNumber) || !ov.ValidateLocalNumber(RoomNumber))
+                        {
+                            errorMessage = "Nieprawidłowy numer pokoju";
                         }
                         break;
                     case "StartDate":

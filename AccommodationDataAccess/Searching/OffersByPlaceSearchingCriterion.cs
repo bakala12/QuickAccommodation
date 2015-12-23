@@ -47,8 +47,8 @@ namespace AccommodationDataAccess.Searching
             get
             {
                 return parameter =>
-                    (string.IsNullOrEmpty(PlaceName) || parameter.Place.PlaceName.Equals(PlaceName)) &&
-                    (string.IsNullOrEmpty(City) || parameter.Place.Address.City.Equals(City));
+                    (string.IsNullOrEmpty(PlaceName) || parameter.Room.Place.PlaceName.Equals(PlaceName)) &&
+                    (string.IsNullOrEmpty(City) || parameter.Room.Place.Address.City.Equals(City));
             }
         }
     }

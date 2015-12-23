@@ -1,5 +1,4 @@
 ﻿using AccommodationApplication.Commands;
-using AccommodationApplication.Editing;
 using AccommodationApplication.Interfaces;
 using AccommodationApplication.Model;
 using AccommodationDataAccess.Domain;
@@ -15,6 +14,9 @@ using System.Transactions;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
+using AccommodationApplication.Views.Windows;
+using AccommodationApplication.Services;
+using AccomodationWebApi;
 
 namespace AccommodationApplication.ViewModels
 {
@@ -27,57 +29,36 @@ namespace AccommodationApplication.ViewModels
         /// Komenda do usuwania oferty
         /// </summary>
         public ICommand RemoveCommand { get; set; }
-        
+
         /// <summary>
         /// Komenda do edycji oferty
         /// </summary>
         public ICommand EditCommand { get; set; }
+        private readonly OffersProxy offersProxy;
+        private readonly OfferInfoesProxy offerInfoesProxy;
+        private readonly PlacesProxy PlacesProxy;
+        private readonly AddressesProxy addressesProxy;
+        private readonly UsersProxy usersProxy;
+        private readonly RoomsProxy _roomsProxy = new RoomsProxy();
 
         public OffersViewModel()
         {
             RemoveCommand = new DelegateCommand(async x => await RemoveAsync());
             EditCommand = new DelegateCommand(x => Edit());
 
+            this.offersProxy = new OffersProxy();
+            this.offerInfoesProxy = new OfferInfoesProxy();
+            this.PlacesProxy = new PlacesProxy();
+            this.addressesProxy = new AddressesProxy();
+            this.usersProxy = new UsersProxy();
+
             CurrentOffersList = null;
-            (App.Current as App).Login += (x, e) => { CurrentOffersList = null; OnPropertyChanged(nameof(CurrentOffersList));};
+            (App.Current as App).Login += (x, e) => { CurrentOffersList = null; OnPropertyChanged(nameof(CurrentOffersList)); };
         }
 
         /// <summary>
         /// Uaktualnia bieżącą listę ofert użytkownika
         /// </summary>
-        public void Load()
-        {
-            var ret = new ObservableCollection<DisplayableOffer>();
-
-            using (var context = new AccommodationContext())
-            {
-                //pobierz login aktualnego usera
-                string currentUser = Thread.CurrentPrincipal.Identity.Name;
-
-                //wyciągnij usera z bazy
-                User user = context.Users.FirstOrDefault(x => x.Username.Equals(currentUser));
-
-                //lista ofert aktualnego użytkownika
-                var list = user.MyOffers;
-
-                //dla każej oferty stwórz jest wersję do wyświetlenia i dodaj do listy ofert
-                foreach (var item in list)
-                {
-                    Offer offer = context.Offers.FirstOrDefault(x => item.Id == x.Id);
-                    OfferInfo offerInfo = context.OfferInfo.FirstOrDefault(x => x.Id == offer.OfferInfoId);
-                    Place place = context.Places.FirstOrDefault(x => offer.PlaceId == x.Id);
-                    Address address = context.Addresses.FirstOrDefault(x => place.AddressId == x.Id);
-
-                    place.Address = address;
-                    offer.OfferInfo = offerInfo;
-                    offer.Place = place;
-                    DisplayableOffer dof = new DisplayableOffer(offer);
-                    ret.Add(dof);
-                }
-            }
-
-            CurrentOffersList = ret;
-        }
 
         public string Name
         {
@@ -87,7 +68,7 @@ namespace AccommodationApplication.ViewModels
 
             }
         }
-        
+
         /// <summary>
         /// Aktualnie zaznaczona oferta (do edycji lub usunięcia)
         /// </summary>
@@ -124,38 +105,10 @@ namespace AccommodationApplication.ViewModels
         /// <summary>
         /// Funkcja do usuwania zaznaczonej oferty
         /// </summary>
-        public void Remove()
+        public async void Remove()
         {
-            using (var context = new AccommodationContext())
-            {
-                using (var transaction = context.Database.BeginTransaction())
-                {
-                    //pobierz login aktualnego usera
-                    string currentUser = Thread.CurrentPrincipal.Identity.Name;
-
-                    //wyciągnij go z bazy
-                    User user = context.Users.FirstOrDefault(x => x.Username.Equals(currentUser));
-
-                    //znajdź ofertę do usunięcia
-                    Offer offer = context.Offers.FirstOrDefault(x => x.Id == CurrentlySelectedOffer.Id);
-                    if (offer == null) return;
-
-                    //pobierz dodatkowe dane oferty do usunięcia
-                    OfferInfo offerInfo = context.OfferInfo.FirstOrDefault(x => x.Id == offer.OfferInfoId);
-                    Place place = context.Places.FirstOrDefault(x => x.Id == offer.PlaceId);
-                    Address address = context.Addresses.FirstOrDefault(x => x.Id == place.AddressId);
-
-                    //usuń z bazy ofertę oraz jej dane
-                    context.Offers.Remove(offer);
-                    context.Places.Remove(place);
-                    context.Addresses.Remove(address);
-                    context.OfferInfo.Remove(offerInfo);
-                    user.MyOffers.Remove(offer);
-
-                    context.SaveChanges();
-                    transaction.Commit();
-                }
-            }
+            string currentUser = Thread.CurrentPrincipal.Identity.Name;
+            await offersProxy.RemoveOfferAsync(currentUser, CurrentlySelectedOffer.Id);
             //uaktualnij bieżącą listę ofert
             Load();
         }
@@ -175,9 +128,38 @@ namespace AccommodationApplication.ViewModels
             get
             {
                 //przy pierwszej próbie wyświetlenia pobierz listę z bazy
-                if (currentOffersList == null) Load();
+                if (currentOffersList == null) this.Load();
                 return currentOffersList;
             }
+        }
+        public async void Load()
+        {
+
+            var ret = new ObservableCollection<DisplayableOffer>();
+
+            string currentUser = Thread.CurrentPrincipal.Identity.Name;
+
+            User user = await usersProxy.GetUser(currentUser);
+
+            var list = await offersProxy.GetUserOffers(user.Id);
+
+            foreach (var item in list)
+            {
+                OfferInfo oi = await offerInfoesProxy.Get(item.OfferInfoId);
+                Room r = await _roomsProxy.Get(item.RoomId);
+                Place p = await PlacesProxy.Get(r.PlaceId);
+                Address a = await addressesProxy.Get(p.AddressId);
+
+                p.Address = a;
+                r.Place = p;
+                item.OfferInfo = oi;
+                item.Room = r;
+                DisplayableOffer dof = new DisplayableOffer(item);
+                ret.Add(dof);
+            }
+
+            this.CurrentOffersList = ret;
+
         }
     }
 }

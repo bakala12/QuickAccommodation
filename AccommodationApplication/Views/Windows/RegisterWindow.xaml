@@ -1,0 +1,21 @@
+﻿<controls:MetroWindow x:Class="AccommodationApplication.Views.Windows.RegisterWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:view="clr-namespace:AccommodationApplication.Views"
+        xmlns:converter="clr-namespace:AccommodationApplication.Converter"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        mc:Ignorable="d"
+        Title="Zarejestruj" Height="400" Width="400"
+        BorderThickness="1" ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen" TitleCaps="False" Icon="../../Resources/QuickAccommodationIcon.png">
+    <Window.Resources>
+        <converter:RegisterViewsVisibilityConverter x:Key="Converter"/>
+    </Window.Resources>
+    <Grid>
+        <view:RegisterCredentialsView Visibility="{Binding CurrentScreen, Converter={StaticResource Converter}, ConverterParameter=Credentials}"/>
+        <view:RegisterBasicDataView Visibility="{Binding CurrentScreen,Converter={StaticResource Converter}, ConverterParameter=BasicData}"/>
+        <view:RegisterAddressView Visibility="{Binding CurrentScreen,Converter={StaticResource Converter}, ConverterParameter=Address}"/>
+    </Grid>
+</controls:MetroWindow>

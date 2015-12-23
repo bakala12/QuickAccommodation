@@ -89,6 +89,18 @@ namespace AccommodationDataAccess.Domain
             admin.UserData = adminData;
             users.Add(admin);
             return users;
+        }
+
+        public static IEnumerable<Rank> GetExampleRanks()
+        {
+            return new[]
+            {
+                new Rank() {Name = "Nowicjusz"},
+                new Rank() {Name = "Junior"},
+                new Rank() {Name = "Znawca"},
+                new Rank() {Name = "Mistrz"},
+                new Rank() {Name = "Guru"}
+            };
         } 
     }
 }
