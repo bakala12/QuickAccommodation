@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccommodationWebApi", "Acco
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccommodationShared", "AccommodationShared\AccommodationShared.csproj", "{1CFC3BEE-D4CE-464C-92D0-5D8A9B05E22C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccommodationWebPage", "AccommodationWebPage\AccommodationWebPage.csproj", "{BA02E40E-B9A6-4F00-AD58-EB927053041C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,10 @@ Global
 		{1CFC3BEE-D4CE-464C-92D0-5D8A9B05E22C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1CFC3BEE-D4CE-464C-92D0-5D8A9B05E22C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1CFC3BEE-D4CE-464C-92D0-5D8A9B05E22C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA02E40E-B9A6-4F00-AD58-EB927053041C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA02E40E-B9A6-4F00-AD58-EB927053041C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA02E40E-B9A6-4F00-AD58-EB927053041C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA02E40E-B9A6-4F00-AD58-EB927053041C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
