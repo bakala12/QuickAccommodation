@@ -43,7 +43,7 @@ namespace AccommodationDataAccess.Domain
         }
 
         public AccommodationContext()
-            : base("AccomConnStr") 
+           // : base("AccomConnStr") //for tests I Choose local db
         {
             
         }
