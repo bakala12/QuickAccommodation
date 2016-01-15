@@ -60,6 +60,7 @@ namespace AccommodationWebPage.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            ViewBag.Title = "Rejestracja";
             return View();
         }
 
@@ -131,12 +132,12 @@ namespace AccommodationWebPage.Controllers
         private bool ValidateUserData(RegisterViewModel model, out string errorMessage)
         {
             IUserCredentialsValidator validator = new UserCredentialsValidator();
-            if (validator.ValidateLocalNumber(model.LocalNumber))
+            if (!validator.ValidateLocalNumber(model.LocalNumber))
             {
                 errorMessage = "Numer domu musi zaczynać się cyfrą";
                 return false;
             }
-            if (validator.ValidatePostalCode(model.PostalCode))
+            if (!validator.ValidatePostalCode(model.PostalCode))
             {
                 errorMessage = "Nieprawidłowy kod pocztowy";
                 return false;
