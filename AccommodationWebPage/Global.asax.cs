@@ -18,8 +18,7 @@ namespace AccommodationWebPage
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            CustomPrincipal principal = new CustomPrincipal();
-            AppDomain.CurrentDomain.SetThreadPrincipal(principal); //do autoryzacji
+            AuthorizationConfig.RegisterAuthorization();
         }
     }
 }

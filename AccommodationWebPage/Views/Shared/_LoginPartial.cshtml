@@ -1,16 +1,13 @@
 ﻿@using System.Threading
-@if (Thread.CurrentPrincipal.Identity.IsAuthenticated)
+@using Authorization = AccommodationWebPage.Authorization.Authorization
+@if (Authorization.Current.IsAuthenticated)
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
     @Html.AntiForgeryToken()
 
     <ul class="nav navbar-nav navbar-right">
-        <li>
-            <p>
-                @Html.ActionLink("Hello "+ Thread.CurrentPrincipal.Identity+"!", "ViewProfile", "Account");
-            </p>
-        </li>
+        <li>@Html.ActionLink("Witaj "+Authorization.Current.AuthenticatedUser+"!", "ViewProfile", "Account");</li>
         <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
     </ul>
     }
