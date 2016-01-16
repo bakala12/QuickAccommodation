@@ -81,9 +81,15 @@ namespace AccommodationWebPage.Controllers
 
         [HttpGet]
         [AuthorizationRequired]
-        public string ViewProfile()
+        public ActionResult ViewProfile()
         {
-            return "Twój profil";
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult AccessDenied()
+        {
+            return View();
         }
 
         #region PrivateHelpers

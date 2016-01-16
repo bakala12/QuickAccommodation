@@ -129,6 +129,7 @@
     <Compile Include="Authorization\AuthenticationFilterAttribute.cs" />
     <Compile Include="Authorization\Authenticator.cs" />
     <Compile Include="Authorization\AuthorizationRequiredAttribute.cs" />
+    <Compile Include="Authorization\LogoutRequired.cs" />
     <Compile Include="Authorization\PasswordAttribute.cs" />
     <Compile Include="Authorization\Registration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -181,6 +182,7 @@
     <Content Include="Views\Offer\Index.cshtml" />
     <Content Include="Views\Account\LogIn.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
+    <None Include="Views\Account\AccessDenied.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
