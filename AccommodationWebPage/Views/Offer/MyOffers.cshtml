@@ -1,0 +1,26 @@
+﻿@using AccommodationWebPage.Models;
+@model IEnumerable<OfferViewModel>
+@{
+    ViewBag.Title = "Moje oferty";
+}
+<h2>@ViewBag.Title</h2>
+
+<div class="form-group">
+    <table class="table-hover">
+        @foreach (OfferViewModel item in Model)
+        {
+            <tr>
+                <td>
+                    <span class="text-primary">Nazwa miejsca:</span> @Html.DisplayTextFor(m => item.PlaceName)
+                    <span class="text-primary">Adres:</span>   @Html.DisplayTextFor(m => item.Address) <br />
+                    <span class="text-primary">Od:</span> @Html.DisplayTextFor(m => item.OfferStartTime)
+                    <span class="text-primary">Do:</span>@Html.DisplayTextFor(m => item.OfferEndTime) <br />
+                    <span class="text-primary">Liczba wolnych miejsc:</span>@Html.DisplayTextFor(m => item.AvailableVacanciesNumber)
+                    <span class="text-primary">Cena:</span>@Html.DisplayTextFor(m => item.Price) 
+                    <span class="text-primary">Numer pokoju:</span>@Html.DisplayTextFor(m => item.RoomNumber) <br /> 
+                    <span class="text-primary">Opis:</span>@Html.DisplayTextFor(m => item.Description) 
+                </td>
+            </tr>
+        }
+    </table>
+</div>
