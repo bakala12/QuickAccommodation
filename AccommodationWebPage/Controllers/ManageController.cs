@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using AccommodationDataAccess.Domain;
@@ -30,18 +31,23 @@ namespace AccommodationWebPage.Controllers
         }
 
         [HttpGet]
-        public ActionResult ChangeUserData()
+        public async Task<ActionResult> ChangeUserData()
         {
             ViewBag.Title = "Edytuj swoje dane";
-            return View();
+            var model = await _userDataAccessor.GetInfoAboutUserAsync(Context, HttpContext.User?.Identity?.Name);
+            return View(new ChangeUserDataViewModel(model));
         }
 
         [HttpPost]
-        public ActionResult ChangeUserData(UserProfileViewModel model)
+        public async Task<ActionResult> ChangeUserData(ChangeUserDataViewModel model)
         {
             if (ModelState.IsValid)
             {
-                   
+                if (! await _userDataAccessor.SaveUserDataAsync(Context, HttpContext.User?.Identity?.Name, model))
+                {
+                    ModelState.AddModelError("", "Nie udało się zapisać nowych danych");
+                }
+                return RedirectToAction("ViewProfile", "Manage");
             }
             return View(model);
         }
