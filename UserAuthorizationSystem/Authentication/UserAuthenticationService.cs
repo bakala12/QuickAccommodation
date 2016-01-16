@@ -50,5 +50,39 @@ namespace UserAuthorizationSystem.Authentication
         {
             return await Task.Run(() => AuthenticateUser<T>(username, password));
         }
+
+        /// <summary>
+        /// Autoryzuje użytkownika o podanym loginie i haśle.
+        /// </summary>
+        /// <param name="context">Kontekst bazy danych</param>
+        /// <param name="username">Nazwa użytkownika do autoryzacji.</param>
+        /// <param name="password">Hasło użytkownika do autoryzacji (plain text).</param>
+        /// <returns>Obiekt CustomIdentity odpowiadający użytkownikowi lub null gdy autoryzacja przebiegła niepomyślnie.</returns>
+        public CustomIdentity AuthenticateUser(IUsersContext context, string username, string password)
+        {
+            try
+            {
+                User user = context.Users.FirstOrDefault(x => x.Username.Equals(username));
+                if (user == null || user.Username.Length != username.Length) return null;
+                string hash = PasswordHashHelper.CalculateHash(password, user.Salt);
+                return user.HashedPassword.Equals(hash) ? new CustomIdentity(username) : null;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Asynchroniczna wersja autoryzacji uzytkownika.
+        /// </summary>
+        /// <param name="context">Kontekst bazy danych</param>
+        /// <param name="username">Nazwa użytkownika do autoryzacji.</param>
+        /// <param name="password">Hasło użytkownika do autoryzacji (plain text).</param>
+        /// <returns>Obiekt CustomIdentity odpowiadający użytkownikowi lub null gdy autoryzacja przebiegła niepomyślnie.</returns>
+        public async Task<CustomIdentity> AuthenticateUserAsync(IUsersContext context, string username, string password)
+        {
+            return await Task.Run(()=>AuthenticateUser(context, username, password));
+        }
     }
 }

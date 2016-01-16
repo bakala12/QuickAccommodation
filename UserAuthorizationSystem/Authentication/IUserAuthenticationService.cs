@@ -35,5 +35,23 @@ namespace UserAuthorizationSystem.Authentication
         /// <returns>Obiekt CustomIdentity odpowiadający użytkownikowi lub null gdy autoryzacja przebiegła niepomyślnie.</returns>
         Task<CustomIdentity> AuthenticateUserAsync<T>(string username, string password)
             where T : IUsersContext, IDisposable, new();
+
+        /// <summary>
+        /// Autoryzuje użytkownika o podanym loginie i haśle.
+        /// </summary>
+        /// <param name="context">Kontekst bazy danych</param>
+        /// <param name="username">Nazwa użytkownika do autoryzacji.</param>
+        /// <param name="password">Hasło użytkownika do autoryzacji (plain text).</param>
+        /// <returns>Obiekt CustomIdentity odpowiadający użytkownikowi lub null gdy autoryzacja przebiegła niepomyślnie.</returns>
+        CustomIdentity AuthenticateUser(IUsersContext context, string username, string password);
+
+        /// <summary>
+        /// Asynchroniczna wersja autoryzacji uzytkownika.
+        /// </summary>
+        /// <param name="context">Kontekst bazy danych</param>
+        /// <param name="username">Nazwa użytkownika do autoryzacji.</param>
+        /// <param name="password">Hasło użytkownika do autoryzacji (plain text).</param>
+        /// <returns>Obiekt CustomIdentity odpowiadający użytkownikowi lub null gdy autoryzacja przebiegła niepomyślnie.</returns>
+        Task<CustomIdentity> AuthenticateUserAsync(IUsersContext context, string username, string password);
     }
 }

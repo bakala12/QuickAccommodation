@@ -81,5 +81,27 @@ namespace UserAuthorizationSystem.Validation
             }
             return true;
         }
+
+        /// <summary>
+        /// Validates the username. 
+        /// </summary>
+        /// <param name="context">Database context.</param>
+        /// <param name="username">The username to be validated</param>
+        /// <returns>True if the value is valid otherwise false</returns>
+        public bool ValidateUsername(IAccommodationContext context, string username)
+        {
+            return !context.Users.Any(u => u.Username.Equals(username));
+        }
+
+        /// <summary>
+        /// Validates the username. 
+        /// </summary>
+        /// <param name="context">Database context.</param>
+        /// <param name="username">The username to be validated</param>
+        /// <returns>True if the value is valid otherwise false</returns>
+        public async Task<bool> ValidateUsernameAsync(IAccommodationContext context, string username)
+        {
+            return await Task.Run(() => ValidateUsername(context, username));
+        }
     }
 }

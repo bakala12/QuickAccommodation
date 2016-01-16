@@ -89,5 +89,20 @@ namespace UserAuthorizationSystem.Validation
         /// <param name="username">The username to be validated</param>
         /// <returns>True if the value is valid otherwise false</returns>
         Task<bool> ValidateUsernameAsync<T>(string username) where T : IUsersContext, IDisposable, new();
+
+        /// <summary>
+        /// Validates the username. 
+        /// </summary>
+        /// <param name="context">Kontekst bazy danych.</param>
+        /// <param name="username">The username to be validated</param>
+        /// <returns>True if the value is valid otherwise false</returns>
+        bool ValidateUsername(IAccommodationContext context, string username);
+        /// <summary>
+        /// Validates the username. 
+        /// </summary>
+        /// <param name="context">Kontekst bazy danych.</param>
+        /// <param name="username">The username to be validated</param>
+        /// <returns>True if the value is valid otherwise false</returns>
+        Task<bool> ValidateUsernameAsync(IAccommodationContext context, string username);
     }
 }

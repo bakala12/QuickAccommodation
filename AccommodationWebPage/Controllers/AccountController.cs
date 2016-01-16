@@ -8,6 +8,7 @@ using AccommodationDataAccess.Domain;
 using AccommodationDataAccess.Model;
 using AccommodationWebPage.Authorization;
 using AccommodationWebPage.Models;
+using AccomodationWebApi.Providers;
 using UserAuthorizationSystem.Authentication;
 using UserAuthorizationSystem.Identities;
 using UserAuthorizationSystem.Registration;
@@ -16,11 +17,21 @@ using UserAuthorizationSystem.Validation;
 namespace AccommodationWebPage.Controllers
 {
     /// <summary>
-    /// Odpowiada za logowanie i rejestracje użytkowników. Umożliwia oglądanie
-    /// własnego profilu i statystyk użytkownika.
+    /// Odpowiada za logowanie i rejestracje użytkowników.
     /// </summary>
-    public class AccountController : Controller
+    public class AccountController : AccommodationController
     {
+        /// <summary>
+        /// Inicjalizuje nową instancję kontrolera
+        /// </summary>
+        /// <param name="provider">Dosawca kontekstu bazy danych</param>
+        public AccountController(IContextProvider provider) : base(provider) { }
+
+        /// <summary>
+        /// Inicajlizuje nową instancję kontrolera.
+        /// </summary>
+        public AccountController() : base(new ContextProvider<AccommodationContext>()) { }
+        
         /// <summary>
         /// Zwraca widok logowania dla użytkownika.
         /// </summary>
@@ -49,7 +60,7 @@ namespace AccommodationWebPage.Controllers
             {
                 return View(model);
             }
-            var result=Authenticator.Instance.SignIn(model.Username, model.Password);
+            var result=Authenticator.Instance.SignIn(Context, model.Username, model.Password);
             if (result != null)
             {
                 Response.SetCookie(new HttpCookie("auth", result.Token));
@@ -95,29 +106,18 @@ namespace AccommodationWebPage.Controllers
         {
             if (ModelState.IsValid)
             {
-                string error = await Registration.Instance.ValidateUserAsync(model);
+                string error = await Registration.Instance.ValidateUserAsync(Context, model);
                 if (!string.IsNullOrEmpty(error))
                 {
                     ModelState.AddModelError("", error);
                     return View(model);
                 }
-                await Registration.Instance.SaveUserAsync(model);
-                var result = Authenticator.Instance.SignIn(model.Username, model.Password);
-                if(result!=null)
+                await Registration.Instance.SaveUserAsync(Context, model);
+                var result = Authenticator.Instance.SignIn(Context, model.Username, model.Password);
+                if (result != null)
                     return RedirectToAction("Index", "Home");
             }
             return View(model);
-        }
-
-        /// <summary>
-        /// Zwraca widok profilu zalogowanego użytkownika.
-        /// </summary>
-        /// <returns>Widok profilu zalogowanego użytkownika.</returns>
-        [HttpGet]
-        [AuthorizationRequired]
-        public ActionResult ViewProfile()
-        {
-            return View();
         }
 
         /// <summary>

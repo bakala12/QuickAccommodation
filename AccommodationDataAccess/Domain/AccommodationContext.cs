@@ -21,9 +21,8 @@ namespace AccommodationDataAccess.Domain
     /// <summary>
     /// Interface used as a database type
     /// </summary>
-    public interface IAccommodationContext : IDisposable
+    public interface IAccommodationContext : IUsersContext, IDisposable
     {
-        IDbSet<User> Users { get; }
         IDbSet<Offer> Offers { get; }
         IDbSet<OfferInfo> OfferInfo { get; }
         IDbSet<Address> Addresses { get; }
@@ -32,7 +31,6 @@ namespace AccommodationDataAccess.Domain
         IDbSet<Rank> Ranks { get; }
         IDbSet<Room> Rooms { get; } 
         IDbSet<HistoricalOffer> HistoricalOffers { get; } 
-        int SaveChanges();
     }
 
     public class AccommodationContext : DbContext, IUsersContext, IAccommodationContext

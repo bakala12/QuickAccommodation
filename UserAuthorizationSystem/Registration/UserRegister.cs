@@ -29,6 +29,7 @@ namespace UserAuthorizationSystem.Registration
             user.HashedPassword = PasswordHashHelper.CalculateHash(clearTextPassword, salt);
             return user;
         }
+
         /// <summary>
         /// Zapisuje użytkownika z jego danymi do bazy danych.
         /// </summary>
@@ -51,6 +52,7 @@ namespace UserAuthorizationSystem.Registration
                 }
             }
         }
+
         /// <summary>
         /// Asynchronicznie zapisuje użytkownika z jego danymi do bazy danych.
         /// </summary>
@@ -61,6 +63,44 @@ namespace UserAuthorizationSystem.Registration
         public async Task SaveUserAsync<T>(User user, UserData userdata, Address address) where T : IAccommodationContext, IDisposable, new()
         {
             await Task.Run(() => SaveUser<T>(user, userdata, address));
+        }
+
+        /// <summary>
+        /// Zapisuje użytkownika z jego danymi do bazy danych.
+        /// </summary>
+        /// <param name="context">Kontekst bazy danych.</param>
+        /// <param name="user">Nazwa użytkownika</param>
+        /// <param name="userdata">Dane osobowe użytkownika</param>
+        /// <param name="address">Dane adresowe użytkownika</param>
+        /// <returns>True jeśli operacja zakończyła się suksecem, w przeciwnym wypadklu false.</returns>
+        public bool SaveUser(IAccommodationContext context, User user, UserData userdata, Address address)
+        {
+            try
+            {
+                user.UserData = userdata;
+                user.UserData.Address = address;
+                user.Rank = context.Ranks.FirstOrDefault(r => r.Name.Equals("Nowicjusz"));
+                context.Users.Add(user);
+                context.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Asynchronicznie zapisuje użytkownika z jego danymi do bazy danych.
+        /// </summary>
+        /// <param name="context">Kontekst bazy danych.</param>
+        /// <param name="user">Nazwa użytkownika</param>
+        /// <param name="userdata">Dane osobowe użytkownika</param>
+        /// <param name="address">Dane adresowe użytkownika</param>
+        /// <returns>True jeśli operacja zakończyła się suksecem, w przeciwnym wypadklu false.</returns>
+        public async Task<bool> SaveUserAsync(IAccommodationContext context, User user, UserData userdata, Address address)
+        {
+            return await Task.Run(() => SaveUser(context, user, userdata, address));
         }
     }
 }

@@ -50,13 +50,14 @@ namespace AccommodationWebPage.Authorization
         /// <summary>
         /// Loguje uzytkownika w aplikacji.
         /// </summary>
+        /// <param name="context">Kontekst bazy danych.</param>
         /// <param name="username">Nazwa użytkownika.</param>
         /// <param name="password">Hasło użytkownika.</param>
         /// <returns>SignInResult dla usera, jeśli wszystko przebiegło poprawnie, w przeciwnym razie null.</returns>
-        public SignInResult SignIn(string username, string password)
+        public SignInResult SignIn(IUsersContext context, string username, string password)
         {
             CustomIdentity identity =
-                _authenticationService.AuthenticateUser<AccommodationContext>(username, password);
+                _authenticationService.AuthenticateUser(context, username, password);
             if (identity != null)
             {
                 var user = new CustomPrincipal(username);

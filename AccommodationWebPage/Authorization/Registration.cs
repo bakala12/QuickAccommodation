@@ -71,12 +71,13 @@ namespace AccommodationWebPage.Authorization
         /// <summary>
         /// Waliduje nazwę użytkownika.
         /// </summary>
+        /// <param name="context">Kontekst bazy danych</param>
         /// <param name="model">Model z danymi.</param>
         /// <returns>String z ewentualną przyczyną niepowodzenia.</returns>
-        public async Task<string> ValidateUserAsync(RegisterViewModel model)
+        public async Task<string> ValidateUserAsync(IAccommodationContext context, RegisterViewModel model)
         {
             string errorMessage;
-            bool b = await _validator.ValidateUsernameAsync<AccommodationContext>(model.Username);
+            bool b = await _validator.ValidateUsernameAsync(context,model.Username);
             if (!b) return "Nazwa użytkownika musi być unikalna. Proszę wybrać unikalną nazwę.";
             return !ValidateUserData(model, out errorMessage) ? errorMessage : string.Empty;
         }
@@ -84,8 +85,9 @@ namespace AccommodationWebPage.Authorization
         /// <summary>
         /// Zapisuje użytkownika do bazy danych.
         /// </summary>
+        /// <param name="context">Kontekst bazy danych</param>
         /// <param name="model">Model z danymi.</param>
-        public async Task SaveUserAsync(RegisterViewModel model)
+        public async Task SaveUserAsync(IAccommodationContext context, RegisterViewModel model)
         {
             User user = _register.GetNewUser(model.Username, model.Password);
             UserData data = new UserData()
