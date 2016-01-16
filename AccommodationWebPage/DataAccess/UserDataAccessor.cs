@@ -6,6 +6,8 @@ using System.Web;
 using AccommodationDataAccess.Domain;
 using AccommodationDataAccess.Model;
 using AccommodationWebPage.Models;
+using UserAuthorizationSystem.Authentication;
+using UserAuthorizationSystem.Registration;
 
 namespace AccommodationWebPage.DataAccess
 {
@@ -66,6 +68,35 @@ namespace AccommodationWebPage.DataAccess
             ChangeUserDataViewModel model)
         {
             return await Task.Run(() => SaveUserData(context, username, model));
+        }
+
+        public async Task<string> ChangePasswordAsync(IAccommodationContext context, string username,
+            ChangePasswordViewModel model)
+        {
+            try
+            {
+                IUserAuthenticationService authenticationService = new UserAuthenticationService();
+                var identity = await authenticationService.AuthenticateUserAsync(context, username, model.OldPassword);
+                if (identity == null)
+                {
+                    return "Nieprawidłowe hasło dla użytkownika " + username;
+                }
+                IRegisterUser register = new UserRegister();
+                User newUser = register.GetNewUser(username, model.NewPassword);
+                User user = context.Users.FirstOrDefault(u => u.Username.Equals(username));
+                if (user == null)
+                {
+                    return "Błąd! Nie odnaleziono użytkownika";
+                }
+                user.HashedPassword = newUser.HashedPassword;
+                user.Salt = newUser.Salt;
+                context.SaveChanges();
+                return string.Empty;
+            }
+            catch (Exception)
+            {
+                return "Błąd!";
+            }
         }
     }
 }

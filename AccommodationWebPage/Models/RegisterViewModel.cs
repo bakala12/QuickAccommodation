@@ -18,7 +18,7 @@ namespace AccommodationWebPage.Models
         [Required]
         [Display(Name = "Hasło")]
         [DataType(DataType.Password)]
-        [Password(100, MinimumLength = 6, CapitalLettersMinimalAmount = 0, 
+        [Password(100, MinimumLength = 8, CapitalLettersMinimalAmount = 0, 
             SpecialCharactersMinimalAmount = 0, DigitsMinimalAmount = 2,
             ErrorMessage = "Hasło powinno zawierać minimum 8 znaków i przynajmniej 2 cyfry")]
         public string Password { get; set; }

@@ -14,46 +14,50 @@
     </div>
 </div>
 <div class="form-group">
-    @Html.LabelFor(m => m.Rank, new { @class = "col-md-2 control-label" })
+    @Html.LabelFor(m => m.Rank, new {@class = "col-md-2 control-label"})
     <div class="col-md-10">
-        @Html.Label(Model.Rank, new { @class = "col-md-2 control-label"})
+        @Html.Label(Model.Rank, new {@class = "col-md-2 control-label"})
     </div>
 </div>
+<hr/>
 <h4>Dane osobowe:</h4>
-<hr />
 @Html.ValidationSummary("", new { @class = "text-danger" })
 <div class="form-group">
-    @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
+    @Html.LabelFor(m => m.FirstName, new {@class = "col-md-2 control-label"})
     <div class="col-md-10">
-        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+        @Html.Label(Model.FirstName, new {@class = "col-md-2 control-label"})
     </div>
 </div>
+<br/>
 <div class="form-group">
-    @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
+    @Html.LabelFor(m => m.LastName, new {@class = "col-md-2 control-label"})
     <div class="col-md-10">
-        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+        @Html.Label(Model.LastName, new {@class = "col-md-2 control-label"})
     </div>
 </div>
+<br/>
 <div class="form-group">
-    @Html.LabelFor(m => m.CompanyName, new { @class = "col-md-2 control-label" })
+    @Html.LabelFor(m => m.CompanyName, new {@class = "col-md-2 control-label"})
     <div class="col-md-10">
-        @Html.TextBoxFor(m => m.CompanyName, new { @class = "form-control" })
+        @Html.Label(Model.CompanyName, new {@class = "col-md-2 control-label"})
     </div>
 </div>
+<br/>
 <div class="form-group">
-    @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+    @Html.LabelFor(m => m.Email, new {@class = "col-md-2 control-label"})
     <div class="col-md-10">
-        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+        @Html.Label(Model.Email, new {@class = "col-md-2 control-label"})
+    </div>
+</div>
+<br/>
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        <div class="btn">@Html.ActionLink("Zmień dane", "ChangeUserData", "Manage")</div>
     </div>
 </div>
 <div class="form-group">
     <div class="col-md-offset-2 col-md-10">
-        <div>@Html.ActionLink("Zmień dane", "ChangeUserData", "Manage")</div>
-    </div>
-</div>
-<div class="form-group">
-    <div class="col-md-offset-2 col-md-10">
-        <div>@Html.ActionLink("Zmień hasło", "ChangePassword", "Manage")</div>
+        <div class="btn">@Html.ActionLink("Zmień hasło", "ChangePassword", "Manage")</div>
     </div>
 </div>
 

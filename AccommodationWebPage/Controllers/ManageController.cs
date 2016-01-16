@@ -55,6 +55,22 @@ namespace AccommodationWebPage.Controllers
         [HttpGet]
         public ActionResult ChangePassword()
         {
+            ViewBag.Title = "Zmiana hasła";
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                string s = await _userDataAccessor.ChangePasswordAsync(Context, HttpContext.User?.Identity?.Name, model);
+                if (string.IsNullOrEmpty(s))
+                {
+                    return RedirectToAction("ViewProfile", "Manage");
+                }
+                ModelState.AddModelError("", s);
+            }
             return View();
         }
     }
