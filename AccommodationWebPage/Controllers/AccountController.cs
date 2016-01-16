@@ -15,8 +15,17 @@ using UserAuthorizationSystem.Validation;
 
 namespace AccommodationWebPage.Controllers
 {
+    /// <summary>
+    /// Odpowiada za logowanie i rejestracje użytkowników. Umożliwia oglądanie
+    /// własnego profilu i statystyk użytkownika.
+    /// </summary>
     public class AccountController : Controller
     {
+        /// <summary>
+        /// Zwraca widok logowania dla użytkownika.
+        /// </summary>
+        /// <param name="returnUrl">Url na które zostanie przekierowany użytkownik.</param>
+        /// <returns>Widok logowania.</returns>
         [HttpGet]
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
@@ -25,6 +34,13 @@ namespace AccommodationWebPage.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Loguje użytkownika na stronie.
+        /// </summary>
+        /// <param name="model">Model z danymi logowania użytkownika.</param>
+        /// <param name="returnUrl">Url na który zostanie przekierowany użytkownik.</param>
+        /// <returns>Widok logowania jeśli logowanie przebiegło błędnie, jeśli przebiegło poprawnie to 
+        /// następuje przekierowanie do Home/Index</returns>
         [HttpPost]
         [AllowAnonymous]
         public ActionResult Login(LoginViewModel model, string returnUrl)
@@ -43,6 +59,10 @@ namespace AccommodationWebPage.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Wylogowje użytkownika z aplikacji.
+        /// </summary>
+        /// <returns>Przekierowuje uzytkownika do strony Home/Index</returns>
         [HttpPost]
         [AuthorizationRequired]
         public ActionResult LogOff()
@@ -51,6 +71,10 @@ namespace AccommodationWebPage.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        /// <summary>
+        /// Zwraca widok rejestracji nowego użytkownika.
+        /// </summary>
+        /// <returns>Widok rejestracji nowego użytkownika.</returns>
         [HttpGet]
         [AllowAnonymous]
         public ActionResult Register()
@@ -59,6 +83,12 @@ namespace AccommodationWebPage.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Rejestruje nowego użytkownika w aplikacji.
+        /// </summary>
+        /// <param name="model">Model z danymi użytkownika.</param>
+        /// <returns>Jeśli rejestracja przebiegła błędnie zwraca widok rejestracji, jeśli
+        /// przebiegła pomyślnie przekierowuje do strony Home/Index</returns>
         [HttpPost]
         [AllowAnonymous]
         public async Task<ActionResult> Register(RegisterViewModel model)
@@ -79,6 +109,10 @@ namespace AccommodationWebPage.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Zwraca widok profilu zalogowanego użytkownika.
+        /// </summary>
+        /// <returns>Widok profilu zalogowanego użytkownika.</returns>
         [HttpGet]
         [AuthorizationRequired]
         public ActionResult ViewProfile()
@@ -86,6 +120,10 @@ namespace AccommodationWebPage.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Zwraca widok zabronienego dostępu dla niezalogowanego użytkownika.
+        /// </summary>
+        /// <returns>Widok zabronienego dostępu dla niezalogowango użytkownika.</returns>
         [HttpGet]
         public ActionResult AccessDenied()
         {
@@ -93,6 +131,11 @@ namespace AccommodationWebPage.Controllers
         }
 
         #region PrivateHelpers
+        /// <summary>
+        /// Przekierowuje użytkownika do podanego lokalnego adresu lub do Home/Index.
+        /// </summary>
+        /// <param name="returnUrl">Adres lokalny do przekierowania.</param>
+        /// <returns>Przekierowanie do adresu lu Home/Index.</returns>
         private ActionResult RedirectToLocal(string returnUrl)
         {
             if (Url.IsLocalUrl(returnUrl))

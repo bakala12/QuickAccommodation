@@ -11,13 +11,22 @@ using UserAuthorizationSystem.Validation;
 
 namespace AccommodationWebPage.Authorization
 {
+    /// <summary>
+    /// Singleton wspomagający rejestrację użytkownika.
+    /// </summary>
     internal sealed class Registration
     {
+        /// <summary>
+        /// Prywatny konstruktor.
+        /// </summary>
         private Registration() { }
 
         private static readonly object SyncRoot = new object();
         private static Registration _instance;
 
+        /// <summary>
+        /// Instancja singletnu.
+        /// </summary>
         internal static Registration Instance
         {
             get
@@ -37,6 +46,12 @@ namespace AccommodationWebPage.Authorization
         private readonly IUserCredentialsValidator _validator = new UserCredentialsValidator();
         private readonly IRegisterUser _register = new UserRegister();
 
+        /// <summary>
+        /// Validuje dane użytkownika.
+        /// </summary>
+        /// <param name="model">Model z danymi</param>
+        /// <param name="errorMessage">Wyjściowy parametr z przyczyną błędu walidacji.</param>
+        /// <returns>Informacji o tym czy walidacja przebiegła pomyślnie czy nie.</returns>
         private bool ValidateUserData(RegisterViewModel model, out string errorMessage)
         {
             if (!_validator.ValidateLocalNumber(model.LocalNumber))
@@ -53,14 +68,23 @@ namespace AccommodationWebPage.Authorization
             return true;
         }
 
+        /// <summary>
+        /// Waliduje nazwę użytkownika.
+        /// </summary>
+        /// <param name="model">Model z danymi.</param>
+        /// <returns>String z ewentualną przyczyną niepowodzenia.</returns>
         public async Task<string> ValidateUserAsync(RegisterViewModel model)
         {
             string errorMessage;
             bool b = await _validator.ValidateUsernameAsync<AccommodationContext>(model.Username);
-            if (!b) return "Nieprawidłowa nazwa użytkownika lub hasło";
+            if (!b) return "Nazwa użytkownika musi być unikalna. Proszę wybrać unikalną nazwę.";
             return !ValidateUserData(model, out errorMessage) ? errorMessage : string.Empty;
         }
 
+        /// <summary>
+        /// Zapisuje użytkownika do bazy danych.
+        /// </summary>
+        /// <param name="model">Model z danymi.</param>
         public async Task SaveUserAsync(RegisterViewModel model)
         {
             User user = _register.GetNewUser(model.Username, model.Password);

@@ -6,10 +6,17 @@ using System.Web.Mvc;
 
 namespace AccommodationWebPage.Authorization
 {
+    /// <summary>
+    /// Filtr do autentykacji.
+    /// </summary>
     public class AuthenticationFilterAttribute : FilterAttribute, IAuthorizationFilter
     {
         private static readonly Authenticator Authenticator = Authenticator.Instance;
 
+        /// <summary>
+        /// Nadpisuje metodę OnAuthorization do autoryzacji.
+        /// </summary>
+        /// <param name="filterContext">Kontekst autoryzacji.</param>
         public void OnAuthorization(AuthorizationContext filterContext)
         {
             var cookie = filterContext.HttpContext.Request.Cookies["auth"];
