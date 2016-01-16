@@ -18,7 +18,6 @@ namespace AccommodationWebPage
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            AuthorizationConfig.RegisterAuthorization();
         }
     }
 }

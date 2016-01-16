@@ -1,5 +1,6 @@
 ﻿using System.Web;
 using System.Web.Mvc;
+using AccommodationWebPage.Authorization;
 
 namespace AccommodationWebPage
 {
@@ -8,6 +9,7 @@ namespace AccommodationWebPage
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
+            filters.Add(new AuthenticationFilterAttribute());
         }
     }
 }

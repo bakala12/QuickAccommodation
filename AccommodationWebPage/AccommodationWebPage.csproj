@@ -123,13 +123,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\AuthorizationConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Authorization\Authorization.cs" />
+    <Compile Include="Authorization\AuthenticationFilterAttribute.cs" />
+    <Compile Include="Authorization\Authenticator.cs" />
+    <Compile Include="Authorization\AuthorizationRequiredAttribute.cs" />
     <Compile Include="Authorization\PasswordAttribute.cs" />
-    <Compile Include="Authorization\RequireAuthorization.cs" />
+    <Compile Include="Authorization\Registration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OfferController.cs" />

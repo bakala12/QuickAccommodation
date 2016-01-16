@@ -21,26 +21,22 @@ namespace AccommodationWebPage.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
-            //zalogowany nie może tego zrobić
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
 
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+        public ActionResult Login(LoginViewModel model, string returnUrl)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
-            IUserAuthenticationService authenticationService = new UserAuthenticationService();
-            CustomIdentity identity =
-                await authenticationService.AuthenticateUserAsync<AccommodationContext>(model.Username, model.Password);
-            if (identity != null)
+            var result=Authenticator.Instance.SignIn(model.Username, model.Password);
+            if (result != null)
             {
-                Authorization.Authorization.Current.Login(identity);
+                Response.SetCookie(new HttpCookie("auth", result.Token));
                 return RedirectToLocal(returnUrl);
             }
             ModelState.AddModelError("", "Nieprawidłowa nazwa użytkownika lub hasło");
@@ -48,11 +44,10 @@ namespace AccommodationWebPage.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        [RequireAuthorization]
+        [AuthorizationRequired]
         public ActionResult LogOff()
         {
-            Authorization.Authorization.Current.Logout();
+            Response.SetCookie(new HttpCookie("auth") { Expires = DateTime.Now.AddDays(-1) }); //ciastko wygasa
             return RedirectToAction("Index", "Home");
         }
 
@@ -66,54 +61,26 @@ namespace AccommodationWebPage.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
-                string error = null;
-                IUserCredentialsValidator validator = new UserCredentialsValidator();
-                if (!await validator.ValidateUsernameAsync<AccommodationContext>(model.Username))
-                {
-                    error = "Podana nazwa użytkownika już istnieje. Należy podać unikalną nazwę użytkownika.";
-                    ModelState.AddModelError("", error);
-                    return View(model);
-                }
-                if (!ValidateUserData(model, out error))
+                string error = await Registration.Instance.ValidateUserAsync(model);
+                if (!string.IsNullOrEmpty(error))
                 {
                     ModelState.AddModelError("", error);
                     return View(model);
                 }
-                IRegisterUser registerService = new UserRegister();
-                User user = registerService.GetNewUser(model.Username, model.Password);
-                UserData data = new UserData()
-                {
-                    Email = model.Email,
-                    CompanyName = model.CompanyName,
-                    FirstName = model.FirstName,
-                    LastName = model.LastName
-                };
-                Address address = new Address()
-                {
-                    City = model.City,
-                    Street = model.Street,
-                    LocalNumber = model.LocalNumber,
-                    PostalCode = model.PostalCode
-                };
-                await registerService.SaveUserAsync<AccommodationContext>(user, data, address);
-                IUserAuthenticationService authenticationService = new UserAuthenticationService();
-                CustomIdentity identity = await authenticationService.AuthenticateUserAsync<AccommodationContext>(model.Username,model.Password);
-                if (identity != null)
-                {
-                    Authorization.Authorization.Current.Login(identity);
+                await Registration.Instance.SaveUserAsync(model);
+                var result = Authenticator.Instance.SignIn(model.Username, model.Password);
+                if(result!=null)
                     return RedirectToAction("Index", "Home");
-                }
             }
             return View(model);
         }
 
         [HttpGet]
-        [RequireAuthorization]
+        [AuthorizationRequired]
         public string ViewProfile()
         {
             return "Twój profil";
@@ -127,23 +94,6 @@ namespace AccommodationWebPage.Controllers
                 return Redirect(returnUrl);
             }
             return RedirectToAction("Index", "Home");
-        }
-
-        private bool ValidateUserData(RegisterViewModel model, out string errorMessage)
-        {
-            IUserCredentialsValidator validator = new UserCredentialsValidator();
-            if (!validator.ValidateLocalNumber(model.LocalNumber))
-            {
-                errorMessage = "Numer domu musi zaczynać się cyfrą";
-                return false;
-            }
-            if (!validator.ValidatePostalCode(model.PostalCode))
-            {
-                errorMessage = "Nieprawidłowy kod pocztowy";
-                return false;
-            }
-            errorMessage = string.Empty;
-            return true;
         }
         #endregion
     }

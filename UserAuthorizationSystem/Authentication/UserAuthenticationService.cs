@@ -49,6 +49,6 @@ namespace UserAuthorizationSystem.Authentication
             where T : IUsersContext, IDisposable, new()
         {
             return await Task.Run(() => AuthenticateUser<T>(username, password));
-        } 
+        }
     }
 }

@@ -12,6 +12,20 @@ namespace UserAuthorizationSystem.Identities
     /// </summary>
     public class CustomPrincipal : IPrincipal
     {
+        /// <summary>
+        /// Tworzy nową instancję klasy CustomPrincipal.
+        /// </summary>
+        public CustomPrincipal() { }
+
+        /// <summary>
+        /// Tworzy nową instancję klasy CustomPrincipal jednocześnie inicjalizując właściwość Identity.
+        /// </summary>
+        /// <param name="username"></param>
+        public CustomPrincipal(string username)
+        {
+            Identity = new CustomIdentity(username);
+        }
+
         private CustomIdentity _identity;
 
         /// <summary>
