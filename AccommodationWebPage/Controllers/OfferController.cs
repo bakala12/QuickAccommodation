@@ -3,11 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using AccommodationDataAccess.Domain;
+using AccomodationWebApi.Providers;
 
 namespace AccommodationWebPage.Controllers
 {
-    public class OfferController : Controller
+    public class OfferController : AccommodationController
     {
+        public OfferController(IContextProvider provider) : base(provider) { }
+
+        public OfferController() : base(new ContextProvider<AccommodationContext>()) { }
+
         // GET: /OfferWorld/ 
         public ActionResult Index()
         {
