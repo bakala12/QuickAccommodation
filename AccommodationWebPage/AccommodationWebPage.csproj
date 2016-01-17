@@ -136,6 +136,8 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\OfferController.cs" />
+    <Compile Include="Controllers\SearchController.cs" />
+    <Compile Include="DataAccess\SearchDataAccessor.cs" />
     <Compile Include="DataAccess\UserDataAccessor.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -146,6 +148,7 @@
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\OfferViewModel.cs" />
     <Compile Include="Models\RegisterViewModel.cs" />
+    <Compile Include="Models\SearchingModels.cs" />
     <Compile Include="Models\UserProfileViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -197,6 +200,7 @@
     <Content Include="Views\Offer\AddOffer.cshtml" />
     <Content Include="Views\Offer\MyOffers.cshtml" />
     <Content Include="Views\Offer\ReservedOffers.cshtml" />
+    <Content Include="Views\Shared\_SearchLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -213,6 +217,10 @@
     <ProjectReference Include="..\AccommodationDataAccess\AccommodationDataAccess.csproj">
       <Project>{75e75bca-8504-430f-817e-b6cbeb1061a2}</Project>
       <Name>AccommodationDataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AccommodationShared\AccommodationShared.csproj">
+      <Project>{1CFC3BEE-D4CE-464C-92D0-5D8A9B05E22C}</Project>
+      <Name>AccommodationShared</Name>
     </ProjectReference>
     <ProjectReference Include="..\AccomodationWebApi\AccommodationWebApi.csproj">
       <Project>{69880EAB-F8A6-4A32-BF8E-DBC0D3B8F5EC}</Project>
