@@ -45,7 +45,7 @@ namespace AccommodationWebPage.Controllers
         {
             return View();
         }
-       
+
         [HttpPost]
         [AuthorizationRequired]
         public async Task<ActionResult> AddOffer(AddNewOfferViewModel model)
@@ -54,11 +54,12 @@ namespace AccommodationWebPage.Controllers
             {
                 OfferValidator offerValidator = new OfferValidator(model);
                 var errorList = offerValidator.ValidateOffer();
-                if(errorList.Count != 0)
+                if (errorList.Count != 0)
                 {
+                    int i = 0;
                     foreach (var error in errorList)
                     {
-                        ModelState.AddModelError("",error);
+                        ModelState.AddModelError(String.Format("{0}", i++), error);
                         return View(model);
                     }
                 }
@@ -77,6 +78,52 @@ namespace AccommodationWebPage.Controllers
                 }
             }
             return View(model);
+        }
+
+        [HttpGet]
+        public ActionResult EditOffer(int id)
+        {
+            AddNewOfferViewModel offer = OfferAccessor.GetOfferById(Context, id);
+            if (offer == null)
+            {
+                return RedirectToAction("Error");
+            }
+            return View(offer);
+        }
+
+        [HttpPost]
+        [AuthorizationRequired]
+        public async Task<ActionResult> EditOffer(AddNewOfferViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                OfferValidator offerValidator = new OfferValidator(model);
+                var errorList = offerValidator.ValidateOffer();
+                if (errorList.Count != 0)
+                {
+                    int i = 0;
+                    foreach (var error in errorList)
+                    {
+                        ModelState.AddModelError(String.Format("{0}",i++), error);
+                        return View(model);
+                    }
+                }
+                else
+                {
+                    string username = HttpContext.User?.Identity?.Name;
+                    if (await OfferAccessor.EditOfferAsync(Context, model))
+                    {
+                        return RedirectToAction("MyOffers", "Offer");
+                    }
+                    else
+                    {
+                        return RedirectToAction("Error");
+                    }
+
+                }
+            }
+            return View(model);
+
         }
 
 
