@@ -104,7 +104,7 @@ namespace AccommodationWebPage.Authorization
                 LocalNumber = model.LocalNumber,
                 PostalCode = model.PostalCode
             };
-            await _register.SaveUserAsync<AccommodationContext>(user, data, address);
+            await _register.SaveUserAsync(context,user, data, address);
         }
     }
 }

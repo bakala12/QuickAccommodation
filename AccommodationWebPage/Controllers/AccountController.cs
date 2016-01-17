@@ -63,7 +63,7 @@ namespace AccommodationWebPage.Controllers
             var result=Authenticator.Instance.SignIn(Context, model.Username, model.Password);
             if (result != null)
             {
-                Response.SetCookie(new HttpCookie("auth", result.Token));
+                Response?.SetCookie(new HttpCookie("auth", result.Token));
                 return RedirectToLocal(returnUrl);
             }
             ModelState.AddModelError("", "Nieprawidłowa nazwa użytkownika lub hasło");
@@ -138,7 +138,7 @@ namespace AccommodationWebPage.Controllers
         /// <returns>Przekierowanie do adresu lu Home/Index.</returns>
         private ActionResult RedirectToLocal(string returnUrl)
         {
-            if (Url.IsLocalUrl(returnUrl))
+            if (Url?.IsLocalUrl(returnUrl) == true)
             {
                 return Redirect(returnUrl);
             }
