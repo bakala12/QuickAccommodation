@@ -7,13 +7,22 @@ using AccommodationWebPage.Authorization;
 
 namespace AccommodationWebPage.Models
 {
+    /// <summary>
+    /// Model do zmiany hasła użytkownika.
+    /// </summary>
     public class ChangePasswordViewModel
     {
+        /// <summary>
+        /// Stare hasło (wymagane)
+        /// </summary>
         [Required]
         [Display(Name = "Stare hasło")]
         [DataType(DataType.Password)]
         public string OldPassword { get; set; }
 
+        /// <summary>
+        /// Nowe hasło (wymagane, minimum 8 znaków w tym 2 cyfry)
+        /// </summary>
         [Required]
         [DataType(DataType.Password)]
         [Password(100, MinimumLength = 8, CapitalLettersMinimalAmount = 0,
@@ -22,6 +31,9 @@ namespace AccommodationWebPage.Models
         [Display(Name = "Nowe hasło")]
         public string NewPassword { get; set; }
 
+        /// <summary>
+        /// Potwierdzenie nowego hasła (wymagane, musi byc zgodne z nowym hasłem)
+        /// </summary>
         [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Potwierdź nowe hasło")]

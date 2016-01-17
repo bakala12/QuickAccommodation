@@ -12,15 +12,30 @@ using AccomodationWebApi.Providers;
 
 namespace AccommodationWebPage.Controllers
 {
+    /// <summary>
+    /// Kontroler do zarządzania kontem użytkownika.
+    /// Operacje z tego kontrolera wymagają aby użytkownik był zalogowany.
+    /// </summary>
     [AuthorizationRequired]
     public class ManageController : AccommodationController
     {
+        /// <summary>
+        /// Tworzy nową instancję kontrolera uzywając podanego obiektu IContextProvider.
+        /// </summary>
+        /// <param name="provider"></param>
         public ManageController(IContextProvider provider) : base(provider) { }
 
+        /// <summary>
+        /// Tworzy nową instancję z domyślnym połączeniem do bazy danych AccommodationContext.
+        /// </summary>
         public ManageController() : base(new ContextProvider<AccommodationContext>()) { }
 
         private readonly UserDataAccessor _userDataAccessor = new UserDataAccessor();
 
+        /// <summary>
+        /// Wyświetla widok profilu użytkownika.
+        /// </summary>
+        /// <returns>Widok profilu użytkownika.</returns>
         [HttpGet]
         public ActionResult ViewProfile()
         {
@@ -30,6 +45,10 @@ namespace AccommodationWebPage.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Zwraca widok do zmiany danych uzytkownika.
+        /// </summary>
+        /// <returns>Widok do zmiany danych użytkownika.</returns>
         [HttpGet]
         public async Task<ActionResult> ChangeUserData()
         {
@@ -38,6 +57,11 @@ namespace AccommodationWebPage.Controllers
             return View(new ChangeUserDataViewModel(model));
         }
 
+        /// <summary>
+        /// Zmienia dane użytkownika.
+        /// </summary>
+        /// <param name="model">Model zawierający nowe dane uzytkownika.</param>
+        /// <returns>Widok zmiany danych jeśli dane są niepoprawne lub przekierowanie do zarządzania profilem.</returns>
         [HttpPost]
         public async Task<ActionResult> ChangeUserData(ChangeUserDataViewModel model)
         {
@@ -52,6 +76,10 @@ namespace AccommodationWebPage.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Wyświetla widok do zmiany hasła.
+        /// </summary>
+        /// <returns>Widok do zmiany haśła</returns>
         [HttpGet]
         public ActionResult ChangePassword()
         {
@@ -59,6 +87,11 @@ namespace AccommodationWebPage.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Zmienia hasło użytkownika.
+        /// </summary>
+        /// <param name="model">Model z nowym hasłem</param>
+        /// <returns>Widok do zmiany hasła lub przekierowanie do zarządzania profilem.</returns>
         [HttpPost]
         public async Task<ActionResult> ChangePassword(ChangePasswordViewModel model)
         {

@@ -8,11 +8,18 @@ using AccomodationWebApi.Providers;
 
 namespace AccommodationWebPage.Controllers
 {
+    /// <summary>
+    /// Bazowa klasa dla kontrolerów komunikujących się z bazą danych poprzez kontekst IAccommodationContext.
+    /// Klasa implementuje wzorzec IDisposable.
+    /// </summary>
     public abstract class AccommodationController : Controller
     {
         private readonly IContextProvider _provider;
         private IAccommodationContext _context;
 
+        /// <summary>
+        /// Właściwość udostępniająca kontekst bazy danych.
+        /// </summary>
         protected IAccommodationContext Context
         {
             get
@@ -23,12 +30,20 @@ namespace AccommodationWebPage.Controllers
             }
         }
 
+        /// <summary>
+        /// Inicjalizuje nową instancję klasy AccommodationController używając podanego obiektu IContextProvider
+        /// </summary>
+        /// <param name="provider"></param>
         protected AccommodationController(IContextProvider provider)
         {
             if(provider==null) throw new ArgumentNullException(nameof(provider));
             _provider = provider;
         }
 
+        /// <summary>
+        /// Zwalnia zasoby (w tym przypadku zamyka kontekst.
+        /// </summary>
+        /// <param name="disposing">Informuje czy obiekt czy zwolnić zasoby.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -38,6 +53,9 @@ namespace AccommodationWebPage.Controllers
             base.Dispose(disposing);
         }
 
+        /// <summary>
+        /// Destruktor
+        /// </summary>
         ~AccommodationController()
         {
             Dispose(false);

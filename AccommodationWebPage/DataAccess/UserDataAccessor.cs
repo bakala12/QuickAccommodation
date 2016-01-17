@@ -11,8 +11,17 @@ using UserAuthorizationSystem.Registration;
 
 namespace AccommodationWebPage.DataAccess
 {
+    /// <summary>
+    /// Umożliwia dostęp i pobranie odpowiednich danych z bazy.
+    /// </summary>
     public class UserDataAccessor
     {
+        /// <summary>
+        /// Pobiera informacje o użytkowniku.
+        /// </summary>
+        /// <param name="context">Kontekst bazy danych z użytkownikami</param>
+        /// <param name="username">Nazwa uzytkownika</param>
+        /// <returns>Obiekt zawierający dane uzytkownika.</returns>
         public UserProfileViewModel GetInfoAboutUser(IAccommodationContext context, string username)
         {
             try
@@ -38,11 +47,24 @@ namespace AccommodationWebPage.DataAccess
             }
         }
 
+        /// <summary>
+        /// Asynchronicznie pobiera informacje o użytkowniku.
+        /// </summary>
+        /// <param name="context">Kontekst bazy danych z użytkownikami</param>
+        /// <param name="username">Nazwa uzytkownika</param>
+        /// <returns>Obiekt zawierający dane uzytkownika.</returns>
         public async Task<UserProfileViewModel> GetInfoAboutUserAsync(IAccommodationContext context, string username)
         {
             return await Task.Run(() => GetInfoAboutUser(context, username));
         }
 
+        /// <summary>
+        /// Zapisuje nowe dane użytkownika.
+        /// </summary>
+        /// <param name="context">Kontekst bazy danych</param>
+        /// <param name="username">Nazwa użytkownika</param>
+        /// <param name="model">Model z nowymi danymi</param>
+        /// <returns>True, jeśli zapis się powiódł, false w przypadku błędu.</returns>
         public bool SaveUserData(IAccommodationContext context, string username, ChangeUserDataViewModel model)
         {
             try
@@ -64,12 +86,26 @@ namespace AccommodationWebPage.DataAccess
             }
         }
 
+        /// <summary>
+        /// Asynchronicznie zapisuje nowe dane użytkownika.
+        /// </summary>
+        /// <param name="context">Kontekst bazy danych</param>
+        /// <param name="username">Nazwa użytkownika</param>
+        /// <param name="model">Model z nowymi danymi</param>
+        /// <returns>True, jeśli zapis się powiódł, false w przypadku błędu.</returns>
         public async Task<bool> SaveUserDataAsync(IAccommodationContext context, string username,
             ChangeUserDataViewModel model)
         {
             return await Task.Run(() => SaveUserData(context, username, model));
         }
 
+        /// <summary>
+        /// Asynchronicznie zmienia hasło użytkownika.
+        /// </summary>
+        /// <param name="context">Kontekst bazy danych</param>
+        /// <param name="username">Nazwa uzytkownika</param>
+        /// <param name="model">Obiekt z hasłami uzytkownika</param>
+        /// <returns>String z ewentualną przyczyną błędu (pusty, jeśli wszystko przebiegło pomyślnie).</returns>
         public async Task<string> ChangePasswordAsync(IAccommodationContext context, string username,
             ChangePasswordViewModel model)
         {
