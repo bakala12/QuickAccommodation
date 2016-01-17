@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -20,9 +21,12 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    @if (!string.IsNullOrEmpty(HttpContext.Current?.User?.Identity?.Name))
+                    {
+                        <li>@Html.ActionLink("Dodaj Ofertę", "AddOffer", "Offer")</li>
+                        <li>@Html.ActionLink("Moje oferty", "MyOffers", "Offer")</li>
+                        <li>@Html.ActionLink("Zarezerwowane oferty", "ReservedOffers", "Offer")</li>
+                    }
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

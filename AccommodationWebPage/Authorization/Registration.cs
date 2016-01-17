@@ -25,7 +25,7 @@ namespace AccommodationWebPage.Authorization
         private static Registration _instance;
 
         /// <summary>
-        /// Instancja singletnu.
+        /// Instancja singletonu.
         /// </summary>
         internal static Registration Instance
         {
