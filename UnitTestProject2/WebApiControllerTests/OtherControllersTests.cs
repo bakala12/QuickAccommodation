@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Http;
+﻿using System.Web.Http;
 using System.Web.Http.Results;
-using AccommodationDataAccess.Domain;
 using AccommodationShared.Dtos;
 using AccomodationWebApi.Controllers;
 using AccomodationWebApi.Providers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace UnitTestProject2.ControllerTests
+namespace UnitTestProject2.WebApiControllerTests
 {
     /// <summary>
     /// Other controllers tests

@@ -7,7 +7,6 @@ using System.Web;
 using AccommodationDataAccess.Domain;
 using AccommodationDataAccess.Model;
 using AccommodationDataAccess.Searching;
-using AccommodationShared.Dtos;
 using AccommodationShared.Searching;
 using AccommodationWebPage.Models;
 
@@ -39,58 +38,58 @@ namespace AccommodationWebPage.DataAccess
             return offers.ToList().Select(offer => new OfferViewModel(offer)).ToList();
         }
 
-        public IList<OfferViewModel> SearchByPlace(IAccommodationContext context, PlaceSearchingModel dto)
+        public IList<OfferViewModel> SearchByPlace(IAccommodationContext context, PlaceSearchingModel model)
         {
             ISearchingCriterion<Offer> criterion =
-                OffersSearchingCriteriaFactory.CreatePlaceSearchingCriterion(dto.PlaceName, dto.CityName);
-            return Search(context,dto.Username, new[] { criterion }, dto.SortType, dto.SortBy);
+                OffersSearchingCriteriaFactory.CreatePlaceSearchingCriterion(model.PlaceName, model.CityName);
+            return Search(context,model.Username, new[] { criterion }, model.SortType, model.SortBy);
         }
 
-        public IList<OfferViewModel> SearchByDate(IAccommodationContext context,DateSearchingModel dto)
+        public IList<OfferViewModel> SearchByDate(IAccommodationContext context,DateSearchingModel model)
         {
             ISearchingCriterion<Offer> criterion =
-                OffersSearchingCriteriaFactory.CreateDateSearchingCriterion(dto.MinimalDate, dto.MaximalDate,
-                    dto.ShowPartiallyMatchingResults);
-            return Search(context,dto.Username, new[] { criterion }, dto.SortType, dto.SortBy);
+                OffersSearchingCriteriaFactory.CreateDateSearchingCriterion(model.MinimalDate, model.MaximalDate,
+                    model.ShowPartiallyMatchingResults);
+            return Search(context,model.Username, new[] { criterion }, model.SortType, model.SortBy);
         }
 
-        public IList<OfferViewModel> SearchByPrice(IAccommodationContext context,PriceSearchingModel dto)
+        public IList<OfferViewModel> SearchByPrice(IAccommodationContext context,PriceSearchingModel model)
         {
             ISearchingCriterion<Offer> criterion =
-                OffersSearchingCriteriaFactory.CreatePriceSearchingCriterion(dto.MinimalPrice, dto.MaximalPrice);
-            return Search(context,dto.Username, new[] { criterion }, dto.SortType, dto.SortBy);
+                OffersSearchingCriteriaFactory.CreatePriceSearchingCriterion(model.MinimalPrice, model.MaximalPrice);
+            return Search(context,model.Username, new[] { criterion }, model.SortType, model.SortBy);
         }
 
-        public IList<OfferViewModel> SearchByMultipleCriteria(IAccommodationContext context,AdvancedSearchingModel dto)
+        public IList<OfferViewModel> SearchByMultipleCriteria(IAccommodationContext context,AdvancedSearchingModel model)
         {
             ISearchingCriterion<Offer>[] criteria = new[]
             {
-                OffersSearchingCriteriaFactory.CreatePlaceSearchingCriterion(dto.PlaceName, dto.CityName),
-                OffersSearchingCriteriaFactory.CreateDateSearchingCriterion(dto.MinimalDate, dto.MaximalDate),
-                OffersSearchingCriteriaFactory.CreatePriceSearchingCriterion(dto.MinimalPrice, dto.MaximalPrice)
+                OffersSearchingCriteriaFactory.CreatePlaceSearchingCriterion(model.PlaceName, model.CityName),
+                OffersSearchingCriteriaFactory.CreateDateSearchingCriterion(model.MinimalDate, model.MaximalDate),
+                OffersSearchingCriteriaFactory.CreatePriceSearchingCriterion(model.MinimalPrice, model.MaximalPrice)
             };
-            return Search(context,dto.Username, criteria, dto.SortType, dto.SortBy);
+            return Search(context,model.Username, criteria, model.SortType, model.SortBy);
         }
 
-        public async Task<IList<OfferViewModel>> SearchByPlaceAsync(IAccommodationContext context, PlaceSearchingModel dto)
+        public async Task<IList<OfferViewModel>> SearchByPlaceAsync(IAccommodationContext context, PlaceSearchingModel model)
         {
-            return await Task.Run(() => SearchByPlace(context, dto));
+            return await Task.Run(() => SearchByPlace(context, model));
         }
 
-        public async Task<IList<OfferViewModel>> SearchByDateAsync(IAccommodationContext context, DateSearchingModel dto)
+        public async Task<IList<OfferViewModel>> SearchByDateAsync(IAccommodationContext context, DateSearchingModel model)
         {
-            return await Task.Run(() => SearchByDate(context, dto));
+            return await Task.Run(() => SearchByDate(context, model));
         }
 
-        public async Task<IList<OfferViewModel>> SearchByPriceAsync(IAccommodationContext context, PriceSearchingModel dto)
+        public async Task<IList<OfferViewModel>> SearchByPriceAsync(IAccommodationContext context, PriceSearchingModel model)
         {
-            return await Task.Run(() => SearchByPrice(context, dto));
+            return await Task.Run(() => SearchByPrice(context, model));
         }
 
         public async Task<IList<OfferViewModel>> SearchByMultipleCriteriaAsync(IAccommodationContext context,
-            AdvancedSearchingModel dto)
+            AdvancedSearchingModel model)
         {
-            return await Task.Run(() => SearchByMultipleCriteria(context, dto));
+            return await Task.Run(() => SearchByMultipleCriteria(context, model));
         }
     }
 }

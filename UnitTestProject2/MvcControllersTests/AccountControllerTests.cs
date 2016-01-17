@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
-using AccommodationDataAccess.Domain;
 using AccommodationWebPage.Controllers;
 using AccommodationWebPage.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace UnitTestProject2.WebAppTests
+namespace UnitTestProject2.MvcControllersTests
 {
     [TestClass]
     public class AccountControllerTests
