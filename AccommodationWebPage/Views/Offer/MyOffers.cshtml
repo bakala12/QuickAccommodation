@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Moje oferty";
 }
+
 <h2>@ViewBag.Title</h2>
 
 <div class="form-group">
@@ -20,7 +21,14 @@
                     <span class="text-primary">Numer pokoju:</span>@Html.DisplayTextFor(m => item.RoomNumber) <br /> 
                     <span class="text-primary">Opis:</span>@Html.DisplayTextFor(m => item.Description) 
                 </td>
+                <td>
+                  @Html.ActionLink("Edytuj", "EditOffer", new { id = item.Id }, new { @class = "btn btn-primary" })
+                  @Html.ActionLink("Usuń", "DeleteOffer", new { id = item.Id }, new { @class = "btn btn-primary" })
+                  
+                </td>
             </tr>
         }
+
     </table>
+  
 </div>

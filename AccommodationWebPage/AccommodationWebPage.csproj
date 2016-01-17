@@ -206,6 +206,7 @@
     <Content Include="Views\Search\Date.cshtml" />
     <Content Include="Views\Search\Price.cshtml" />
     <Content Include="Views\Search\Advanced.cshtml" />
+    <Content Include="Views\Offer\EditOffer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -138,6 +138,7 @@ namespace AccommodationWebPage.DataAccess
         }
 
 
+
         public static async Task<bool> SaveOfferAsync(IAccommodationContext context, AddNewOfferViewModel model, string username)
         {
             return await Task.Run(() => SaveOffer(context, model, username));
@@ -207,6 +208,125 @@ namespace AccommodationWebPage.DataAccess
         public static async Task<List<OfferViewModel>> GetUserReservedOffersAsync(IAccommodationContext context, string username)
         {
             return await Task.Run(() => GetUserReservedOffers(context, username));
+        }
+
+
+        public static async Task<AddNewOfferViewModel> GetOfferByIdAsync(IAccommodationContext context, int id)
+        {
+            return await Task.Run(() => GetOfferById(context, id));
+        }
+
+        public static AddNewOfferViewModel GetOfferById(IAccommodationContext context, int offerId)
+        {
+            try
+            {
+                Offer offer = context.Offers.Where(o => o.Id == offerId).Include(o => o.OfferInfo).Include(o => o.Room).First();
+                if (offer == null) return null;
+                Place place = context.Places.FirstOrDefault(p => p.Id == offer.Room.PlaceId);
+                Address address = context.Addresses.FirstOrDefault(a => a.Id == offer.Room.Place.AddressId);
+                offer.Room.Place = place;
+                offer.Room.Place.Address = address;
+                return new AddNewOfferViewModel(offer);
+
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public static async Task<bool> EditOfferAsync(IAccommodationContext context, AddNewOfferViewModel model)
+        {
+            return await Task.Run(() => EditOffer(context, model));
+        }
+
+        public static bool EditOffer(IAccommodationContext context, AddNewOfferViewModel model)
+        {
+            try
+            {
+
+                Offer offer = context.Offers.FirstOrDefault(x => x.Id == model.Id);
+                if (offer == null) return false;
+
+                HistoricalOffer ho = context.HistoricalOffers.FirstOrDefault(x => x.OriginalOfferId == offer.Id);
+
+                OfferInfo newOfferInfo = new OfferInfo
+                {
+                    Description = model.Description,
+                    OfferEndTime = model.EndDate,
+                    OfferStartTime = model.StartDate,
+                    OfferPublishTime = DateTime.Now,
+                    Price = double.Parse(model.Price)
+                };
+
+                Address newAddress = new Address
+                {
+                    City = model.City,
+                    Street = model.Street,
+                    LocalNumber = model.LocalNumber,
+                    PostalCode = model.PostalCode,
+                };
+
+                Place newPlace = new Place
+                {
+                    Address = newAddress,
+                    PlaceName = model.AccommodationName,
+                };
+
+                Room newRoom = new Room
+                {
+                    Capacity = int.Parse(model.AvailiableVacanciesNumber),
+                    Number = model.RoomNumber,
+                    Place = newPlace,
+                };
+
+                ho.OfferInfo = offer.OfferInfo = newOfferInfo;
+                ho.Room = offer.Room = newRoom;
+                ho.Room.Place = offer.Room.Place = newPlace;
+                ho.Room.Place.Address = offer.Room.Place.Address = newAddress;
+
+                context.SaveChanges();
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public static async Task<bool> DeleteOfferByIdAsync(IAccommodationContext context, int id, string username)
+        {
+            return await Task.Run(() => DeleteOfferById(context, id, username));
+        }
+
+        public static bool DeleteOfferById(IAccommodationContext context, int offerId, string username)
+        {
+
+            try
+            {
+                Offer offer = context.Offers.FirstOrDefault(x => x.Id == offerId);
+                if (offer == null) return false;
+                User user = context.Users.FirstOrDefault(u => u.Username == username);
+
+                OfferInfo offerInfo = context.OfferInfo.FirstOrDefault(x => x.Id == offer.OfferInfoId);
+                Room room = context.Rooms.FirstOrDefault(x => x.Id == offer.RoomId);
+                Place place = context.Places.FirstOrDefault(x => x.Id == room.PlaceId);
+                Address address = context.Addresses.FirstOrDefault(x => x.Id == place.AddressId);
+
+                var ho = context.HistoricalOffers.FirstOrDefault(h => h.OriginalOfferId == offer.Id);
+                if (ho != null) ho.OriginalOffer = null;
+                //usuń z bazy ofertę oraz jej dane
+
+                context.Offers.Remove(offer);
+                user?.MyOffers?.Remove(offer);
+                context.SaveChanges();
+                return true;
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
         }
     }
 }
