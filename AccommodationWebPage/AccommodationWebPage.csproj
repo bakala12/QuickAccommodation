@@ -138,6 +138,7 @@
     <Compile Include="Controllers\OfferController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="DataAccess\SearchDataAccessor.cs" />
+    <Compile Include="DataAccess\OfferAccessor.cs" />
     <Compile Include="DataAccess\UserDataAccessor.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -151,6 +152,7 @@
     <Compile Include="Models\SearchingModels.cs" />
     <Compile Include="Models\UserProfileViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Validation\OfferValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />

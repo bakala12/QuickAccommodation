@@ -1,7 +1,9 @@
 ﻿@using AccommodationWebPage.Models;
 @model AddNewOfferViewModel
 
-<h2>@ViewBag.Title.</h2>
+@{ViewBag.Title = "Dodaj nową ofertę"; }
+
+<h2>@ViewBag.Title</h2>
 
 @using (Html.BeginForm("AddOffer", "Offer", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
