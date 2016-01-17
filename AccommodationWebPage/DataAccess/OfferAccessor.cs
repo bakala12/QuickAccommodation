@@ -294,5 +294,39 @@ namespace AccommodationWebPage.DataAccess
                 return false;
             }
         }
+
+        public static async Task<bool> DeleteOfferByIdAsync(IAccommodationContext context, int id, string username)
+        {
+            return await Task.Run(() => DeleteOfferById(context, id, username));
+        }
+
+        public static bool DeleteOfferById(IAccommodationContext context, int offerId, string username)
+        {
+
+            try
+            {
+                Offer offer = context.Offers.FirstOrDefault(x => x.Id == offerId);
+                if (offer == null) return false;
+                User user = context.Users.FirstOrDefault(u => u.Username == username);
+
+                OfferInfo offerInfo = context.OfferInfo.FirstOrDefault(x => x.Id == offer.OfferInfoId);
+                Room room = context.Rooms.FirstOrDefault(x => x.Id == offer.RoomId);
+                Place place = context.Places.FirstOrDefault(x => x.Id == room.PlaceId);
+                Address address = context.Addresses.FirstOrDefault(x => x.Id == place.AddressId);
+
+                var ho = context.HistoricalOffers.FirstOrDefault(h => h.OriginalOfferId == offer.Id);
+                if (ho != null) ho.OriginalOffer = null;
+                //usuń z bazy ofertę oraz jej dane
+
+                context.Offers.Remove(offer);
+                user?.MyOffers?.Remove(offer);
+                context.SaveChanges();
+                return true;
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
+        }
     }
 }

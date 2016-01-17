@@ -81,9 +81,9 @@ namespace AccommodationWebPage.Controllers
         }
 
         [HttpGet]
-        public ActionResult EditOffer(int id)
+        public async Task<ActionResult> EditOffer(int id)
         {
-            AddNewOfferViewModel offer = OfferAccessor.GetOfferById(Context, id);
+            AddNewOfferViewModel offer = await OfferAccessor.GetOfferByIdAsync(Context, id);
             if (offer == null)
             {
                 return RedirectToAction("Error");
@@ -104,7 +104,7 @@ namespace AccommodationWebPage.Controllers
                     int i = 0;
                     foreach (var error in errorList)
                     {
-                        ModelState.AddModelError(String.Format("{0}",i++), error);
+                        ModelState.AddModelError(String.Format("{0}", i++), error);
                         return View(model);
                     }
                 }
@@ -123,9 +123,21 @@ namespace AccommodationWebPage.Controllers
                 }
             }
             return View(model);
-
         }
 
+        [HttpGet]
+        public async Task<ActionResult> DeleteOffer(int id)
+        {
+            string username = HttpContext.User?.Identity?.Name;
+            if (await OfferAccessor.DeleteOfferByIdAsync(Context, id, username))
+            {
+                return RedirectToAction("MyOffers", "Offer");
+            }
+            else
+            {
+                return View("Error");
+            }
 
+        }
     }
 }
