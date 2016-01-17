@@ -1,0 +1,70 @@
+﻿@using AccommodationWebPage.Models;
+@model DateSearchingModel
+
+<div class="navbar">
+    <ul class="navbar-nav nav">
+        <li>@Html.ActionLink("Miejsce", "Place", "Search")</li>
+        <li>@Html.ActionLink("Data", "Date", "Search")</li>
+        <li>@Html.ActionLink("Cena", "Price", "Search")</li>
+        <li>@Html.ActionLink("Zaawansowane", "Advanced", "Search")</li>
+    </ul>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <section id="searchingForm">
+            @using (Html.BeginForm("Date", "Search", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(m => m.MinimalDate, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(m => m.MinimalDate, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.MaximalDate, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(m => m.MaximalDate, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ShowPartiallyMatchingResults, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.CheckBoxFor(m => m.ShowPartiallyMatchingResults, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Wyszukaj" class="btn btn-default" />
+                    </div>
+                </div>
+            }
+        </section>
+    </div>
+</div>
+
+<table class="table-hover">
+    @foreach (OfferViewModel item in Model.Offers)
+    {
+        <tr>
+            <td>
+                <span class="text-primary">Nazwa miejsca:</span> @Html.DisplayTextFor(m => item.PlaceName)
+                <span class="text-primary">Adres:</span>   @Html.DisplayTextFor(m => item.Address) <br />
+                <span class="text-primary">Od:</span> @Html.DisplayTextFor(m => item.OfferStartTime)
+                <span class="text-primary">Do:</span>@Html.DisplayTextFor(m => item.OfferEndTime) <br />
+                <span class="text-primary">Liczba wolnych miejsc:</span>@Html.DisplayTextFor(m => item.AvailableVacanciesNumber)
+                <span class="text-primary">Cena:</span>@Html.DisplayTextFor(m => item.Price)
+                <span class="text-primary">Numer pokoju:</span>@Html.DisplayTextFor(m => item.RoomNumber) <br />
+                <span class="text-primary">Opis:</span>@Html.DisplayTextFor(m => item.Description)
+            </td>
+        </tr>
+    }
+</table>
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -200,7 +200,10 @@
     <Content Include="Views\Offer\AddOffer.cshtml" />
     <Content Include="Views\Offer\MyOffers.cshtml" />
     <Content Include="Views\Offer\ReservedOffers.cshtml" />
-    <Content Include="Views\Shared\_SearchLayout.cshtml" />
+    <Content Include="Views\Search\Place.cshtml" />
+    <Content Include="Views\Search\Date.cshtml" />
+    <Content Include="Views\Search\Price.cshtml" />
+    <Content Include="Views\Search\Advanced.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

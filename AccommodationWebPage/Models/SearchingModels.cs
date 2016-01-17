@@ -13,7 +13,12 @@ namespace AccommodationWebPage.Models
         public string Username { get; set; }
         public SortType SortType { get; set; }
         public SortBy SortBy { get; set; }
-        public IList<OfferViewModel> Offers { get; set; } 
+        public IList<OfferViewModel> Offers { get; set; }
+
+        protected SearchingModel()
+        {
+            Offers = new List<OfferViewModel>();
+        }
     }
 
     /// <summary>
