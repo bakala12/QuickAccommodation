@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 using AccommodationShared.Searching;
 
 namespace AccommodationWebPage.Models
@@ -11,7 +12,9 @@ namespace AccommodationWebPage.Models
     public abstract class SearchingModel
     {
         public string Username { get; set; }
+        [Display(Name = "Porządek sortowania")]
         public SortType SortType { get; set; }
+        [Display(Name = "Sortuj wyniki według")]
         public SortBy SortBy { get; set; }
         public IList<OfferViewModel> Offers { get; set; }
 
@@ -26,7 +29,9 @@ namespace AccommodationWebPage.Models
     /// </summary>
     public class PlaceSearchingModel : SearchingModel
     {
+        [Display(Name = "Nazwa miejsca")]
         public string PlaceName { get; set; }
+        [Display(Name = "Nazwa miasta")]
         public string CityName { get; set; }
     }
 
@@ -35,7 +40,7 @@ namespace AccommodationWebPage.Models
     /// </summary>
     public class DateSearchingModel : SearchingModel
     {
-
+        [Display(Name = "Data rozpoczęcia")]
         public DateTime? MinimalDate { get; set; }
         public DateTime? MaximalDate { get; set; }
         public bool ShowPartiallyMatchingResults { get; set; }

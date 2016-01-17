@@ -1,9 +1,11 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using AccommodationWebPage.Controllers;
 using AccommodationWebPage.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace UnitTestProject2.MvcControllersTests
 {
@@ -81,6 +83,27 @@ namespace UnitTestProject2.MvcControllersTests
             ActionResult res = _controller.Login(model, "lalalal");
             Assert.IsNotNull(res);
             Assert.IsTrue(res is RedirectToRouteResult);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NullReferenceException))]
+        public void LogoffTestFalied()
+        {
+            var result = _controller.LogOff();
+        }
+
+        [TestMethod]
+        public void LogoffTestPassed()
+        {
+            var mock = new Mock<ControllerContext>();
+            mock.SetupGet(x => x.HttpContext.User.Identity.Name).Returns("bakalam");
+            mock.SetupGet(x => x.HttpContext.Request.IsAuthenticated).Returns(true);
+            _controller.ControllerContext = mock.Object;
+            var result = _controller.LogOff();
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result is RedirectToRouteResult);
+            Assert.AreEqual("Index", ((RedirectToRouteResult)result).RouteValues["action"]);
+            Assert.AreEqual("Home", ((RedirectToRouteResult)result).RouteValues["controller"]);
         }
     }
 }

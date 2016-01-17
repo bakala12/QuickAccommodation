@@ -27,8 +27,8 @@ namespace AccommodationWebPage.Authorization
         public override void OnAuthorization(AuthorizationContext filterContext)
         {
             base.OnAuthorization(filterContext);
-            if (filterContext.HttpContext.User?.Identity == null ||
-                filterContext.HttpContext.User?.Identity.IsAuthenticated == false)
+            if (string.IsNullOrEmpty(filterContext.HttpContext.User?.Identity?.Name) 
+                || filterContext.HttpContext.User?.Identity.IsAuthenticated == false)
             {
                 filterContext.Result = new RedirectToRouteResult(new
                     RouteValueDictionary(new { controller = "Account", action = "AccessDenied" }));

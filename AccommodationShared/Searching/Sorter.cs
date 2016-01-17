@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,8 +14,11 @@ namespace AccommodationShared.Searching
     /// </summary>
     public enum SortType
     {
+        [Display(Name = "Rosnąco")]
         Ascending,
+        [Display(Name = "Malejąco")]
         Descending,
+        [Display(Name="Bez sortowania")]
         NotSort
     }
 
@@ -22,12 +27,19 @@ namespace AccommodationShared.Searching
     /// </summary>
     public enum SortBy
     {
+        [Display(Name = "Miejsce")]
         Place,
+        [Display(Name = "Miasto")]
         City,
+        [Display(Name = "Cena")]
         Price,
+        [Display(Name = "Data rozpoczącia")]
         StartDate,
+        [Display(Name = "Data zakończenia")]
         EndDate,
+        [Display(Name = "Liczba miejsc")]
         VacanciesNumber,
+        [Display(Name = "Data wystawienia")]
         PublishDate
     }
 

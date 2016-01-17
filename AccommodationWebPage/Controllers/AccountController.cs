@@ -78,7 +78,7 @@ namespace AccommodationWebPage.Controllers
         [AuthorizationRequired]
         public ActionResult LogOff()
         {
-            Response.SetCookie(new HttpCookie("auth") { Expires = DateTime.Now.AddDays(-1) }); //ciastko wygasa
+            Response?.SetCookie(new HttpCookie("auth") { Expires = DateTime.Now.AddDays(-1) }); //ciastko wygasa
             return RedirectToAction("Index", "Home");
         }
 

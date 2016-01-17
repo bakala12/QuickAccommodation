@@ -12,6 +12,8 @@ using AccommodationWebPage.Models;
 using AccomodationWebApi.Providers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using UserAuthorizationSystem.Identities;
+using RedirectToRouteResult = System.Web.Mvc.RedirectToRouteResult;
 
 namespace UnitTestProject2.MvcControllersTests
 {
@@ -31,7 +33,17 @@ namespace UnitTestProject2.MvcControllersTests
         {
             _context = new AccommodationMockContext();
             _controller = new SearchController(new ContextProvider<AccommodationMockContext>());
-            SetMockContext("jablonskim");
+        }
+
+        /// <summary>
+        /// Test whether unuathorized user has an access to method marked with [AuthorizationRequired] attribute
+        /// </summary>
+        /// <returns></returns>
+        [TestMethod]
+        [ExpectedException(typeof (NullReferenceException))]
+        public async Task SearchUnathorizedUserTest()
+        {
+            var r = await _controller.Price(new PriceSearchingModel());
         }
 
         /// <summary>
