@@ -13,20 +13,38 @@ using AccomodationWebApi.Providers;
 
 namespace AccommodationWebPage.Controllers
 {
+    /// <summary>
+    /// Controller for searching offers
+    /// </summary>
     [AuthorizationRequired]
     public class SearchController : AccommodationController
     {
+        /// <summary>
+        /// Initializes a new instance of controller with a specified IContextProvider
+        /// </summary>
+        /// <param name="provider">Db context provider</param>
         public SearchController(IContextProvider provider) : base(provider) { }
 
+        /// <summary>
+        /// Initializes a new instance of controller with a default provider.
+        /// </summary>
         public SearchController() : base(new ContextProvider<AccommodationContext>()) { }
 
         private readonly SearchDataAccessor _searchDataAccessor = new SearchDataAccessor();
 
+        /// <summary>
+        /// Gets the general searching view
+        /// </summary>
+        /// <returns>Searching view</returns>
         public ActionResult Index()
         {
             return RedirectToAction("Place", "Search");
         }
 
+        /// <summary>
+        /// Gets the searching by place view
+        /// </summary>
+        /// <returns>Searching by place view</returns>
         [HttpGet]
         public ActionResult Place()
         {
@@ -34,6 +52,11 @@ namespace AccommodationWebPage.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Searches offers by place
+        /// </summary>
+        /// <param name="model">Model with searching criteria</param>
+        /// <returns>Searching by place view with results</returns>
         [HttpPost]
         public async Task<ActionResult> Place(PlaceSearchingModel model)
         {
@@ -52,6 +75,10 @@ namespace AccommodationWebPage.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Gets the view for searching by date 
+        /// </summary>
+        /// <returns>Searching by date view</returns>
         [HttpGet]
         public ActionResult Date()
         {
@@ -59,6 +86,11 @@ namespace AccommodationWebPage.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Searches offers by date
+        /// </summary>
+        /// <param name="model">Model with searching criteria</param>
+        /// <returns>Searching by date view with results</returns>
         [HttpPost]
         public async Task<ActionResult> Date(DateSearchingModel model)
         {
@@ -77,6 +109,10 @@ namespace AccommodationWebPage.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Gets the searching by price view
+        /// </summary>
+        /// <returns>Searching by price view</returns>
         [HttpGet]
         public ActionResult Price()
         {
@@ -84,6 +120,11 @@ namespace AccommodationWebPage.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Searches offers by price
+        /// </summary>
+        /// <param name="model">Model with searching criterion</param>
+        /// <returns>Searching by price view with results</returns>
         [HttpPost]
         public async Task<ActionResult> Price(PriceSearchingModel model)
         {
@@ -107,6 +148,10 @@ namespace AccommodationWebPage.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Gets advanced searching view
+        /// </summary>
+        /// <returns>Advanced searching view</returns>
         [HttpGet]
         public ActionResult Advanced()
         {
@@ -114,6 +159,11 @@ namespace AccommodationWebPage.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Searches offers by multiple criteria
+        /// </summary>
+        /// <param name="model">Model with searching criteria</param>
+        /// <returns>Advanced searching view with results</returns>
         [HttpPost]
         public async Task<ActionResult> Advanced(AdvancedSearchingModel model)
         {
@@ -137,6 +187,12 @@ namespace AccommodationWebPage.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Validates the prices
+        /// </summary>
+        /// <param name="minPrice">Minimal price</param>
+        /// <param name="maxPrice">Maximal price</param>
+        /// <returns>String with eventual error message</returns>
         private string ValidatePrices(string minPrice, string maxPrice)
         {
             if (!string.IsNullOrEmpty(minPrice))

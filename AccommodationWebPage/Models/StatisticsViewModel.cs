@@ -6,6 +6,9 @@ using System.Web;
 
 namespace AccommodationWebPage.Models
 {
+    /// <summary>
+    /// Model containing various users statistics
+    /// </summary>
     public class StatisticsViewModel
     {
         [Required]

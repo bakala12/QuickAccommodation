@@ -9,12 +9,18 @@ using Moq;
 
 namespace UnitTestProject2.MvcControllersTests
 {
+    /// <summary>
+    /// Test for Account controller
+    /// </summary>
     [TestClass]
     public class AccountControllerTests
     {
         private AccountController _controller;
         private AccommodationMockContext _context;
 
+        /// <summary>
+        /// initialization
+        /// </summary>
         [TestInitialize]
         public void Init()
         {
@@ -22,6 +28,10 @@ namespace UnitTestProject2.MvcControllersTests
             _controller = new AccountController(new TestContextProvider(_context));    
         }
 
+        /// <summary>
+        /// Tests whether registrationprocess ended up with success
+        /// </summary>
+        /// <returns></returns>
         [TestMethod]
         public async Task RegisterTestPassed()
         {
@@ -41,6 +51,10 @@ namespace UnitTestProject2.MvcControllersTests
             Assert.AreEqual(users+1,_context.Users.Count());
         }
 
+        /// <summary>
+        /// Tests whether registration process failed
+        /// </summary>
+        /// <returns></returns>
         [TestMethod]
         public async Task RegisterTestFailed()
         {
@@ -59,6 +73,9 @@ namespace UnitTestProject2.MvcControllersTests
             Assert.AreEqual(users+1, _context.Users.Count());
         }
 
+        /// <summary>
+        /// Tests whether logging in trial failed
+        /// </summary>
         [TestMethod]
         public void LoginTestFailed()
         {
@@ -72,6 +89,9 @@ namespace UnitTestProject2.MvcControllersTests
             Assert.IsFalse(res is RedirectToRouteResult);
         }
 
+        /// <summary>
+        /// Tests whether logging in trial successed
+        /// </summary>
         [TestMethod]
         public void LoginTestPassed()
         {
@@ -85,13 +105,9 @@ namespace UnitTestProject2.MvcControllersTests
             Assert.IsTrue(res is RedirectToRouteResult);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(NullReferenceException))]
-        public void LogoffTestFalied()
-        {
-            var result = _controller.LogOff();
-        }
-
+        /// <summary>
+        /// Tests whether logging off trial successed
+        /// </summary>
         [TestMethod]
         public void LogoffTestPassed()
         {

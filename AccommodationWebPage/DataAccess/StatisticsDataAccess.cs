@@ -10,8 +10,17 @@ using AccommodationWebPage.Models;
 
 namespace AccommodationWebPage.DataAccess
 {
+    /// <summary>
+    /// Gets the statistics for user
+    /// </summary>
     public class StatisticsDataAccess
     {
+        /// <summary>
+        /// Gets users statistics
+        /// </summary>
+        /// <param name="context">Db context</param>
+        /// <param name="username">Name of the user</param>
+        /// <returns>Model filled with statistics</returns>
         public StatisticsViewModel GetUserStatistics(IAccommodationContext context,string username)
         {
             try
@@ -43,6 +52,12 @@ namespace AccommodationWebPage.DataAccess
             }
         }
 
+        /// <summary>
+        /// Asynchronously gets user statistics
+        /// </summary>
+        /// <param name="context">Db context</param>
+        /// <param name="username">Name of the user</param>
+        /// <returns>Model filled with statistics</returns>
         public async Task<StatisticsViewModel> GetUserStatisticsAsync(IAccommodationContext context,string username)
         {
             return await Task.Run(() => GetUserStatistics(context,username));

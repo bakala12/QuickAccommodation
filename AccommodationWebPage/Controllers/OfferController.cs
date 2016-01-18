@@ -16,6 +16,7 @@ namespace AccommodationWebPage.Controllers
     /// <summary>
     /// Kontroler odpowiadający za operacje związane z ofertami
     /// </summary>
+    [AuthorizationRequired]
     public class OfferController : AccommodationController
     {
         /// <summary>

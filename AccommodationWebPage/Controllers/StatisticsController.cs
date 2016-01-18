@@ -10,15 +10,29 @@ using AccomodationWebApi.Providers;
 
 namespace AccommodationWebPage.Controllers
 {
+    /// <summary>
+    /// Controller for getting users statistics
+    /// </summary>
     [AuthorizationRequired]
     public class StatisticsController : AccommodationController
     {
+        /// <summary>
+        /// Initializes a new instance of Statistics controller with a specified IContextProvider
+        /// </summary>
+        /// <param name="provider"></param>
         public StatisticsController(IContextProvider provider) : base(provider) { }
 
+        /// <summary>
+        /// Initializes a new instnce of StatisticsController with default db context provider
+        /// </summary>
         public StatisticsController():base(new ContextProvider<AccommodationContext>()) { }
 
         private readonly StatisticsDataAccess _statisticsDataAccess = new StatisticsDataAccess();
 
+        /// <summary>
+        /// Gets the statistics view
+        /// </summary>
+        /// <returns>The statistics view</returns>
         public async Task<ActionResult> Index()
         {
             StatisticsViewModel model =
@@ -26,6 +40,10 @@ namespace AccommodationWebPage.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Gets the view with my offers' prices chart
+        /// </summary>
+        /// <returns>My offers' prices chart</returns>
         public ActionResult MyAveragePrices()
         {
             StatisticsViewModel model =
@@ -33,6 +51,10 @@ namespace AccommodationWebPage.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Genterates myofers' count chart
+        /// </summary>
+        /// <returns>My offers' chart</returns>
         public ActionResult MyOffersCount()
         {
             StatisticsViewModel model =
@@ -43,6 +65,10 @@ namespace AccommodationWebPage.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Gets the chart for my reserved offers' counts
+        /// </summary>
+        /// <returns>the chart for my reserved offers' counts</returns>
         public ActionResult MyReservedOffersCount()
         {
             StatisticsViewModel model =
@@ -53,6 +79,10 @@ namespace AccommodationWebPage.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Gets the chart for my reserved offers' prices
+        /// </summary>
+        /// <returns>the chart for my reserved offers' prices</returns>
         public ActionResult MyReservedOffersPrices()
         {
             StatisticsViewModel model =
@@ -60,6 +90,12 @@ namespace AccommodationWebPage.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        /// <param name="months"></param>
+        /// <returns></returns>
         private int[] RemoveZeroes(int[] val, out string[] months)
         {
             months = new[] { "Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec", "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień" };
