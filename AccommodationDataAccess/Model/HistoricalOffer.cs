@@ -45,5 +45,10 @@ namespace AccommodationDataAccess.Model
         /// </summary>
         public virtual Offer OriginalOffer { get; set; }
         public int? OriginalOfferId { get; set; }
+        
+        /// <summary>
+        /// Powiązanie z aktualną ofertą.
+        /// </summary>
+        public bool IsMarked { get; set; }
     }
 }

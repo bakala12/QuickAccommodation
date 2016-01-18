@@ -169,7 +169,7 @@ namespace AccommodationWebPage.DataAccess
         public static async Task<bool> SaveOfferAsync(IAccommodationContext context, AddNewOfferViewModel model, string username,
             HttpPostedFileBase image = null)
         {
-            return await Task.Run(() => SaveOffer(context, model, username,image));
+            return await Task.Run(() => SaveOffer(context, model, username, image));
         }
 
         /// <summary>
@@ -237,7 +237,7 @@ namespace AccommodationWebPage.DataAccess
                 {
                     offer.Room.Place = context.Places.FirstOrDefault(p => p.Id == offer.Room.PlaceId);
                     offer.Room.Place.Address = context.Addresses.FirstOrDefault(a => a.Id == offer.Room.Place.AddressId);
-                
+
 
                     offerViewModelList.Add(new OfferViewModel(offer));
                 }
@@ -446,7 +446,7 @@ namespace AccommodationWebPage.DataAccess
             try
             {
                 Offer offer = context.Offers.FirstOrDefault(o => o.Id == offerId);
-
+                HistoricalOffer historicalOffer = context.HistoricalOffers.FirstOrDefault(ho => ho.OriginalOfferId == offer.Id);
                 User customer = context.Users.FirstOrDefault(u => u.Username.Equals(username));
                 User vendor = context.Users.FirstOrDefault(x => x.Id == offer.VendorId);
 
@@ -460,6 +460,8 @@ namespace AccommodationWebPage.DataAccess
                 if (offer.IsBooked) return false;
 
                 offer.IsBooked = true;
+                historicalOffer.IsBooked = true;
+                historicalOffer.Customer = customer;
                 offer.Customer = customer;
                 context.SaveChanges();
 
@@ -485,6 +487,8 @@ namespace AccommodationWebPage.DataAccess
             return await Task.Run(() => ResignOffer(context, id, username));
         }
 
+
+
         /// <summary>
         /// Umożliwia rezygnacje z oferty danemu użytkownikowi
         /// </summary>
@@ -497,6 +501,7 @@ namespace AccommodationWebPage.DataAccess
             try
             {
                 Offer offer = context.Offers.FirstOrDefault(o => o.Id == offerId);
+                HistoricalOffer historicalOffer = context.HistoricalOffers.FirstOrDefault(ho => ho.OriginalOfferId == offer.Id);
                 User customer = context.Users.FirstOrDefault(u => u.Username.Equals(username));
                 User vendor = context.Users.FirstOrDefault(x => x.Id == offer.VendorId);
 
@@ -511,10 +516,79 @@ namespace AccommodationWebPage.DataAccess
                 Place place = context.Places.FirstOrDefault(x => x.Id == room.PlaceId);
                 offer.IsBooked = false;
                 offer.Customer = null;
+                historicalOffer.IsBooked = false;
+                historicalOffer.Customer = null;
                 context.SaveChanges();
-               
+
                 //Wysłanie powiadomienia mailowego, ostatni parametr oznacza rezygnację
                 EmailNotification.SendNotification(offerInfo, place, vendorData, customerData, room, false);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public async static Task<List<UserMarksViewModel>> GetUsersToMarkAsync(IAccommodationContext context, string username)
+        {
+            return await Task.Run(() => GetUsersToMark(context, username));
+        }
+
+
+        public static List<UserMarksViewModel> GetUsersToMark(IAccommodationContext context, string username)
+        {
+            try
+            {
+                List<UserMarksViewModel> list = new List<UserMarksViewModel>();
+
+                User user = context.Users.FirstOrDefault(u => u.Username == username);
+                if (user == null) return new List<UserMarksViewModel>();
+
+                var offersList = context.HistoricalOffers.Where(o => o.CustomerId == user.Id).Include(o => o.OfferInfo).Include(o => o.Room);
+
+                foreach (var offer in offersList)
+                {
+                    if (!offer.IsMarked)
+                    {
+                        User vendor = context.Users.FirstOrDefault(u => u.Id == offer.VendorId);
+                        Place place = context.Places.FirstOrDefault(x => x.Id == offer.Room.PlaceId);
+
+                        list.Add(new UserMarksViewModel(offer, vendor));
+                    }
+                }
+                return list;
+            }
+            catch (Exception ex)
+            {
+                return new List<UserMarksViewModel>();
+            }
+        }
+
+        public async static Task<bool> GiveUserMarkAsync(IAccommodationContext context, MarkViewModel model)
+        {
+            return await Task.Run(() => GiveUserMark(context, model));
+        }
+
+        public static bool GiveUserMark(IAccommodationContext context, MarkViewModel model)
+        {
+            try
+            {
+                User user = context.Users.FirstOrDefault(u => u.Username == model.Username);
+                HistoricalOffer offer = context.HistoricalOffers.FirstOrDefault(o => o.Id == model.ReservedOfferId);
+                int mark = (int)model.mark;
+
+                if(user.AverageMark == null || user.MarkCount == null)
+                {
+                    user.AverageMark = 0;
+                    user.MarkCount = 0;
+                }
+
+                user.AverageMark = (user.AverageMark * user.MarkCount + mark) / (user.MarkCount + 1);
+                user.MarkCount += 1;
+
+                offer.IsMarked = true;
+                context.SaveChanges();
                 return true;
             }
             catch (Exception ex)

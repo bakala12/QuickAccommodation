@@ -35,6 +35,7 @@ namespace AccommodationWebPage.Controllers
         /// </summary>
         /// <param name="id">id oferty do rezerwacji</param>
         /// <returns>Zwraca informację o powodzeniu lub niepowodzeniu rezerwacji</returns>
+        [AuthorizationRequired]
         public async Task<ActionResult> ReserveOffer(int id)
         {
             string username = HttpContext.User?.Identity?.Name;
@@ -54,6 +55,7 @@ namespace AccommodationWebPage.Controllers
         /// </summary>
         /// <param name="id">id oferty</param>
         /// <returns></returns>
+        [AuthorizationRequired]
         public async Task<ActionResult> ResignOffer(int id)
         {
             string username = HttpContext.User?.Identity?.Name;
@@ -67,6 +69,7 @@ namespace AccommodationWebPage.Controllers
             }
         }
 
+        [AuthorizationRequired]
         public ActionResult Done()
         {
             return View();
