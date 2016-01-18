@@ -13,21 +13,32 @@ using System.Threading.Tasks;
 
 namespace AccommodationWebPage.Controllers
 {
+    /// <summary>
+    /// Odpowiada za logikę rezerwacji ofert
+    /// </summary>
     [AuthorizationRequired]
     public class ReservationController : AccommodationController
     {
-        public ReservationController(IContextProvider provider) : base(provider)
-        {
-        }
+        /// <summary>
+        /// Inicjalizuje nową instancję kontrolera
+        /// </summary>
+        /// <param name="provider">Dostawca kontekstu bazy danych</param>
+        public ReservationController(IContextProvider provider) : base(provider) { }
 
-        public ReservationController() : base(new ContextProvider<AccommodationContext>())
-        {
-        }
+        /// <summary>
+        /// Inicajlizuje nową instancję kontrolera.
+        /// </summary>
+        public ReservationController() : base(new ContextProvider<AccommodationContext>()) { }
 
+        /// <summary>
+        /// Rezerwuje obecnemu użytkownikowi ofertę o danym id
+        /// </summary>
+        /// <param name="id">id oferty do rezerwacji</param>
+        /// <returns>Zwraca informację o powodzeniu lub niepowodzeniu rezerwacji</returns>
         public async Task<ActionResult> ReserveOffer(int id)
         {
             string username = HttpContext.User?.Identity?.Name;
-            if (OfferAccessor.ReserveOffer(Context, id, username))
+            if (await OfferAccessor.ReserveOfferAsync(Context, id, username))
             {
                 return RedirectToAction("Done", "Reservation");
             }
@@ -37,6 +48,12 @@ namespace AccommodationWebPage.Controllers
             }
         }
 
+        /// <summary>
+        /// Odpowiada za rezygnację z rezerwacji oferty o danym id
+        /// przez obecnego użytkownika
+        /// </summary>
+        /// <param name="id">id oferty</param>
+        /// <returns></returns>
         public async Task<ActionResult> ResignOffer(int id)
         {
             string username = HttpContext.User?.Identity?.Name;

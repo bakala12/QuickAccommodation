@@ -13,17 +13,26 @@ using System.Threading.Tasks;
 
 namespace AccommodationWebPage.Controllers
 {
+    /// <summary>
+    /// Kontroler odpowiadający za operacje związane z ofertami
+    /// </summary>
     public class OfferController : AccommodationController
     {
+        /// <summary>
+        /// Inicjalizuje nową instancję kontrolera
+        /// </summary>
+        /// <param name="provider">Dostawca kontekstu bazy danych</param>
         public OfferController(IContextProvider provider) : base(provider) { }
 
+        /// <summary>
+        /// Inicajlizuje nową instancję kontrolera.
+        /// </summary>
         public OfferController() : base(new ContextProvider<AccommodationContext>()) { }
 
-        public ActionResult Index()
-        {
-            return View();
-        }
-
+        /// <summary>
+        /// Zwraca listę ofert dodanych przez użytkownika
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult> MyOffers()
         {
@@ -32,6 +41,10 @@ namespace AccommodationWebPage.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Zwraca list ofert zarezerwowanych przez użytkownika
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult> ReservedOffers()
         {
@@ -40,12 +53,23 @@ namespace AccommodationWebPage.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Zwraca widok dla dodawania nowej oferty
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult AddOffer()
         {
             return View();
         }
 
+        /// <summary>
+        /// Dodaje nową ofertę do bazy
+        /// </summary>
+        /// <param name="model">model z danymi oferty</param>
+        /// <param name="image">opcjonalny obrazek</param>
+        /// <returns>W przypadku powodzenia zwraca widok ofert użytkownika, w przeciwnym
+        /// przypadku widok z informacją o błędzie</returns>
         [HttpPost]
         [AuthorizationRequired]
         public async Task<ActionResult> AddOffer(AddNewOfferViewModel model, HttpPostedFileBase image = null)
@@ -81,6 +105,12 @@ namespace AccommodationWebPage.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Umożliwia edycję oferty o danym id
+        /// </summary>
+        /// <param name="id">id oferty do edycji</param>
+        /// <returns>Zwraca widok dla edycji oferty. W przypadku błędu widok 
+        /// z informacją o błędzie</returns>
         [HttpGet]
         public async Task<ActionResult> EditOffer(int id)
         {
@@ -92,6 +122,12 @@ namespace AccommodationWebPage.Controllers
             return View(offer);
         }
 
+        /// <summary>
+        /// Edytuje w bazie ofertę o danym id
+        /// </summary>
+        /// <param name="model">Dane oferty do edycji (w tym id)</param>
+        /// <returns>Zwraca widok ofert użytkownika. W przypadku błędu, widok 
+        /// z informacją o błędzie</returns>
         [HttpPost]
         [AuthorizationRequired]
         public async Task<ActionResult> EditOffer(AddNewOfferViewModel model)
@@ -126,6 +162,12 @@ namespace AccommodationWebPage.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Usuwa ofertę o danym id z bazy 
+        /// </summary>
+        /// <param name="id">id oferty do usunięcia</param>
+        /// <returns>Zwraca widok ofert użytkownika. W przypadku błędu, widok 
+        /// z informacją o błędzie</returns>
         [HttpGet]
         public async Task<ActionResult> DeleteOffer(int id)
         {

@@ -12,10 +12,21 @@ using AccomodationWebPage;
 
 namespace AccommodationWebPage.DataAccess
 {
+
+    /// <summary>
+    /// Odpowiada za operacje związane z ofertami w bazie 
+    /// </summary>
     public static class OfferAccessor
     {
-
-        public static bool SaveOffer(IAccommodationContext context, AddNewOfferViewModel model, string username, HttpPostedFileBase image)
+        /// <summary>
+        /// Zapisuje daną ofertę w bazie
+        /// </summary>
+        /// <param name="context">Kontekst bazy danych</param>
+        /// <param name="model">Model z danymi oferty</param>
+        /// <param name="username">Aktualnie zalogowany użytkownik</param>
+        /// <param name="image">Opcjonalny obrazek</param>
+        /// <returns></returns>
+        public static bool SaveOffer(IAccommodationContext context, AddNewOfferViewModel model, string username, HttpPostedFileBase image = null)
         {
             try
             {
@@ -146,16 +157,29 @@ namespace AccommodationWebPage.DataAccess
         }
 
 
-
+        /// <summary>
+        /// Asynchroniczna metoda wywołująca metodę do 
+        /// zapisywania oferty w bazie
+        /// </summary>
+        /// <param name="context">Kontekst bazy danych</param>
+        /// <param name="model">Model z danymi oferty</param>
+        /// <param name="username">Aktualnie zalogowany użytkownik</param>
+        /// <param name="image">Opcjonalny obrazek</param>
+        /// <returns></returns>
         public static async Task<bool> SaveOfferAsync(IAccommodationContext context, AddNewOfferViewModel model, string username,
-            HttpPostedFileBase image)
+            HttpPostedFileBase image = null)
         {
             return await Task.Run(() => SaveOffer(context, model, username,image));
         }
 
+        /// <summary>
+        /// Umożliwia pobranie ofert użytkownika z bazy
+        /// </summary>
+        /// <param name="context">Kontekst bazy danych</param>
+        /// <param name="username">Nazwa zalogowanego użytkownika</param>
+        /// <returns>Zwraca listę ofert</returns>
         public static List<OfferViewModel> GetUserOffers(IAccommodationContext context, string username)
         {
-
             try
             {
                 List<Offer> offerList = new List<Offer>();
@@ -180,16 +204,27 @@ namespace AccommodationWebPage.DataAccess
             }
         }
 
+        /// <summary>
+        /// Asynchroniczna metoda wywołująca metodę
+        /// do pobierania listy ofert użytkownika
+        /// </summary>
+        /// <param name="context">Kontekst bazy danych</param>
+        /// <param name="username">Nazwa użytkownika</param>
+        /// <returns></returns>
         public static async Task<List<OfferViewModel>> GetUserOffersAsync(IAccommodationContext context, string username)
         {
             return await Task.Run(() => GetUserOffers(context, username));
         }
 
 
-
+        /// <summary>
+        /// Umożliwia pobranie zarezerwwanych ofert użytkownika z bazy
+        /// </summary>
+        /// <param name="context">Kontekst bazy danych</param>
+        /// <param name="username">Nazwa zalogowanego użytkownika</param>
+        /// <returns>Zwraca listę zarezerwowanych ofert</returns>
         public static List<OfferViewModel> GetUserReservedOffers(IAccommodationContext context, string username)
         {
-
             try
             {
                 List<Offer> offerList = new List<Offer>();
@@ -215,17 +250,37 @@ namespace AccommodationWebPage.DataAccess
             }
         }
 
+        /// <summary>
+        /// Asynchroniczna metoda wywołująca metodę
+        /// do pobierania listy zarezerwowanych ofert użytkownika
+        /// </summary>
+        /// <param name="context">Kontekst bazy danych</param>
+        /// <param name="username"></param>
+        /// <returns></returns>
         public static async Task<List<OfferViewModel>> GetUserReservedOffersAsync(IAccommodationContext context, string username)
         {
             return await Task.Run(() => GetUserReservedOffers(context, username));
         }
 
 
+        /// <summary>
+        /// Asynchroniczna metoda wywołująca metodę
+        /// do pobierania oferty o danym id
+        /// </summary>
+        /// <param name="context">Kontekst bazy danych</param>
+        /// <param name="id">id oferty</param>
+        /// <returns></returns>
         public static async Task<AddNewOfferViewModel> GetOfferByIdAsync(IAccommodationContext context, int id)
         {
             return await Task.Run(() => GetOfferById(context, id));
         }
 
+        /// <summary>
+        /// Pobiera ofertę o danym id z bazy
+        /// </summary>
+        /// <param name="context">Kontekst bazy danych</param>
+        /// <param name="offerId">id oferty</param>
+        /// <returns></returns>
         public static AddNewOfferViewModel GetOfferById(IAccommodationContext context, int offerId)
         {
             try
@@ -245,11 +300,24 @@ namespace AccommodationWebPage.DataAccess
             }
         }
 
+        /// <summary>
+        /// Asynchroniczna metoda wywołująca metodę do
+        /// edycji ofert w bazie
+        /// </summary>
+        /// <param name="context">Kontekst bazy danych</param>
+        /// <param name="model">Model z danymi oferty do edycji</param>
+        /// <returns></returns>
         public static async Task<bool> EditOfferAsync(IAccommodationContext context, AddNewOfferViewModel model)
         {
             return await Task.Run(() => EditOffer(context, model));
         }
 
+        /// <summary>
+        /// Umożliwia edycję oferty w bazie
+        /// </summary>
+        /// <param name="context">Kontekst bazy danych</param>
+        /// <param name="model">Model z danymi oferty</param>
+        /// <returns></returns>
         public static bool EditOffer(IAccommodationContext context, AddNewOfferViewModel model)
         {
             try
@@ -305,14 +373,28 @@ namespace AccommodationWebPage.DataAccess
             }
         }
 
+        /// <summary>
+        /// Asynchroniczna metoda do usuwania ofert
+        /// </summary>
+        /// <param name="context">Kontekst bazy danych</param>
+        /// <param name="id">Id oferty do usunięcia</param>
+        /// <param name="username">Nazwa użytkownika</param>
+        /// <returns></returns>
         public static async Task<bool> DeleteOfferByIdAsync(IAccommodationContext context, int id, string username)
         {
             return await Task.Run(() => DeleteOfferById(context, id, username));
         }
 
+
+        /// <summary>
+        /// Usuwa ofertę o danym id z bazy
+        /// </summary>
+        /// <param name="context">Kontekst bazy danych</param>
+        /// <param name="offerId">Id oferty</param>
+        /// <param name="username">Nazwa użytkownika</param>
+        /// <returns></returns>
         public static bool DeleteOfferById(IAccommodationContext context, int offerId, string username)
         {
-
             try
             {
                 Offer offer = context.Offers.FirstOrDefault(x => x.Id == offerId);
@@ -339,11 +421,26 @@ namespace AccommodationWebPage.DataAccess
             }
         }
 
+        /// <summary>
+        /// Asynchroniczna metoda do rezerwacji oferty
+        /// </summary>
+        /// <param name="context">Kontekst bazy danych</param>
+        /// <param name="id">Id oferty</param>
+        /// <param name="username">Nazwa użytkownika</param>
+        /// <returns></returns>
         public async static Task<bool> ReserveOfferAsync(IAccommodationContext context, int id, string username)
         {
             return await Task.Run(() => ReserveOffer(context, id, username));
         }
 
+        /// <summary>
+        /// Rezerwuje ofertę o danym id aktualnie
+        /// zalogowanemu użytkownikowi
+        /// </summary>
+        /// <param name="context">Kontekst bazy danych</param>
+        /// <param name="offerId">Id oferty</param>
+        /// <param name="username">Nazwa użytkownika</param>
+        /// <returns></returns>
         public static bool ReserveOffer(IAccommodationContext context, int offerId, string username)
         {
             try
@@ -376,11 +473,25 @@ namespace AccommodationWebPage.DataAccess
             }
         }
 
+        /// <summary>
+        /// Asynchroniczna metoda do rezygnacji z oferty
+        /// </summary>
+        /// <param name="context">Kontekst bazy danych</param>
+        /// <param name="id">Id oferty</param>
+        /// <param name="username"></param>
+        /// <returns></returns>
         public async static Task<bool> ResignOfferAsync(IAccommodationContext context, int id, string username)
         {
             return await Task.Run(() => ResignOffer(context, id, username));
         }
 
+        /// <summary>
+        /// Umożliwia rezygnacje z oferty danemu użytkownikowi
+        /// </summary>
+        /// <param name="context">Kontekst bazy danych</param>
+        /// <param name="offerId">Id oferty</param>
+        /// <param name="username">Nazwa użytkownika</param>
+        /// <returns></returns>
         public static bool ResignOffer(IAccommodationContext context, int offerId, string username)
         {
             try
