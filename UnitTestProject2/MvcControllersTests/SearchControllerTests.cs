@@ -100,8 +100,8 @@ namespace UnitTestProject2.MvcControllersTests
             SetMockContext("jablonskim");
             PriceSearchingModel model = new PriceSearchingModel()
             {
-                MinimalPrice = 300,
-                MaximalPrice = 350,
+                MinimalPrice = "300",
+                MaximalPrice = "350",
                 SortBy = SortBy.Price,
                 SortType = SortType.Ascending,
                 Username = "jablonskim"
@@ -122,7 +122,7 @@ namespace UnitTestProject2.MvcControllersTests
             SetMockContext("jablonskim");
             PriceSearchingModel model = new PriceSearchingModel()
             {
-                MinimalPrice = 305,
+                MinimalPrice = "305",
                 SortBy = SortBy.Price,
                 SortType = SortType.Ascending,
                 Username = "jablonskim"
@@ -190,7 +190,7 @@ namespace UnitTestProject2.MvcControllersTests
             {
                 Username = "jablonskim",
                 MinimalDate = new DateTime(2015, 12, 20),
-                MinimalPrice = 300,
+                MinimalPrice = "300",
                 PlaceName = "Pensjonat pod różą"
             };
 
@@ -211,9 +211,9 @@ namespace UnitTestProject2.MvcControllersTests
             {
                 Username = "jablonskim",
                 MinimalDate = new DateTime(2015, 12, 20),
-                MinimalPrice = 300,
+                MinimalPrice = "300",
                 PlaceName = "Pensjonat pod różą",
-                MaximalPrice = 301
+                MaximalPrice = "301"
             };
 
             var result = await _controller.Advanced(model);
@@ -233,7 +233,7 @@ namespace UnitTestProject2.MvcControllersTests
             {
                 Username = "jablonskim",
                 MinimalDate = new DateTime(2015, 12, 20),
-                MaximalPrice = 300,
+                MaximalPrice = "300",
                 PlaceName = "Pensjonat pod różą",
             };
 

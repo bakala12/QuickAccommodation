@@ -8,6 +8,7 @@ using AccommodationDataAccess.Domain;
 using AccommodationWebPage.Authorization;
 using AccommodationWebPage.DataAccess;
 using AccommodationWebPage.Models;
+using AccommodationWebPage.Validation;
 using AccomodationWebApi.Providers;
 
 namespace AccommodationWebPage.Controllers
@@ -37,6 +38,11 @@ namespace AccommodationWebPage.Controllers
         public async Task<ActionResult> Place(PlaceSearchingModel model)
         {
             model.Username = HttpContext.User?.Identity?.Name;
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Niepoprawne dane");
+                return View(model);
+            }
             IList<OfferViewModel> models = await _searchDataAccessor.SearchByPlaceAsync(Context, model);
             if (models == null)
             {
@@ -57,6 +63,11 @@ namespace AccommodationWebPage.Controllers
         public async Task<ActionResult> Date(DateSearchingModel model)
         {
             model.Username = HttpContext.User?.Identity?.Name;
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Niepoprawne dane");
+                return View(model);
+            }
             IList<OfferViewModel> models = await _searchDataAccessor.SearchByDateAsync(Context, model);
             if (models == null)
             {
@@ -77,6 +88,12 @@ namespace AccommodationWebPage.Controllers
         public async Task<ActionResult> Price(PriceSearchingModel model)
         {
             model.Username = HttpContext.User?.Identity?.Name;
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Niepoprawne dane");
+                return View(model);
+            }
+            
             IList<OfferViewModel> models = await _searchDataAccessor.SearchByPriceAsync(Context, model);
             if (models == null)
             {
@@ -97,6 +114,11 @@ namespace AccommodationWebPage.Controllers
         public async Task<ActionResult> Advanced(AdvancedSearchingModel model)
         {
             model.Username = HttpContext.User?.Identity?.Name;
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Niepoprawne dane");
+                return View(model);
+            }
             IList<OfferViewModel> models = await _searchDataAccessor.SearchByMultipleCriteriaAsync(Context, model);
             if (models == null)
             {
@@ -105,5 +127,7 @@ namespace AccommodationWebPage.Controllers
             model.Offers = models ?? new List<OfferViewModel>();
             return View(model);
         }
+
+        
     }
 }

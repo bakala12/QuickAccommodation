@@ -41,8 +41,12 @@ namespace AccommodationWebPage.Models
     public class DateSearchingModel : SearchingModel
     {
         [Display(Name = "Data rozpoczęcia")]
+        [DataType(DataType.Date)]
         public DateTime? MinimalDate { get; set; }
+        [Display(Name = "Data zakończenia")]
+        [DataType(DataType.Date)]
         public DateTime? MaximalDate { get; set; }
+        [Display(Name = "Pokazuj częściowo pasujące wyniki")]
         public bool ShowPartiallyMatchingResults { get; set; }
     }
 
@@ -51,8 +55,10 @@ namespace AccommodationWebPage.Models
     /// </summary>
     public class PriceSearchingModel : SearchingModel
     {
-        public double? MinimalPrice { get; set; }
-        public double? MaximalPrice { get; set; }
+        [Display(Name = "Cena minimalna")]
+        public string MinimalPrice { get; set; }
+        [Display(Name = "Cena maksymalna")]
+        public string MaximalPrice { get; set; }
     }
 
     /// <summary>
@@ -60,11 +66,19 @@ namespace AccommodationWebPage.Models
     /// </summary>
     public class AdvancedSearchingModel : SearchingModel
     {
+        [Display(Name = "Nazwa miejsca")]
         public string PlaceName { get; set; }
+        [Display(Name = "Nazwa miasta")]
         public string CityName { get; set; }
+        [Display(Name = "Data rozpoczęcia")]
+        [DataType(DataType.Date)]
         public DateTime? MinimalDate { get; set; }
+        [Display(Name = "Data zakończenia")]
+        [DataType(DataType.Date)]
         public DateTime? MaximalDate { get; set; }
-        public double? MinimalPrice { get; set; }
-        public double? MaximalPrice { get; set; }
+        [Display(Name = "Cena minimalna")]
+        public string MinimalPrice { get; set; }
+        [Display(Name = "Cena maksymalna")]
+        public string MaximalPrice { get; set; }
     }
 }

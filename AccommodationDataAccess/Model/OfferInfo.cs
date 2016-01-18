@@ -34,5 +34,10 @@ namespace AccommodationDataAccess.Model
         /// Data publikacji oferty
         /// </summary>
         public DateTime OfferPublishTime { get; set; }
+
+        /// <summary>
+        /// Zdjęcie oferty
+        /// </summary>
+        public byte[] OfferImage { get; set; }
     }
 }

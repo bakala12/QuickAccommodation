@@ -35,6 +35,7 @@ namespace AccommodationWebPage.DataAccess
             IQueryable<Offer> offers = context.Offers.Where(o => o.VendorId != u.Id).Where(o => !o.IsBooked);
             offers = criteria.Aggregate(offers, (current, criterion) => current.Where(criterion.SelectableExpression));
             offers = offers.Take(20).OrderBy(sortType, sortBy);
+            offers = offers.Include(o => o.OfferInfo).Include(o => o.Room);
             return offers.ToList().Select(offer => new OfferViewModel(offer)).ToList();
         }
 
@@ -56,7 +57,7 @@ namespace AccommodationWebPage.DataAccess
         public IList<OfferViewModel> SearchByPrice(IAccommodationContext context,PriceSearchingModel model)
         {
             ISearchingCriterion<Offer> criterion =
-                OffersSearchingCriteriaFactory.CreatePriceSearchingCriterion(model.MinimalPrice, model.MaximalPrice);
+                OffersSearchingCriteriaFactory.CreatePriceSearchingCriterion(PriceFromString(model.MinimalPrice), PriceFromString(model.MaximalPrice));
             return Search(context,model.Username, new[] { criterion }, model.SortType, model.SortBy);
         }
 
@@ -66,7 +67,7 @@ namespace AccommodationWebPage.DataAccess
             {
                 OffersSearchingCriteriaFactory.CreatePlaceSearchingCriterion(model.PlaceName, model.CityName),
                 OffersSearchingCriteriaFactory.CreateDateSearchingCriterion(model.MinimalDate, model.MaximalDate),
-                OffersSearchingCriteriaFactory.CreatePriceSearchingCriterion(model.MinimalPrice, model.MaximalPrice)
+                OffersSearchingCriteriaFactory.CreatePriceSearchingCriterion(PriceFromString(model.MinimalPrice), PriceFromString(model.MaximalPrice))
             };
             return Search(context,model.Username, criteria, model.SortType, model.SortBy);
         }
@@ -90,6 +91,13 @@ namespace AccommodationWebPage.DataAccess
             AdvancedSearchingModel model)
         {
             return await Task.Run(() => SearchByMultipleCriteria(context, model));
+        }
+
+        private static double? PriceFromString(string value)
+        {
+            double d;
+            if (!double.TryParse(value, out d)) return null;
+            return d;
         }
     }
 }

@@ -61,7 +61,12 @@ namespace AccommodationDataAccess.Model
         /// <summary>
         /// Lista wszystkich zarezerwowanych ofert
         /// </summary>
-        public virtual IList<HistoricalOffer> PurchasedHistoricalOffers { get; set; } 
+        public virtual IList<HistoricalOffer> PurchasedHistoricalOffers { get; set; }
+    
+        /// <summary>
+        /// Średnia ocena użytkownika
+        /// </summary>
+        public double? AverageMark { get; set; }
 
         public override string ToString()
         {
