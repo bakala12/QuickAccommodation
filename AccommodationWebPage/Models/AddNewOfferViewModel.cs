@@ -77,6 +77,8 @@ namespace AccommodationWebPage.Models
         [Display(Name = "Liczba wolnych miejsc")]
         public string AvailiableVacanciesNumber { get; set; }
 
+        public byte[] Picture { get; set; }
+
         public int Id { get; set; }
 
 

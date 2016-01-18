@@ -15,7 +15,7 @@ namespace AccommodationWebPage.DataAccess
     public static class OfferAccessor
     {
 
-        public static bool SaveOffer(IAccommodationContext context, AddNewOfferViewModel model, string username)
+        public static bool SaveOffer(IAccommodationContext context, AddNewOfferViewModel model, string username, HttpPostedFileBase image)
         {
             try
             {
@@ -34,6 +34,12 @@ namespace AccommodationWebPage.DataAccess
                     Price = double.Parse(model.Price),
                     Description = model.Description
                 };
+
+                if (image != null)
+                {
+                    offerToAdd.OfferInfo.OfferImage = new byte[image.ContentLength];
+                    image.InputStream.Read(offerToAdd.OfferInfo.OfferImage, 0, image.ContentLength);
+                }
 
                 Place place = context.Places.FirstOrDefault(p => p.PlaceName.Equals(model.AccommodationName) &&
                                                                  p.Address.City.Equals(model.City) &&
@@ -141,9 +147,10 @@ namespace AccommodationWebPage.DataAccess
 
 
 
-        public static async Task<bool> SaveOfferAsync(IAccommodationContext context, AddNewOfferViewModel model, string username)
+        public static async Task<bool> SaveOfferAsync(IAccommodationContext context, AddNewOfferViewModel model, string username,
+            HttpPostedFileBase image)
         {
-            return await Task.Run(() => SaveOffer(context, model, username));
+            return await Task.Run(() => SaveOffer(context, model, username,image));
         }
 
         public static List<OfferViewModel> GetUserOffers(IAccommodationContext context, string username)
@@ -195,6 +202,7 @@ namespace AccommodationWebPage.DataAccess
                 {
                     offer.Room.Place = context.Places.FirstOrDefault(p => p.Id == offer.Room.PlaceId);
                     offer.Room.Place.Address = context.Addresses.FirstOrDefault(a => a.Id == offer.Room.Place.AddressId);
+                
 
                     offerViewModelList.Add(new OfferViewModel(offer));
                 }
