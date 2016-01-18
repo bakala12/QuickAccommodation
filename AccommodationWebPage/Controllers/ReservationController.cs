@@ -13,23 +13,23 @@ using System.Threading.Tasks;
 
 namespace AccommodationWebPage.Controllers
 {
+    [AuthorizationRequired]
     public class ReservationController : AccommodationController
     {
-        public ReservationController(IContextProvider provider) : base(provider) { }
-
-        public ReservationController() : base(new ContextProvider<AccommodationContext>()) { }
-
-        public ActionResult Index()
+        public ReservationController(IContextProvider provider) : base(provider)
         {
-            return View();
+        }
+
+        public ReservationController() : base(new ContextProvider<AccommodationContext>())
+        {
         }
 
         public async Task<ActionResult> ReserveOffer(int id)
         {
             string username = HttpContext.User?.Identity?.Name;
-            if (await OfferAccessor.ReserveOfferAsync(Context,id,username))
+            if (await OfferAccessor.ReserveOfferAsync(Context, id, username))
             {
-               return RedirectToAction("Done", "Reservation");
+                return RedirectToAction("Done", "Reservation");
             }
             else
             {
