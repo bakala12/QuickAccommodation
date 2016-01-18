@@ -2,30 +2,99 @@
     ViewBag.Title = "Home Page";
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+<style>
+    body {
+        background: url(../../../Content/Images/background.png);
+        background-size: cover;
+    }
+
+    .marquee {
+        width: 500px;
+        height: 50px;
+        margin: 25px auto;
+        top: 50%;
+        left: 33%;
+        overflow: hidden;
+        position: absolute;
+        border: 1px solid #000;
+        margin: 25px auto;
+        background-color: #222;
+        -webkit-border-radius: 5px;
+        border-radius: 5px;
+        -webkit-box-shadow: inset 0px 2px 2px rgba(0, 0, 0, .5), 0px 1px 0px rgba(250, 250, 250, .2);
+        box-shadow: inset 0px 2px 2px rgba(0, 0, 0, .5), 0px 1px 0px rgba(250, 250, 250, .2);
+    }
+
+        .marquee p {
+            position: absolute;
+            font-family: Tahoma, Arial, sans-serif;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            line-height: 50px;
+            text-align: center;
+            color: #fff;
+            text-shadow: 1px 1px 0px #000000;
+            filter: dropshadow(color=#000000, offx=1, offy=1);
+            transform: translateX(100%);
+        }
+
+    @@keyframes left-one {
+        0% {
+            transform: translateX(100%);
+        }
+
+        10% {
+            transform: translateX(0);
+        }
+
+        40% {
+            transform: translateX(0);
+        }
+
+        50% {
+            transform: translateX(-100%);
+        }
+
+        100% {
+            transform: translateX(-100%);
+        }
+    }
+
+    @@keyframes left-two {
+        0% {
+            transform: translateX(100%);
+        }
+
+        50% {
+            transform: translateX(100%);
+        }
+
+        60% {
+            transform: translateX(0);
+        }
+
+        90% {
+            transform: translateX(0);
+        }
+
+        100% {
+            transform: translateX(-100%);
+        }
+    }
+
+    .marquee p:nth-child(1) {
+        animation: left-one 20s ease infinite;
+    }
+
+    .marquee p:nth-child(2) {
+        animation: left-two 20s ease infinite;
+    }
+</style>
+
+<div class="marquee">
+
+    <p>Witaj w QuickAccommodation</p>
+    <p>Zaloguj się lub zarejestruj!</p>
 </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>
