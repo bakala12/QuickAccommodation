@@ -27,7 +27,7 @@ namespace AccommodationWebPage.Controllers
         public async Task<ActionResult> ReserveOffer(int id)
         {
             string username = HttpContext.User?.Identity?.Name;
-            if (await OfferAccessor.ReserveOfferAsync(Context, id, username))
+            if (OfferAccessor.ReserveOffer(Context, id, username))
             {
                 return RedirectToAction("Done", "Reservation");
             }

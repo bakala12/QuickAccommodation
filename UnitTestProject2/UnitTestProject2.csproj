@@ -106,6 +106,8 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AccommodationMockContext.cs" />
+    <Compile Include="MvcControllersTests\ReservationControllerTests.cs" />
+    <Compile Include="MvcControllersTests\OfferControllerTests.cs" />
     <Compile Include="MvcControllersTests\SearchControllerTests.cs" />
     <Compile Include="WebApiControllerTests\OffersControllerTests.cs" />
     <Compile Include="WebApiControllerTests\OtherControllersTests.cs" />

@@ -242,7 +242,7 @@ namespace UnitTestProject2
         public IDbSet<Rank> Ranks => _ranks.Set.Object;
         public IDbSet<Room> Rooms => _rooms.Set.Object;
         public IDbSet<HistoricalOffer> HistoricalOffers => _historicalOffers.Set.Object;
-
+    
         /// <summary>
         /// Do nothing, only for interface implementation
         /// </summary>

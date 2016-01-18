@@ -48,11 +48,11 @@ namespace AccommodationWebPage.Controllers
 
         [HttpPost]
         [AuthorizationRequired]
-        public async Task<ActionResult> AddOffer(AddNewOfferViewModel model, HttpPostedFileBase image)
+        public async Task<ActionResult> AddOffer(AddNewOfferViewModel model, HttpPostedFileBase image = null)
         {
             if (ModelState.IsValid)
             {
-                
+
                 OfferValidator offerValidator = new OfferValidator(model);
                 var errorList = offerValidator.ValidateOffer();
                 if (errorList.Count != 0)
@@ -67,7 +67,7 @@ namespace AccommodationWebPage.Controllers
                 else
                 {
                     string username = HttpContext.User?.Identity?.Name;
-                    if (await OfferAccessor.SaveOfferAsync(Context, model, username,image))
+                    if (await OfferAccessor.SaveOfferAsync(Context, model, username, image))
                     {
                         return RedirectToAction("MyOffers", "Offer");
                     }
@@ -136,7 +136,7 @@ namespace AccommodationWebPage.Controllers
             }
             else
             {
-                return View("Error","Offer");
+                return View("Error", "Offer");
             }
 
         }
