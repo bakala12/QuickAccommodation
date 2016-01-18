@@ -71,6 +71,9 @@
                 <span class="text-primary">Numer pokoju:</span>@Html.DisplayTextFor(m => item.RoomNumber) <br />
                 <span class="text-primary">Opis:</span>@Html.DisplayTextFor(m => item.Description)
             </td>
+            <td>
+                @Html.ActionLink("Zarezerwuj", "ReserveOffer", "Reservation", new { id = item.Id }, new { @class = "btn btn-primary" })
+            </td>
         </tr>
     }
 </table>
