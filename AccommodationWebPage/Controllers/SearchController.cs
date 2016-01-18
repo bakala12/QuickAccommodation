@@ -93,7 +93,11 @@ namespace AccommodationWebPage.Controllers
                 ModelState.AddModelError("", "Niepoprawne dane");
                 return View(model);
             }
-            
+            if (!string.IsNullOrEmpty(ValidatePrices(model.MinimalPrice, model.MaximalPrice)))
+            {
+                ModelState.AddModelError("", ValidatePrices(model.MinimalPrice, model.MaximalPrice));
+                return View(model);
+            }
             IList<OfferViewModel> models = await _searchDataAccessor.SearchByPriceAsync(Context, model);
             if (models == null)
             {
@@ -119,6 +123,11 @@ namespace AccommodationWebPage.Controllers
                 ModelState.AddModelError("", "Niepoprawne dane");
                 return View(model);
             }
+            if (!string.IsNullOrEmpty(ValidatePrices(model.MinimalPrice, model.MaximalPrice)))
+            {
+                ModelState.AddModelError("", ValidatePrices(model.MinimalPrice, model.MaximalPrice));
+                return View(model);
+            }
             IList<OfferViewModel> models = await _searchDataAccessor.SearchByMultipleCriteriaAsync(Context, model);
             if (models == null)
             {
@@ -128,6 +137,35 @@ namespace AccommodationWebPage.Controllers
             return View(model);
         }
 
-        
+        private string ValidatePrices(string minPrice, string maxPrice)
+        {
+            if (!string.IsNullOrEmpty(minPrice))
+            {
+                double min;
+                if (double.TryParse(minPrice, out min))
+                {
+                    if (min < 0 || !char.IsDigit(minPrice[0]))
+                        return "Niepoprawna cena minimalna";
+                }
+                else
+                {
+                    return "Niepoprawna cena minimalna";
+                }
+            }
+            if (!string.IsNullOrEmpty(maxPrice))
+            {
+                double max;
+                if (double.TryParse(maxPrice, out max))
+                {
+                    if (max < 0 || !char.IsDigit(maxPrice[0]))
+                        return "Niepoprawna cena maksymalna";
+                }
+                else
+                {
+                    return "Niepoprawna cena maksymalna";
+                }
+            }
+            return string.Empty;
+        }
     }
 }
