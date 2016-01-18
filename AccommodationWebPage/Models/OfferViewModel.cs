@@ -25,6 +25,7 @@ namespace AccommodationWebPage.Models
             OfferPublishTime = offerInfo.OfferPublishTime;
             Id = offer.Id;
             IsBooked = offer.IsBooked;
+            OfferImage = offer.OfferInfo.OfferImage;
         }
 
         public int Id { get; set; }
@@ -88,6 +89,12 @@ namespace AccommodationWebPage.Models
         /// Numer pokoju.
         /// </summary>
         public string RoomNumber { get; set; }
+
+
+        /// <summary>
+        /// Zdjęcie do oferty.
+        /// </summary>
+        public byte[] OfferImage { get; set; }
 
     }
 }
