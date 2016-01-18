@@ -138,8 +138,10 @@
     <Compile Include="Controllers\ReservationController.cs" />
     <Compile Include="Controllers\OfferController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
+    <Compile Include="Controllers\StatisticsController.cs" />
     <Compile Include="DataAccess\SearchDataAccessor.cs" />
     <Compile Include="DataAccess\OfferAccessor.cs" />
+    <Compile Include="DataAccess\StatisticsDataAccess.cs" />
     <Compile Include="DataAccess\UserDataAccessor.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -151,6 +153,7 @@
     <Compile Include="Models\OfferViewModel.cs" />
     <Compile Include="Models\RegisterViewModel.cs" />
     <Compile Include="Models\SearchingModels.cs" />
+    <Compile Include="Models\StatisticsViewModel.cs" />
     <Compile Include="Models\UserProfileViewModel.cs" />
     <Compile Include="Notification\EmailNotification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -212,6 +215,7 @@
     <Content Include="Views\Reservation\Done.cshtml" />
     <Content Include="Views\Offer\Error.cshtml" />
     <Content Include="Views\Reservation\Error.cshtml" />
+    <Content Include="Views\Statistics\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
