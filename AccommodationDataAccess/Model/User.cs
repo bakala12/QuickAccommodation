@@ -68,6 +68,11 @@ namespace AccommodationDataAccess.Model
         /// </summary>
         public double? AverageMark { get; set; }
 
+        /// <summary>
+        /// Liczba ocen użytkownika
+        /// </summary>
+        public int? MarkCount { get; set; }
+
         public override string ToString()
         {
             return Username.ToString();

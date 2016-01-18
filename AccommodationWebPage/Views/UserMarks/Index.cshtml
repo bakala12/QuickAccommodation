@@ -1,0 +1,35 @@
+﻿@using AccommodationWebPage.Models;
+@model IEnumerable<UserMarksViewModel>
+@{
+    ViewBag.Title = "Oceń użytkowników";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p>Lista ofert, które zarezerwowałeś wraz z użytkownikami, którzy je umieścili:</p>
+
+<div class="form-group">
+    <table class="table-hover">
+        @foreach (UserMarksViewModel item in Model)
+        {
+            <tr>
+                <td>
+                    <span class="text-primary">Nazwa miejsca:</span> @Html.DisplayTextFor(m => item.PlaceName)<br />
+                    <span class="text-primary">Od:</span> @Html.DisplayTextFor(m => item.OfferStartTime)
+                    <span class="text-primary">Do:</span>@Html.DisplayTextFor(m => item.OfferEndTime) <br />
+                    <span class="text-primary">Numer pokoju:</span>@Html.DisplayTextFor(m => item.RoomNumber) 
+                </td>
+
+                <td>
+                    <span class="text-primary">Użytkownik:</span><br />
+                     @Html.DisplayTextFor(m => item.Username)
+                </td>
+                <td>
+                    @Html.ActionLink("Oceń użytkownika", "MarkUser", new { user = item.Username, id = item.ReservedOfferId }, new { @class = "btn btn-primary" })
+                </td>
+            </tr>
+        }
+
+    </table>
+
+</div>

@@ -53,5 +53,12 @@ namespace AccommodationWebPage.Models
         [Required]
         [EmailAddress]
         public string Email { get; set; }
+
+        /// <summary>
+        /// Śrenia ocena
+        /// </summary>
+        [Display(Name = "Średnia ocen")]
+        public string AvarageMark { get; set; }
+
     }
 }
