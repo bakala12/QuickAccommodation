@@ -2,7 +2,68 @@
 
 <h2>Statystyki użytkownika</h2>
 
-<img src="@Url.Action("MyAveragePrices", new {model = @Model})"/>
-<img src="@Url.Action("MyReservedOffersPrices", new {model = @Model})" />
-<img src="@Url.Action("MyOffersCount", new {model = @Model})" />
-<img src="@Url.Action("MyReservedOffersCount", new {model = @Model})" />
+<div class="form-group">
+    <p>@Model.Username</p>
+    <p>@Model.Rank</p>
+</div>
+<div class="form-group">
+    @Html.LabelFor(m => m.MyLessValuableOffer, new { @class = "col-md-2 control-label" })
+    <div class="col-md-10">
+        @Html.Label(@Model.MyLessValuableOffer.ToString(), new { @class = "col-md-2 control-label" })
+    </div>
+</div>
+<div class="form-group">
+    @Html.LabelFor(m => m.MyMostValuableOffer, new { @class = "col-md-2 control-label" })
+    <div class="col-md-10">
+        @Html.Label(@Model.MyMostValuableOffer.ToString(), new { @class = "col-md-2 control-label" })
+    </div>
+</div>
+<br />
+<table>
+    <tr>
+        <td>
+            <img src="@Url.Action("MyAveragePrices", new {model = @Model})" />
+        </td>
+        <td>
+            <img src="@Url.Action("MyReservedOffersPrices", new {model = @Model})" />
+        </td>
+    </tr>
+</table>
+<br />
+
+<div class="form-group">
+    <div class="col-md-2">
+        @Html.LabelFor(m => m.AllMyOffersCount, new { @class = "col-md-2 control-label" })
+    </div>
+    <div class="col-md-10">
+        @Html.Label(@Model.AllMyOffersCount.ToString(), new { @class = "col-md-2 control-label" })
+    </div>
+</div>
+<br />
+<div class="form-group">
+    @Html.LabelFor(m => m.AllMyReservedOffersCount, new { @class = "col-md-2 control-label" })
+    <div class="col-md-10">
+        @Html.Label(@Model.AllMyReservedOffersCount.ToString(), new { @class = "col-md-2 control-label" })
+    </div>
+</div>
+<br />
+<hr />
+<table>
+    <tr>
+        <td>
+            <img src="@Url.Action("MyOffersCount", new {model = @Model})" />
+        </td>
+        <td>
+            <img src="@Url.Action("MyReservedOffersCount", new {model = @Model})" />
+        </td>
+    </tr>
+</table>
+<div class="form-group">
+    @Html.LabelFor(m => m.MyOffersCountNow, new { @class = "col-md-2 control-label" })
+    <div class="col-md-10">
+        @Html.Label(@Model.MyOffersCountNow.ToString(), new { @class = "col-md-2 control-label" })
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
