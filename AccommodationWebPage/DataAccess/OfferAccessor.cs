@@ -1,12 +1,14 @@
 ﻿using AccommodationDataAccess.Domain;
 using AccommodationDataAccess.Model;
 using AccommodationWebPage.Models;
+using AccommodationWebPage;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using AccomodationWebPage;
 
 namespace AccommodationWebPage.DataAccess
 {
@@ -323,7 +325,80 @@ namespace AccommodationWebPage.DataAccess
                 context.SaveChanges();
                 return true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public async static Task<bool> ReserveOfferAsync(IAccommodationContext context, int id, string username)
+        {
+            return await Task.Run(() => ReserveOffer(context, id, username));
+        }
+
+        public static bool ReserveOffer(IAccommodationContext context, int offerId, string username)
+        {
+            try
+            {
+                Offer offer = context.Offers.FirstOrDefault(o => o.Id == offerId);
+
+                User customer = context.Users.FirstOrDefault(u => u.Username.Equals(username));
+                User vendor = context.Users.FirstOrDefault(x => x.Id == offer.VendorId);
+
+                OfferInfo offerInfo = context.OfferInfo.FirstOrDefault(o => o.Id == offer.OfferInfoId);
+                UserData customerData = context.UserData.FirstOrDefault(x => x.Id == customer.UserDataId);
+                UserData vendorData = context.UserData.FirstOrDefault(x => x.Id == vendor.UserDataId);
+                Room room = context.Rooms.FirstOrDefault(x => x.Id == offer.RoomId);
+                Place place = context.Places.FirstOrDefault(x => x.Id == room.PlaceId);
+
+                if (offer == null || customer == null) return false;
+                if (offer.IsBooked) return false;
+
+                offer.IsBooked = true;
+                offer.Customer = customer;
+                context.SaveChanges();
+
+                //Wysłanie powiadomienia mailowego, ostatni parametr oznacza rezerwację
+                EmailNotification.SendNotification(offerInfo, place, vendorData, customerData, room, true);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public async static Task<bool> ResignOfferAsync(IAccommodationContext context, int id, string username)
+        {
+            return await Task.Run(() => ResignOffer(context, id, username));
+        }
+
+        public static bool ResignOffer(IAccommodationContext context, int offerId, string username)
+        {
+            try
+            {
+                Offer offer = context.Offers.FirstOrDefault(o => o.Id == offerId);
+                User customer = context.Users.FirstOrDefault(u => u.Username.Equals(username));
+                User vendor = context.Users.FirstOrDefault(x => x.Id == offer.VendorId);
+
+                if (offer == null || customer == null) return false;
+                if (!offer.IsBooked) return false;
+
+
+                OfferInfo offerInfo = context.OfferInfo.FirstOrDefault(o => o.Id == offer.OfferInfoId);
+                UserData customerData = context.UserData.FirstOrDefault(x => x.Id == customer.UserDataId);
+                UserData vendorData = context.UserData.FirstOrDefault(x => x.Id == vendor.UserDataId);
+                Room room = context.Rooms.FirstOrDefault(x => x.Id == offer.RoomId);
+                Place place = context.Places.FirstOrDefault(x => x.Id == room.PlaceId);
+                offer.IsBooked = false;
+                offer.Customer = null;
+                context.SaveChanges();
+               
+                //Wysłanie powiadomienia mailowego, ostatni parametr oznacza rezygnację
+                EmailNotification.SendNotification(offerInfo, place, vendorData, customerData, room, false);
+                return true;
+            }
+            catch (Exception ex)
             {
                 return false;
             }

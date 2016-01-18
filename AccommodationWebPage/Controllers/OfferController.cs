@@ -72,7 +72,7 @@ namespace AccommodationWebPage.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Error");
+                        return View("Error", "Offer");
                     }
 
                 }
@@ -86,7 +86,7 @@ namespace AccommodationWebPage.Controllers
             AddNewOfferViewModel offer = await OfferAccessor.GetOfferByIdAsync(Context, id);
             if (offer == null)
             {
-                return RedirectToAction("Error");
+                return View("Error", "Offer");
             }
             return View(offer);
         }
@@ -117,7 +117,7 @@ namespace AccommodationWebPage.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Error");
+                        return View("Error", "Offer");
                     }
 
                 }
@@ -135,7 +135,7 @@ namespace AccommodationWebPage.Controllers
             }
             else
             {
-                return View("Error");
+                return View("Error","Offer");
             }
 
         }
