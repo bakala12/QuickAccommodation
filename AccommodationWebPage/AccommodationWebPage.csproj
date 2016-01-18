@@ -217,6 +217,10 @@
     <Content Include="Views\Offer\Error.cshtml" />
     <Content Include="Views\Reservation\Error.cshtml" />
     <Content Include="Views\Statistics\Index.cshtml" />
+    <Content Include="Views\Statistics\MyAveragePrices.cshtml" />
+    <Content Include="Views\Statistics\MyOffersCount.cshtml" />
+    <Content Include="Views\Statistics\MyReservedOffersCount.cshtml" />
+    <Content Include="Views\Statistics\MyReservedOffersPrices.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -29,11 +29,12 @@ namespace AccommodationWebPage.DataAccess
                     context.HistoricalOffers.Where(o => o.VendorId == user.Id).Include(o => o.OfferInfo).ToList();
                 model.MyLessValuableOffer = myOffers.Min(o => o.OfferInfo.Price);
                 model.MyMostValuableOffer = myOffers.Max(o => o.OfferInfo.Price);
-                model.MyReservedOfferAveragePrice =
-                    context.HistoricalOffers.Where(o => o.CustomerId == user.Id)
-                        .Include(o => o.OfferInfo)
-                        .Average(o => o.OfferInfo.Price);
-                model.AverageMyReservedOffersCountOnMonth = GetMyReservedOffersAverageCountOnMonth(context, user);
+                int[] counts;
+                model.ThisYearOffersPrices = ThisYearOfferPrices(context, user, out counts);
+                model.ThisYearOffersCountOnMonth = counts;
+                int[] counts2;
+                model.ThisYearReservedOffersPrices = ThisYearReservedOffersPrices(context, user, out counts2);
+                model.ThisYearReservedOffersCountOnMonth = counts2;
                 return model;
             }
             catch (Exception)
@@ -47,28 +48,40 @@ namespace AccommodationWebPage.DataAccess
             return await Task.Run(() => GetUserStatistics(context,username));
         }
 
-        private int GetMyReservedOffersAverageCountOnMonth(IAccommodationContext context, User user)
+        private double[] ThisYearOfferPrices(IAccommodationContext context, User user, out int[] counts)
         {
-            List<HistoricalOffer> offers =
-                context.HistoricalOffers.Where(o => o.CustomerId == user.Id).Include(o => o.OfferInfo).ToList();
-            IDictionary<int, int> dict = new Dictionary<int, int>();
-            foreach (var historicalOffer in offers)
+            int year = DateTime.Now.Year;
+            double[] prices = new double[12];
+            counts = new int[12];
+            var offers =
+                context.HistoricalOffers.Where(o => o.VendorId == user.Id)
+                    .Include(o => o.OfferInfo)
+                    .Where(o => o.OfferInfo.OfferStartTime.Year == year).ToList();
+            foreach (var offer in offers)
             {
-                int month = historicalOffer.OfferInfo.OfferStartTime.Month;
-                int year = historicalOffer.OfferInfo.OfferStartTime.Year;
-                int key = year*12 + month-1;
-                if (!dict.ContainsKey(key))
-                {
-                    dict.Add(key, 1);
-                }
-                else
-                {
-                    dict[key] = dict[key] + 1;
-                }
+                int month = offer.OfferInfo.OfferStartTime.Month-1;
+                prices[month] = (prices[month]*counts[month] + offer.OfferInfo.Price)/(counts[month] + 1);
+                counts[month]++;
             }
-            var order = dict.OrderBy(d => d.Key);
-            int monthCount = order.Last().Key - order.First().Key;
-            return offers.Count/monthCount;
+            return prices;
+        }
+
+        private double[] ThisYearReservedOffersPrices(IAccommodationContext context, User user, out int[] counts)
+        {
+            int year = DateTime.Now.Year;
+            double[] prices = new double[12];
+            counts = new int[12];
+            var offers =
+                context.HistoricalOffers.Where(o => o.CustomerId == user.Id)
+                    .Include(o => o.OfferInfo)
+                    .Where(o => o.OfferInfo.OfferStartTime.Year == year).ToList();
+            foreach (var offer in offers)
+            {
+                int month = offer.OfferInfo.OfferStartTime.Month - 1;
+                prices[month] = (prices[month] * counts[month] + offer.OfferInfo.Price) / (counts[month] + 1);
+                counts[month]++;
+            }
+            return prices;
         }
     }
 }

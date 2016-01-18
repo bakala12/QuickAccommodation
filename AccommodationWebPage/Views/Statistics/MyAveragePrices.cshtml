@@ -1,0 +1,11 @@
+﻿@using AccommodationWebPage.Models;
+@model StatisticsViewModel
+@{
+    Chart myOffersPrices = new Chart(width: 500, height: 300).
+        AddTitle("Średnie ceny wystawionych ofert w tym roku").
+        AddSeries(
+            name: "MyAveragePrices",
+            xValue: new[] { "Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec", "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień" },
+            yValues: @Model.ThisYearOffersPrices
+        ).Write();
+}

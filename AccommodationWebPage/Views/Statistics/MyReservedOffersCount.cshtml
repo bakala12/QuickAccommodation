@@ -1,0 +1,12 @@
+﻿@model AccommodationWebPage.Models.StatisticsViewModel
+
+@{
+        Chart chart = new Chart(width: 300, height: 300).
+        AddTitle("Ilości ofert zarezerwowanych w poszczególnych miesiącach").
+        AddSeries("MyOffersCount", chartType: "Pie",
+        xValue: @Model.Months,
+        xField: "Miesiące",
+        yValues: @Model.ThisYearReservedOffersCountOnMonth,
+        yFields: "OffersCounts"
+        ).Write();
+}

@@ -1,0 +1,11 @@
+﻿@model AccommodationWebPage.Models.StatisticsViewModel
+
+@{
+    Chart myReservedOffersPrices = new Chart(width: 500, height: 300).
+        AddTitle("Średnie ceny zarezerwowanych ofert w tym roku").
+        AddSeries(
+            name: "MyReservedAveragePrices",
+            xValue: new[] { "Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec", "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień" },
+            yValues: @Model.ThisYearReservedOffersPrices
+        ).Write();
+}

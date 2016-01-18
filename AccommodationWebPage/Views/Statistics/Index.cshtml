@@ -1,3 +1,8 @@
 ﻿@model AccommodationWebPage.Models.StatisticsViewModel
 
 <h2>Statystyki użytkownika</h2>
+
+<img src="@Url.Action("MyAveragePrices", new {model = @Model})"/>
+<img src="@Url.Action("MyReservedOffersPrices", new {model = @Model})" />
+<img src="@Url.Action("MyOffersCount", new {model = @Model})" />
+<img src="@Url.Action("MyReservedOffersCount", new {model = @Model})" />
