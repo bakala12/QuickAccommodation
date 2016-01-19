@@ -41,7 +41,7 @@ namespace AccommodationWebPage.Controllers
             string username = HttpContext.User?.Identity?.Name;
             if (await OfferAccessor.ReserveOfferAsync(Context, id, username))
             {
-                return RedirectToAction("Done", "Reservation");
+                return RedirectToAction("ReservedOffers", "Offer");
             }
             else
             {
@@ -61,7 +61,7 @@ namespace AccommodationWebPage.Controllers
             string username = HttpContext.User?.Identity?.Name;
             if (await OfferAccessor.ResignOfferAsync(Context, id, username))
             {
-                return RedirectToAction("Done", "Reservation");
+                return RedirectToAction("ReservedOffers", "Offer");
             }
             else
             {
