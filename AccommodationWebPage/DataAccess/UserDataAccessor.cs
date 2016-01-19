@@ -38,7 +38,7 @@ namespace AccommodationWebPage.DataAccess
                     CompanyName = data.CompanyName,
                     Email = data.Email,
                     Rank = user.Rank.Name,
-                    AvarageMark = user.AverageMark != null ? String.Format("{0}", user.AverageMark.Value) : ""
+                    AvarageMark = user.AverageMark != null ? user.AverageMark?.ToString() : "Brak ocen"
                 };
                 return vm;
             }

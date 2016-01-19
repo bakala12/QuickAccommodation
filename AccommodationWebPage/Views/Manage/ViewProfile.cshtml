@@ -20,6 +20,13 @@
     </div>
 </div>
 
+<div class="form-group">
+    @Html.LabelFor(m => m.AvarageMark, new { @class = "col-md-2 control-label" })
+    <div class="col-md-10">
+        @Html.Label(Model.AvarageMark, new { @class = "col-md-2 control-label" })
+    </div>
+</div>
+<br/>
 <hr/>
 <br /><h4>Dane osobowe:</h4>
 @Html.ValidationSummary("", new { @class = "text-danger" })

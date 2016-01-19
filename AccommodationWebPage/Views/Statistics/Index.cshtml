@@ -30,22 +30,33 @@
     </tr>
 </table>
 <br />
+<table class="table">
+    <tr>
+        <td>
+            <div class="form-group">
+                <div class="col-md-2">
+                    @Html.LabelFor(m => m.AllMyOffersCount, new { @class = "col-md-2 control-label" })
+                </div>
+                <div class="col-md-10">
+                    @Html.Label(@Model.AllMyOffersCount.ToString(), new { @class = "col-md-2 control-label" })
+                </div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+        <div class="form-group">
+            @Html.LabelFor(m => m.AllMyReservedOffersCount, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.Label(@Model.AllMyReservedOffersCount.ToString(), new { @class = "col-md-2 control-label" })
+            </div>
+        </div>
+        </td>
+    </tr>
+</table>
 
-<div class="form-group">
-    <div class="col-md-2">
-        @Html.LabelFor(m => m.AllMyOffersCount, new { @class = "col-md-2 control-label" })
-    </div>
-    <div class="col-md-10">
-        @Html.Label(@Model.AllMyOffersCount.ToString(), new { @class = "col-md-2 control-label" })
-    </div>
-</div>
 <br />
-<div class="form-group">
-    @Html.LabelFor(m => m.AllMyReservedOffersCount, new { @class = "col-md-2 control-label" })
-    <div class="col-md-10">
-        @Html.Label(@Model.AllMyReservedOffersCount.ToString(), new { @class = "col-md-2 control-label" })
-    </div>
-</div>
+
 <br />
 <hr />
 <table>
