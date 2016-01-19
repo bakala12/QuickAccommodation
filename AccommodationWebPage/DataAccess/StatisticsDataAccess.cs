@@ -36,8 +36,11 @@ namespace AccommodationWebPage.DataAccess
                 model.MyReservedOffersCountNow = context.Offers.Count(o => o.CustomerId == user.Id);
                 List<HistoricalOffer> myOffers =
                     context.HistoricalOffers.Where(o => o.VendorId == user.Id).Include(o => o.OfferInfo).ToList();
-                model.MyLessValuableOffer = myOffers.Min(o => o.OfferInfo.Price);
-                model.MyMostValuableOffer = myOffers.Max(o => o.OfferInfo.Price);
+                if (myOffers.Count > 0)
+                {
+                    model.MyLessValuableOffer = myOffers.Min(o => o.OfferInfo.Price);
+                    model.MyMostValuableOffer = myOffers.Max(o => o.OfferInfo.Price);
+                }
                 int[] counts;
                 model.ThisYearOffersPrices = ThisYearOfferPrices(context, user, out counts);
                 model.ThisYearOffersCountOnMonth = counts;
