@@ -10,12 +10,22 @@
     </style>
 </head>
 
+<br />
+<br />
 <div class="navbar">
     <ul class="navbar-nav nav">
-        <li>@Html.ActionLink("Miejsce", "Place", "Search")</li>
-        <li>@Html.ActionLink("Data", "Date", "Search")</li>
-        <li>@Html.ActionLink("Cena", "Price", "Search")</li>
-        <li>@Html.ActionLink("Zaawansowane", "Advanced", "Search")</li>
+        <li>
+            <div class="btn bottom">@Html.ActionLink("Miejsce", "Place", "Search", new { @class = "btn btn-primary" })</div>
+        </li>
+        <li>
+            <div class="btn bottom">@Html.ActionLink("Data", "Date", "Search", new { @class = "btn btn-primary" })</div>
+        </li>
+        <li>
+            <div class="btn bottom">@Html.ActionLink("Cena", "Price", "Search", new { @class = "btn btn-primary" })</div>
+        </li>
+        <li>
+            <div class="btn bottom">@Html.ActionLink("Zaawansowane", "Advanced", "Search", new { @class = "btn btn-primary" })</div>
+        </li>
     </ul>
 </div>
 
