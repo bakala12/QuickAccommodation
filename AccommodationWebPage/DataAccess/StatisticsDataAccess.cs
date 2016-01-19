@@ -66,7 +66,7 @@ namespace AccommodationWebPage.DataAccess
             return await Task.Run(() => GetUserStatistics(context,username));
         }
 
-        private double[] ThisYearOfferPrices(IAccommodationContext context, User user, out int[] counts)
+        private static double[] ThisYearOfferPrices(IAccommodationContext context, User user, out int[] counts)
         {
             int year = DateTime.Now.Year;
             double[] prices = new double[12];
@@ -84,7 +84,7 @@ namespace AccommodationWebPage.DataAccess
             return prices;
         }
 
-        private double[] ThisYearReservedOffersPrices(IAccommodationContext context, User user, out int[] counts)
+        private static double[] ThisYearReservedOffersPrices(IAccommodationContext context, User user, out int[] counts)
         {
             int year = DateTime.Now.Year;
             double[] prices = new double[12];
