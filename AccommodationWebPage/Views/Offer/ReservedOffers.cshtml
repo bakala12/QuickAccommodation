@@ -2,6 +2,16 @@
 @model IEnumerable<OfferViewModel>
 
 @{ ViewBag.Title = "Moje zarezerwowane oferty";}
+
+<head>
+    <style>
+        .offerImg:hover {
+            width: 500px;
+            height: 500px;
+        }
+    </style>
+</head>
+
 <h2>@ViewBag.Title</h2>
 
 <div class="form-group">
@@ -20,7 +30,14 @@
                     <span class="text-primary">Opis:</span>@Html.DisplayTextFor(m => item.Description)
                 </td>
                 <td>
-                    @Html.ActionLink("Rezygnuj", "ResignOffer", "Reservation", new { id = item.Id }, new { @class = "btn btn-primary" })
+                    @Html.ActionLink("Rezygnuj", "ResignOffer", "Reservation", new {id = item.Id}, new {@class = "btn btn-primary"})
+                </td>
+                <td>
+                    @{if (item.OfferImage != null)
+                        {
+                            <img class="offerImg" src="data:image;base64,@System.Convert.ToBase64String(item.OfferImage)" width="100" height="100" />
+                        }
+                    }
                 </td>
             </tr>
         }
