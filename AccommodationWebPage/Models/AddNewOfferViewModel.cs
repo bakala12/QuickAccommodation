@@ -1,4 +1,5 @@
 ﻿using AccommodationDataAccess.Model;
+using AccommodationWebPage.Authorization;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -77,6 +78,7 @@ namespace AccommodationWebPage.Models
         [Display(Name = "Liczba wolnych miejsc")]
         public string AvailiableVacanciesNumber { get; set; }
 
+        [ValidateFile(ErrorMessage = "Proszę wybrać zdjęcie mniejsze niż 2MB")]
         public byte[] Picture { get; set; }
 
         public int Id { get; set; }

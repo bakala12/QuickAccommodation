@@ -88,7 +88,8 @@
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="file" id="imgProductImage" name="image" />
+            @Html.ValidationMessageFor(x => x.Picture)
+            <input type="file" id="imgProductImage" accept="image/*" name="image" />
         </div>
     </div>
 
